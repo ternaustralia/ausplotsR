@@ -17,7 +17,7 @@ if(file.exists("extractedData"))  {
 
 library(RPostgreSQL)
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, user="ausplots", password="ausplots", host="130.220.208.62", dbname="ausplots_research_dataset_v9")
+con <- dbConnect(drv, user="xxx", password="xxx", host="xxx", dbname="xxx")
 
 # Get all sites and their top-level site data
 rs <- dbSendQuery(con,"SELECT 
