@@ -1,14 +1,23 @@
-#Script for extracting specific AusPlots data and writing to file. Needs to be tailored to the exact data requirements. Result is sites summary and individual files for each plot for each data type (e.g. vegetation point intercept hits, soil bulk density...)
+#Script for extracting specific AusPlots data and writing to file. Result is sites summary and individual files for each plot for each data type (e.g. point intercept hits, vouchers, basal area, soil bulk density...)
 #
 #Authors:
 #Andrew Tokmakoff (modifications Greg Guerin)
 
-#setwd("")
+if(file.exists("extractedData"))  {
+	cat("'extractedData' Directory found, overwriting...")
+} else {
+	dir.create("extractedData")
+	dir.create("extractedData/site")
+	dir.create("extractedData/soils")
+	dir.create("extractedData/veg")
+	cat("Creating 'extractedData' Directory")
+}
 
+#################################
 
 library(RPostgreSQL)
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, user="xxxx", password="xxxx", host="xxxx", dbname="xxxx")
+con <- dbConnect(drv, user="ausplots", password="ausplots", host="130.220.208.62", dbname="ausplots_research_dataset_v9")
 
 # Get all sites and their top-level site data
 rs <- dbSendQuery(con,"SELECT 
@@ -106,10 +115,7 @@ dbClearResult(summaries)
 
 getSoilsForAllSites <- function(row, con) {
   siteNames <- row[1]
-  #print(attributes(siteName))
-  #siteName <- siteNames[1,]
-  #print(siteNames)
-
+  
   print('iterating over all sites for soils..\n')
   for (i in 1:nrow(siteNames)) {
     siteName <- siteNames[i,]
@@ -150,6 +156,7 @@ getSoilsForAllSites <- function(row, con) {
     dbClearResult(soilsRS)
 
 
+#15 May 2015 GRG, below 'SELECT' below, I deleted this - soil_characterisation.layer_number, as there was an error that it wasn't found...
     soilsRS <- dbSendQuery(con,paste(
       "SELECT  
         soil_characterisation.upper_depth, 
@@ -234,10 +241,6 @@ getSoilsForAllSites <- function(row, con) {
 
 
 
-
-
-
-
   }
 }
 
@@ -250,24 +253,23 @@ getVegForAllSites <- function(row, con) {
     siteName <- siteNames[i,]
     print(siteName)
 
+   
     vegRS <- dbSendQuery(con,paste(
-      "SELECT 
-        site_location.site_location_name, 
-        veg_vouchers.veg_barcode,
-        herbarium_determination.herbarium_determination, 
-        herbarium_determination.is_uncertain_determination
-      FROM 
-        public.site_location, 
-        public.site_location_visit, 
-        public.veg_vouchers, 
-        public.herbarium_determination
-      WHERE 
-        site_location.site_location_name = '", siteName, "' AND
-        site_location_visit.site_location_id = site_location.site_location_id AND
-        veg_vouchers.site_location_visit_id = site_location_visit.site_location_visit_id AND
-        herbarium_determination.veg_barcode = veg_vouchers.veg_barcode;
+      "SELECT public.site_location.site_location_name,
+          public.veg_vouchers.veg_barcode,  
+          public.herbarium_determination.herbarium_determination,
+          public.herbarium_determination.is_uncertain_determination,
+          public.site_location_visit.visit_start_date, 
+          public.veg_vouchers.site_location_visit_id,
+          public.veg_vouchers.field_name          
+        FROM public.site_location_visit INNER JOIN public.site_location ON public.site_location_visit.site_location_id = public.site_location.site_location_id
+           INNER JOIN public.veg_vouchers ON public.veg_vouchers.site_location_visit_id = public.site_location_visit.site_location_visit_id
+           LEFT OUTER JOIN public.herbarium_determination ON public.herbarium_determination.veg_barcode = public.veg_vouchers.veg_barcode
+        WHERE 
+          public.site_location.site_location_name = '", siteName, "';
       ", sep = "")
     )
+
 
     veg <- fetch(vegRS,n=-1)
     fileName <- paste("./extractedData/veg/vegVouchers-", siteName, ".csv", sep = "")
@@ -275,9 +277,14 @@ getVegForAllSites <- function(row, con) {
     write.csv(veg, file = fileName)
     dbClearResult(vegRS)
 
+
+
+   
+
     vegRS <- dbSendQuery(con,paste(
       "SELECT 
         site_location.site_location_name, 
+        point_intercept.site_location_visit_id,
         point_intercept.transect,
         point_intercept.point_number,
         herbarium_determination.veg_barcode,
@@ -290,16 +297,16 @@ getVegForAllSites <- function(row, con) {
       FROM 
         public.site_location, 
         public.site_location_visit, 
-        public.herbarium_determination, 
-        public.point_intercept
+        public.point_intercept LEFT OUTER JOIN public.herbarium_determination
+        ON public.herbarium_determination.veg_barcode = public.point_intercept.veg_barcode
       WHERE 
         site_location.site_location_name = '", siteName, "' AND
         site_location_visit.site_location_id = site_location.site_location_id AND
-        herbarium_determination.veg_barcode = point_intercept.veg_barcode AND
         point_intercept.site_location_visit_id = site_location_visit.site_location_visit_id;
 
       ", sep = "")
     )
+
 
     veg <- fetch(vegRS,n=-1)
     fileName <- paste("./extractedData/veg/vegPI-", siteName, ".csv", sep = "")
@@ -346,13 +353,5 @@ getVegForAllSites(df[1], con)
 
 
 
-
-
 dbDisconnect(con)
 dbUnloadDriver(drv)
-
-
-
-
-
-
