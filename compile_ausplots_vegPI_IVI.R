@@ -3,10 +3,11 @@
 #Authors:
 #Greg Guerin
 
-
-freq_matrix_percents <- freq_matrix*100 #freq_matrix defined in 'compile_ausplots_vegPI_FREQ.R'
-which(!colnames(freq_matrix_percents) %in% colnames(cover_matrix)) #check all species names the same
-IVI <- freq_matrix_percents + cover_matrix #can also calculate mean to get a 0-100% value
+freq_matrix_percents <- freq_matrix*100 #convert to %; freq_matrix defined in 'compile_ausplots_vegPI_FREQ.R'
+#the cover and frequency matrices may have different numbers of species, so need to trim to match
+freq_matrix_percents <- freq_matrix_percents[,-which(!colnames(freq_matrix_percents) %in% colnames(cover_matrix))] 
+IVI <- cover_matrix[,-which(!colnames(cover_matrix) %in% colnames(freq_matrix_percents))]
+IVI <- (IVI + freq_matrix_percents)/2 
 
 #write to file
 write.csv(freq_matrix_percents, file="sitesVspecies_freq_transects_%.txt")
