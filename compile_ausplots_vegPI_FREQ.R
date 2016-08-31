@@ -1,4 +1,4 @@
-#Following 'compile_ausplots_vegPI.R', this script generates a species~sites occurrence matrix with the frequency of species within the 10 point intercept transects within each plot as values, and writes it to file. 
+#Following 'compile_ausplots_vegPI.R', this script generates a species~sites occurrence matrix with the frequency of species within the 10 point intercept transects within each plot as values, and writes it to file. e.g. a species that is recorded on only one of the transect has a frequency value of 0.1
 #
 #Authors:
 #Greg Guerin
@@ -10,11 +10,12 @@ library(plyr)
 
 ################################
 
-transects <- count(hits, c("site_location_name", "herbarium_determination", "transect")) #count PI records for each uniqe plot/species/transect combo
-transects$freq <- 1 #revert to 1 (presence)
-freqs <- count(transects, c("site_location_name", "herbarium_determination")) #count transect presences per species per plot, e.g. 5 means that species was recorded on 5 of the trasects
-
+transects <- count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each uniqe plot/species/transect combo
+transects$freq <- 1 #revert to 1 (presence on a transect within a plot)
+freqs <- count(transects, c("site_unique", "herbarium_determination")) #count transect presences per species per plot, e.g. 5 means that species was recorded on 5 of the transects
 freqs$freq <- freqs$freq/10 #divide by ten to convert to actual frequency (should range from 0.1 to 1)
+#remove NA herbarium determinations
+freqs <- na.omit(freqs)
 
 freq_matrix <- mama(freqs) #a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot
 
