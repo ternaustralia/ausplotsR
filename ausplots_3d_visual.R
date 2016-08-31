@@ -1,4 +1,5 @@
-#Generates a 3d surface map of vegetation structure within a plot
+#Generates a 3d surface map of vegetation structure within a plot…
+#Needs to be updated to current usage of transect identifiers
 
 #This function requires the compiled point intercept dataset from 'compile_ausplots_vegPI.R'
 
