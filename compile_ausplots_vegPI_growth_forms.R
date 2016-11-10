@@ -32,7 +32,7 @@ write.csv(growthForm_PA, file="growthForm_PA.txt") #PA (presnece/absence) matrix
 #PI weights
 #Repeating above generation of occurrence matrix for growth forms in plots but adding cover-abundance from point intercepts as weights.
 ##################
-#NOTE: At present, this is calculating opaque cover that includes in canopy sky hits as this is often appropriate/needed for interpretation/validation of satellite images, where as in the species cover matrices calculated in other compilation scripts, in canopy sky hits have been excluded to get projected foliage cover.
+#NOTE: At present, this is calculating opaque cover that includes in canopy sky hits as this is often appropriate/needed for interpretation/validation of satellite images, where as in the species cover matrices calculated in other compilation scripts, in canopy sky hits have been excluded to get projected foliage cover. As noted in the previous PI script, it would be useful to roll into a function in which an argument lets the user chose between opaque and projected foliage cover
 ################
 growthForm_matrix_PIweights <- mama(count(form_rows)[,-3]) #values are the number of hits a particular growth form got in PI
 for(i in row.names(growthForm_matrix_PIweights)) {

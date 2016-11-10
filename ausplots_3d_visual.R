@@ -11,14 +11,14 @@
 #plot_veg_structure("WAACOO0027")
 
 ##Example use to run across all plots:
-#pdf("AusPlots_3d_plots.pdf");sapply(unique(as.character(hits$site_location_name)), plot_veg_structure); dev.off()
+#pdf("AusPlots_3d_plots.pdf");sapply(unique(as.character(hits$site_unique)), plot_veg_structure); dev.off()
 
 
 plot_veg_structure <- function(site_name, vertical.exag = 4, return.matrix = FALSE){
 
 require(lattice)
 	
-current.plot <- hits[which(hits$site_location_name == site_name),]
+current.plot <- hits[which(hits$site_unique == site_name),]
 if(max(current.plot$point_number) > 100) {return("Whacky points!")}
 current.plot$x_coord <- NA
 current.plot$y_coord <- NA

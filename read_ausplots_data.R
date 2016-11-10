@@ -78,7 +78,6 @@ write.csv(df, file = fileName)
 dbClearResult(rs)
 
 
-
 # Get all structural summaries
 summaries <- dbSendQuery(con,"SELECT 
   site_location.site_location_name, 
@@ -318,6 +317,7 @@ getVegForAllSites <- function(row, con) {
     vegRS <- dbSendQuery(con,paste(
       "SELECT 
         site_location.site_location_name, 
+        site_location_visit.site_location_id
         basal_area.point_id,
         herbarium_determination.herbarium_determination, 
         herbarium_determination.veg_barcode, 
