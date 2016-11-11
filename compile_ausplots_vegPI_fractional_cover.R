@@ -26,10 +26,10 @@ for(i in 1:nrow(hits)) { #a
 	n <- n + 1
 	temp <- hits[n,]
 	if(is.na(temp$growth_form) | temp$in_canopy_sky) { #b
-		if(temp$substrate == "Litter" | temp$substrate == "CWD" | temp$substrate == "Crypto") { #c
+		if(temp$substrate %in% c("Litter", "CWD", "Crypto")) { #c
 			fraction[n] <- "brown"
 		} #/c
-		if(temp$substrate == "Bare" | temp$substrate == "Outcrop" | temp$substrate == "Rock" | temp$substrate == "Gravel") { #d
+		if(temp$substrate %in% c("Bare", "Outcrop", "Rock", "Gravel")) { #d
 			fraction[n] <- "bare"
 		} #/d
 	} else if(temp$dead) { #/b; #f 
@@ -110,10 +110,10 @@ for(i in 1:nrow(hits)) { #a
 	n <- n + 1
 	temp <- hits[n,]
 	if(is.na(temp$growth_form) | temp$in_canopy_sky | !temp$growth_form %in% c("Fern", "Forb", "Hummock grass", "Rush", "Sedge", "Tussock grass")) { #b
-		if(temp$substrate == "Litter" | temp$substrate == "CWD" | temp$substrate == "Crypto") { #c
+		if(temp$substrate %in% c("Litter", "CWD", "Crypto")) { #c
 			ground.fraction[n] <- "brown"
 		} #/c
-		if(temp$substrate == "Bare" | temp$substrate == "Outcrop" | temp$substrate == "Rock" | temp$substrate == "Gravel") { #d
+		if(temp$substrate %in% c("Bare", "Outcrop", "Rock", "Gravel")) { #d
 			ground.fraction[n] <- "bare"
 		} #/d
 	} else if(temp$dead) { #/b; #f 
