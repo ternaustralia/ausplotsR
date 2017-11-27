@@ -1,5 +1,3 @@
-#####NEED TO UPDATE TO UNIQUE SITE/VISIT - currently it would pool multiple visits in to one thing
-
 #Basal Area
 #This script compiles basal wedge data from plots and calculates metrics for Basal Area/tree density per plot and species.
 #
@@ -43,10 +41,11 @@ basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_locati
 bas_areas <- count(basal, c("site_unique", "point_id"), wt_var="basal_area") #the basal area scores for unique combos of site and point ID - i.e. for each of the 9 sample points in each plot, what is the total BA?
 
 bas_areas_mean <- aggregate(bas_areas$freq, by=list(bas_areas$site_unique), FUN=mean) #mean of the basal areas for each of 9 sampling points in the plot. This is to give one value for each sampled plot, averaged across the 9 different sampling points and all species considered together.
+names(bas_areas_mean) <- c("site_unique", "basal_area_m2_ha")
 
 #Basal Area by species per plot, not combined as above:
 bas_areas_spp_mean <- aggregate(basal$basal_area, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
-
+names(bas_areas_spp_mean) <- c("site_unique", "herbarium_determination", "basal_area_m2_ha")
 
 #####
 #Next, number of (tree) hits in the basal wedge sweep reps, giving a score related to tree density (there is no specific area as hits not confined to trees within the plot)
@@ -54,9 +53,11 @@ bas_areas_spp_mean <- aggregate(basal$basal_area, by=list(basal$site_unique, bas
 dens <- count(basal, c("site_unique", "point_id"), wt_var="hits") #number of hits for unique combos of site and point ID - i.e. for each of the 9 basal wedge sample points in each plot, what is the total number of scored trees for any spp recorded?
 
 dens_mean <- aggregate(dens$freq, by=list(dens$site_unique), FUN=mean) #mean of the scores for each of the 9 reps - this is the average number of total tree hits for a rep at a given plot.
+names(dens_mean) <- c("site_unique", "mean_hits")
 
 #Hits by species:
 dens_spp_mean <- aggregate(basal$hits, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
+names(dens_spp_mean) <- c("site_unique", "herbarium_determination", "mean_hits")
 
 #write files
 write.csv(bas_areas_mean, file="vegBasal_plot_means.txt")
