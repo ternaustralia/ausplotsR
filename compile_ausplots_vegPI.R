@@ -33,7 +33,7 @@ document <- document[-1,]
 write.csv(document, file="PI_compiled.txt")
 }
 
-extract_hits(file_list) #run the function - generates a file with PI hits as rows, identified by site name, species and transect number
+extract_hits(file_list) #run the function - generates a file with PI hits as rows, identified by site name, species and transect number; NO  further clean has been performed, just compiling rows of the raw data.
 
 hits <- read.csv(file="PI_compiled.txt") #read file back into R
 
