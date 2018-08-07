@@ -1,4 +1,6 @@
 #Script for extracting specific AusPlots data and writing to file. Result is sites summary and individual files for each plot for each data type (e.g. point intercept hits, vouchers, basal area, soil bulk density...)
+
+#Note this is for demonstration and needs to be updated with relevant host and database, plus minor modifications made in working script (2018)
 #
 #Authors:
 #Andrew Tokmakoff (modifications Greg Guerin)
