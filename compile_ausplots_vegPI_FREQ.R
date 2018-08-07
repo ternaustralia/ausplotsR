@@ -11,7 +11,7 @@ library(plyr)
 ################################
 
 transects <- count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each uniqe plot/species/transect combo
-transects$freq <- 1 #revert to 1 (presence on a transect within a plot)
+transects$freq <- 1 #revert to 1 rather than a count (presence on a transect within a plot)
 freqs <- count(transects, c("site_unique", "herbarium_determination")) #count transect presences per species per plot, e.g. 5 means that species was recorded on 5 of the transects
 freqs$freq <- freqs$freq/10 #divide by ten to convert to actual frequency (should range from 0.1 to 1)
 #remove NA herbarium determinations
