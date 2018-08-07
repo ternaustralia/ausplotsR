@@ -31,7 +31,7 @@ form_rows <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_fo
 if(cover_kind == "pfc") {
 	form_rows <- form_rows[-which(form_rows$in_canopy_sky == "TRUE"),]
 }
-form_rows <- form_rows[,-4]
+form_rows <- form_rows[,-4] #now take out the in canopy sky column as we no longer need it
 form_rows_NoDups <- form_rows[-which(duplicated(form_rows)==TRUE),] #remove duplicate rows, so left with individual rows for unique growth forms in each plot and a dummy '1' (for 'mama')
 growthForm_PA <- mama(form_rows_NoDups)
 write.csv(growthForm_PA, file="growthForm_PA.txt") #PA (presence/absence) matrix of growth forms in plots
