@@ -25,7 +25,13 @@ write.csv(growth_Form_types, file="growth_Form_types.txt", row.names=FALSE)
 
 ###
 #Create presence/absence matrix for growth forms:
-form_rows <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, dummy=rep(1, length(hits$growth_form))) #list of individual PI hits with what growth form they were. Hits are currently included and not differentiated if they are in canopy sky, but this can be updated. It may not matter for this part as it is just presence of GFs and if e.g. TREE is scores as in canopy sky, then it presumably is always going to be a present GF.
+cover_kind <- "pfc" #note, this is projected foliage cover, can change this to "occ" for opaque canopy cover, and this will be an argument in the function #adding this for subsetting in cover calculations based on whether in canopy sky
+
+form_rows <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, dummy=rep(1, length(hits$growth_form)), in_canopy_sky=hits$in_canopy_sky) #list of individual PI hits with what growth form they were. In canopy sky Hits are now only included if cover_kind is set to "occ".
+if(cover_kind == "pfc") {
+	form_rows <- form_rows[-which(form_rows$in_canopy_sky == "TRUE"),]
+}
+form_rows <- form_rows[,-4]
 form_rows_NoDups <- form_rows[-which(duplicated(form_rows)==TRUE),] #remove duplicate rows, so left with individual rows for unique growth forms in each plot and a dummy '1' (for 'mama')
 growthForm_PA <- mama(form_rows_NoDups)
 write.csv(growthForm_PA, file="growthForm_PA.txt") #PA (presence/absence) matrix of growth forms in plots
@@ -34,7 +40,7 @@ write.csv(growthForm_PA, file="growthForm_PA.txt") #PA (presence/absence) matrix
 #PI weights
 #Repeating above generation of occurrence matrix for growth forms in plots but adding cover-abundance from point intercepts as weights instead of just presence as '1'.
 ##################
-#NOTE: At present, this is calculating opaque cover that includes in canopy sky hits as this is often appropriate/needed for interpretation/validation of satellite images, where as in the species cover matrices calculated in other compilation scripts, in canopy sky hits have been excluded to get projected foliage cover (but this can be changed and a function should have the option as an argument). As noted in the previous PI script, it would be useful to roll into a function in which an argument lets the user chose between opaque and projected foliage cover
+#NOTE: At present, default is to calculate pfc that excludes in canopy sky hits. cover_kind would need to be set to "occ" above to include ICS - at the point where form_rows is generated. As noted in the previous PI script, it would be useful to roll into a function in which an argument lets the user chose between opaque and projected foliage cover
 ################
 growthForm_matrix_PIweights <- mama(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
 #However, to convert that to a percent cover, it needs to be divided by the actual number of unique PI hits for that particular plot and multiplied by 100 (not all plots have exactly 1010 unique hits)
