@@ -42,14 +42,20 @@ hits$herbarium_determination <- trim.trailing(hits$herbarium_determination) #cle
 hits$herbarium_determination <- tolower(hits$herbarium_determination)
 hits$herbarium_determination <- capitalize(hits$herbarium_determination)
 
-#manually correct an odd transect identifier:
+#manually correct an odd transect identifier ot two:
 delete <- grep("W5-.E", hits$transect)
-hits$transect[delete] <- "W5-E5" 
+hits$transect[delete] <- "W5-E5"
+delete <- grep("1-N1", hits$transect)
+hits$transect[delete] <- "S1-N1"
 hits$transect <- as.factor(as.character(hits$transect)) 
 
 hits$hits_unique <- do.call(paste, c(hits[c("transect", "point_number")], sep = " ")) #create a new column in the hits data with transect and hit combined to make unique combination within plot, this is to identify unique samples for the calculation of cover and species accumulation curves etc.
 
 hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")) #because there are multiple visits for some - and potentially all - sites, we have queried unique visit_id numbers from the database in the raw PI data. Here we are making a new single field combining site and visit ids to get unique plot/visit identifiers that still have the plot site name in it because a straight visit number would be harder to interpret and use for labels etc...
+
+#placeholder for returning the 'hits' object when this is converted to a function
+
+#the below can go in the species_table function
 
 #count combined (PI) cover scores for each species in each plot:
 total.points.fun <- function(x) {return(length(unique(hits[which(hits$site_unique == x),]$hits_unique)))} #function to go through a list of plot names and count how many unique hits there were (for a standard plot, this will equal 1010)
