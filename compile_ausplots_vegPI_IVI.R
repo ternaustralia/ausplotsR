@@ -3,6 +3,8 @@
 #Authors:
 #Greg Guerin
 
+
+#below added to species_table function
 freq_matrix_percents <- freq_matrix*100 #convert to %; freq_matrix defined in 'compile_ausplots_vegPI_FREQ.R'
 #the cover and frequency matrices may have different numbers of species, so need to trim to match
 freq_matrix_percents <- freq_matrix_percents[,-which(!colnames(freq_matrix_percents) %in% colnames(cover_matrix))] 
