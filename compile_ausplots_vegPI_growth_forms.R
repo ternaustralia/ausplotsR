@@ -11,13 +11,13 @@
 library(simba)
 library(plyr)
 
-#number of unique growth forms for each plot (single value)
+#number of unique growth forms for each plot (single value) #NOTE this is redundant because you can't work that out easily from an occurrence matrix, so in the function will just output a matrix, and then you can apply rowSums for e.g. to get the number of GFs records by plot
 growth_Form_diversity <- aggregate(hits$growth_form, by=list(hits$site_unique), FUN=function(x) {length(unique(x))}) #where 'hits' is the already compiled point intercept data
 colnames(growth_Form_diversity) <- c("site_unique", "growth_form_diversity")
 write.csv(growth_Form_diversity, file="growth_Form_diversity.txt", row.names=FALSE)
 
 
-#list for each plot with growth forms that occur
+#list for each plot with growth forms that occur ##AGAIN redundant and won't include in the function because you can do this with manipulation of the occurrence matrix - i.e. what are the names of the columns for each plot that are not zero?
 growth_Form_types <- aggregate(hits$growth_form, by=list(hits$site_unique), function(x) {as.character(unique(x))})
 colnames(growth_Form_types) <- c("site_unique", "growth_forms")
 growth_Form_types$growth_forms <- as.character(growth_Form_types$growth_forms) # as has been made into a list
