@@ -3,11 +3,13 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
 
 #this is a self-contained function that takes a data frame of individual raw point intercept hits from ausplots and generates species occurrence matrices as desired based on presence, cover, frequencey or IVI index. The output is a species v sites table as a data frame.
 
-#veg.PI is the input point intercept data (raw)
+#veg.PI is the input point intercept data (raw) (i.e., 'hits' from original PI compilation script)
 
 #m_kind is the desired species scoring method: binary (presence/absence), percent cover, frequency (based on occurrences on transects within plots) or IVI (combination of cover and frequency)
 
 #cover_type is a choice between 'projected foliage cover' and 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'
+
+#Author: Greg Guerin
 
 require(simba)
 require(plyr)
