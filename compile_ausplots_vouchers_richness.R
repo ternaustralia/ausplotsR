@@ -42,3 +42,6 @@ vouch$herbarium_determination <- tolower(vouch$herbarium_determination)
 vouch$herbarium_determination <- capitalize(vouch$herbarium_determination)
 
 vouch$site_unique <- do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-"))
+
+#species richness can be calculated easily with:
+#count(vouch, vars="site_unique")
