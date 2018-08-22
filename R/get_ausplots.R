@@ -40,7 +40,10 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 	#
 	
 	if(bounding_box) {
-		#placeholder for subsetting the Plots_IDs spatially - will dig up code for this from previous analysis (e.g. endemism functions)
+		#placeholder for subsetting the Plots_IDs spatially
+		
+		Plot_IDs <- subset(Plot_IDs, longitude > bounding_box[1] && longitude < bounding_box[2] && latitude > bounding_box[3] && latitude < bounding_box[4])
+		
 	} #end if(bounding_box)
 	
 
