@@ -24,6 +24,8 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 
 #species.level.taaxonomy: placeholder argument in case we add the option to retrieve the species data at species level, i.e., excluding subspecies, varieties etc.
 
+#Authors: Greg Guerin, Andrew Tokmakoff, Tom Saleeba
+
 	require(R.utils)
 
 	trim.trailing <- function (x) sub("\\s+$", "", x) #function that strips trailing white spaces from entries in d.f.
