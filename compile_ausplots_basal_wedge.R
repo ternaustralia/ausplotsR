@@ -38,6 +38,11 @@ basal <- read.csv(file="vegBasal_compiled.txt") #read this file back into R. Con
 
 basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
 
+###################
+#above will be in the get_ausplots function, below has been incorporated into the basal_area function
+###########
+
+
 bas_areas <- count(basal, c("site_unique", "point_id"), wt_var="basal_area") #the basal area scores for unique combos of site and point ID - i.e. for each of the 9 sample points in each plot, what is the total BA?
 
 bas_areas_mean <- aggregate(bas_areas$freq, by=list(bas_areas$site_unique), FUN=mean) #mean of the basal areas for each of 9 sampling points in the plot. This is to give one value for each sampled plot, averaged across the 9 different sampling points and all species considered together.
