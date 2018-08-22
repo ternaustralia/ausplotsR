@@ -9,6 +9,12 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
 
 #cover_type is a choice between 'projected foliage cover' and 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'
 
+#The output matrix can be converted to long format (with rows as species records) using:
+#my.matrix <- species_table(my.veg.PI, m_kind="PA", cover_type="PFC")
+#library(reshape2)
+#my.matrix <- as.data.frame(melt(as.matrix(my.matrix)))
+#my.matrix <- my.matrix[-which(my.matrix $value == 0),]
+
 #Author: Greg Guerin
 
 require(simba)
