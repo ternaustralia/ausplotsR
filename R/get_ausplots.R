@@ -2,7 +2,7 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 
 #This function is the starting point for accessing data through the ausplotsR package. By default the function will extract and compile data for vegetation and soils for all available plots. Arguments allow the user to select site by IDs or bounding box and select which modules to get data from (see below).
 
-#Value: a list object with elements depending on selections made in function call arguments: $veg.PI, $veg.vouch, $veg.basal ('basal'), $site.info, $soil.bullk, $soil.sub, $soil.char
+#Value: a list object with elements depending on selections made in function call arguments: $veg.PI, $veg.vouch, $veg.basal, $site.info, $soil.bullk, $soil.sub, $soil.char
 
 #site_info: whether site summary data is required (includes plot and visit details, landform data, coordinates etc)
 
@@ -20,9 +20,9 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 
 #plot_IDs: optional vector of ausplots plot IDs to request data for specific set of plots
 
-#bounding_box: optional spatial filter for selecting ausplots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax)... Ausplots location data are are in longlat, therefore x is the longitude and y is the latitude 
+#bounding_box: optional spatial filter for selecting ausplots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax)... Ausplots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object
 
-#species.level.taaxonomy: placeholder argument in case we add the option to retrieve the species data at species level, i.e., excluding subspecies, varieties etc.
+#species.level.taaxonomy: placeholder argument in case we add the option to retrieve the species data at species level, i.e., excluding subspecies, varieties etc. This is basically just formatting the names to genus and species only
 
 #Authors: Greg Guerin, Andrew Tokmakoff, Tom Saleeba
 
@@ -30,7 +30,7 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 
 	trim.trailing <- function (x) sub("\\s+$", "", x) #function that strips trailing white spaces from entries in d.f.
 
-	ausplots.data <- list() # an empty list that will be filled with whatever elements were requested
+	ausplots.data <- list() # an empty list that will be filled with whatever elements were requested and return from the function
 
 
 	if(!exists("Plots_IDs")) {
