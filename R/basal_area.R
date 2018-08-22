@@ -2,17 +2,21 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE) {
 	
 	require(plyr)
 	
-	#The function takes the compiled raw basal wedge data from 'get_ausplots' and calculates basal area (or number of basalk wedge hits) by plot. This is the function version of the 'compile_ausplots_basal_wedge.R' script.
+#The function takes the compiled raw basal wedge data from 'get_ausplots' and calculates basal area (or number of basalk wedge hits) by plot. This is the function version of the 'compile_ausplots_basal_wedge.R' script.
 	
-	#Nine measurements are taken at different points across the plot and these are averaged to give values per plot for basal area (+/- by species) and number of individual hits (+/- by species)
+#Nine measurements are taken at different points across the plot and these are averaged to give values per plot for basal area (+/- by species) and number of individual hits (+/- by species)
 	
-	#veg.basal is the raw basal wedge data with individual hits in rows
+#veg.basal is the raw basal wedge data with individual hits in rows
 	
-	#by.spp: set to TRUE to get values per individual species rather than combined
+#by.spp: set to TRUE to get values per individual species rather than combined
 	
-	#by.hits: set to TRUE to return the number of individual basal wedge hits rather than basal area
+#by.hits: set to TRUE to return the number of individual basal wedge hits rather than basal area
 	
-	#VALUE: returns a data frame with sites as rows
+#VALUE: returns a data frame with sites as rows
+	
+#Authors:
+#Greg Guerin
+
 	
 	basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
 	
