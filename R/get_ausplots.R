@@ -30,6 +30,8 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 
 	trim.trailing <- function (x) sub("\\s+$", "", x) #function that strips trailing white spaces from entries in d.f.
 
+	ausplots.data <- list() # an empty list that will be filled with whatever elements were requested
+
 
 	if(!exists("Plots_IDs")) {
 		#placeholder, if no plot_IDs are entered, it will need to find a list of them from the database and get longlats if any spatial filter is appled such as providing a bounding box
@@ -46,7 +48,9 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 
 	if(site_info) {
 		
-		#placeholder - will need to query and return a single table with rows as plots and column for the basic site information as per original extraction script
+		site.info <- extract_site_info(Plot_IDs)  #placeholder function - will need to query and return a single table with rows as plots and column for the basic site information as per original extraction script
+
+		ausplots.data$site.info <- site.info
 
 	} #end if(site_info)
 	
@@ -56,7 +60,9 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 	
 	if(soil_subsites) {
 		
-		#placeholder - will need to query and return a single table of concatenated subsite data
+		soil.subsites <- extract_soil_subsites(Plot_IDs) #placeholder function
+		
+		ausplots.data$soil.subsites <- soil.subsites
 		
 	} #end if(soil_subsites)
 	
@@ -64,7 +70,9 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 	
 	if(soil_bulk_density) {
 		
-		#placeholder - will need to query and return a single table of concatenated soil_bulk_density data
+		soil.bulk <- extract_bulk_density(Plots_IDs) #placeholder function - will need to query and return a single table of concatenated soil_bulk_density data
+		
+		ausplots.data$soil.bulk <- soil.bulk
 		
 	} #end if(soil_bulk_density)
 
@@ -72,7 +80,9 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 	
 	if(soil_character) {
 		
-		#placeholder - will need to query and return a single table of concatenated soil characterisation data
+		soil.char <- extract_characterisation(Plot_IDs) #placeholder function - will need to query and return a single table of concatenated soil characterisation data
+		
+		ausplots.data$soil.char <- soil.char
 		
 	} #end if(soil_character)
 
@@ -83,6 +93,8 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 		basal <- extract_basal(plot_IDs) #Where 'extract_basal' is a placeholder function that will call the basal wedge data from the database for a set of plots. Data contain the number of hits on each species in each plot per 9 reps, the basal area factor and calculated basal area.
 		
 		basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
+		
+		ausplots.data$veg.basal <- basal
 		
 	} #end if(basal.wedge)
 
@@ -101,6 +113,8 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 		
 		#species richness can be calculated easily with:
 		#plyr::count(vouch, vars="site_unique")
+		
+		ausplots.data$veg.vouch <- vouch
 
 	} #end if(veg.vouchers)
 
@@ -127,6 +141,15 @@ get_ausplots <- function(plot_IDs, bounding_box, site_info=TRUE, veg.vouchers=TR
 		
 		hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")) #because there are multiple visits for some - and potentially all - sites, we have queried unique visit_id numbers from the database in the raw PI data. Here we are making a new single field combining site and visit ids to get unique plot/visit identifiers that still have the plot site name in it because a straight visit number would be harder to interpret and use for labels etc
 		
+	ausplots.data$veg.PI <- hits
+		
 	} #end if(veg.PI)
+
+
+	#Return the list output which was filled above as needed.
+	
+	return(ausplots.data)
+	
+	
 
 } # end function
