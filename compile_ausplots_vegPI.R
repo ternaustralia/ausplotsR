@@ -55,7 +55,7 @@ hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location
 
 #placeholder for returning the 'hits' object when this is converted to a function
 
-#the below can go in the species_table function
+#the below has gone into the species_table function to take the veg.PI/hits object and generate a matrix for analysis
 
 #count combined (PI) cover scores for each species in each plot:
 total.points.fun <- function(x) {return(length(unique(hits[which(hits$site_unique == x),]$hits_unique)))} #function to go through a list of plot names and count how many unique hits there were (for a standard plot, this will equal 1010)
