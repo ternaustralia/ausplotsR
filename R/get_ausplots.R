@@ -25,7 +25,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 #bounding_box: An additional optional spatial filter for selecting ausplots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax)... Ausplots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. Possible additions to this function are the ability to extract sites via IBRA regions, political boundaries or via a user-provided shapefile. ...e.g.: , bounding_box=c(120, 140, -30, -10). 
 
-#species.level.taxonomy: placeholder argument in case we add the option to retrieve the species data at species level, i.e., excluding subspecies, varieties etc. This is basically just formatting the names to genus and specific epithet only.
+#species.level.taxonomy: Placeholder argument in case we add the option to retrieve the species data at species level, i.e., excluding subspecies, varieties etc. This is basically just formatting the names to genus and specific epithet only.
 
 #Authors: Greg Guerin, Andrew Tokmakoff, Tom Saleeba
 
