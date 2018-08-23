@@ -5,25 +5,25 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 #Value: a list object with elements depending on selections made in function call arguments: $veg.PI, $veg.vouch, $veg.basal, $site.info, $struct.summ, $soil.bullk, $soil.sub, $soil.char
 
-#site_info: whether site summary data are required (includes plot and visit details, landform data, coordinates, notes etc)
+#site_info: Whether site summary data are required (includes plot and visit details, landform data, coordinates, notes etc).
 
-#structural_summaries: whether site vegetation structural summaries are reqiured
+#structural_summaries: Whether site vegetation structural summaries are reqiured.
 
-#veg.vouchers: whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium
+#veg.vouchers: Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium.
 
-#veg.PI: whether point intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot
+#veg.PI: Whether point intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot.
 
-#basal.wedge: whether basal wedge data are required to get basal area by species by plot
+#basal.wedge: Whether basal wedge data are required to get basal area by species by plot.
 
-#soil_subsites: whether soil subsite information is required
+#soil_subsites: Whether soil subsite information is required.
 
-#soil_bulk_density: whether soil bulk density data are required
+#soil_bulk_density: Whether soil bulk density data are required.
 
-#soil_character: whether soil characterisation data are required
+#soil_character: Whether soil characterisation data are required.
 
-#Plot_IDs: optional character vector of ausplots plot IDs to request data for specific set of plots
+#my.Plot_IDs: optional character vector of ausplots plot IDs to request data for specific set of plots
 
-#bounding_box: an additional optional spatial filter for selecting ausplots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax)... Ausplots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. Possible additions to this function are the ability to extract sites via IBRA regions, political boundaries or via a user-provided shapefile. ...e.g.: , bounding_box=c(120, 140, -30, -10), 
+#bounding_box: An additional optional spatial filter for selecting ausplots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax)... Ausplots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. Possible additions to this function are the ability to extract sites via IBRA regions, political boundaries or via a user-provided shapefile. ...e.g.: , bounding_box=c(120, 140, -30, -10). 
 
 #species.level.taxonomy: placeholder argument in case we add the option to retrieve the species data at species level, i.e., excluding subspecies, varieties etc. This is basically just formatting the names to genus and specific epithet only.
 
