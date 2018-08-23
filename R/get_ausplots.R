@@ -1,4 +1,4 @@
-get_ausplots <- function(my.Plot_IDs, site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE, veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none", species.level.taxonomy=FALSE) {
+get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE, veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none", species.level.taxonomy=FALSE) {
 
 ########################################
 #This function is the starting point for accessing data through the ausplotsR package. By default the function will extract and compile data for vegetation for all available plots. Arguments allow the user to select sites by ID numbers or geographic bounding box and select which modules to get data from (see below).
@@ -57,7 +57,7 @@ get_ausplots <- function(my.Plot_IDs, site_info=TRUE, structural_summaries=FALSE
 
 	#
 	
-	if(exists("my.Plot_IDs")) {
+	if(my.Plot_IDs[1] != "none") {
 		
 		if(!class(Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
 		
@@ -75,7 +75,7 @@ get_ausplots <- function(my.Plot_IDs, site_info=TRUE, structural_summaries=FALSE
 		
 		Plot_IDs <- my.Plot_IDs #now the list of plots we will use is just those provided by user after checking they match thpse available
 		
-	} #end 	if(exists("my.Plot_IDs"))		
+	} #end 	if(my.Plot_IDs != "none")	
 
 	#######
 	
