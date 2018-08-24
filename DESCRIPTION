@@ -4,9 +4,9 @@ Title: TERN AusPlots analysis package
 Version: 1.0
 Date: 2018-08-23
 Authors@R: c(person("Greg", "Guerin", email = "ggueri01@gmail.com",
-  role = c("aut", "cre")
+  role = c("aut", "cre"),
 	person("Tom", "Saleeba", email = "ggueri01@gmail.com",
-  role = c("aut", "cre")
+  role = c("aut", "cre"),
 	person("Andrew", "Tokmakoff", email = "ggueri01@gmail.com",
   role = c("aut", "cre"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
