@@ -12,3 +12,4 @@ Depends: plyr, R.utils, simba
 Suggests: vegan
 Description: Extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem monitoring data.
 License: GNU GPL-3
+LazyData: TRUE
