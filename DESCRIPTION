@@ -3,10 +3,14 @@ Type: Package
 Title: TERN AusPlots analysis package
 Version: 1.0
 Date: 2018-08-23
-Authors: Greg R. Guerin, Tom Saleeba, Andrew Tokmakoff
+Authors@R: c(person("Greg", "Guerin", email = "ggueri01@gmail.com",
+  role = c("aut", "cre")
+	person("Tom", "Saleeba", email = "ggueri01@gmail.com",
+  role = c("aut", "cre")
+	person("Andrew", "Tokmakoff", email = "ggueri01@gmail.com",
+  role = c("aut", "cre"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 Depends: plyr, R.utils, simba
-Suggests:
+Suggests: vegan
 Description: Extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem monitoring data.
 License: GNU GPL-3
-LazyData: TRUE
