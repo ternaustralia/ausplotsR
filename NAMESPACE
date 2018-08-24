@@ -1,2 +1,2 @@
 exportPattern("^[[:alpha:]]+")
-import(plyr, R.utils, simba)
+import(plyr, R.utils, simba, httr, jsonlite)
