@@ -23,7 +23,10 @@
 #' \code{\link{fractional_cover}}: Fractional cover based on TERN AusPlots data.
 #' 
 #' \code{\link{basal_area}}: Basal area of tree trunks in TERN AusPlots.
-#' 
+#'
+#' @docType package
+#' @name ausplotsR
 #' @seealso \code{\link{animate_move}}
 #' @author Greg Guerin, Tom Saleeba, Andrew Tokmakoff. Maintainer: Greg Guerin ggueri01@gmail.com
 "_PACKAGE"
+NULL
