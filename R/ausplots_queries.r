@@ -3,10 +3,11 @@ require(jsonlite)
 
 .ausplots_api <- function(path, query) {
   resp <- httr::GET("http://swarmapi.ausplots.aekos.org.au:3000", path=path, query=query)
+  stop_for_status(resp)
   if (http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  return(jsonlite::fromJSON(content(resp, "text"), simplifyVector = FALSE))
+  return(jsonlite::fromJSON(content(resp, "text"), simplifyDataFrame = TRUE))
 }
 
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs) {

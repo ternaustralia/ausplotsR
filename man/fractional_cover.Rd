@@ -12,10 +12,13 @@ fractional_cover(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{x
+  \item{veg.PI}{The input raw point intercept data as generated in the \code{\link{get_ausplots}} function.
 %%     ~~Describe \code{x} here~~
 }
-  \item{\dots}{x
+  \item{ground_fractional}{Set to TRUE to calculate fractional GROUND cover.
+%%     ~~Describe \code{\dots} here~~
+}
+  \item{in_canopy_sky}{Set to TRUE to include in green fraction by calculating opaque canopy cover.
 %%     ~~Describe \code{\dots} here~~
 }
 }
@@ -27,47 +30,46 @@ fractional_cover(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE")
 
 'Bare' or 'bare ground' is substrate that is rock, outcrop, gravel or bare soil with no veg cover.
 
-A height rule is applied so that coding to green/brown/bare of the uppermost substrate/vegetation stratum hit at a given point intercept location overrides the others, that is, a dead tree overrides a living shrub beneath; substrate coding is overriden by any vegetation cover etc. This means for each of the (usually) 1010 intercepts, there is a single coding and percentage is the number of hits assigned to each fraction, divided by the total number of PIs taken (usually 1010 but can vary) times 100.
+A height rule is applied so that coding to green/brown/bare of the uppermost substrate/vegetation stratum hit at a given point intercept location overrides the others, that is, a dead tree overrides a living shrub beneath and vice versa; substrate coding is overriden by any vegetation cover etc. This means for each of the (usually) 1010 intercepts, there is a single coding and percentage is the number of hits assigned to each fraction, divided by the total number of PIs taken (usually 1010 but can vary) times 100.
 
-#There is an option in argument 'ground_fractional' to calculate fractional ground cover - the same concept applied to only grasses (hummock, tussock, other); sedge; rush; forb; fern; vine - presently excluded; cryptogam - presently included in non-photosynthetic fraction
+There is an option via argument 'ground_fractional' to calculate fractional ground cover - the same concept applied to only grasses (hummock, tussock, other); sedge; rush; forb; fern; and vine plant growth forms. Presently, cryptogam cover is excluded and included in the non-photosynthetic fraction.
 
-#'In canopy sky' is excluded by default (only the substrate is considered for those hits) and applies only to regular fractional cover (as trees are excluded in the green fraction for ground fractional cover by default)
+'In canopy sky' is excluded by default (only the substrate is considered for those hits) and applies only to regular fractional cover (as trees are excluded in the green fraction for ground fractional cover by default).
 
-#Currently, cryptogam substrate is assigned to the non-photosynthetic fraction but this could be changed or made an option
+Currently, cryptogam substrate is assigned to the non-photosynthetic fraction.
 
-#Occasionally substrate type was not collected ('NC') or could not be assigned to one of the above categories ('Unknwn'), in which case a percent cover will be returned under an 'NA' fraction if there was no veg cover above
+Occasionally substrate type was not collected ('NC') or could not be assigned to one of the above categories ('Unknwn'), in which case a percent cover will be returned under an 'NA' fraction if there was no veg cover above those points.
 
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{xxxx
+\value{Returns a data frame in which plots are rows, columns are fractions (bare, brown, green and NA) and values are percent cover.
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{xxx
+\references{n/a
 %% ~put references to the literature/web site here ~
 }
-\author{xxx
+\author{Greg Guerin
 %%  ~~who you are~~
 }
-\note{xxx
+\note{n/a
 %%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{xxx
+\seealso{\code{\link{get_ausplots}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-\examples{xxx
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+\examples{
+#get veg.PI data for selected plots:
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.vouchers=FALSE, site_info=FALSE)
 
-## The function is currently defined as
-function (x, ...) 
+#calculate fractional cover:
+fractional_cover(my.data$veg.PI)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
