@@ -1,7 +1,6 @@
 fractional_cover <- function(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE") {
 	
 
-
 #This function takes compiled point intercept data from ausplots (in the format returned from function 'get_ausplots') and calculates fractional cover: i.e. the percent cover of green vegetation, dead vegetation and bare substrate.
 
 #Cover fractions are assigned according to the following:
