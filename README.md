@@ -15,3 +15,5 @@ To download AusPlots data, start with:
 ```
 ?get_ausplots
 ```
+
+Authors: Greg Guerin, Tom Saleeba, Andrew Tokmakoff
