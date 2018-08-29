@@ -8,8 +8,16 @@ Authors@R: c(
     person("Tom", "Saleeba", role = "aut"),
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
-Depends: plyr, R.utils, simba, httr, jsonlite
-Suggests: vegan
-Description: Extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem monitoring data.
+Depends:
+    plyr,
+    R.utils,
+    simba,
+    httr,
+    jsonlite
+Suggests:
+    vegan
+Description: Extraction, preparation, visualisation and analysis of TERN
+    AusPlots ecosystem monitoring data.
 License: GNU GPL-3
 LazyData: TRUE
+RoxygenNote: 5.0.1
