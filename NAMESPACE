@@ -1,2 +1,2 @@
-exportPattern("^[[:alpha:]]+")
+export(basal_area, fractional_cover, get_ausplots, growth_form_table, species_table)
 import(plyr, R.utils, simba, httr, jsonlite)
