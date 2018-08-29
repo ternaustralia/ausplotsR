@@ -62,6 +62,9 @@ Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & 
 \code{\link[<pkg>:<pkg>-package]{<pkg>}}
 }
 \examples{
+#load package:
+library(ausplotsR)
+
 #get data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
 
