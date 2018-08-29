@@ -1,2 +1,7 @@
-export(basal_area, fractional_cover, get_ausplots, growth_form_table, species_table)
+export(basal_area)
+export(fractional_cover)
+export(get_ausplots)
+export(growth_form_table)
+export(species_table)
 import(plyr, R.utils, simba, httr, jsonlite)
+
