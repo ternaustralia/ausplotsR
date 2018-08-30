@@ -26,7 +26,7 @@ ausplotsR can be installed directly from github using the `devtools` package, wh
 
 ```
 library(devtools)
-install_github("GregGuerin/ausplotsR")
+install_github("GregGuerin/ausplotsR", build_vignettes = TRUE)
 ```
 
 Once installed, load the package.

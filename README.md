@@ -7,7 +7,7 @@ To install the package, use:
 
 ```
 library(devtools)
-install_github("GregGuerin/ausplotsR")
+install_github("GregGuerin/ausplotsR", build_vignettes = TRUE)
 ``` 
 
 To get started:
@@ -15,6 +15,7 @@ To get started:
 ```
 library(ausplotsR)
 help(ausplotsR)
+browseVignettes(package="ausplotsR")
 ```
 
 To download AusPlots data, start with:
