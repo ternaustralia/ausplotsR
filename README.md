@@ -7,7 +7,7 @@ To install the package, use:
 
 ```
 library(devtools)
-install_github("gregguerin/ausplotsR")
+install_github("GregGuerin/ausplotsR")
 ``` 
 
 To get started:
