@@ -17,7 +17,7 @@ Depends:
 Suggests:
     vegan,
     knitr,
-    rmarkdown
+    rmarkdown,
     goeveg
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
