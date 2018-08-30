@@ -4,5 +4,5 @@
 .Ruserdata
 
 *.Rproj
-
 *.history
+inst/doc

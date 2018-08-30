@@ -15,9 +15,13 @@ Depends:
     httr,
     jsonlite
 Suggests:
-    vegan
+    vegan,
+    knitr,
+    rmarkdown
+    goeveg
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
 License: GNU GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr
