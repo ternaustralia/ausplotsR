@@ -1,0 +1,110 @@
+---
+title: "ausplotsR: quickstart guide to basic analysis of TERN AusPlots vegetation data"
+author: "Greg Guerin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ausplotsR: quickstart guide to basic analysis of TERN AusPlots vegetation data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+This is a draft vignette for getting started with analysis of AusPlots data through the ausplotsR R package. Context and background will be added here at a later date. The intention is to give step by step guides to installing the package, accessing AusPlots data, generating matrices or indices for analysis and then running simple example downstream analysis and visualisation.
+
+## Installing the package and accessing raw data
+
+ausplotsR can be installed directly from github using the `devtools` package, which must be installed first.
+
+```
+library(devtools)
+install_github("GregGuerin/ausplotsR")
+```
+
+Once installed, load the package.
+
+```{R, warning=FALSE, message=FALSE, error=FALSE}
+library(ausplotsR)
+```
+
+We can now access data, starting with basic site information and vegetation point intercept.
+
+```{r}
+my.ausplots.data <- get_ausplots(veg.vouchers=F)
+```
+
+The output of the above call is a list with the following $elements:
+
+```{r}
+names(my.ausplots.data)
+```
+
+
+## Example 1: latitudinal pattern in proportional vegetation cover
+
+Let's visualise vegetation cover as a function of latitude. First, we call the `fractional_cover` function on the extracted point intercept data. Note the calculation may take a few minutes for all AusPlots, so for this example we will pull out a subset of 100 randomly drawn sites to work with.
+
+```{r,warning=FALSE}
+my.fractional <- fractional_cover(my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_location_name %in% sample(my.ausplots.data$site.info$site_location_name, 100)), ])
+head(my.fractional)
+```
+
+Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. Vegetation survey data is identified by a unique combination of site ID and visit ID, which we need to untangle to get coordinates:
+
+```{r}
+my.fractional$site_location_name <- unlist(lapply(strsplit(my.fractional$Plot, "-"), function(x) paste(x[1])))
+
+my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_location_name")[,c("Plot", "bare", "brown", "green", "NA.", "longitude", "latitude")]
+my.fractional <- na.omit(my.fractional)
+head(my.fractional)
+```
+
+Now we can plot out the continental relatioship, e.g., between the proportion of bare ground with no kind of vegetation cover above and latitude.
+
+```{r, fig.height = 4, fig.width = 6}
+plot(bare ~ latitude, data=my.fractional, pch=20, bty="l")
+```
+
+As you can see, there appears to be a hump-backed relationship, with a higher proportion of bare ground in the arid inland at mid-latitudes. We can add a simple quadratic model to test/approximate this:
+
+```{r, fig.height = 4, fig.width = 6}
+my.fractional$quadratic <- my.fractional$latitude^2
+
+LM <- lm(bare ~ latitude + quadratic, data=my.fractional)
+summary(LM)
+
+#generate predicted values for plotting:
+ND <- data.frame(latitude=seq(from=min(my.fractional$latitude), to=max(my.fractional$latitude), length.out=50), quadratic=seq(from=min(my.fractional$latitude), to=max(my.fractional$latitude), length.out=50)^2)
+ND$predict <- predict(LM, newdata=ND)
+#
+plot(bare ~ latitude, data=my.fractional, pch=20, bty="n")
+points(ND$latitude, ND$predict , type="l", lwd=2, col="darkblue")
+```
+
+## Example 2: Species by sites table
+
+Aside from gross values from plots such as fractional cover,  many analyses in community ecology begin with a species against sites table populated with abundance information. With ausplotsR you can generate this easily from the more complex vegetation point intercept hit data as follows:
+
+```{r}
+my.sppBYsites <- species_table(my.ausplots.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
+dim(my.sppBYsites) #the number of rows and columns in the matrix
+my.sppBYsites[1:5, 1:5] #look at the top left corner (the matrix is large)
+
+```
+
+Here are examples of downstream analysis and visualisation uinsg the species occurrence matrix:
+
+```{r, fig.height = 4, fig.width = 6}
+#Whittaker plots:
+goeveg::racurves(my.sppBYsites[10:15,], bw=F)
+#With possible relativce abundance models for one community:
+plot(vegan::radfit(round(my.sppBYsites[10,], digits=0), log="xy"), pch=20)
+```
