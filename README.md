@@ -10,10 +10,25 @@ library(devtools)
 install_github("gregguerin/ausplotsR")
 ``` 
 
+To get started:
+
+```
+library(ausplotsR)
+help(ausplotsR)
+```
+
 To download AusPlots data, start with:
 
 ```
 ?get_ausplots
+```
+
+Or, to simply grab all vegetation point intercept and voucher data plus basic site info for all available plots, use:
+
+```
+library(ausplotsR)
+my.ausplots.data <- get_ausplots()
+names(my.ausplots.data)
 ```
 
 Authors: Greg Guerin, Tom Saleeba, Andrew Tokmakoff
