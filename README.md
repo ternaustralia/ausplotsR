@@ -36,4 +36,9 @@ my.ausplots.data <- get_ausplots()
 names(my.ausplots.data)
 ```
 
+Please cite the ausplotsR package as:
+```
+Greg Guerin, Tom Saleeba and Andrew Tokmakoff (2018). ausplotsR: TERN AusPlots analysis package. R package version 1.0.
+```
+
 Authors: Greg Guerin, Tom Saleeba, Andrew Tokmakoff
