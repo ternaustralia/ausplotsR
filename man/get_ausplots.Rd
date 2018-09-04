@@ -30,7 +30,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg
   \item{basal.wedge}{Whether basal wedge data raw hits are required to enable calculation of basal area by species by plot.
 %%     ~~Describe \code{basal.wedge} here~~
 }
-  \item{soil_subsites}{Whether soil subsite information is required.
+  \item{soil_subsites}{Whether soil subsite information is required. This includes information on what soil and soil metagenomics samples were taken and their identification barcode numbers.
 %%     ~~Describe \code{soil_subsites} here~~
 }
   \item{soil_bulk_density}{Whether soil bulk density data are required.
