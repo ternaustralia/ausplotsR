@@ -45,7 +45,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	Plot_IDs <- list_available_plots()  #where 'list_available_plots' is a function placeholder - the function will need to return a data frame of all available site_location_names from the database along with longlats (so that spatial filters can be applied if needed, such as providing a bounding box below) - three coloumns: site_location_name, longitude, latitude. There may be no arguments to the function call.
 		
-	if(bounding_box != "none") { #i.e. if user has supplied an extent vector
+	if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
 			
 		if(class(bounding_box) != "numeric" | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
 				
