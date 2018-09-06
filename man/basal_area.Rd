@@ -25,7 +25,7 @@ basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE)
 \details{n/a
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{Returns a data frame with rows for plots (or species by plots) and basal area or hit scores.
+\value{Returns a data frame with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}

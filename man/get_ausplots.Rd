@@ -15,13 +15,13 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg
   \item{my.Plot_IDs}{Optional character vector of AusPlots plot IDs to request data for specific set of plots.
 %%     ~~Describe \code{my.Plot_IDs} here~~
 }
-  \item{site_info}{Whether site summary data are required (includes plot and visit details, landform data, coordinates, notes etc). Default is to include.
+  \item{site_info}{Whether site summary data are required (includes plot and visit details, landform data, geographic coordinates, notes etc). Default is to include.
 %%     ~~Describe \code{site_info} here~~
 }
   \item{structural_summaries}{Whether site vegetation structural summaries are required.
 %%     ~~Describe \code{structural_summaries} here~~
 }
-  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium. Default is to include.
+  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples. Default is to include.
 %%     ~~Describe \code{veg.vouchers} here~~
 }
   \item{veg.PI}{Whether point intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot. Default is to include.
@@ -30,13 +30,13 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg
   \item{basal.wedge}{Whether basal wedge data raw hits are required to enable calculation of basal area by species by plot.
 %%     ~~Describe \code{basal.wedge} here~~
 }
-  \item{soil_subsites}{Whether soil subsite information is required. This includes information on what soil and soil metagenomics samples were taken and their identification barcode numbers.
+  \item{soil_subsites}{Whether soil subsite information is required. This includes information on what soil and soil metagenomics samples were taken at nine locations across the plot and their identification barcode numbers.
 %%     ~~Describe \code{soil_subsites} here~~
 }
   \item{soil_bulk_density}{Whether soil bulk density data are required.
 %%     ~~Describe \code{soil_bulk_density} here~~
 }
-  \item{soil_character}{Whether soil characterisation data are required.
+  \item{soil_character}{Whether soil characterisation and sample ID data at 10 cm increments to a depth of 1 m are required.
 %%     ~~Describe \code{soil_character} here~~
 }
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10). Possible extensions to spatial filtering of sites are the ability to extract sites via IBRA regions, political boundaries or user-provided shapefile.
@@ -59,12 +59,12 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg
 %% ...
   \item{$site.info }{Data frame with basic site information including location.}
   \item{$struct.summ }{Data frame with vegetation structural summaries for each plot.}
-  \item{$veg.vouch }{Data frame with rows for each voucher.}
+  \item{$veg.vouch }{Data frame with rows for each voucher and information on species determinations and silica-dried tissue samples.}
   \item{$veg.PI }{Data frame with individual point intercept data.}
   \item{$veg.basal }{Data frame with compiled raw basal wedge hit data.}
-  \item{$soil.sub }{Data frame with details of soil subsites within each plot.}
+  \item{$soil.sub }{Data frame with details of soil subsites within each plot including sample IDs.}
   \item{$soil.bulk }{Data frame with raw bulk density data from each plot.}
-  \item{$soil.char }{Data frame with soil characterisation data from each plot.}
+  \item{$soil.char }{Data frame with soil characterisation data from the 1 m pit at the SW corner of each plot.}
 }
 \references{n/a
 %% ~put references to the literature/web site here ~

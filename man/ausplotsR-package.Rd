@@ -6,7 +6,7 @@
 Live extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem monitoring data.
 }
 \description{
-Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover. Additional functionality will be added over time.
+Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, including physical sample barcode numbers, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover. Additional functionality will be added over time.
 }
 \details{
 \tabular{ll}{
@@ -24,11 +24,17 @@ Method summaries:
 
 Plot layout: 1 ha (100 x 100 m) plots are permanently marked over a homogenous patch of terrestrial vegetation.
 
+Soil sampling: soils are characterised in a pit at the SW corner of the plot to 1 m depth and 500 g samples are collected at 10 cm depth intervals; soil bulk density is measured; nine soil subsites are located across the plots and 500 g samples are taken at 10 cm depths to 30 cm. Additionallly, 200 g surface soil (~3 cm depth) samples are taken at the nine subsites and silica-dried for metagenomic analysis.
+
 Structural summary: the dominant species in three vegetation strata (lower, middle and upper) are identified visually by the observer. The vegetation is then categorised into MVGs according to the Australian National Vegetation Information System.
 
-Vascular plant vouchering: vascular plants within the plot are detected visually, with a herbarium voucher taken for each unique taxon, which is assigned a barcode and identified then permanently stored in a herbarium.
+Vascular plant vouchering: vascular plants within the plot are detected visually, with a herbarium voucher taken for each unique taxon, which is assigned a barcode and identified then permanently stored in a herbarium. Additionally, silica-dried material is sampled from each species for genetic and isotopic analysis, and five replicate samples are taken for dominant species.
 
 Point intercept: 10 x 100 m long transects are laid out within the plot in a grid pattern. A staff with laser pointer and densitometer is used to record species, growth form and height plus substrate type every 1 m along the transects, resulting in a total of 1010 (10 x 101) point intercept hits for the plot.
+
+Basal wedge: a basal wedge is used to determine the basal area of trees and shrubs at 1.3 m, with measures of hits per species taken at nine locations across the plot.
+
+Additional modules in the AusPlots method not avaialable through this package include: full DGPS coordinate data (only the coordinates of the SW corner are provided), photo panoramas, Leaf Area Index. 
 
 Key functions in the ausplotsR package:
 
