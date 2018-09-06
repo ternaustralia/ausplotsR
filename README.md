@@ -5,7 +5,9 @@ Through ausplotsR, users can directly access plot-based data on vegetation and s
 
 Click here for more information on [TERN](http://www.tern.org.au) and [AusPlots](http://www.ausplots.org).
 
-ausplotsR requires the following packages: plyr, R.utils, simba, httr, jsonlite; ('Suggests' needed to build vignette: vegan, knitr, rmarkdown, goeveg).
+ausplotsR requires the following packages: plyr, R.utils, simba, httr, jsonlite; ('Suggests' needed to build vignette if 'build_vignettes' is set to TRUE below: vegan, knitr, rmarkdown, goeveg).
+
+ausplotsR can be installed directly from github using the devtools package, which must be installed first.
  
 To install the package, use:
 
