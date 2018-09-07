@@ -21,7 +21,7 @@ Suggests:
     goeveg
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
-License: GNU GPL-3
+License: GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
