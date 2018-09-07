@@ -66,7 +66,8 @@ Occasionally substrate type was not collected ('NC') or could not be assigned to
 }
 \examples{
 #get veg.PI data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.vouchers=FALSE, site_info=FALSE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
+	veg.vouchers=FALSE, site_info=FALSE)
 
 #calculate fractional cover:
 fractional_cover(my.data$veg.PI)

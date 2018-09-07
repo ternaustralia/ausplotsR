@@ -8,7 +8,8 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"), cover_type=c("PFC", "OCC"))
+growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
+	cover_type=c("PFC", "OCC"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -65,7 +66,8 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 }
 \examples{
 #get veg.PI data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.vouchers=FALSE, site_info=FALSE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
+	veg.vouchers=FALSE, site_info=FALSE)
 
 #generate a percent cover occurrence matrix for plant growth forms:
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")

@@ -8,7 +8,10 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none", species.level.taxonomy=FALSE)
+get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
+	veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE,
+	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
+	species.level.taxonomy=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -83,7 +86,8 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg
 }
 \examples{
 #get data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
+	veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
 
 #view module:
 my.data$struct.summ

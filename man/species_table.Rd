@@ -8,7 +8,8 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"))
+species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
+	cover_type=c("PFC", "OCC"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,7 +62,8 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 }
 \examples{
 #get veg.PI data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.vouchers=FALSE, site_info=FALSE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
+	veg.vouchers=FALSE, site_info=FALSE)
 
 #generate a percent cover occurrence matrix:
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
