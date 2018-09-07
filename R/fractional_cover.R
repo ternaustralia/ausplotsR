@@ -1,36 +1,5 @@
 fractional_cover <- function(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE") {
 	
-
-#This function takes compiled point intercept data from ausplots (in the format returned from function 'get_ausplots') and calculates fractional cover: i.e. the percent cover of green vegetation, dead vegetation and bare substrate.
-
-#Cover fractions are assigned according to the following:
-#'Green' or 'photosynthetic vegetation' is living vascular plant cover
-#'Brown' or 'non-photosynthetic vegetation' is either vascular plant cover scored as 'dead' or substrate scored as litter, coarse woody debris or cryptogam (see below) that has no veg cover
-#'Bare' or 'bare ground' is substrate that is rock, outcrop, gravel or bare soil with no veg cover
-
-#A height rule is applied so that coding to green/brown/bare of the uppermost substrate/vegetation stratum hit at a given point intercept location overrides the others, that is, a dead tree overrides a living shrub beneath; substrate coding is overriden by any vegetation cover etc. This means for each of the (usually) 1010 intercepts, there is a single coding and percentage is the number of hits assigned to each fraction, divided by the total number of PIs taken (usually 1010 but can vary) times 100.
-
-#There is an option in argument 'ground_fractional' to calculate fractional ground cover - the same concept applied to only grasses (hummock, tussock, other); sedge; rush; forb; fern; vine - presently excluded; cryptogam - presently included in non-photosynthetic fraction
-
-#'In canopy sky' is excluded by default (only the substrate is considered for those hits) and applies only to regular fractional cover (as trees are excluded in the green fraction for ground fractional cover by default)
-
-#Currently, cryptogam substrate is assigned to the non-photosynthetic fraction but this could be changed or made an option
-
-#Occasionally substrate type was not collected ('NC') or could not be assigned to one of the above categories ('Unknwn'), in which case a percent cover will be returned under an 'NA' fraction if there was no veg cover above
-
-#'veg.PI' is the input point intercept data (raw) (i.e., 'hits' from original PI compilation script)
-
-#set 'ground_fractional' = "TRUE" to calculate fractional ground cover
-
-#set 'in_canopy_sky' = "TRUE" to include in green fraction by calculating opaque canopy cover
-
-#Value: returns a data frame in which plots are rows, columns are fractions (bare, brown, green and NA) and values are percent cover.
-
-#Author: Greg Guerin
-
-
-	require(plyr)
-	require(simba)
 	hits <- veg.PI #to match the raw input to historical label in below
 	
 	
@@ -82,7 +51,7 @@ fractional_df <- fractional_df[with(fractional_df, order(as.character(site_uniqu
 fractional_df <- fractional_df[-which(duplicated(fractional_df[,1:2], fromLast=TRUE)),] #this removes rows if they are duplicates of the same PI and they are not the highest sampled point/hit, by leaving the last entry (tallest) if there are intercept duplicates
 
 ##calculate fractional cover:
-fractional_df_sites <- count(fractional_df, vars=c("site_unique", "fractional")) #count number of occurrences of each fractional cover category by plot
+fractional_df_sites <- plyr::count(fractional_df, vars=c("site_unique", "fractional")) #count number of occurrences of each fractional cover category by plot
 
 
 ###THERE ARE NAS in THE 'FRACTIONAL' column!!!!!! NSABHC0002-53597  has a lot of NC substrate only hits - check how this is handled
@@ -93,7 +62,7 @@ fractional_df_sites$fractionalPercent <- fractional_df_sites$freq/fractional_df_
 ######
 
 #double-check that the fractional covers add up to 100% for each plot
-check_percent <- count(fractional_df_sites, vars="site_unique", wt_var="fractionalPercent")
+check_percent <- plyr::count(fractional_df_sites, vars="site_unique", wt_var="fractionalPercent")
 if(any(round(check_percent$freq, digits=0) != 100)) {warning("Fractional cover for one or more sites does not sum to 100, check output")}
 
 ###################
@@ -104,7 +73,7 @@ names(fractional_cover_output) <- c("Plot", "Fraction", "Percent")
 fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits=2)
 
 #create a matrix version to condense the data, columns are fractions, rows are plots:
-fractional_cover_output.matrix <- mama(fractional_cover_output)
+fractional_cover_output.matrix <- simba::mama(fractional_cover_output)
 fractional_cover_output.matrix$Plot <- row.names(fractional_cover_output.matrix)
 fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(5,1,2,3,4)]
 
@@ -157,7 +126,7 @@ ground.fractional_df <- ground.fractional_df[with(ground.fractional_df, order(as
 ground.fractional_df <- ground.fractional_df[-which(duplicated(ground.fractional_df[,1:2], fromLast=TRUE)),] #this removes rows if they are duplicates of the same PI and they are not the highest sampled point/hit
 
 ##calculate fractional cover:
-ground.fractional_df_sites <- count(ground.fractional_df, vars=c("site_unique", "fractional")) #count number of occurrences of each fractional cover category by plot
+ground.fractional_df_sites <- plyr::count(ground.fractional_df, vars=c("site_unique", "fractional")) #count number of occurrences of each fractional cover category by plot
 
 ground.fractional_df_sites <- merge(ground.fractional_df_sites, total.points, by="site_unique") #total.points is the table of the actual number of point intercepts taken in each plot which is usually 1010 but can be anything
 
@@ -165,7 +134,7 @@ ground.fractional_df_sites$fractionalPercent <- ground.fractional_df_sites$freq/
 ######
 
 #double-check that the fractional covers add up to 100% for each plot
-check_percent <- count(ground.fractional_df_sites, vars="site_unique", wt_var="fractionalPercent")
+check_percent <- plyr::count(ground.fractional_df_sites, vars="site_unique", wt_var="fractionalPercent")
 if(any(round(check_percent$freq, digits=0) != 100)) {warning("Fractional cover for one or more sites does not sum to 100, check output")}
 
 
@@ -176,7 +145,7 @@ names(ground.fractional.output) <- c("Plot", "Fraction", "Percent")
 ground.fractional.output $Percent <- round(ground.fractional.output $Percent, digits=2)
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
-ground.fractional.output.matrix <- mama(ground.fractional.output)
+ground.fractional.output.matrix <- simba::mama(ground.fractional.output)
 
 ground.fractional.output.matrix$Plot <- row.names(ground.fractional.output.matrix)
 
