@@ -2,7 +2,7 @@ require(httr)
 require(jsonlite)
 
 .ausplots_api <- function(path, query) {
-  resp <- httr::GET("http://swarmapi.ausplots.aekos.org.au:3000", path=path, query=query)
+  resp <- httr::GET("http://swarmapi.ausplots.aekos.org.au:80", path=path, query=query)
   stop_for_status(resp)
   if (http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
