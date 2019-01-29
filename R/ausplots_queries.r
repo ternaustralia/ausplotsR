@@ -1,8 +1,16 @@
 require(httr)
 require(jsonlite)
 
+# override this with:
+#   library("ausplotsR")
+#   options("ausplotsR_api_url" = "http://localhost:30000")
+#   ...continue to call functions
+if (is.null(getOption("ausplotsR_api_url"))) {
+  options("ausplotsR_api_url" =  "http://swarmapi.ausplots.aekos.org.au:80")
+}
+
 .ausplots_api <- function(path, query) {
-  resp <- httr::GET("http://swarmapi.ausplots.aekos.org.au:80", path=path, query=query)
+  resp <- httr::GET(getOption("ausplotsR_api_url"), path=path, query=query)
   stop_for_status(resp)
   if (http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
@@ -10,11 +18,11 @@ require(jsonlite)
   return(jsonlite::fromJSON(content(resp, "text"), simplifyDataFrame = TRUE))
 }
 
-.ausplots_api_with_plot_filter <- function(path, Plot_IDs) {
-  query <- c()
+.ausplots_api_with_plot_filter <- function(path, Plot_IDs, extra_query=list()) {
+  query <- extra_query
   if (length(Plot_IDs) > 0) {
     plotFilter <- paste("in.(", paste(Plot_IDs, collapse=","), ")", sep="")
-    query <- list(site_location_name = plotFilter)
+    query <- c(query, list(site_location_name = plotFilter))
   }
 	return(.ausplots_api(path, query)) 
 } 
@@ -82,3 +90,13 @@ extract_hits <- function(Plot_IDs) {
   return(.ausplots_api_with_plot_filter(path, Plot_IDs))
 }
 
+############################
+
+extract_samples <- function(Plot_IDs=c(), species_name_search=NULL) {
+  path <- "samples"
+  extra_query <- list()
+  if (!is.null(species_name_search)) {
+    extra_query <- list(herbarium_determination = paste("ilike.*", species_name_search, "*", sep=""))
+  }
+  return(.ausplots_api_with_plot_filter(path, Plot_IDs, extra_query))
+}
