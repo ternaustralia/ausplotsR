@@ -7,7 +7,8 @@ get_samples <- function(my.Plot_IDs=c(), species_name_search=NULL, lat_boundary=
   is_not_null_or_expected_typed_vector <- ( !is.null(my.Plot_IDs) && !is.vector(my.Plot_IDs) ) || ( length(my.Plot_IDs) > 0 && !is.character(my.Plot_IDs) )
   if(is_not_null_or_expected_typed_vector) stop("my.Plot_IDs must be a vector of strings/characters")
 
-  if(!is.null(species_name_search) && (!is.character(species_name_search) || is.vector(species_name_search))) stop("species_name_search must be a single string/characters (not a vector)")
+  is_not_null_or_single_char_vector <- !is.null(species_name_search) && !(is.character(species_name_search) && is.vector(species_name_search) && length(species_name_search) == 1)
+  if(is_not_null_or_single_char_vector) stop("species_name_search must be a single element character vector")
 
   if(!.is_2_element_double_vector(lat_boundary)) stop("lat_boundary must be a vector with 2 double elements. First element = min, second = max")
 
