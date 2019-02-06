@@ -47,6 +47,8 @@ Key functions in the ausplotsR package:
  \code{fractional_cover} :  Fractional cover based on TERN AusPlots data.
 
  \code{basal_area} :  Basal area of tree trunks in TERN AusPlots.
+ 
+ \code{single_cover_value} :  Vegetation cover in TERN AusPlots by height and growth form subsets.
 
 }
 \author{
