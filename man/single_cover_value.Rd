@@ -58,7 +58,7 @@ my.dat <- get_ausplots(bounding_box=c(140, 150, -20, -10))
 tree.cover <- single_cover_value(my.dat$veg.PI) #default settings, where cover of trees 5 m or higher is calculated
 tree.cover
 
-grass.cover <- single_cover_value(my.dat$veg.PI, my.growth_forms=c("Tussock grass", "Hummock grass"), min.height=0) #grasses of any height (minimum height set to zero).
+grass.cover <- single_cover_value(my.dat$veg.PI, my.growth_forms=c("Tussock grass"), min.height=0) #tussock grasses of any height (minimum height set to zero).
 grass.cover
 
 veg.height.eg <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=2) #any green veg over 2 m in height
