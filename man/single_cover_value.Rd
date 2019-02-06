@@ -54,7 +54,7 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-my.dat <- get_ausplots()
+my.dat <- get_ausplots(bounding_box=c(140, 150, -20, -10))
 tree.cover <- single_cover_value(my.dat$veg.PI) #default settings, where cover of trees 5 m or higher is calculated
 tree.cover
 
