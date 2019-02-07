@@ -11,7 +11,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 	#
 	
-	Plot_IDs <- list_available_plots()  #where 'list_available_plots' is a function placeholder - the function will need to return a data frame of all available site_location_names from the database along with longlats (so that spatial filters can be applied if needed, such as providing a bounding box below) - three coloumns: site_location_name, longitude, latitude. There may be no arguments to the function call.
+	Plot_IDs <- list_available_plots()  #
 		
 	if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
 			
@@ -54,7 +54,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 	if(site_info) {
 		
-		site.info <- extract_site_info(Plot_IDs)  #placeholder function - will need to query and return a single table with rows as plots and column for the basic site information as per original extraction script
+		site.info <- extract_site_info(Plot_IDs)  #
 
 		ausplots.data$site.info <- site.info
 
@@ -64,7 +64,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(structural_summaries) {
 		
-		struct.summ <- extract_struct_summ(Plot_IDs) #placeholder function - will need to query and return a single table with rows as plots and columns for the structural summary fields
+		struct.summ <- extract_struct_summ(Plot_IDs) #
 		
 		ausplots.data$struct.summ <- struct.summ
 		
@@ -75,7 +75,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_subsites) {
 		
-		soil.subsites <- extract_soil_subsites(Plot_IDs) #placeholder function for extracting subsite data for the set of Plot_IDs
+		soil.subsites <- extract_soil_subsites(Plot_IDs) #
 		
 		ausplots.data$soil.subsites <- soil.subsites
 		
@@ -85,7 +85,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_bulk_density) {
 		
-		soil.bulk <- extract_bulk_density(Plot_IDs) #placeholder function - will need to query and return a single table of concatenated soil_bulk_density data
+		soil.bulk <- extract_bulk_density(Plot_IDs) #
 		
 		ausplots.data$soil.bulk <- soil.bulk
 		
@@ -95,7 +95,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_character) {
 		
-		soil.char <- extract_soil_char(Plot_IDs) #placeholder function - will need to query and return a single table of concatenated soil characterisation data
+		soil.char <- extract_soil_char(Plot_IDs) #
 		
 		ausplots.data$soil.char <- soil.char
 		
@@ -105,7 +105,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(basal.wedge) {
 		
-		basal <- extract_basal(Plot_IDs) #Where 'extract_basal' is a placeholder function that will call the basal wedge data from the database for a set of plots. Data contain the number of hits on each species in each plot per 9 reps, the basal area factor and calculated basal area.
+		basal <- extract_basal(Plot_IDs) #
 		
 		basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
 		
@@ -117,7 +117,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.vouchers) {
 		
-		vouch <- extract_vouch(Plot_IDs) #Where 'extract_vouch' is a placeholder function that will call the veg voucher  data from the database for a set of plots.
+		vouch <- extract_vouch(Plot_IDs) #
 		
 		#some cleaning operations on the names:
 		vouch$herbarium_determination <- trim.trailing(vouch$herbarium_determination)
@@ -126,9 +126,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		vouch$site_unique <- do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique code for a site/visit combination
 		
-		#species richness can be calculated easily with:
-		#plyr::count(vouch, vars="site_unique")
-		
+				
 		ausplots.data$veg.vouch <- vouch
 
 	} #end if(veg.vouchers)
@@ -137,7 +135,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.PI) {
 		
-		hits <- extract_hits(Plot_IDs) #Where 'extract_hits' is a placeholder function that will call the veg point intercept data from the database for a set of plots in Plot_IDs.
+		hits <- extract_hits(Plot_IDs) #
 		
 		#some cleaning operations...
 		hits$herbarium_determination <- trim.trailing(hits$herbarium_determination)
@@ -154,7 +152,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		hits$hits_unique <- do.call(paste, c(hits[c("transect", "point_number")], sep = " ")) #create a new column in the hits data with transect and hit combined to make unique combination within plot, this is to identify unique samples for the calculation of cover and species accumulation curves etc.
 		
-		hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")) #because there are multiple visits for some - and potentially all - sites, we have queried unique visit_id numbers from the database in the raw PI data. Here we are making a new single field combining site and visit ids to get unique plot/visit identifiers that still have the plot site name in it because a straight visit number would be harder to interpret and use for labels etc
+		hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")) #because there are potential multiple visits to sites, here making a new single field combining site and visit IDs to get unique plot/visit identifiers that still have the plot site name.
 		
 	ausplots.data$veg.PI <- hits
 		
