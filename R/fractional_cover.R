@@ -69,12 +69,12 @@ if(any(round(check_percent$freq, digits=0) != 100)) {warning("Fractional cover f
 
 #write the output to file:
 fractional_cover_output <- fractional_df_sites[,c(1,2,5)]
-names(fractional_cover_output) <- c("Plot", "Fraction", "Percent")
+names(fractional_cover_output) <- c("Plot", "Fraction", "Percent") #these names are not returned in the output - just formatting for matrix conversion
 fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits=2)
 
 #create a matrix version to condense the data, columns are fractions, rows are plots:
 fractional_cover_output.matrix <- simba::mama(fractional_cover_output)
-fractional_cover_output.matrix$Plot <- row.names(fractional_cover_output.matrix)
+fractional_cover_output.matrix$site_unique <- row.names(fractional_cover_output.matrix)
 fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(5,1,2,3,4)]
 
 return(fractional_cover_output.matrix)
@@ -140,14 +140,14 @@ if(any(round(check_percent$freq, digits=0) != 100)) {warning("Fractional cover f
 
 ground.fractional.output <- ground.fractional_df_sites[,c(1,2,5)]
 
-names(ground.fractional.output) <- c("Plot", "Fraction", "Percent")
+names(ground.fractional.output) <- c("Plot", "Fraction", "Percent") #these names are not returned in the output - just formatting for matrix conversion
 
 ground.fractional.output $Percent <- round(ground.fractional.output $Percent, digits=2)
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
 ground.fractional.output.matrix <- simba::mama(ground.fractional.output)
 
-ground.fractional.output.matrix$Plot <- row.names(ground.fractional.output.matrix)
+ground.fractional.output.matrix$site_unique <- row.names(ground.fractional.output.matrix)
 
 ground.fractional.output.matrix <- ground.fractional.output.matrix[,c(5,1,2,3,4)]
 
