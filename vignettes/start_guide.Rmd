@@ -53,16 +53,14 @@ names(my.ausplots.data)
 Let's visualise vegetation cover as a function of latitude. First, we call the `fractional_cover` function on the extracted point intercept data. Note the calculation may take a few minutes for all AusPlots, so for this example we will pull out a subset of 100 randomly drawn sites to work with.
 
 ```{r,warning=FALSE}
-my.fractional <- fractional_cover(my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_location_name %in% sample(my.ausplots.data$site.info$site_location_name, 100)), ])
+my.fractional <- fractional_cover(my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_unique %in% sample(my.ausplots.data$site.info$site_unique, 100)), ])
 head(my.fractional)
 ```
 
-Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. Vegetation survey data is identified by a unique combination of site ID and visit ID, which we need to untangle to get coordinates:
+Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. Vegetation survey data are identified by the 'site_unique' field, which is unique combination of site ID ('site_location_name') and visit ID ('site_location_visit_id'):
 
 ```{r}
-my.fractional$site_location_name <- unlist(lapply(strsplit(my.fractional$Plot, "-"), function(x) paste(x[1])))
-
-my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_location_name")[,c("Plot", "bare", "brown", "green", "NA.", "longitude", "latitude")]
+my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "NA.", "longitude", "latitude")]
 my.fractional <- na.omit(my.fractional)
 head(my.fractional)
 ```
