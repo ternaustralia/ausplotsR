@@ -38,3 +38,27 @@ You can check the current setting of the API URL with:
 ```R
 getOption("ausplotsR_api_url")
 ```
+
+## Accessing unpublished data
+By default the public (unauthorised users) can only access site visits that are marked as *published* in the database.
+
+If you authorise yourself, you can access these unpublished records. To do so:
+
+  1. load the ausplotsR library like normal
+  1. set your credentials by running
+      ```R
+      set_auth('somerole', 'somesecret')
+      ```
+  1. now all queries you perform will include unpublished visit data
+  1. to return to only querying published data, run:
+      ```R
+      unset_auth()
+      ```
+
+The authorisation will expire. If you leave your R session open for a really long time, you might see an error like:
+```
+Error in .ausplots_api(path, query) : Unauthorized (HTTP 401).
+```
+
+If this is the case, re-run the `set_auth()` function and things should start working again.
+

@@ -1,8 +1,9 @@
 require(httr)
 require(jsonlite)
+require(jose)
 
 .ausplots_api <- function(path, query) {
-  # override this with:
+  # override this API URL with:
   #   library("ausplotsR")
   #   options("ausplotsR_api_url" = "http://localhost:30000")
   #   ...continue to call functions
@@ -10,7 +11,16 @@ require(jsonlite)
     options("ausplotsR_api_url" = "http://swarmapi.ausplots.aekos.org.au:80")
   }
 
-  resp <- httr::GET(getOption("ausplotsR_api_url"), path=path, query=query)
+  auth_header <- ""
+  the_role <- getOption("ausplotsR_role")
+  the_secret <- getOption("ausplotsR_secret")
+  if (!is.null(the_role) && !is.null(the_secret)) {
+    path <- paste(path, "_inc_unpub", sep="")
+    jwt_val <- jwt_encode_hmac(jwt_claim(role = the_role), secret = charToRaw(the_secret))
+    auth_header <- paste('Bearer', jwt_val)
+  }
+
+  resp <- httr::GET(getOption("ausplotsR_api_url"), add_headers(Authorization = auth_header), path=path, query=query)
   stop_for_status(resp)
   if (http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
