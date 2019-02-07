@@ -142,7 +142,7 @@ ground.fractional.output <- ground.fractional_df_sites[,c(1,2,5)]
 
 names(ground.fractional.output) <- c("Plot", "Fraction", "Percent") #these names are not returned in the output - just formatting for matrix conversion
 
-ground.fractional.output $Percent <- round(ground.fractional.output $Percent, digits=2)
+ground.fractional.output$Percent <- round(ground.fractional.output$Percent, digits=2)
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
 ground.fractional.output.matrix <- simba::mama(ground.fractional.output)
