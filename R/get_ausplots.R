@@ -31,7 +31,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		if(all(my.Plot_IDs %in% Plot_IDs)) {cat("User-supplied Plot_IDs located. \n")}
 		
-		if(!all(my.Plot_IDs %in% Plot_IDs)) { #rules that apply if some user plot ids aren't matched in the available plot names
+		if(!all(my.Plot_IDs %in% Plot_IDs)) { #rules that apply if some user plot IDs aren't matched in the available plot names
 			
 			if(!any(my.Plot_IDs %in% Plot_IDs)) {stop("None of the user-supplied Plot_IDs match available plot names.")}
 			
@@ -48,7 +48,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#######
 	
 	#Plot_IDs is now a character vector of valid site_location_names that will be used to query the database below for selected data modules
-	
 	
 	#######
 
