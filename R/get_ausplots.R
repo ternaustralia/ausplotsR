@@ -67,6 +67,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		struct.summ <- extract_struct_summ(Plot_IDs) #
 		
+		struct.summ$site_unique <- do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		
 		ausplots.data$struct.summ <- struct.summ
 		
 	} #end if(structural_summaries)
@@ -78,6 +80,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.subsites <- extract_soil_subsites(Plot_IDs) #
 		
+		soil.subsites$site_unique <- do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		
 		ausplots.data$soil.subsites <- soil.subsites
 		
 	} #end if(soil_subsites)
@@ -88,6 +92,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.bulk <- extract_bulk_density(Plot_IDs) #
 		
+		soil.bulk$site_unique <- do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		
 		ausplots.data$soil.bulk <- soil.bulk
 		
 	} #end if(soil_bulk_density)
@@ -97,6 +103,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	if(soil_character) {
 		
 		soil.char <- extract_soil_char(Plot_IDs) #
+		
+		soil.char$site_unique <- do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		
 		ausplots.data$soil.char <- soil.char
 		
