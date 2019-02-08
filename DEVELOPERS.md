@@ -56,12 +56,12 @@ If you authorise yourself, you can access these unpublished records. To do so:
   1. load the ausplotsR library like normal
   1. set your credentials by running
       ```R
-      ausplotsR::set_auth('somerole', 'somesecret')
+      ausplotsR:::set_auth('somerole', 'somesecret')
       ```
   1. now all queries you perform will include unpublished visit data
   1. to return to only querying published data, run:
       ```R
-      ausplotsR::unset_auth()
+      ausplotsR:::unset_auth()
       ```
 
 The authorisation will expire. If you leave your R session open for a really long time, you might see an error like:
