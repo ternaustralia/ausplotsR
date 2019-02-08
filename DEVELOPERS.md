@@ -44,7 +44,7 @@ getOption("ausplotsR_api_url")
 To install a specific branch from GitHub, for example `somebranch`, use the following command:
 
 ```R
-devtools::install_github("ternaustralia/ausplorsR@somebranch")
+devtools::install_github("ternaustralia/ausplotsR@somebranch")
 ```
 
 ## Accessing unpublished data
