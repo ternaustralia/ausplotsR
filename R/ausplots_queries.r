@@ -16,7 +16,10 @@ require(jose)
   the_secret <- getOption("ausplotsR_secret")
   if (!is.null(the_role) && !is.null(the_secret)) {
     path <- paste(path, "_inc_unpub", sep="")
-    jwt_val <- jwt_encode_hmac(jwt_claim(role = the_role), secret = charToRaw(the_secret))
+    five_days <- 60 * 60 * 24 * 5
+    exp_time <- as.integer(Sys.now() + five_days)
+    claim <- jwt_claim(role = the_role, exp = exp_time)
+    jwt_val <- jwt_encode_hmac(claim, secret = charToRaw(the_secret))
     auth_header <- paste('Bearer', jwt_val)
   }
 
