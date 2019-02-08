@@ -102,22 +102,3 @@ extract_hits <- function(Plot_IDs) {
   path <- "veg_pi"
   return(.ausplots_api_with_plot_filter(path, Plot_IDs))
 }
-
-############################
-
-extract_samples <- function(Plot_IDs=c(), species_name_search=NULL, lat_boundary=c(-90, 90), lon_boundary=c(-180, 180)) {
-  path <- "samples"
-  extra_query <- list()
-  if (!is.null(species_name_search)) {
-    extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", species_name_search, "*", sep="")))
-  }
-  if (!all(lat_boundary == c(-90, 90))) {
-    extra_query = append(extra_query, list("latitude" = paste("gte.", lat_boundary[1], sep="")))
-    extra_query = append(extra_query, list("latitude" = paste("lte.", lat_boundary[2], sep="")))
-  }
-  if (!all(lon_boundary == c(-180, 180))) {
-    extra_query = append(extra_query, list("longitude" = paste("gte.", lon_boundary[1], sep="")))
-    extra_query = append(extra_query, list("longitude" = paste("lte.", lon_boundary[2], sep="")))
-  }
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs, extra_query))
-}
