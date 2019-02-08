@@ -13,7 +13,8 @@ Depends:
     R.utils,
     simba,
     httr,
-    jsonlite
+    jsonlite,
+    jose
 Suggests:
     vegan,
     knitr,

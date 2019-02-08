@@ -4,5 +4,5 @@ export(get_ausplots)
 export(growth_form_table)
 export(species_table)
 export(single_cover_value)
-import(plyr, R.utils, simba, httr, jsonlite)
+import(plyr, R.utils, simba, httr, jsonlite, jose)
 
