@@ -39,6 +39,14 @@ You can check the current setting of the API URL with:
 getOption("ausplotsR_api_url")
 ```
 
+
+## Installing a branch from GitHub
+To install a specific branch from GitHub, for example `somebranch`, use the following command:
+
+```R
+devtools::install_github("ternaustralia/ausplorsR@somebranch")
+```
+
 ## Accessing unpublished data
 By default the public (unauthorised users) can only access site visits that are marked as *published* in the database.
 
