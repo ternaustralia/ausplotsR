@@ -47,6 +47,7 @@ To install a specific branch from GitHub, for example `somebranch`, use the foll
 devtools::install_github("ternaustralia/ausplotsR@somebranch")
 ```
 
+
 ## Accessing unpublished data
 By default the public (unauthorised users) can only access site visits that are marked as *published* in the database.
 
@@ -55,12 +56,12 @@ If you authorise yourself, you can access these unpublished records. To do so:
   1. load the ausplotsR library like normal
   1. set your credentials by running
       ```R
-      set_auth('somerole', 'somesecret')
+      ausplotsR::set_auth('somerole', 'somesecret')
       ```
   1. now all queries you perform will include unpublished visit data
   1. to return to only querying published data, run:
       ```R
-      unset_auth()
+      ausplotsR::unset_auth()
       ```
 
 The authorisation will expire. If you leave your R session open for a really long time, you might see an error like:

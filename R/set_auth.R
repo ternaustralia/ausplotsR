@@ -3,7 +3,7 @@ set_auth <- function(role=NULL, secret=NULL) {
   if(is.null(secret)) stop("secret must be the secret used to authenticate you to the API")
   options("ausplotsR_role" = role)
   options("ausplotsR_secret" = secret)
-  print("auth set successfully, all queries will now include unpublished visits")
+  print("auth set successfully (but credentials not yet tested), all queries will now include unpublished visits")
 }
 
 

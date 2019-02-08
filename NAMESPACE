@@ -3,6 +3,5 @@ export(fractional_cover)
 export(get_ausplots)
 export(growth_form_table)
 export(species_table)
-export(set_auth)
 import(plyr, R.utils, simba, httr, jsonlite, jose)
 
