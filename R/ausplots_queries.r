@@ -73,7 +73,14 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", species_name
 
 extract_site_info <- function(Plot_IDs) {
   path <- "site"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  result<-.ausplots_api_with_plot_filter(path, Plot_IDs)
+  result$state = mapply(function(x) substr(x, 0, 2), result$site_location_name)
+  result$state[result$state == "NS"] <- "NSW"
+  result$state[result$state == "QD"] <- "QLD"
+  result$state[result$state == "TC"] <- "TAS"
+  result$state[result$state == "VC"] <- "VIC"
+  
+  return(result)
 } 
 
 ###############
