@@ -112,7 +112,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.vouchers) {
 		
-		vouch <- extract_vouch(Plot_IDs) #
+		vouch <- extract_vouch(Plot_IDs, species_name_search)
 		
 		#some cleaning operations on the names:
 		vouch$herbarium_determination <- trim.trailing(vouch$herbarium_determination)
