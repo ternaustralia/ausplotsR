@@ -16,7 +16,7 @@ When you're hacking on this package locally, you can test it by installing from 
       ```
   1. use the `devtools::load_all` ([doco](https://rdrr.io/cran/devtools/man/load_all.html)) function to load the package from source:
       ```R
-      devtools:load_all()
+      devtools::load_all()
       ```
   1. if you make code changes, re-run `devtools::load_all()` to reload.
 
