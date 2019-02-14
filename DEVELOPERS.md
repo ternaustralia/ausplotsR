@@ -42,7 +42,7 @@ getOption("ausplotsR_api_url")
 
 ## Running locally in a clean R environment (in Docker)
 To test that the package can install into a fresh environment, we can use a Docker container. Note that this will use
-the code you have locally, including and dirty working directory state.
+the repo you have locally, but it *WILL NOT* use dirty working directory state. It installs clean commits only.
 
   1. start the container
       ```bash
@@ -56,7 +56,7 @@ the code you have locally, including and dirty working directory state.
       ```
   1. in the container, install our package from the local source we mounted as a volume in the container
       ```R
-      devtools::install_git('/app')
+      devtools::install_git('/app', ref = 'somebranch') # ref can be branch or commit
       ```
   1. load our library
       ```R

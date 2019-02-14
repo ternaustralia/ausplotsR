@@ -1,7 +1,8 @@
-citation <- function () {
+citation_ausplotsr <- function () {
   packageName <- getPackageName()
   commitSha <- packageDescription(packageName, fields = 'RemoteSha', drop = TRUE)
   if (is.na(commitSha)) {
+    # with older versions of devtools (pre 2.0 maybe?) we won't see the commitSha during install, but it works after
     commitSha <- '(not installed from git)'
   }
   version <- packageDescription(packageName, fields = 'Version', drop = TRUE)
@@ -16,4 +17,4 @@ citation <- function () {
   )
 }
 
-citation() # run on package load
+citation_ausplotsr() # run on package install/build
