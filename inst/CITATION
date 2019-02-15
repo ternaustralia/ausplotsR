@@ -1,0 +1,128 @@
+# I didn't want to copy-paste all this code but I couldn't figure out how to call citation(auto=meta) and modify the
+# auto generated citation and get the result I want. Doing this works-ish, but you end up with two citations.
+
+commitSha <- meta$RemoteSha
+if (is.na(commitSha)) {
+	commitSha <- '(not installed from git)'
+}
+
+auto_was_meta <- TRUE
+package <- meta$Package
+
+# From here on is ripped off directly, with the exception of adding our commitSha, from:
+# https://github.com/wch/r-source/blob/972716bb7b14b32a6e7d996a137ab8d66fa73f0c/src/library/utils/R/citation.R#L1245
+
+year <- sub("-.*", "", meta$`Date/Publication`)
+if(!length(year)) {
+    if(is.null(meta$Date)) {
+        warning(gettextf("no date field in DESCRIPTION file of package %s",
+                         sQuote(package)),
+                domain = NA)
+    } else {
+        date <- trimws(as.vector(meta$Date))[1L]
+        date <- strptime(date, "%Y-%m-%d", tz = "GMT")
+        if(!is.na(date)) year <- format(date, "%Y")
+    }
+}
+## If neither Date/Publication nor Date work, try Packaged (build
+## time stamp): if this fails too, use NA (PR #16550).
+if(!length(year)) {
+    date <- as.POSIXlt(sub(";.*", "", trimws(meta$Packaged)[1L]))
+    if(!is.na(date)) year <- format(date, "%Y")
+}
+if(!length(year)) {
+    warning(gettextf("could not determine year for %s from package DESCRIPTION file",
+                     sQuote(package)),
+            domain = NA)
+    year <- NA_character_
+}
+
+author <- meta$`Authors@R`
+## <NOTE>
+## Older versions took persons with no roles as "implied" authors.
+## Now we only use persons with a name and a 'aut' role.  If there
+## are none, we use persons with a name and a 'cre' role.
+## If this still gives nothing (which really should not happen), we
+## fall back to the plain text Author field.
+## Checking will at least note the cases where there are no persons
+## with names and 'aut' or 'cre' roles.
+if(length(author)) {
+    aar <- .read_authors_at_R_field(author)
+    author <- Filter(function(e) {
+                         !(is.null(e$given) &&
+                           is.null(e$family)) &&
+                             !is.na(match("aut", e$role))
+                     },
+                     aar)
+    if(!length(author))
+        author <- Filter(function(e) {
+                             !(is.null(e$given) &&
+                               is.null(e$family)) &&
+                                 !is.na(match("cre", e$role))
+                         },
+                         aar)
+}
+if(length(author)) {
+    has_authors_at_R_field <- TRUE
+} else {
+    has_authors_at_R_field <- FALSE
+    author <- as.personList(meta$Author)
+}
+## </NOTE>
+
+z <- list(title = paste0(package, ": ", meta$Title),
+          author = author,
+          year = year,
+          note = paste("R package version", meta$Version, "commit SHA=", commitSha) # modified line
+          )
+
+if(identical(meta$Repository, "CRAN"))
+    z$url <-
+        sprintf("https://CRAN.R-project.org/package=%s", package)
+
+if(identical(meta$Repository, "R-Forge")) {
+    z$url <- if(!is.null(rfp <- meta$"Repository/R-Forge/Project"))
+        sprintf("https://R-Forge.R-project.org/projects/%s/", rfp)
+    else
+        "https://R-Forge.R-project.org/"
+    if(!is.null(rfr <- meta$"Repository/R-Forge/Revision"))
+        z$note <- paste(z$note, rfr, sep = "/r")
+}
+
+if(!length(z$url) && !is.null(url <- meta$URL)) {
+    ## Cannot have several URLs in BibTeX and bibentry object URL
+    ## fields (PR #16240).
+    if(grepl("[, ]", url))
+        z$note <- url
+    else
+        z$url <- url
+}
+
+header <- if(!auto_was_meta) {
+    gettextf("To cite package %s in publications use:",
+             sQuote(package))
+} else NULL
+
+
+## No auto-generation message for auto was meta so that maintainers
+## can safely use citation(auto = meta) in their CITATION without
+## getting notified about possible needs for editing.
+footer <- if(!has_authors_at_R_field && !auto_was_meta) {
+    gettextf("ATTENTION: This citation information has been auto-generated from the package DESCRIPTION file and may need manual editing, see %s.",
+             sQuote("help(\"citation\")"))
+} else NULL
+
+author <- format(z$author, include = c("given", "family"))
+if(length(author) > 1L)
+    author <- paste(paste(head(author, -1L), collapse = ", "),
+                    tail(author, 1L), sep = " and ")
+
+# just creating it is enough for it to be picked up
+bibentry(bibtype = "Manual",
+                 textVersion =
+                 paste0(author, " (", z$year, "). ", z$title, ". ",
+                        z$note, ". ", z$url),
+                 header = header,
+                 footer = footer,
+                 other = z
+)

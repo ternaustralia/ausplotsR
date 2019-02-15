@@ -39,10 +39,9 @@ names(my.ausplots.data)
 ```
 
 ## Citation
-The citation for the package will be printed in your R console when you load the package. Otherwise, to print it at any
-time, run:
+To print the citation of our package:
 ```R
-ausplotsR::citation_ausplotsr()
+citation('ausplotsR')
 ```
 
 ## Repeatability with older versions of the package
@@ -52,10 +51,10 @@ you first used the package (see above).
 
 As an example, the output from the citation function call might look like:
 ```
-... R package version 1.0 commit=559e0eb77ca3d42a7276351695db42331ef170b4.
+... R package version 1.0 commit SHA=559e0eb77ca3d42a7276351695db42331ef170b4.
 ```
 
-The piece of information we need is the commit ID, which in this example is `559e0eb77ca3d42a7276351695db42331ef170b4`.
+The piece of information we need is the commit ID/SHA, which in this example is `559e0eb77ca3d42a7276351695db42331ef170b4`.
 We would then use this to install this specific version of the package with:
 ```R
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, ref = '559e0eb77ca3d42a7276351695db42331ef170b4')
