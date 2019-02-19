@@ -29,9 +29,9 @@ hits <- veg.PI #to match the raw input to historical label in below
 		} #close if by growth form TRUE
 	hits <- subset(hits, height >= min.height) #subset to hits with height at least that set in call - substrate only has NA height (zero!) so should already be removed
 	if(in_canopy_sky==FALSE) { #remove in canopy sky if needed - removed by default
-		hits <- subset(hits, in_canopy_sky = FALSE)
+		hits <- subset(hits, in_canopy_sky == FALSE)
 	} #close in_canopy_sky FALSE
-	hits <- subset(hits, dead = FALSE) #remove rows that are scored as dead
+	hits <- subset(hits, dead == FALSE) #remove rows that are scored as dead
 	hits <- hits[-which(duplicated(hits[,c("site_unique", "hits_unique")])),] #remove duplicate hits by unique transect point ID - hits_unique (combo of transect and point no.) combined with site ID
 	
 ########
