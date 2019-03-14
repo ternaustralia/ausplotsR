@@ -38,9 +38,26 @@ my.ausplots.data <- get_ausplots()
 names(my.ausplots.data)
 ```
 
-Please cite the ausplotsR package as:
+## Citation
+To print the citation of our package:
+```R
+citation('ausplotsR')
 ```
-Greg Guerin, Tom Saleeba and Andrew Tokmakoff (2018). ausplotsR: TERN AusPlots analysis package. R package version 1.0.
+
+## Repeatability with older versions of the package
+If you need to install an older version of the package for repeatability, you can do so by supplying the specific
+version to the `install_github` call. The version to install can be obtained from the citation string you obtained when
+you first used the package (see above).
+
+As an example, the output from the citation function call might look like:
+```
+... R package version 1.0 commit SHA=559e0eb77ca3d42a7276351695db42331ef170b4.
+```
+
+The piece of information we need is the commit ID/SHA, which in this example is `559e0eb77ca3d42a7276351695db42331ef170b4`.
+We would then use this to install this specific version of the package with:
+```R
+install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, ref = '559e0eb77ca3d42a7276351695db42331ef170b4')
 ```
 
 Authors: Greg Guerin, Tom Saleeba, Andrew Tokmakoff
