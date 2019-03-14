@@ -39,10 +39,19 @@ names(my.ausplots.data)
 ```
 
 ## Citation
+
+A suggested citation is automatically generated in the following format when you extract TERN AusPlots data via ausplotsR:
+
+```
+TERN ("year") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
+```
+
 To print the citation of our package:
 ```R
 citation('ausplotsR')
 ```
+
+Please include appropriate citation in published papers/reports/theses that use the data and R functions.
 
 ## Repeatability with older versions of the package
 If you need to install an older version of the package for repeatability, you can do so by supplying the specific
