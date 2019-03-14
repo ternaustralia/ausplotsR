@@ -78,7 +78,7 @@ Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & 
 \keyword{ package }
 \seealso{
 
-\code{\link[<pkg>:<pkg>-package]{<pkg>}}
+\code{\link{get_ausplots}}
 }
 \examples{
 #load package:
