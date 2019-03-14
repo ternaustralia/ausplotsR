@@ -30,7 +30,7 @@ hits <- veg.PI #to match the raw input to historical label in below
 	
 	if(min.height > 0) {hits <- subset(hits, height >= min.height)} #subset to hits with height at least that set in call - substrate only has NA height (zero!) so should already be removed.
 	
-	if(min.height == 0) {subset(hits, !is.na(growth_form))} #user wishes to get all cover regardless of height, so in this case we need to make sure that a small number of records are included where there was a growth form on the hit but height was recorded as NA. To remove substrate only hits, we remove NA growth forms.
+	if(min.height == 0) {hits <- subset(hits, !is.na(growth_form))} #user wishes to get all cover regardless of height, so in this case we need to make sure that a small number of records are included where there was a growth form on the hit but height was recorded as NA. To remove substrate only hits, we remove NA growth forms.
 	
 	if(in_canopy_sky==FALSE) { #remove in canopy sky if needed - removed by default
 		hits <- subset(hits, in_canopy_sky == FALSE)
