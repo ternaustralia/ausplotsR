@@ -11,7 +11,7 @@
 get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 	veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE,
 	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
-	species.level.taxonomy=FALSE)
+	species_name_search=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,11 +45,11 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10). Possible extensions to spatial filtering of sites are the ability to extract sites via IBRA regions, political boundaries or user-provided shapefile.
 %%     ~~Describe \code{bounding_box} here~~
 }
-  \item{species.level.taxonomy}{Placeholder argument for future addition of option to retrieve/re-format the species data to species level, i.e., excluding subspecies, varieties etc.
+  \item{species_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species (i.e. "herbarium_determination"). If veg.vouch=TRUE (default), veg.vouch will return a data frame that only includes voucher records that match the species_name_search. Search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata","Eucalyptus", and "euca" are all acceptable search terms). 
 %%     ~~Describe \code{species.level.taxonomy} here~~
 }
 }
-\details{By default, the function will extract and compile data from the vegetation vouchers and point intercept modules over all available plots and provide a basic site information table. Arguments allow the user to select sites by ID numbers or geographic bounding box and select which modules data are drawn from. The datasets returned by the function are used directly by further formatting and analysis functions in ausplotsR (such as \code{\link{species_table}} to generate a species by sites matrix for community analysis), making it simple to go from raw data extract to ecological analysis.
+\details{By default, the function will extract and compile data from the vegetation vouchers and point intercept modules over all available plots and provide a basic site information table. Arguments allow the user to select sites by ID numbers, geographic bounding box, or species, and select which modules data are drawn from. The datasets returned by the function are used directly by further formatting and analysis functions in ausplotsR (such as \code{\link{species_table}} to generate a species by sites matrix for community analysis), making it simple to go from raw data extract to ecological analysis.
 	
 	AusPlots surveys are identified by a plot ID and unique visit number, that are combined to identify a unique measurement for sites with repeat visits.
 %%  ~~ If necessary, more details than the description above ~~
@@ -72,7 +72,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 \references{n/a
 %% ~put references to the literature/web site here ~
 }
-\author{Greg R. Guerin, Andrew Tokmakoff, Tom Saleeba
+\author{Greg R. Guerin, Andrew Tokmakoff, Tom Saleeba, Samantha Munroe
 %%  ~~who you are~~
 }
 \note{n/a
@@ -94,6 +94,9 @@ my.data$struct.summ
 
 #get site info, veg vouchers and veg point intercept for all available plots:
 \dontrun{get_ausplots()} 
+
+#get site info for all plots containing "Eucalyptus moderata",and all veg voucher records for "Eucalyptus moderata"
+Eucalyptus_moderata<-get_ausplots(species_name_search="Eucalyptus moderata")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
