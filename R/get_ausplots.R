@@ -163,7 +163,10 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 	} #end if(veg.PI)
 
-
+########
+#add a data citation to the object
+ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed ", format(Sys.Date(), format="%d %B %Y"), ".")	
+	
 	#Return the list output which was filled above as needed.
 	
 	return(ausplots.data)
