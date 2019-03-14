@@ -22,13 +22,13 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
   \item{by.growth_form}{Logical, whether to subset by plant growth form. If set to FALSE then only height subsetting occurs. Set to TRUE to calculate cover subsetted to specified growth forms.
 %%     ~~Describe \code{\dots} here~~
 }
-\item{min.height}{Numeric, sets the height in m below which PI hits are ignored. This argument is used to calculate e.g. cover of trees 5 m high or higher.
+\item{min.height}{Numeric, sets the height in m below which PI hits are ignored. This argument is used to calculate e.g. cover of trees 5 m high or higher. Can be set to zero to ignore height and include any plant hit. If you set min.height to a negative number you will get a nonsensical output!
 }
 \item{my.growth_forms}{A user-suppled character vector specifying growth forms to include in the cover calculation. Defaults to trees. Applies only when by.growth_form=TRUE, otherwise this argument is ignored and only the height rule is applied. For allowable growth forms, see \code{unique(veg.PI$growth_form)}.
 %%     ~~Describe \code{\dots} here~~
 }
 }
-\details{All included point intercept hits are merged to give a single cover value with a maximum of 100. Cover partitioned by multiple plant growth forms can be calculated using \code{growth_form_table}, by species using \code{species_table} and fractional green/brown/bare cover using \code{fractional_cover}.
+\details{All included point intercept hits are merged to give a single percent cover value with a maximum of 100. Cover partitioned by multiple plant growth forms can be calculated using \code{growth_form_table}, by species using \code{species_table} and fractional green/brown/bare cover using \code{fractional_cover}. Note, when min.height is set to zero and by.growth_form is set to FALSE, the output is nearly the same as the green cover fraction returned from \code{fractional_cover}. The values can differ, however, because \code{fractional_cover} applies a height rule in which the highest intercept at a given point is taken, whereas \code{single_cover_value} finds any green cover, leading to differences, most obviously, for example, when dead trees overhang green understorey. For such general cover purposes, we recommend \code{fractional_cover}. \code{single_cover_value} is best suited to cover subset by height and growth form. 
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{Returns a data frame in which plots are rows identified by a unique site and visit identifier ('site_unique') and the returned cover value is given in the $percentCover column.
@@ -51,6 +51,7 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{get_ausplots}}
+	\code{\link{fractional_cover}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -61,7 +62,7 @@ tree.cover
 grass.cover <- single_cover_value(my.dat$veg.PI, my.growth_forms=c("Tussock grass"), min.height=0) #tussock grasses of any height (minimum height set to zero).
 grass.cover
 
-veg.height.eg <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=2) #any green veg over 2 m in height
+veg.height.eg <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=2) #any green veg at least 2 m in height
 veg.height.eg
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
