@@ -96,7 +96,8 @@ my.data$struct.summ
 \dontrun{get_ausplots()} 
 
 #get site info for all plots containing "Eucalyptus moderata",and all veg voucher records for "Eucalyptus moderata"
-Eucalyptus_moderata<-get_ausplots(species_name_search="Eucalyptus moderata")
+Eucalyptus_moderata <- get_ausplots(species_name_search="Eucalyptus moderata")
+Eucalyptus_moderata$veg.vouch
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

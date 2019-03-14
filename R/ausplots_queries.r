@@ -46,7 +46,7 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", species_name
   if (!is.null(species_name_search)) {
     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", species_name_search, "*", sep="")))
   }
-  if(Plot_IDs == "none") {
+  if(Plot_IDs[1] == "none") {
     Plot_IDs <- c()
   }
   if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
