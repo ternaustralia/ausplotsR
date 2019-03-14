@@ -16,7 +16,7 @@ When you're hacking on this package locally, you can test it by installing from 
       ```
   1. use the `devtools::load_all` ([doco](https://rdrr.io/cran/devtools/man/load_all.html)) function to load the package from source:
       ```R
-      devtools:load_all()
+      devtools::load_all()
       ```
   1. if you make code changes, re-run `devtools::load_all()` to reload.
 
@@ -38,6 +38,32 @@ You can check the current setting of the API URL with:
 ```R
 getOption("ausplotsR_api_url")
 ```
+
+
+## Running locally in a clean R environment (in Docker)
+To test that the package can install into a fresh environment, we can use a Docker container. Note that this will use
+the repo you have locally, but it *WILL NOT* use dirty working directory state. It installs clean commits only.
+
+  1. start the container
+      ```bash
+      cd ausplotsR/
+      docker run \
+        --rm \
+        -it \
+        --name=ausplotsr-test \
+        -v `pwd`:/app \
+        zamora/r-devtools
+      ```
+  1. in the container, install our package from the local source we mounted as a volume in the container
+      ```R
+      devtools::install_git('/app', ref = 'somebranch') # ref can be branch or commit
+      ```
+  1. load our library
+      ```R
+      library(ausplotsR)
+      ```
+  1. perform any other testing you need with the library
+
 
 
 ## Installing a branch from GitHub

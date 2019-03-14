@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This is a draft vignette for getting started with analysis of AusPlots data through the ausplotsR R package. Context and background will be added here at a later date. The intention is to give step by step guides to installing the package, accessing AusPlots data, generating matrices or indices for analysis and then running simple example downstream analysis and visualisation.
+TERN AusPlots is a national field plot-based terrestrial ecosystem surveillance monitoring method and dataset for Australia. Through ausplotsR, users can directly access AusPlots data on vegetation and soils, including physical sample barcode numbers. The package also includes functions for creating tables of species composition, tree basal area, fractional cover and so on.
+
+This is a guide for getting started with analysis of AusPlots data through the ausplotsR R package. More information on AusPlots is available through the package help file. Below, we demonstrate installing the package, accessing some AusPlots data, generating matrices and running simple example analysis.
 
 ## Installing the package and accessing raw data
 
@@ -53,27 +55,25 @@ names(my.ausplots.data)
 Let's visualise vegetation cover as a function of latitude. First, we call the `fractional_cover` function on the extracted point intercept data. Note the calculation may take a few minutes for all AusPlots, so for this example we will pull out a subset of 100 randomly drawn sites to work with.
 
 ```{r,warning=FALSE}
-my.fractional <- fractional_cover(my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_location_name %in% sample(my.ausplots.data$site.info$site_location_name, 100)), ])
+my.fractional <- fractional_cover(my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_unique %in% sample(my.ausplots.data$site.info$site_unique, 100)), ])
 head(my.fractional)
 ```
 
-Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. Vegetation survey data is identified by a unique combination of site ID and visit ID, which we need to untangle to get coordinates:
+Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. Each survey is identified by the 'site_unique' field, which is unique combination of site ID ('site_location_name') and visit ID ('site_location_visit_id'). The 'site_unique' field therefore links all tables returned from the get_ausplots function:
 
 ```{r}
-my.fractional$site_location_name <- unlist(lapply(strsplit(my.fractional$Plot, "-"), function(x) paste(x[1])))
-
-my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_location_name")[,c("Plot", "bare", "brown", "green", "NA.", "longitude", "latitude")]
+my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "NA.", "longitude", "latitude")]
 my.fractional <- na.omit(my.fractional)
 head(my.fractional)
 ```
 
-Now we can plot out the continental relatioship, e.g., between the proportion of bare ground with no kind of vegetation cover above and latitude.
+Now we can plot out the continental relationship, e.g., between the proportion of bare ground with no kind of vegetation cover above and latitude.
 
 ```{r, fig.height = 4, fig.width = 6}
 plot(bare ~ latitude, data=my.fractional, pch=20, bty="l")
 ```
 
-As you can see, there appears to be a hump-backed relationship, with a higher proportion of bare ground in the arid inland at mid-latitudes. We can add a simple quadratic model to test/approximate this:
+There appears to be a hump-backed relationship, with a higher proportion of bare ground in the arid inland at mid-latitudes. We can add a simple quadratic model to test/approximate this:
 
 ```{r, fig.height = 4, fig.width = 6}
 my.fractional$quadratic <- my.fractional$latitude^2
@@ -91,7 +91,7 @@ points(ND$latitude, ND$predict , type="l", lwd=2, col="darkblue")
 
 ## Example 2: Species by sites table
 
-Aside from gross values from plots such as fractional cover,  many analyses in community ecology begin with a species against sites table populated with abundance information. With ausplotsR you can generate this easily from the more complex vegetation point intercept hit data as follows:
+Aside from gross values from plots such as fractional cover, many analyses in community ecology begin with a species against sites table populated with abundance information. With ausplotsR you can generate this easily from the more complex vegetation point intercept hit data as follows:
 
 ```{r}
 my.sppBYsites <- species_table(my.ausplots.data$veg.PI, m_kind="percent_cover", cover_type="PFC")

@@ -41,17 +41,46 @@ require(jose)
 } 
 ################
 
-list_available_plots <- function() {
-  path <- "site"
-  query <- list(select = "site_location_name,latitude,longitude")
-	return(.ausplots_api(path, query)) 
+list_available_plots <- function(Plot_IDs=c(), bounding_box="none", species_name_search=NULL) {
+  extra_query <- list()
+  if (!is.null(species_name_search)) {
+    extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", species_name_search, "*", sep="")))
+  }
+  if(Plot_IDs[1] == "none") {
+    Plot_IDs <- c()
+  }
+  if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
+    if(class(bounding_box) != "numeric" | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
+    
+    min_lon <- bounding_box[1]
+    max_lon <- bounding_box[2]
+    min_lat <- bounding_box[3]
+    max_lat <- bounding_box[4]
+    
+    extra_query = append(extra_query, list("latitude" = paste("gte.", min_lat, sep="")))
+    extra_query = append(extra_query, list("latitude" = paste("lte.", max_lat, sep="")))
+    extra_query = append(extra_query, list("longitude" = paste("gte.", min_lon, sep="")))
+    extra_query = append(extra_query, list("longitude" = paste("lte.", max_lon, sep="")))
+  }
+
+  path <- "search"
+  response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
+  result <- unique(response$site_location_name)
+  return(result)
 }
 
 ################
 
 extract_site_info <- function(Plot_IDs) {
   path <- "site"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  result<-.ausplots_api_with_plot_filter(path, Plot_IDs)
+  result$state = mapply(function(x) substr(x, 0, 2), result$site_location_name)
+  result$state[result$state == "NS"] <- "NSW"
+  result$state[result$state == "QD"] <- "QLD"
+  result$state[result$state == "TC"] <- "TAS"
+  result$state[result$state == "VC"] <- "VIC"
+  
+  return(result)
 } 
 
 ###############
@@ -91,9 +120,13 @@ extract_basal <- function(Plot_IDs) {
 
 ############################
 
-extract_vouch <- function(Plot_IDs) {
+extract_vouch <- function(Plot_IDs, species_name_search=NULL) {
+  extra_query <- list()
   path <- "veg_voucher"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  if (!is.null(species_name_search)) {
+    extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", species_name_search, "*", sep="")))
+  }
+  return(.ausplots_api_with_plot_filter(path, Plot_IDs, extra_query))
 }
 
 ############################

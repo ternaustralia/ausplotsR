@@ -1,32 +1,28 @@
-get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE, veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none", species.level.taxonomy=FALSE) {
+get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE,
+                         veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
+                         soil_character=FALSE, bounding_box="none", species_name_search=NULL) {
 
 	
 	#
-	
+
 	trim.trailing <- function (x) sub("\\s+$", "", x) #function that strips trailing white spaces from entries in d.f.
 	
 	#
 	
 	ausplots.data <- list() # an empty list that will be filled with whatever elements (soil, veg...) were requested and returned from the function
 
-	#
+	is_not_null_or_single_char_vector <- !is.null(species_name_search) && !(is.character(species_name_search) && is.vector(species_name_search) && length(species_name_search) == 1)
+	if(is_not_null_or_single_char_vector) stop("species_name_search must be a single element character vector") #
 	
-	Plot_IDs <- list_available_plots()  #
-		
-	if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
-			
-		if(class(bounding_box) != "numeric" | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
-				
-		Plot_IDs <- subset(Plot_IDs, longitude > bounding_box[1] & longitude < bounding_box[2] & latitude > bounding_box[3] & latitude < bounding_box[4])
-				
-	} #end if(bounding_box)
-		
-	Plot_IDs <- as.character(Plot_IDs[,1]) #remove the longlats so we just have the IDs themselves as a character vector
+	#
 
+	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, species_name_search=species_name_search)
+  
+  # FIXME check when no plots are found and give informative message
 	#
 	
 	if(my.Plot_IDs[1] != "none") {
-		
+		# FIXME should this be checking the my.Plot_IDs user input?
 		if(!class(Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
 		
 		if(all(my.Plot_IDs %in% Plot_IDs)) {cat("User-supplied Plot_IDs located. \n")}
@@ -41,10 +37,10 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 			
 		} #end if(!all(my.Plot_IDs %in% Plot_IDs)) {
 		
-		Plot_IDs <- my.Plot_IDs #now the list of plots we will use is just those provided by user after checking they match thpse available
+		Plot_IDs <- my.Plot_IDs #now the list of plots we will use is just those provided by user after checking they match these available
 		
-	} #end 	if(my.Plot_IDs != "none")	
-
+	} #end 	if(my.Plot_IDs != "none")
+  
 	#######
 	
 	#Plot_IDs is now a character vector of valid site_location_names that will be used to query the database below for selected data modules
@@ -55,6 +51,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		site.info <- extract_site_info(Plot_IDs)  #
 
+		site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		
 		ausplots.data$site.info <- site.info
 
 	} #end if(site_info)
@@ -64,6 +62,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	if(structural_summaries) {
 		
 		struct.summ <- extract_struct_summ(Plot_IDs) #
+		
+		struct.summ$site_unique <- do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		
 		ausplots.data$struct.summ <- struct.summ
 		
@@ -76,6 +76,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.subsites <- extract_soil_subsites(Plot_IDs) #
 		
+		soil.subsites$site_unique <- do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		
 		ausplots.data$soil.subsites <- soil.subsites
 		
 	} #end if(soil_subsites)
@@ -86,6 +88,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.bulk <- extract_bulk_density(Plot_IDs) #
 		
+		soil.bulk$site_unique <- do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		
 		ausplots.data$soil.bulk <- soil.bulk
 		
 	} #end if(soil_bulk_density)
@@ -95,6 +99,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	if(soil_character) {
 		
 		soil.char <- extract_soil_char(Plot_IDs) #
+		
+		soil.char$site_unique <- do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		
 		ausplots.data$soil.char <- soil.char
 		
@@ -116,7 +122,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.vouchers) {
 		
-		vouch <- extract_vouch(Plot_IDs) #
+		vouch <- extract_vouch(Plot_IDs, species_name_search)
 		
 		#some cleaning operations on the names:
 		vouch$herbarium_determination <- trim.trailing(vouch$herbarium_determination)
