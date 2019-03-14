@@ -8,7 +8,7 @@ if(!is.logical(in_canopy_sky)) {stop("in_canopy_sky must be logical (TRUE/FALSE)
 if(!is.logical(by.growth_form)) {stop("by.growth_form must be logical (TRUE/FALSE)")}
 if(!is.numeric(min.height)) {stop("min.height must be numeric")}
 if(!is.character(my.growth_forms)) {stop("my.growth_forms must be a character vector")}
-if(any(!my.growth_forms %in% unique(veg.PI$growth_form))) {stop("One or more growth forms supplied in my.growth_forms is not present in the veg.PI dataset")}
+if(by.growth_form) {if(any(!my.growth_forms %in% unique(veg.PI$growth_form))) {stop("One or more growth forms supplied in my.growth_forms is not present in the veg.PI dataset")}}
 
 ###################
 	
@@ -23,15 +23,21 @@ hits <- veg.PI #to match the raw input to historical label in below
 	
 ###########
 	
-	#subset by height, remove dead, and find unique hits to find cover::
+	#subset by growth form, height, remove dead, and find unique hits to find cover::
 	if(by.growth_form == TRUE) { #subset to requested growth forms
 		hits <- subset(hits, growth_form %in% my.growth_forms)
 		} #close if by growth form TRUE
-	hits <- subset(hits, height >= min.height) #subset to hits with height at least that set in call - substrate only has NA height (zero!) so should already be removed
+	
+	if(min.height > 0) {hits <- subset(hits, height >= min.height)} #subset to hits with height at least that set in call - substrate only has NA height (zero!) so should already be removed.
+	
+	if(min.height == 0) {subset(hits, !is.na(growth_form))} #user wishes to get all cover regardless of height, so in this case we need to make sure that a small number of records are included where there was a growth form on the hit but height was recorded as NA. To remove substrate only hits, we remove NA growth forms.
+	
 	if(in_canopy_sky==FALSE) { #remove in canopy sky if needed - removed by default
 		hits <- subset(hits, in_canopy_sky == FALSE)
 	} #close in_canopy_sky FALSE
+	
 	hits <- subset(hits, dead == FALSE) #remove rows that are scored as dead
+	
 	hits <- hits[-which(duplicated(hits[,c("site_unique", "hits_unique")])),] #remove duplicate hits by unique transect point ID - hits_unique (combo of transect and point no.) combined with site ID
 	
 ########
