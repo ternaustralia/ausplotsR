@@ -22,7 +22,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#
 	
 	if(my.Plot_IDs[1] != "none") {
-		# FIXME should this be checking the my.Plot_IDs user input?
+
 		if(!class(Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
 		
 		if(all(my.Plot_IDs %in% Plot_IDs)) {cat("User-supplied Plot_IDs located. \n")}
