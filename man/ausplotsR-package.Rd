@@ -63,7 +63,7 @@ Key functions in the ausplotsR package:
 
 }
 \author{
-Greg Guerin, Tom Saleeba, Andrew Tokmakoff, Samantha Munroe
+Greg Guerin, Tom Saleeba, Andrew Tokmakoff
 
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 }
