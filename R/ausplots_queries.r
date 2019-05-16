@@ -113,9 +113,13 @@ extract_soil_char <- function(Plot_IDs) {
 
 ##################
 
-extract_basal <- function(Plot_IDs) {
-  path <- "veg_basal"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+extract_basal <- function(Plot_IDs, species_name_search=NULL) {
+  extra_query <- list() 
+   path <- "veg_basal"
+   if (!is.null(species_name_search)) {
+     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", species_name_search, "*", sep="")))
+   }
+  return(.ausplots_api_with_plot_filter(path, Plot_IDs, extra_query))
 }
 
 ############################

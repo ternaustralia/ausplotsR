@@ -45,7 +45,8 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10). Possible extensions to spatial filtering of sites are the ability to extract sites via IBRA regions, political boundaries or user-provided shapefile.
 %%     ~~Describe \code{bounding_box} here~~
 }
-  \item{species_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species (i.e. "herbarium_determination"). If veg.vouch=TRUE (default), veg.vouch will return a data frame that only includes voucher records that match the species_name_search. Search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata","Eucalyptus", and "euca" are all acceptable search terms). 
+  \item{species_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species (i.e. "herbarium_determination"). Search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata","Eucalyptus", and "euca" are all acceptable search terms) If veg.vouch=TRUE, veg.vouch will return a data frame that only includes voucher records that match the species_name_search. If veg.PI= TRUE, veg.PI will return point intercept data for all plots where the species_name_search occurs. If basal.wedge=TRUE, veg.basal will return a dataframe that only includes the raw basal wedge data of records that match the species_name_search. For all other data.frames, get_ausplots will return data for all the plots where the species_name_search occurs.
+  
 %%     ~~Describe \code{species.level.taxonomy} here~~
 }
 }
@@ -68,6 +69,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
   \item{$soil.sub }{Data frame with details of soil subsites within each plot including sample IDs.}
   \item{$soil.bulk }{Data frame with raw bulk density data from each plot.}
   \item{$soil.char }{Data frame with soil characterisation data from the 1 m pit at the SW corner of each plot.}
+  \item{$citation } {Auto-generated citation for the data extracted. Please cite ausplotsR and the TERN AusPlots data you use.}
 }
 \references{n/a
 %% ~put references to the literature/web site here ~
@@ -91,6 +93,9 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 
 #view module:
 my.data$struct.summ
+
+#Get data citation and extraction date info:
+my.data$citation
 
 #get site info, veg vouchers and veg point intercept for all available plots:
 \dontrun{get_ausplots()} 

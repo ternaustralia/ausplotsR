@@ -22,7 +22,12 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#
 	
 	if(my.Plot_IDs[1] != "none") {
+<<<<<<< HEAD
 		if(!class(my.Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
+=======
+
+		if(!class(Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
+>>>>>>> origin/master
 		
 		if(all(my.Plot_IDs %in% Plot_IDs)) {cat("User-supplied Plot_IDs located. \n")}
 		
@@ -109,7 +114,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(basal.wedge) {
 		
-		basal <- extract_basal(Plot_IDs) #
+		basal <- extract_basal(Plot_IDs, species_name_search) #
 		
 		basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
 		
@@ -162,7 +167,10 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 	} #end if(veg.PI)
 
-
+########
+#add a data citation to the object
+ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed ", format(Sys.Date(), format="%d %B %Y"), ".")	
+	
 	#Return the list output which was filled above as needed.
 	
 	return(ausplots.data)

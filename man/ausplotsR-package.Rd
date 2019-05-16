@@ -12,8 +12,8 @@ Through ausplotsR, users can directly access plot-based data on vegetation and s
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2018-08-24\cr
+Version: \tab 1.1\cr
+Date: \tab 2019-03-14\cr
 License: \tab GPL-3\cr
 }
 TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring.
@@ -35,6 +35,17 @@ Point intercept: 10 x 100 m long transects are laid out within the plot in a gri
 Basal wedge: a basal wedge is used to determine the basal area of trees and shrubs at 1.3 m, with measures of hits per species taken at nine locations across the plot.
 
 Additional modules in the AusPlots method not avaialable through this package include: full DGPS coordinate data (only the coordinates of the SW corner are provided), photo panoramas, Leaf Area Index. 
+
+
+Acknowledging TERN AusPlots data in publications:
+
+It is important that users of data extracted via ausplotsR acknowledge TERN, the AusPlots dataset and ausplotsR by including an appropriate citation in the Acknowledgments or References section of any published papers/reports/theses that make use of the data. To make this easy, a data citation is automatically generated when you extract data (see \code{get_ausplots}). It has the following format:
+
+
+TERN ("year") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
+
+To cite the ausplotsR package itself and the functions it contains, enter: \code{citation('ausplotsR')}
+
 
 Key functions in the ausplotsR package:
 
@@ -67,7 +78,7 @@ Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & 
 \keyword{ package }
 \seealso{
 
-\code{\link[<pkg>:<pkg>-package]{<pkg>}}
+\code{\link{get_ausplots}}
 }
 \examples{
 #load package:
