@@ -13,8 +13,9 @@ To install the package, use:
 
 ```
 library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
-``` 
+devtools::install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, dependencies = TRUE)
+```
+
 
 To get started:
 

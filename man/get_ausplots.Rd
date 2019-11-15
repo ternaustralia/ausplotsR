@@ -69,7 +69,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
   \item{$soil.sub }{Data frame with details of soil subsites within each plot including sample IDs.}
   \item{$soil.bulk }{Data frame with raw bulk density data from each plot.}
   \item{$soil.char }{Data frame with soil characterisation data from the 1 m pit at the SW corner of each plot.}
-  \item{$citation } {Auto-generated citation for the data extracted. Please cite ausplotsR and the TERN AusPlots data you use.}
+  \item{$citation }{Auto-generated citation for the data extracted. Please cite ausplotsR and the TERN AusPlots data you use.}
 }
 \references{n/a
 %% ~put references to the literature/web site here ~

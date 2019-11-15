@@ -40,13 +40,13 @@ getOption("ausplotsR_api_url")
 ```
 
 
-## Running locally in a clean R environment (in Docker)
+## Running locally in a clean command line R environment (in Docker)
 To test that the package can install into a fresh environment, we can use a Docker container. Note that this will use
 the repo you have locally, but it *WILL NOT* use dirty working directory state. It installs clean commits only.
 
   1. start the container
       ```bash
-      cd ausplotsR/
+      cd ausplotsR/ # root of this repo
       docker run \
         --rm \
         -it \
@@ -64,6 +64,25 @@ the repo you have locally, but it *WILL NOT* use dirty working directory state. 
       ```
   1. perform any other testing you need with the library
 
+
+## Running locally in a clean RStudio environment (in Docker)
+If you prefer to use a GUI version of R, we can use an RStudio docker image:
+
+  1. start the container
+      ```bash
+      cd ausplotsR/ # root of this repo
+      docker run \
+        -e PASSWORD=somepassword \
+        --rm \
+        --name=ausplotsr-test \
+        -v `pwd`:/app \
+        -p 8787:8787 \
+        rocker/tidyverse
+      ```
+  1. open your browser to http://localhost:8787
+  1. login as `rstudio` with password `somepassword`
+  1. then run the install command the same as the command line version above. Or
+     use the install from github commands.
 
 
 ## Installing a branch from GitHub
