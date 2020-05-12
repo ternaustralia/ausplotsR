@@ -16,9 +16,9 @@ Depends:
     simba,
     httr,
     jsonlite,
+    vegan,
     jose
 Suggests:
-    vegan,
     knitr,
     rmarkdown,
     goeveg
