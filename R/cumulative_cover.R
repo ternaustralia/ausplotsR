@@ -1,3 +1,3 @@
-cumulative_cover <- function(my.ausplots.object) {
+cumulative_cover <- function(veg.PI) {
 	
 }
