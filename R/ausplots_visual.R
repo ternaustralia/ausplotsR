@@ -42,6 +42,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		map_attribute(my.ausplots.object)
 		}
 		
+		
 	par(mfrow=c(2,2))
 	n <- 0
 	for(i in unique(my.ausplots.object$veg.PI$site_unique)) {
@@ -52,16 +53,18 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		if(n == 1) {
 			frac <- fractional_cover(my.ausplots.object$veg.PI)
 		}
-		par(mar=c(0,0,0,0))
+		par(mar=c(0,0,2,0))
 		fraction_pie(frac, n)
 		}
 
 	if(growthform.pie) {
 		if(n == 1) {
 			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"))
+			GF_col <- rev(terrain.colors(length(names(GF))))
+			names(GF_col) <- names(GF)
 		}
-		par(mar=c(0,0,0,0))
-		growthform_pie(GF, n)
+		par(mar=c(0,0,2,0))
+		growthform_pie(GF[n,], GF_col)
 		}
 
 	if(cumulative.cover) {
