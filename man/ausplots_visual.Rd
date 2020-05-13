@@ -50,7 +50,7 @@ ausplots_visual(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fra
 \references{Guerin, G.R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., Lowe, A.J. (2017) Opportunities for integrated ecological analysis across inland Australia with standardised data from AusPlots Rangelands. PLoS ONE 12, e0170137.
 %% ~put references to the literature/web site here ~
 }
-\author{Greg Guerin
+\author{Greg Guerin, Bernardo Blanco-Martin
 %%  ~~who you are~~
 }
 \note{n/a
