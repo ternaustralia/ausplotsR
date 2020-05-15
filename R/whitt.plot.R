@@ -1,3 +1,4 @@
 whitt.plot <- function(abund_vect) {
-	plot(vegan::radfit(round(abund_vect, digits=0), log="xy"), pch=20)                          
+	plot(vegan::rad.lognormal(round(abund_vect, digits=0), log="y"), pch=20, main=rownames(abund_vect), bty="l")
+	legend("topright", lwd=3, legend=c("Lognormal"), bty="n")                       
 }
