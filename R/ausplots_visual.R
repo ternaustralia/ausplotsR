@@ -1,4 +1,4 @@
-ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fraction.pie = TRUE, growthform.pie = TRUE, cumulative.cover = TRUE, whittaker = TRUE, outfile = NULL) {
+ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fraction.pie = TRUE, growthform.pie = TRUE, cumulative.cover = TRUE, whittaker = TRUE, outfile = NULL, max.plots=5) {
 	
 	#############################
 	#check input formats
@@ -6,7 +6,10 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		if(any(map.attribute, fraction.pie, growthform.pie, cumulative.cover, whittaker)) {
 			if(!("veg.PI" %in% names(my.ausplots.object))) {
 				stop("If you provide a my.ausplots.object it must contain $veg.PI data to generate those plots!")
-			}
+			} #cls if no veg.PI data
+			if(length(unique(my.ausplots.object$veg.PI$site_unique)) > 20) {
+				cat("")
+			} #close if more than 20 plots
 		} #close if veg plots requested
 		if(any(map, map.attribute)) {
 			if(!("site.info" %in% names(my.ausplots.object))) {
@@ -14,7 +17,12 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			}
 		} #close if map requested
 	} #close if object provided
-	
+		if(any(fraction.pie, cumulative.cover)) {
+			if(length(unique(my.ausplots.object$veg.PI$site_unique)) > max.plots) {
+				cat("You are trying to plot fractional or cumulative cover for too many sites, which can be slow. Only plotting a subset: you can also increase 'max.plots' in your call...")
+				strip_ <- 1
+			}
+		}
 	#################################################
 	#check data and extract if missing
 	if(missing(my.ausplots.object)) {
@@ -49,6 +57,13 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		
 		n <- n + 1
 		
+		if(any(fraction.pie, growthform.pie, cumulative.cover, whittaker)) {
+			
+		cat("Working on individual plots for ", i, "\n")
+		if(strip_ == 1) {
+			my.ausplots.object$veg.PI <- subset(my.ausplots.object$veg.PI, site_unique %in% unique(my.ausplots.object$veg.PI$site_unique)[1:max.plots])
+		}
+		
 	if(fraction.pie) {
 		if(n == 1) {
 			frac <- fractional_cover(my.ausplots.object$veg.PI)
@@ -68,7 +83,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		}
 
 	if(cumulative.cover) {
-		cumulative_cover(my.ausplots.object$veg.PI)
+		cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == unique(my.ausplots.object$veg.PI$site_unique)[n]))
 		}
 
 	if(whittaker) {
@@ -78,6 +93,8 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		par(mar=c(5,5,5,5))
 		whitt.plot(sppBYsites[i,])
 		}
+		
+		} #end if any veg.PI plots
 		
 		} #end loop through site_unique
 	
