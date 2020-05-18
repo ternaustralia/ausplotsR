@@ -35,7 +35,7 @@ cumulative_cover <- function(veg.PI) {
     }#close for x (loop over species in a plot)
     max.cover.plot.i <- max(na.omit(unlist(x.ca))) #use this instead of 100 for ylim below to make neat but have changed to 100 to make default room for the legend within the plot panel and to make plots comparable in size.
     
-    plot(1, ylim=c(0, 100), xlim=c(0, 1100), type="n", xlab="Number of point intercepts", ylab="Estimated %CA", main=unique(veg.PI$site_unique), las=1, bty="l", cex.main=0.8) #blank template plot
+    plot(1, ylim=c(0, 100), xlim=c(0, 1100), type="n", xlab="Number of point intercepts", ylab="Estimated %CA", main=unique(veg.PI$site_unique), las=1, bty="l", cex.main=1.2) #blank template plot
     spp.col <- sample(colors(), length(x.ca)) #random colour for the plot line of species x
     zzz <- 0
     
@@ -47,7 +47,7 @@ cumulative_cover <- function(veg.PI) {
     #plot(0,type='n',axes=FALSE,ann=FALSE)
     legend.data <- data.frame(cover = sapply(x.ca, FUN = function(x) {tail(x, n=1)}), species = na.omit(unique(plot.hits.temp$herbarium_determination)), colour = spp.col)
     legend.data <- na.omit(legend.data[order(legend.data[,"cover"], decreasing=TRUE),][1:5,])
-    legend("topright", legend=legend.data$species, lty=rep(1, length(legend.data$species)), col=as.character(legend.data$colour), cex=1, bty='n', lwd=rep(3, length(legend.data$species)))
+    legend("topright", legend=legend.data$species, lty=rep(1, length(legend.data$species)), col=as.character(legend.data$colour), cex=0.8, bty='n', lwd=rep(3, length(legend.data$species)))
     
   }#close if length... > 0, where plots with no herbarium determinations are excluded
 
