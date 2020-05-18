@@ -23,6 +23,7 @@ Depends:
     sp,
     maptools,
     ggplot2,
+    gtools,
     jose
 Suggests:
     knitr,
