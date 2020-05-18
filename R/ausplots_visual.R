@@ -18,7 +18,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		} #close if map requested
 	} #close if object provided
 		if(any(fraction.pie, cumulative.cover)) {
-			if(length(unique(my.ausplots.object$veg.PI$site_unique)) > max.plots) {
+			if(length(unique(my.ausplots.object$veg.PI$site_location_name)) > max.plots) {
 				cat("You are trying to plot fractional or cumulative cover for too many sites, which can be slow. Only plotting a subset: you can also increase 'max.plots' in your call...")
 				strip_ <- 1
 			}
@@ -26,8 +26,10 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	#################################################
 	#check data and extract if missing
 	if(missing(my.ausplots.object)) {
-		cat("Obtaining sample data... \n")
-		my.ausplots.object <- get_ausplots(bounding_box=c(136, 140, -24, -20), veg.vouchers=FALSE)
+		cat("Obtaining sample data... \n")#combine two calls to get all sites but only veg.PI for that bounding box so make it quicker.
+		my.ausplots.object <- get_ausplots(veg.vouchers=FALSE, veg.PI=FALSE) #get all sites
+		my.ausplots.object$veg.PI <- get_ausplots(my.Plot_IDs=sample(my.ausplots.object$site.info$site_location_name, max.plots), site_info=FALSE, veg.vouchers=FALSE)$veg.PI #get veg PI for random plots  - according to max.plots
+		print(unique(my.ausplots.object$veg.PI$site_unique))
 	}
 	
 	###############################################
@@ -35,12 +37,13 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	if(missing(outfile)) {
 		outfile = paste("ausplots_demo_plots", format(Sys.time(), "%b_%d_%Y"), ".pdf")
 		}
-		
+	
+#####################################################	
 	pdf(outfile, width=9, height=6)
 	
 	cat("Generating plots... \n")
 	
-	#####
+	##########################################
 	#call individual graphical functions that are switched on
 	if(map) {
 		map_ausplots(my.ausplots.object)
@@ -50,19 +53,21 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		map_attribute(my.ausplots.object)
 		}
 		
+		if(any(fraction.pie, growthform.pie, cumulative.cover, whittaker)) { #
+
+		
+		if(exists("strip_")) {
+			my.ausplots.object$veg.PI <- subset(my.ausplots.object$veg.PI, site_location_name %in% unique(my.ausplots.object$veg.PI$site_location_name)[1:max.plots])
+		} #cls if strip_ exists
 		
 	par(mfrow=c(2,2))
 	n <- 0
-	for(i in unique(my.ausplots.object$veg.PI$site_unique)) {
+	for(i in sort(unique(my.ausplots.object$veg.PI$site_unique))) {
 		
 		n <- n + 1
 		
-		if(any(fraction.pie, growthform.pie, cumulative.cover, whittaker)) {
-			
+				
 		cat("Working on individual plots for ", i, "\n")
-		if(strip_ == 1) {
-			my.ausplots.object$veg.PI <- subset(my.ausplots.object$veg.PI, site_unique %in% unique(my.ausplots.object$veg.PI$site_unique)[1:max.plots])
-		}
 		
 	if(fraction.pie) {
 		if(n == 1) {
@@ -83,20 +88,21 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		}
 
 	if(cumulative.cover) {
-		cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == unique(my.ausplots.object$veg.PI$site_unique)[n]))
+		par(mar=c(5,5,5,2))
+		cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == i))
 		}
 
 	if(whittaker) {
 		if(n == 1) {
 			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC")
 			}
-		par(mar=c(5,5,5,5))
+		par(mar=c(5,5,5,2))
 		whitt.plot(sppBYsites[i,])
 		}
 		
-		} #end if any veg.PI plots
-		
 		} #end loop through site_unique
+
+	} #end if any individual veg.PI plots
 	
 	dev.off()
 	cat("Plots written to file. \n")
