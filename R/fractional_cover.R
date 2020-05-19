@@ -75,7 +75,10 @@ fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits
 #create a matrix version to condense the data, columns are fractions, rows are plots:
 fractional_cover_output.matrix <- simba::mama(fractional_cover_output)
 fractional_cover_output.matrix$site_unique <- row.names(fractional_cover_output.matrix)
-fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(5,1,2,3,4)]
+
+COL <- ncol(fractional_cover_output.matrix)
+
+fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(COL, 1:COL-1)]
 
 return(fractional_cover_output.matrix)
 
