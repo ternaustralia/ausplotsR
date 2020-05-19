@@ -1,5 +1,6 @@
 map_attribute <- function(my.ausplots.object) {
 		
+		if(any(c("Tree/Palm", "Tree Mallee") %in% my.ausplots.object$veg.PI$growth_form)) {
 		
 		aus = map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
 	
@@ -23,5 +24,7 @@ map_attribute <- function(my.ausplots.object) {
 		     geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill=NA)
 		     
 		     print(the_map)
-	
+	} else {#close tree GFs
+		cat("The selected plots have no trees. Let's just say tree cover is zero and move on. \n")
+			} #cls else
 }
