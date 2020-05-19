@@ -8,7 +8,7 @@ if(!is.logical(in_canopy_sky)) {stop("in_canopy_sky must be logical (TRUE/FALSE)
 if(!is.logical(by.growth_form)) {stop("by.growth_form must be logical (TRUE/FALSE)")}
 if(!is.numeric(min.height)) {stop("min.height must be numeric")}
 if(!is.character(my.growth_forms)) {stop("my.growth_forms must be a character vector")}
-if(by.growth_form) {if(any(!my.growth_forms %in% unique(veg.PI$growth_form))) {stop("One or more growth forms supplied in my.growth_forms is not present in the veg.PI dataset")}}
+if(by.growth_form) {if(!any(my.growth_forms %in% unique(veg.PI$growth_form))) {stop("One or more growth forms supplied in my.growth_forms is not present in the veg.PI dataset")}}
 
 ###################
 	
