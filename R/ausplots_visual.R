@@ -71,7 +71,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		
 	if(fraction.pie) {
 		if(n == 1) {
-			frac <- fractional_cover(my.ausplots.object$veg.PI)
+			frac <- suppressWarnings(fractional_cover(my.ausplots.object$veg.PI))
 		}
 		par(mar=c(0,0,2,0))
 		fraction_pie(frac, n)
