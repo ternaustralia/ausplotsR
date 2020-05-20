@@ -15,14 +15,11 @@ map_attribute <- function(my.ausplots.object) {
 		names(tree_cover)[names(tree_cover) %in% "percentCover"] <- "Tree_cover"
 	
 	####
-	the_map <- ggplot(data = tree_cover, 
-		     aes(x = longitude, y = latitude, group=bioregion.f), alpha=0.5) + 
+	the_map <- ggplot(data = tree_cover, aes(x = longitude, y = latitude, group=bioregion.f), alpha=0.5) + 
+	         geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill="seashell") +
 		     geom_point(aes(colour=bioregion.f, fill=bioregion.f, size=Tree_cover)) + 
-		    
 		     ggtitle("AusPlots locations") + 
-		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14)) +
-		     geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill=NA)
-		     
+		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14))
 		     print(the_map)
 	} else {#close tree GFs
 		cat("The selected plots have no trees. Let's just say tree cover is zero and move on. \n")
