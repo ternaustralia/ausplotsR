@@ -6,7 +6,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		if(any(map.attribute, fraction.pie, growthform.pie, cumulative.cover, whittaker)) {
 			if(!("veg.PI" %in% names(my.ausplots.object))) {
 				stop("If you provide a my.ausplots.object it must contain $veg.PI data to generate those plots!")
-			} #cls if no veg.PI data
+			} #close if no veg.PI data
 			if(length(unique(my.ausplots.object$veg.PI$site_unique)) > 20) {
 				cat("")
 			} #close if more than 20 plots
@@ -29,7 +29,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		cat("Obtaining sample data... \n")#combine two calls to get all sites but only veg.PI for that bounding box so make it quicker.
 		my.ausplots.object <- get_ausplots(veg.vouchers=FALSE, veg.PI=FALSE) #get all sites
 		my.ausplots.object$veg.PI <- get_ausplots(my.Plot_IDs=sample(my.ausplots.object$site.info$site_location_name, max.plots), site_info=FALSE, veg.vouchers=FALSE)$veg.PI #get veg PI for random plots  - according to max.plots
-		print(unique(my.ausplots.object$veg.PI$site_unique))
+		#print(unique(my.ausplots.object$veg.PI$site_unique))
 	}
 	
 	###############################################
