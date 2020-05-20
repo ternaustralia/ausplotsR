@@ -7,22 +7,22 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			if(!("veg.PI" %in% names(my.ausplots.object))) {
 				stop("If you provide a my.ausplots.object it must contain $veg.PI data to generate those plots!")
 			} #close if no veg.PI data
-			if(length(unique(my.ausplots.object$veg.PI$site_unique)) > 20) {
-				cat("")
-			} #close if more than 20 plots
 		} #close if veg plots requested
 		if(any(map, map.attribute)) {
 			if(!("site.info" %in% names(my.ausplots.object))) {
 				stop("If you provide a my.ausplots.object it must contain $site.info data to generate maps!")
-			}
+			} #close if no site info
 		} #close if map requested
-	} #close if object provided
+		##########
+	#check number of heavy plots requested
 		if(any(fraction.pie, cumulative.cover)) {
 			if(length(unique(my.ausplots.object$veg.PI$site_location_name)) > max.plots) {
-				cat("You are trying to plot fractional or cumulative cover for too many sites, which can be slow. Only plotting a subset: you can also increase 'max.plots' in your call...")
+				cat("You are trying to plot fractional or cumulative cover for many sites, which can be slow. Only plotting a subset: you can increase the number of sites with 'max.plots' in your call... \n")
 				strip_ <- 1
-			}
-		}
+			} #cls if more than max plots message
+		} #close if fraction or cover	
+	} #close if object provided
+	
 	#################################################
 	#check data and extract if missing
 	if(missing(my.ausplots.object)) {
