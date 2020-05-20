@@ -14,12 +14,12 @@ map_ausplots <- function(my.ausplots.object) {
 	####
 	the_map <- ggplot(data= my.ausplots.object$site.info, 
 		     aes(x = longitude, y = latitude, group=bioregion.f), alpha=0.5) + 
+		     geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill="seashell") +   
 		     geom_point(aes(colour=bioregion.f, fill=bioregion.f, shape=bioregion.f), size=1.5) + 
 		     
 		     scale_shape_manual(values=sites.shape.values) +  # Cycle through Symbol Types 
 		     ggtitle("AusPlots locations") + 
-		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14)) +
-		     geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill=NA)
+		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14))
 		     
 		     print(the_map)
 	
