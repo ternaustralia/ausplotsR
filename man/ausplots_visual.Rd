@@ -66,10 +66,10 @@ Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numeri
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{\code{\link{get_ausplots}} 
-	\code{\link{fractional_cover}} 
-	\code{\link{growth_form_table}} 
-	\code{\link{single_cover_value}} 
+\seealso{\code{\link{get_ausplots}}   
+	\code{\link{fractional_cover}}   
+	\code{\link{growth_form_table}}   
+	\code{\link{single_cover_value}}   
 	\code{\link{species_table}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
@@ -77,9 +77,11 @@ Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numeri
 #Default output, a map of all plot locations and then data visualisations for a random five plots (including any revisits):
 ausplots_visual()
 
+\dontrun{
 #Map tree cover only for all sites:
 my.data <- get_ausplots(veg.vouchers=FALSE) #extract data first
-ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, fraction.pie = FALSE, growthform.pie = FALSE, cumulative.cover = FALSE, whittaker = FALSE, max.plots=length(unique(my.data$veg.PI$site_location_name))) #set maximum sites to all sites in the veg.PI data
+ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, fraction.pie = FALSE, growthform.pie = FALSE, cumulative.cover = FALSE, whittaker = FALSE, outfile = "AusPlots_treeCover.pdf", max.plots=length(unique(my.data$veg.PI$site_location_name))) #set maximum sites to all sites in the veg.PI data
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
