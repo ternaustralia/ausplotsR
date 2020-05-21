@@ -2,6 +2,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	
 	#############################
 	#check input formats
+	if(!any(map, map.attribute, fraction.pie, growthform.pie, cumulative.cover, whittaker)) {stop("You have not requested any outputs! Set at least one option to TRUE")}
 	if(!missing(my.ausplots.object)) {
 		if(any(map.attribute, fraction.pie, growthform.pie, cumulative.cover, whittaker)) {
 			if(!("veg.PI" %in% names(my.ausplots.object))) {
