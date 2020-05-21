@@ -12,8 +12,8 @@ Through ausplotsR, users can directly access plot-based data on vegetation and s
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2019-03-14\cr
+Version: \tab 1.2\cr
+Date: \tab 2020-05-11\cr
 License: \tab GPL-3\cr
 }
 TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring.
@@ -51,6 +51,8 @@ Key functions in the ausplotsR package:
 
 \code{get_ausplots} :  This function is the starting point for accessing data through the ausplotsR package for the following survey modules: Site information; Vegetation point intercept; Vegetation vouchers; Basal wedge; Vegetation structural summaries; Soils and soil samples information.
 
+ \code{ausplots_visual} :  Quick demonstration graphics for AusPlots.
+ 
  \code{species_table} :  Species occurrence matrices for AusPlots.
 
  \code{growth_form_table} :  Plant growth form occurrence matrices for TERN AusPlots.
@@ -63,7 +65,7 @@ Key functions in the ausplotsR package:
 
 }
 \author{
-Greg Guerin, Tom Saleeba, Andrew Tokmakoff
+Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-Fores, Andrew Tokmakoff
 
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 }
