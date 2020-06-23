@@ -19,13 +19,13 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
   \item{m_kind}{The desired scoring method: binary (presence/absence; PA), percent cover or species richness.
 %%     ~~Describe \code{site_info} here~~
 }
-  \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'
+  \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover. If 'PFC' is selected (suitable as an abundance or cover measure for most applications), hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC' (suitable for application such as comparisons to remotely sensed cover).
 %%     ~~Describe \code{structural_summaries} here~~
 }
-\item{cumulative}{Logical. Should the cover of each growth form be calculated cumulatively across species (i.e., the sum of species covers in that growth form category; the default) or as absolute cover (percent of points where that growth form was hit)?
+\item{cumulative}{Logical. Should the cover of each growth form be calculated cumulatively across species (i.e., the sum of species covers in that growth form category; the default) or as absolute cover (percent of points where that growth form was hit)? Ignored except when \code{m_kind="percent_cover"}.
 %%     ~~Describe \code{my.Plot_IDs} here~~
 }
-\item{by_strata}{Logical. If set to \code{TRUE}, cover is calculated by strata (as defined by growth forms).
+\item{by_strata}{Logical. If set to \code{TRUE}, cover is calculated by strata (as defined by growth forms).  Ignored except when \code{m_kind="percent_cover"}.
 %%     ~~Describe \code{my.Plot_IDs} here~~
 }
 }
