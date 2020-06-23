@@ -18,7 +18,7 @@ fractional_cover(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE")
   \item{ground_fractional}{Set to TRUE to calculate fractional GROUND cover.
 %%     ~~Describe \code{\dots} here~~
 }
-  \item{in_canopy_sky}{Set to TRUE to include in green fraction by calculating opaque canopy cover.
+  \item{in_canopy_sky}{Set to TRUE to include 'in canopy sky' in the green fraction by calculating 'opaque canopy cover' (i.e., may be more suitable for some applications such as comparison to remotely sensed cover products).
 %%     ~~Describe \code{\dots} here~~
 }
 }
