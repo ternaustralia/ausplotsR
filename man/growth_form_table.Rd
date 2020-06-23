@@ -57,7 +57,7 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{n/a
+\references{NVIS Technical Working Group (2017) Australian Vegetation Attribute Manual: National Vegetation Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
 %% ~put references to the literature/web site here ~
 }
 \author{Greg R. Guerin
