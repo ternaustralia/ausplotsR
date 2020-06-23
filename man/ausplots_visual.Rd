@@ -67,9 +67,13 @@ Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numeri
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{get_ausplots}}   
+	
 	\code{\link{fractional_cover}}   
+	
 	\code{\link{growth_form_table}}   
+	
 	\code{\link{single_cover_value}}   
+	
 	\code{\link{species_table}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }

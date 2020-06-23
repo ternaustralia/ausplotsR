@@ -53,6 +53,7 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{get_ausplots}}
+	
 	\code{\link{fractional_cover}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
