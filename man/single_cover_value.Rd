@@ -16,7 +16,7 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
 
 %%     ~~Describe \code{x} here~~
 }
-  \item{in_canopy_sky}{Logical, whether to include in canopy sky hits to calculate opaque canopy cover instead of projected foliage cover. Set to TRUE to calculate opaque canopy cover.
+  \item{in_canopy_sky}{Logical, whether to include in canopy sky hits to calculate 'opaque canopy cover' instead of 'projected foliage cover'. Set to \code{TRUE} to calculate opaque canopy cover (e.g., suitable for some applications such as comparison to remotely sensed cover products).
 %%     ~~Describe \code{\dots} here~~
 }
   \item{by.growth_form}{Logical, whether to subset by plant growth form. If set to FALSE then only height subsetting occurs. Set to TRUE to calculate cover subsetted to specified growth forms.
@@ -26,7 +26,7 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
 }
 \item{max.height}{Numeric, sets the height in m above which PI hits are ignored. This argument can be used to calculate ground cover of desired growth forms, for example. 
 }
-\item{my.growth_forms}{A user-suppled character vector specifying growth forms to include in the cover calculation. Defaults to trees. Applies only when by.growth_form=TRUE, otherwise this argument is ignored and only the height rule is applied. For allowable growth forms, see \code{unique(veg.PI$growth_form)}.
+\item{my.growth_forms}{A user-suppled character vector specifying growth forms to include in the cover calculation. Defaults to trees. Applies only when \code{by.growth_form=TRUE}, otherwise this argument is ignored and only the height rule is applied. For allowable growth forms, see \code{unique(veg.PI$growth_form)}.
 %%     ~~Describe \code{\dots} here~~
 }
 }
