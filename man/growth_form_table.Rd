@@ -4,12 +4,12 @@
 \title{Plant growth form occurrence matrices for TERN AusPlots
 %%  ~~function to do ... ~~
 }
-\description{Generates occurrence matrices for NVIS plant growth forms in plots as desired based on presence/absence, percent cover or species richness (i.e., the number of species assigned to a particular growth form). The input is a data frame of raw point intercept data from AusPlots generated using the \code{\link{get_ausplots}} function.
+\description{Generates occurrence matrices for NVIS plant growth forms in plots as desired based on presence/absence, percent cover or species richness (i.e., the number of species assigned to a particular growth form). The input is a data frame of raw point intercept data from AusPlots generated using the \code{\link{get_ausplots}} function. Alternatively, cover by strata can be calculated.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
-	cover_type=c("PFC", "OCC"))
+	cover_type=c("PFC", "OCC"), cumulative=TRUE, by_strata=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,27 +22,35 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
   \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'
 %%     ~~Describe \code{structural_summaries} here~~
 }
+\item{cumulative}{Logical. Should the cover of each growth form be calculated cumulatively across species (i.e., the sum of species covers in that growth form category; the default) or as absolute cover (percent of points where that growth form was hit)?
+%%     ~~Describe \code{my.Plot_IDs} here~~
 }
-\details{Probably the most useful data output from this function is the matrix of plant growth forms against sites with percent cover. This can be used in manova, ordination, classification etc at continental scale where species turnover is too high for some methods to provide meaningful results. It also provides a multivariate structural and functional response variable.
+\item{by_strata}{Logical. If set to \code{TRUE}, cover is calculated by strata (as defined by growth forms).
+%%     ~~Describe \code{my.Plot_IDs} here~~
+}
+}
+\details{Probably the most useful data output from this function is the matrix of plant growth forms against sites with percent cover. This could be used in manova, ordination, classification etc. It also provides a multivariate structural and functional response variable.
 	
 	Note sometimes the same species is recorded with different growth forms in a plot and therefore the rowSums of the occurrence matrix when m_kind is set to "richness" can be higher than the observed species richness because the same species can count towards the weights for multiple growth forms.
+	
+	By default, cumulative percent cover (percent of hits out of total number of point intercepts) is returned, meaning multiple species of the same growth form hit at a point add to the score, which can therefore exceed 100 percent. If \code{cumulative=FALSE}, non-cumulative cover is returned, whereby only one hit is counted per growth form per point-intercept, with a maximum of 100.
+	
+	If \code{by_strata=TRUE}, returns percent cover of three pre-defined strata: Upper, Mid and Lower, based on the crude assignment of growth forms such that Upper includes "Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte"; Mid includes "Shrub Mallee", "Shrub", "Grass-tree", "Chenopod", "Heath-shrub"; and Lower includes "Tussock grass", "Forb", "Vine", "Hummock grass", "Fern", "Sedge", "Rush". The argument \code{cumulative} still applies for cover by strata, where the default (TRUE) is to calculate the cumulative cover of species in each stratum. Absolute cover (i.e., maximum value of 100) of strata can be calculated by setting \code{cumulative=FALSE}.
 	
 	The returned occurrence matrix (plant growth forms against sites) can be converted to long format (with rows as individual occurrences of growth forms) using:
 
 \code{
-
 my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover", cover_type="PFC"); 
 library(reshape2); 
 my.matrix <- as.data.frame(melt(as.matrix(my.matrix))); 
 my.matrix <- my.matrix[-which(my.matrix $value == 0),]
-
 }
 
 The \code{\link{round}} function can be used on the returned matrix to estimate percent covers to the nearest percent if desired (i.e., with digits=0)
 
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{Returns a matrix with plant growth forms as columns and sites as rows as a data frame. Values are determined by argument m_kind
+\value{Returns a matrix with plant growth forms as columns and sites as rows as a data frame. Values are determined by argument m_kind. For 'PA', binary presence/absence (0/1) is returned; for 'richness', the numbers of species (integer) in growth form categories are returned; for 'percent_cover', percent cover from point-intercept is returned (see \code{Details}).
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
@@ -62,6 +70,7 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{get_ausplots}}
+	\code{\link{single_cover_value}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -70,7 +79,10 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE)
 
 #generate a percent cover occurrence matrix for plant growth forms:
-growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
+growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", cumulative=FALSE)
+
+#calculate cover of strata:
+growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", cumulative=FALSE, by_strata=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
