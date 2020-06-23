@@ -35,16 +35,18 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
 	
 	By default, cumulative percent cover (percent of hits out of total number of point intercepts) is returned, meaning multiple species of the same growth form hit at a point add to the score, which can therefore exceed 100 percent. If \code{cumulative=FALSE}, non-cumulative cover is returned, whereby only one hit is counted per growth form per point-intercept, with a maximum of 100.
 	
-	If \code{by_strata=TRUE}, returns percent cover of three pre-defined strata: Upper, Mid and Lower, based on the crude assignment of growth forms such that Upper includes "Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte"; Mid includes "Shrub Mallee", "Shrub", "Grass-tree", "Chenopod", "Heath-shrub"; and Lower includes "Tussock grass", "Forb", "Vine", "Hummock grass", "Fern", "Sedge", "Rush". The argument \code{cumulative} still applies for cover by strata, where the default (TRUE) is to calculate the cumulative cover of species in each stratum. Absolute cover (i.e., maximum value of 100) of strata can be calculated by setting \code{cumulative=FALSE}.
+	If \code{by_strata=TRUE}, returns percent cover of three pre-defined strata: Upper, Mid and Lower, based on the crude assignment of growth forms such that Upper includes "Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte"; Mid includes "Shrub Mallee", "Shrub", "Grass-tree", "Chenopod", "Heath-shrub"; and Lower includes "Tussock grass", "Forb", "Vine", "Hummock grass", "Fern", "Sedge", "Rush". The argument \code{cumulative} still applies for cover by strata, where the default (\code{TRUE}) is to calculate the cumulative cover of species in each stratum. Absolute cover (i.e., maximum value of 100) of strata can be calculated by setting \code{cumulative=FALSE}.
 	
 	The returned occurrence matrix (plant growth forms against sites) can be converted to long format (with rows as individual occurrences of growth forms) using:
 
 \code{
-my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover", cover_type="PFC"); 
-library(reshape2); 
-my.matrix <- as.data.frame(melt(as.matrix(my.matrix))); 
-my.matrix <- my.matrix[-which(my.matrix $value == 0),]
-}
+my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover", cover_type="PFC")} 
+
+\code{library(reshape2)}
+
+\code{my.matrix <- as.data.frame(melt(as.matrix(my.matrix)))}
+
+\code{my.matrix <- my.matrix[-which(my.matrix $value == 0),]}
 
 The \code{\link{round}} function can be used on the returned matrix to estimate percent covers to the nearest percent if desired (i.e., with digits=0)
 
@@ -70,6 +72,7 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{get_ausplots}}
+	
 	\code{\link{single_cover_value}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
