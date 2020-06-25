@@ -16,9 +16,11 @@ Depends:
     simba,
     httr,
     jsonlite,
-    jose
-Suggests:
+    jose,
     vegan,
+    betapart,
+    dplyr
+Suggests:
     knitr,
     rmarkdown,
     goeveg

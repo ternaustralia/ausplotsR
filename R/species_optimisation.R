@@ -1,4 +1,4 @@
-optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot=TRUE, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=10) {
+optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_name= NULL, plot=TRUE, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=10) {
 	
 ############################
 #check inputs
@@ -9,10 +9,19 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot=TR
 		}
 		
 	if(any(c(richness, RRR, CWE, simpson_beta, frequent))) {
-		 speciesVsitesMatrix_binary <- speciesVsitesMatrix
-		 speciesVsitesMatrix_binary[speciesVsitesMatrix_binary > 0] <- 1 #convert abundances to presences
+	  site <- speciesVsitesMatrix[,1]
+	  speciesVsitesMatrix$site <- unlist(lapply(paste(row.names(speciesVsitesMatrix)), function(x) paste(x[1]))) #add site unique to spp data for reference
+	  speciesVsitesMatrix <- dplyr::select(speciesVsitesMatrix, -site) #remove the site column
+	  speciesVsitesMatrix_binary <- speciesVsitesMatrix
+		speciesVsitesMatrix_binary[speciesVsitesMatrix_binary > 0] <- 1 #convert abundances to presences
 	}
-	
+  
+  if(any(c(shannon, simpson))) {
+    site <- speciesVsitesMatrix[,1]
+    speciesVsitesMatrix$site <- unlist(lapply(paste(row.names(speciesVsitesMatrix)), function(x) paste(x[1]))) #add site unique to spp data for reference
+    speciesVsitesMatrix <- dplyr::select(speciesVsitesMatrix, -site) #remove the site column
+  }
+  
 ########################
 #calls
 
@@ -115,12 +124,15 @@ Simpson.opt <- function(speciesVsitesMatrix, n.plt) {
 
 
 ########################
-simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start) {
+simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start, plot_name) { #I added plot_name in case the user wants to define a fixed seed which does not correspond to the richest site
 	 original_matrix <- speciesVsitesMatrix_binary
   if (start == "fixed"){
   	start.plot <- rownames(speciesVsitesMatrix_binary)[which.max(rowSums(speciesVsitesMatrix_binary))] #fixed seed: this is the richest plot
   } #end if fixed
-  if (start == "random"){
+	if (start == "defined"){
+	  start.plot <- plot_name #defined seed: this a specific plot chose by the user
+	} #end if defined
+	if (start == "random"){
     start.plot <- sample(rownames(speciesVsitesMatrix_binary), 1) #get a random seed plot
   }
   result <- list() 
