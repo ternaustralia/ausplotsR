@@ -7,7 +7,7 @@ Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
     person("Tom", "Saleeba", role = "aut"),
     person("Samantha", "Munroe", role = "aut"),
-    person("Irene", "Martin-Fores", role = "aut"),
+    person("Irene", "Martín-Forés", role = "aut"),
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 Depends:

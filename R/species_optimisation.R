@@ -2,33 +2,19 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_na
 	
 ############################
 #check inputs
-	
+
+  rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
+  speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the ffirst column
   
 	if(n.plt > nrow(speciesVsitesMatrix)) {
 		cat("You are attempting to optimise more sites that exist in the dataset - trimming to maximum. \n")
 		n.plt <- nrow(speciesVsitesMatrix)
-		}
-		
 	}
   
-  if(n.plt < nrow(speciesVsitesMatrix)) {
-    rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
-    speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the ffirst column
-  }	
-  
 	if(any(c(richness, RRR, CWE, simpson_beta, frequent))) {
-	  site <- speciesVsitesMatrix[,1]
-	  speciesVsitesMatrix$site <- unlist(lapply(paste(row.names(speciesVsitesMatrix)), function(x) paste(x[1]))) #add site unique to spp data for reference
-	  speciesVsitesMatrix <- dplyr::select(speciesVsitesMatrix, -site) #remove the site column
 	  speciesVsitesMatrix_binary <- speciesVsitesMatrix
 		speciesVsitesMatrix_binary[speciesVsitesMatrix_binary > 0] <- 1 #convert abundances to presences
 	}
-  
-  if(any(c(shannon, simpson))) {
-    site <- speciesVsitesMatrix[,1]
-    speciesVsitesMatrix$site <- unlist(lapply(paste(row.names(speciesVsitesMatrix)), function(x) paste(x[1]))) #add site unique to spp data for reference
-    speciesVsitesMatrix <- dplyr::select(speciesVsitesMatrix, -site) #remove the site column
-  }
   
 ########################
 #calls
