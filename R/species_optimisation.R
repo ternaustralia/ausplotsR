@@ -50,7 +50,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_na
   } #end if freqent plots
   
    if(random) {
-  	result$Random <- Random.opt(speciesVsitesMatrix, n.plt, iterations)
+  	result$Random <- Random.opt(speciesVsitesMatrix_binary, n.plt, iterations)
   } #end if random
   
   
@@ -173,13 +173,13 @@ Frequent_simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, iterati
   
   
 ####################################
-Random.opt <- function(speciesVsitesMatrix, n.plt, iterations) {
+Random.opt <- function(speciesVsitesMatrix_binary, n.plt, iterations) {
     Sppaccum_freq <- list() #
     n <- 0
     for(i in 1:iterations) {
       n <- n + 1
       cat("Rep ", n, "\n")
-      Sppaccum_freq[[n]]<- specaccum(speciesVsitesMatrix[sample(nrow(speciesVsitesMatrix), n.plt),], method="collector")
+      Sppaccum_freq[[n]]<- specaccum(speciesVsitesMatrix_binary[sample(nrow(speciesVsitesMatrix_binary), n.plt),], method="collector")
       }  
     combined.rand_specaccum <- Sppaccum_freq[[1]] #copy one for format
     combined_matrix_rand <- do.call(rbind, lapply(Sppaccum_freq, function(x) {return(x$richness)})) #compile the cumulative richness results from reps above into a matrix
