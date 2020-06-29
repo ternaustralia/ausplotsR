@@ -193,7 +193,7 @@ Random.opt <- function(speciesVsitesMatrix, n.plt, iterations) {
 #################################
 plot.opt <- function(result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "Random")) {
   	result <- result[names(result) %in% choices]
-  	plot(1, ylim=c(0, max(unlist(lapply(result, FUN=function(x) max(x$richness))))), xlim=c(0, length(result[[1]]$richness)), type="n", xlab = "Number of plots", ylab = "Cumulative species", main="Optimisation etc...", las=1, bty="l", cex.main=1.2) #blank template plot
+  	plot(1, ylim=c(0, max(unlist(lapply(result, FUN=function(x) max(x$richness))))), xlim=c(0, length(result[[1]]$richness)), type="n", xlab = "Number of plots", ylab = "Cumulative species", main="Site optimisation applying the Maximum Coverage Problem", las=1, bty="l", cex.main=1.2) #blank template plot
     opt.col <- sample(rainbow(7), length(which(names(result) %in% choices[1:7]))) #random colours for the plot lines of optimisers, but exclude random for now
     zzz <- 0
     for(j in result) { #for each optimiser result in the list
