@@ -88,22 +88,21 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 \examples{
 #get data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
-	veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), 
+veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
 
-#view module:
+#View module:
 my.data$struct.summ
 
 #Get data citation and extraction date info:
 my.data$citation
 
-#get site info, veg vouchers and veg point intercept for all available plots:
+#Get site info, veg vouchers and veg point intercept for all available plots:
 \dontrun{get_ausplots()} 
 
-#get site info for all plots containing "Eucalyptus moderata",and all veg voucher records for "Eucalyptus moderata"
+#Get veg voucher records for "Eucalyptus moderata" and presence sites info:
 Eucalyptus_moderata <- get_ausplots(species_name_search="Eucalyptus moderata")
 Eucalyptus_moderata$veg.vouch
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
