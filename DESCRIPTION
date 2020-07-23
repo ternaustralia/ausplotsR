@@ -12,26 +12,27 @@ Authors@R: c(
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 Depends:
+    R (>= 3.1.0), 
+    vegan, 
+    maps
+Suggests:
+    knitr,
+    rmarkdown,
+    goeveg
+Imports:
     plyr,
     R.utils,
     simba,
     httr,
     jsonlite,
-    vegan,
-    maps,
     mapdata,
     sp,
     maptools,
     ggplot2,
     gtools,
     jose
-Suggests:
-    knitr,
-    rmarkdown,
-    goeveg
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
-License: GPL-3
+License: GPL-3 + file LICENSE
 LazyData: TRUE
-RoxygenNote: 5.0.1
 VignetteBuilder: knitr
