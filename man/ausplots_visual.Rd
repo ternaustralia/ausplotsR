@@ -8,7 +8,9 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-ausplots_visual(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fraction.pie = TRUE, growthform.pie = TRUE, cumulative_cover = TRUE, whittaker = TRUE, outfile=NULL, max.plots = 5)
+ausplots_visual(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, 
+fraction.pie = TRUE, growthform.pie = TRUE, cumulative.cover = TRUE, 
+whittaker = TRUE, outfile=NULL, max.plots = 5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,7 +29,7 @@ ausplots_visual(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fra
 \item{growthform.pie}{Logical, whether to include pie charts depicting relative cover of plant growth forms.
 %%     ~~Describe \code{\dots} here~~
 }
-\item{cumulative_cover}{Logical, whether to include graphs of cumulative cover estimates by species as point intercepts are taken across each AusPlot.
+\item{cumulative.cover}{Logical, whether to include graphs of cumulative cover estimates by species as point intercepts are taken across each AusPlot.
 %%     ~~Describe \code{\dots} here~~
 }
 \item{whittaker}{Logical, whether to include Whittaker plots depicting  species abundance distributions.
@@ -52,7 +54,7 @@ ausplots_visual(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fra
 }
 \references{Guerin, G.R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., Lowe, A.J. (2017) Opportunities for integrated ecological analysis across inland Australia with standardised data from AusPlots Rangelands. PLoS ONE 12, e0170137.
 	
-Blanco-Martin, B. (2019). Tutorial: "Understanding and using the ‘ausplotsR’ package and AusPlots data". Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/AusPlots_Tutorial
+Blanco-Martin, B. (2019) Tutorial: "Understanding and using the 'ausplotsR' package and AusPlots data". Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/AusPlots_Tutorial
 
 Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numerical relations of species express the importance of competition in community function and evolution. Science, 147, 250-260.
 %% ~put references to the literature/web site here ~
@@ -74,13 +76,21 @@ Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numeri
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-#Default output, a map of all plot locations and then data visualisations for a random five plots (including any revisits):
+#Default output
+#Plot locations; visualisations for 5 random plots (including revisits):
 ausplots_visual()
 
 \dontrun{
 #Map tree cover only for all sites:
-my.data <- get_ausplots(veg.vouchers=FALSE) #extract data first
-ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, fraction.pie = FALSE, growthform.pie = FALSE, cumulative.cover = FALSE, whittaker = FALSE, outfile = "AusPlots_treeCover.pdf", max.plots=length(unique(my.data$veg.PI$site_location_name))) #set maximum sites to all sites in the veg.PI data
+
+#Extract data first:
+my.data <- get_ausplots(veg.vouchers=FALSE)
+
+#Set maximum number of plots to all available in the veg.PI data:
+ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, fraction.pie = FALSE, 
+growthform.pie = FALSE, cumulative.cover = FALSE, whittaker = FALSE, 
+outfile = "AusPlots_treeCover.pdf", 
+max.plots=length(unique(my.data$veg.PI$site_location_name))) 
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
