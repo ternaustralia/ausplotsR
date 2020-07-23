@@ -8,7 +8,8 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=5, max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee"))
+single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=5, 
+max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -58,18 +59,25 @@ single_cover_value(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=
 }
 \examples{
 my.dat <- get_ausplots(bounding_box=c(140, 150, -20, -10))
-tree.cover <- single_cover_value(my.dat$veg.PI) #default settings, where cover of trees 5 m or higher is calculated
+
+#Default settings, where cover of trees 5 m or higher is calculated:
+tree.cover <- single_cover_value(my.dat$veg.PI)
 tree.cover
 
-grass.cover <- single_cover_value(my.dat$veg.PI, my.growth_forms=c("Tussock grass"), min.height=0) #tussock grasses of any height (minimum height set to zero).
+#Tussock grasses of any height (minimum height set to zero):
+grass.cover <- single_cover_value(my.dat$veg.PI, my.growth_forms=c("Tussock grass"), 
+min.height=0) 
 grass.cover
 
-veg.height.eg <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=2) #any green veg at least 2 m in height
+#Any green veg at least 2 m in height:
 veg.height.eg
+veg.height.eg <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, 
+min.height=2)
 
-ground.cover <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=0, max.height=1) #any green veg up to 1 m high.
+#Any green veg up to 1 m high:
+ground.cover <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=0, 
+max.height=1)
 ground.cover
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
