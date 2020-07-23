@@ -6,4 +6,8 @@ export(species_table)
 export(single_cover_value)
 export(ausplots_visual)
 import(plyr, R.utils, simba, httr, jsonlite, vegan, maps, mapdata, sp, maptools, ggplot2, gtools, jose)
+importFrom("grDevices", "colors", "dev.off", "pdf", "terrain.colors")
+importFrom("graphics", "legend", "par", "pie", "points")
+importFrom("stats", "na.omit")
+importFrom("utils", "tail")
 
