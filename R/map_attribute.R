@@ -15,7 +15,7 @@ map_attribute <- function(my.ausplots.object) {
 		names(tree_cover)[names(tree_cover) %in% "percentCover"] <- "Tree_cover"
 	
 	####
-	the_map <- ggplot(data = tree_cover, aes(x = longitude, y = latitude, group=bioregion.f), alpha=0.5) + 
+	the_map <- ggplot(data = tree_cover, aes(x = longitude, y = latitude, group = bioregion.f), alpha = 0.5) + 
 	         geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill="seashell") +
 		     geom_point(aes(colour=bioregion.f, fill=bioregion.f, size=Tree_cover)) + 
 		     ggtitle("AusPlots locations") + 
