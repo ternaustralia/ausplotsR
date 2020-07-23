@@ -1,7 +1,3 @@
-require(httr)
-require(jsonlite)
-require(jose)
-
 .ausplots_api <- function(path, query) {
   # override this API URL with:
   #   library("ausplotsR")
