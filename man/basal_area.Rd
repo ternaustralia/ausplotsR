@@ -22,7 +22,8 @@ basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE)
 \author{Greg R. Guerin
 }
 
-\seealso{\code{\link{get_ausplots}}
+\seealso{
+\code{\link{get_ausplots}}
 }
 \examples{
 #get basal wedge data for selected plots:

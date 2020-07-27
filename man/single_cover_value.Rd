@@ -30,8 +30,11 @@ max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee"))
 \author{Greg Guerin
 }
 
-\seealso{\code{\link{get_ausplots}}
-	\code{\link{fractional_cover}}
+\seealso{
+\code{\link{get_ausplots}}
+\cr
+\cr
+\code{\link{fractional_cover}}
 }
 \examples{
 my.dat <- get_ausplots(bounding_box=c(140, 150, -20, -10))

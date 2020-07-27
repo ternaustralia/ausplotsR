@@ -36,7 +36,8 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 }
 
 
-\seealso{\code{\link{get_ausplots}}
+\seealso{
+\code{\link{get_ausplots}}
 }
 \examples{
 #get veg.PI data for selected plots:

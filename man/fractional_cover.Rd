@@ -40,7 +40,8 @@ Occasionally substrate type was not collected ('NC') or could not be assigned to
 }
 
 
-\seealso{\code{\link{get_ausplots}}
+\seealso{
+\code{\link{get_ausplots}}
 }
 \examples{
 #get veg.PI data for selected plots:

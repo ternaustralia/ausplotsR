@@ -52,7 +52,8 @@ AusPlots surveys are identified by a plot ID and unique visit number, that are c
 \author{Greg R. Guerin, Andrew Tokmakoff, Tom Saleeba, Samantha Munroe
 }
 
-\seealso{\code{\link{species_table}}
+\seealso{
+\code{\link{species_table}}
 }
 \examples{
 #get data for selected plots:

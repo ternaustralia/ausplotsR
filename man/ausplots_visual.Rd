@@ -24,7 +24,8 @@ whittaker = TRUE, outfile=NULL, max.plots = 5)
 }
 \item{whittaker}{Logical, whether to include Whittaker plots depicting  species abundance distributions.
 }
-\item{outfile}{Optional file path and name to which the output pdf file is written. }
+\item{outfile}{Optional file path and name to which the output pdf file is written.
+}
 \item{max.plots}{Maximum number of sites for which to display individual graphics panels. By default, \code{max.plots} sites are selected randomly. If you provide existing AusPlots data, \code{max.plots} sites are processed (in order) whenever \code{fractional.pie} or \code{cumulative.cover} are selected, because those calculations can be slow across a large number of plots. 
 }
 }
