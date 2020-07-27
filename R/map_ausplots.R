@@ -1,8 +1,11 @@
 map_ausplots <- function(my.ausplots.object) {
-	aus = maps::map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
+	
+  require(maps)
+  
+  aus <- maps::map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
 	
 	CRS("+init=epsg:4326") # More info (i.e. provides a datum)
-	aus.sp = map2SpatialPolygons(aus, IDs=aus$names, proj4string=CRS("+init=epsg:4326"))
+	aus.sp <-  map2SpatialPolygons(aus, IDs=aus$names, proj4string=CRS("+init=epsg:4326"))
 	
 	my.ausplots.object$site.info$bioregion.f <- factor(my.ausplots.object$site.info$bioregion_name)
 	
