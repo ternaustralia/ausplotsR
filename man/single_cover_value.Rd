@@ -46,9 +46,9 @@ min.height=0)
 grass.cover
 
 #Any green veg at least 2 m in height:
-veg.height.eg
 veg.height.eg <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, 
 min.height=2)
+veg.height.eg
 
 #Any green veg up to 1 m high:
 ground.cover <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=0, 
