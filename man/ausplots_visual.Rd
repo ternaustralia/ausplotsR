@@ -56,11 +56,11 @@ Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numeri
 	\code{\link{species_table}}
 }
 \examples{
+\dontrun{
 #Default output
 #Plot locations; visualisations for 5 random plots (including revisits):
 ausplots_visual()
 
-\dontrun{
 #Map tree cover only for all sites:
 
 #Extract data first:
