@@ -5,7 +5,7 @@ cumulative_cover <- function(veg.PI) {
   transect.order <- c("N1-S1", "S1-N1", "S2-N2", "N2-S2", "N3-S3", "S3-N3", "S4-N4", "N4-S4", "N5-S5", "S5-N5", "W1-E1", "E1-W1", "E2-W2", "W2-E2", "W3-E3", "E3-W3", "E4-W4", "W4-E4", "W5-E5", "E5-W5") #for reference later to re-order the hits into a logical progression
 
   
-  plot.hits.temp <- plot.hits.temp[mixedorder(plot.hits.temp$hits_unique),] #re-order hits for that site in a logical transect order with hits 0-100 rather than some plots being in alphabetical species order (default mixedorder is alphabetical then numeric) ####Note: not redundant even with additional sorting step below - we need to get the thits within transect in 0-100 order first, and then reorder the transects, otherwise shits can still be in species alpha order within transects, resulting in zigzag in the plot:
+  plot.hits.temp <- plot.hits.temp[gtools::mixedorder(plot.hits.temp$hits_unique),] #re-order hits for that site in a logical transect order with hits 0-100 rather than some plots being in alphabetical species order (default mixedorder is alphabetical then numeric) ####Note: not redundant even with additional sorting step below - we need to get the hits within transect in 0-100 order first, and then reorder the transects, otherwise hits can still be in species alpha order within transects, resulting in zigzag in the plot:
   trans.ord.vec <- plot.hits.temp$hits_unique[order(match(gsub(" .*$", "", plot.hits.temp$hits_unique), transect.order))]
   
   plot.hits.temp <- plot.hits.temp[match(trans.ord.vec, plot.hits.temp$hits_unique),]
