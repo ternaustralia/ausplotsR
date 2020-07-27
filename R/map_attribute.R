@@ -1,7 +1,7 @@
 map_attribute <- function(my.ausplots.object) {
     
 		
-    require(maps)
+  data(worldHiresMapEnv)
   
 		if(any(c("Tree/Palm", "Tree Mallee") %in% my.ausplots.object$veg.PI$growth_form)) {
 		
