@@ -1,7 +1,6 @@
 map_ausplots <- function(my.ausplots.object) {
 	
-  data(worldHiresMapEnv)
-  
+
   aus <- maps::map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
 	
 	CRS("+init=epsg:4326") # More info (i.e. provides a datum)

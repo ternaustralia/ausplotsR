@@ -1,8 +1,6 @@
 map_attribute <- function(my.ausplots.object) {
     
-		
-  data(worldHiresMapEnv)
-  
+	
 		if(any(c("Tree/Palm", "Tree Mallee") %in% my.ausplots.object$veg.PI$growth_form)) {
 		
 		aus <- maps::map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),ylim=c(-45,-5), mar=c(0,0,0,0), plot=FALSE)
