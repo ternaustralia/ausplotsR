@@ -13,8 +13,8 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
 }
   \item{m_kind}{The desired species scoring method: PA: binary (presence/absence), percent cover, frequency (based on occurrences on transects within plots) or IVI (combination of cover and frequency).
 }
-  \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'
-}
+  \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC' (which may be more suitable for some applications such as comparison to remotely sensed cover products).
+ }
 }
 \details{The returned occurrence matrix (species against sites) can be converted to long format (with rows as species records) using:
 

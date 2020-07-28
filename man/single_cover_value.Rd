@@ -12,7 +12,7 @@ max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee"))
   \item{veg.PI}{The input raw point intercept data ($veg.PI) as generated in the \code{\link{get_ausplots}} function.
 
 }
-  \item{in_canopy_sky}{Logical, whether to include in canopy sky hits to calculate opaque canopy cover instead of projected foliage cover. Set to TRUE to calculate opaque canopy cover.
+  \item{in_canopy_sky}{Logical, whether to include in canopy sky hits to calculate 'opaque canopy cover' instead of 'projected foliage cover'. Set to \code{TRUE} to calculate opaque canopy cover (e.g., suitable for some applications such as comparison to remotely sensed cover products).
 }
   \item{by.growth_form}{Logical, whether to subset by plant growth form. If set to FALSE then only height subsetting occurs. Set to TRUE to calculate cover subsetted to specified growth forms.
 }
@@ -20,7 +20,7 @@ max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee"))
 }
 \item{max.height}{Numeric, sets the height in m above which PI hits are ignored. This argument can be used to calculate ground cover of desired growth forms, for example. 
 }
-\item{my.growth_forms}{A user-suppled character vector specifying growth forms to include in the cover calculation. Defaults to trees. Applies only when by.growth_form=TRUE, otherwise this argument is ignored and only the height rule is applied. For allowable growth forms, see \code{unique(veg.PI$growth_form)}.
+\item{my.growth_forms}{A user-suppled character vector specifying growth forms to include in the cover calculation. Defaults to trees. Applies only when \code{by.growth_form=TRUE}, otherwise this argument is ignored and only the height rule is applied. For allowable growth forms, see \code{unique(veg.PI$growth_form)}.
 }
 }
 \details{All included point intercept hits are merged to give a single percent cover value with a maximum of 100. Cover partitioned by multiple plant growth forms can be calculated using \code{growth_form_table}, by species using \code{species_table} and fractional green/brown/bare cover using \code{fractional_cover}. Note, when min.height is set to zero and by.growth_form is set to FALSE, the output is nearly the same as the green cover fraction returned from \code{fractional_cover}. The values can differ, however, because \code{fractional_cover} applies a height rule in which the highest intercept at a given point is taken, whereas \code{single_cover_value} finds any green cover, leading to differences, most obviously, for example, when dead trees overhang green understorey. For such general cover purposes, we recommend \code{fractional_cover}. \code{single_cover_value} is best suited to cover subset by height and growth form. 
