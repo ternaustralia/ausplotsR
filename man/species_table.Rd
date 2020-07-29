@@ -47,5 +47,4 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 #generate a percent cover occurrence matrix:
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+

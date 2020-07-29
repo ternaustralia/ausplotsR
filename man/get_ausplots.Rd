@@ -73,5 +73,3 @@ my.data$citation
 Eucalyptus_moderata <- get_ausplots(species_name_search="Eucalyptus moderata")
 Eucalyptus_moderata$veg.vouch
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }

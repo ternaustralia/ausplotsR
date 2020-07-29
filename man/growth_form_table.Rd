@@ -66,5 +66,3 @@ growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", cumu
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", 
 cover_type="PFC", cumulative=FALSE, by_strata=TRUE)
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }

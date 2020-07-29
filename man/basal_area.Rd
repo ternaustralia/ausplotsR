@@ -33,5 +33,3 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 #calculate basal area:
 basal_area(my.data$veg.basal)
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
