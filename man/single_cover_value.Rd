@@ -10,7 +10,6 @@ max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee"))
 }
 \arguments{
   \item{veg.PI}{The input raw point intercept data ($veg.PI) as generated in the \code{\link{get_ausplots}} function.
-
 }
   \item{in_canopy_sky}{Logical, whether to include in canopy sky hits to calculate 'opaque canopy cover' instead of 'projected foliage cover'. Set to \code{TRUE} to calculate opaque canopy cover (e.g., suitable for some applications such as comparison to remotely sensed cover products).
 }
