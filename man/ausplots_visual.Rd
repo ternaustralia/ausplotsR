@@ -35,7 +35,7 @@ whittaker = TRUE, outfile=NULL, max.plots = 5)
 }
 \references{Guerin, G.R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., Lowe, A.J. (2017) Opportunities for integrated ecological analysis across inland Australia with standardised data from AusPlots Rangelands. PLoS ONE 12, e0170137.
 	
-Blanco-Martin, B. (2019) Tutorial: "Understanding and using the 'ausplotsR' package and AusPlots data". Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData/AusPlots_Tutorial
+Blanco-Martin, B. (2019) Tutorial: Understanding and using the 'ausplotsR' package and AusPlots data. Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/
 
 Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numerical relations of species express the importance of competition in community function and evolution. Science, 147, 250-260.
 }
