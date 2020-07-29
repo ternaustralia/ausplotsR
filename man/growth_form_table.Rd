@@ -30,8 +30,7 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
 	
 	The returned occurrence matrix (plant growth forms against sites) can be converted to long format (with rows as individual occurrences of growth forms) using:
 
-\code{
-my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover",
+\code{my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover",
 cover_type="PFC")} 
 
 \code{library(reshape2)}
