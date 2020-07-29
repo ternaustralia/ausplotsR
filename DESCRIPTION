@@ -36,3 +36,4 @@ Description: Extraction, preparation, visualisation and analysis of TERN
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
+RoxygenNote: 7.1.1
