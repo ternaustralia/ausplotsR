@@ -15,7 +15,7 @@ basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE)
   \item{by.hits}{Set to TRUE to return the number of individual basal wedge hits rather than basal area per se.
 }
 }
-\details{n/a
+\details{TBA
 }
 \value{Returns a data frame with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
 }
