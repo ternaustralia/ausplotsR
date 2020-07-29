@@ -42,7 +42,8 @@ Acknowledging TERN AusPlots data in publications:
 It is important that users of data extracted via ausplotsR acknowledge TERN, the AusPlots dataset and ausplotsR by including an appropriate citation in the Acknowledgments or References section of any published papers/reports/theses that make use of the data. To make this easy, a data citation is automatically generated when you extract data (see \code{get_ausplots}). It has the following format:
 
 
-TERN ("year") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
+TERN ("year") AusPlots ecosystem surveillance monitoring dataset 
+(URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
 
 To cite the ausplotsR package itself and the functions it contains, enter: \code{citation('ausplotsR')}
 
