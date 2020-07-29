@@ -31,7 +31,8 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
 	The returned occurrence matrix (plant growth forms against sites) can be converted to long format (with rows as individual occurrences of growth forms) using:
 
 \code{
-my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover", cover_type="PFC")} 
+my.matrix <- growth_form_table(my.veg.PI, m_kind="percent_cover",
+cover_type="PFC")} 
 
 \code{library(reshape2)}
 
@@ -60,7 +61,8 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE)
 
 #generate a percent cover occurrence matrix for plant growth forms:
-growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", cumulative=FALSE)
+growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC",
+cumulative=FALSE)
 
 #calculate cover of strata:
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", 
