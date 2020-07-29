@@ -16,10 +16,8 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
   \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover. If 'PFC' is selected (suitable as an abundance or cover measure for most applications), hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC' (suitable for application such as comparisons to remotely sensed cover).
 }
 \item{cumulative}{Logical. Should the cover of each growth form be calculated cumulatively across species (i.e., the sum of species covers in that growth form category; the default) or as absolute cover (percent of points where that growth form was hit)? Ignored except when \code{m_kind="percent_cover"}.
-%%     ~~Describe \code{my.Plot_IDs} here~~
 }
 \item{by_strata}{Logical. If set to \code{TRUE}, cover is calculated by strata (as defined by growth forms).  Ignored except when \code{m_kind="percent_cover"}.
-%%     ~~Describe \code{my.Plot_IDs} here~~
 }
 }
 \details{Probably the most useful data output from this function is the matrix of plant growth forms against sites with percent cover. This could be used in manova, ordination, classification etc. It also provides a multivariate structural and functional response variable.
@@ -65,7 +63,8 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", cumulative=FALSE)
 
 #calculate cover of strata:
-growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", cumulative=FALSE, by_strata=TRUE)
+growth_form_table(my.data$veg.PI, m_kind="percent_cover", 
+cover_type="PFC", cumulative=FALSE, by_strata=TRUE)
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }
