@@ -18,9 +18,12 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
 }
 \details{The returned occurrence matrix (species against sites) can be converted to long format (with rows as species records) using:
 
-\code{my.matrix <- species_table(my.veg.PI, m_kind="PA", cover_type="PFC");}
-\code{library(reshape2);}
-\code{my.matrix <- as.data.frame(melt(as.matrix(my.matrix)));}
+\code{my.matrix <- species_table(my.veg.PI, m_kind="PA", cover_type="PFC")}
+\cr
+\code{library(reshape2)}
+\cr
+\code{my.matrix <- as.data.frame(melt(as.matrix(my.matrix)))}
+\cr
 \code{my.matrix <- my.matrix[-which(my.matrix $value == 0),]}
 
 }
