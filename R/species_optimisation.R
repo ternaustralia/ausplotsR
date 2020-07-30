@@ -3,8 +3,11 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_na
 ############################
 #check inputs
   #NB (GRG) this would be better as guidance in the help/Rd file as site names as the first column is non-standard and doesn't match the species table from ausplotsR nor the matrices in the dune and mite example datasets.
-  #rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
-  #speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the ffirst column
+  
+  if(!is.numeric(speciesVsitesMatrix[,1])) {
+    rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
+    speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the first column
+  }#if the first column of the dataset corresponds to the site names, then apply site names to the rows and remove the column
   
   if(!(start %in% c("fixed", "defined", "random"))) {stop("Argument 'start' must be character and one of: 'fixed', 'defined' or 'random'")}
   
