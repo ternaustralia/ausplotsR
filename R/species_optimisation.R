@@ -1,17 +1,21 @@
-optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_name= NULL, plot=TRUE, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=10) {
+optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_name=NULL, plot=TRUE, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=10) {
 	
 ############################
 #check inputs
-
-  rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
-  speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the ffirst column
+  #NB (GRG) this would be better as guidance in the help/Rd file as site names as the first column is non-standard and doesn't match the species table from ausplotsR nor the matrices in the dune and mite example datasets.
+  #rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
+  #speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the ffirst column
+  
+  if(!(start %in% c("fixed", "defined", "random"))) {stop("Argument 'start' must be character and one of: 'fixed', 'defined' or 'random'")}
+  
+  if(!is.null(plot_name) && (!plot_name %in% rownames(speciesVsitesMatrix))) {stop("Selected plot_name must match a site/row name in the species~sites data.")}
   
 	if(n.plt > nrow(speciesVsitesMatrix)) {
 		cat("You are attempting to optimise more sites that exist in the dataset - trimming to maximum. \n")
 		n.plt <- nrow(speciesVsitesMatrix)
 	}
   
-	if(any(c(richness, RRR, CWE, simpson_beta, frequent))) {
+	if(any(c(random, richness, RRR, CWE, simpson_beta, frequent))) {
 	  speciesVsitesMatrix_binary <- speciesVsitesMatrix
 		speciesVsitesMatrix_binary[speciesVsitesMatrix_binary > 0] <- 1 #convert abundances to presences
 	}
@@ -34,7 +38,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_na
   } #end if CWE
   
   if(simpson_beta){
-    result$SimpsonBeta <- simpson_beta.opt(speciesVsitesMatrix_binary, n.plt, start=start) #
+    result$SimpsonBeta <- simpson_beta.opt(speciesVsitesMatrix_binary, n.plt, start=start, plot_name) #
   } #end if simpson beta
   
   if(shannon) {
@@ -85,7 +89,6 @@ RRR.opt <- function(speciesVsitesMatrix_binary, n.plt) {
   return(RRRMCPaccum)
 }
 
-
 ########################
 CWE.opt <- function(speciesVsitesMatrix_binary, n.plt) {
   CWE <- rowSums(speciesVsitesMatrix_binary/colSums(speciesVsitesMatrix_binary))/rowSums(speciesVsitesMatrix_binary) #It's RRR divided by richness
@@ -123,10 +126,10 @@ simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start, plot_name
   if (start == "fixed"){
   	start.plot <- rownames(speciesVsitesMatrix_binary)[which.max(rowSums(speciesVsitesMatrix_binary))] #fixed seed: this is the richest plot
   } #end if fixed
-	if (start == "defined"){
+	if (start == "defined") {
 	  start.plot <- plot_name #defined seed: this a specific plot chose by the user
 	} #end if defined
-	if (start == "random"){
+	if (start == "random") {
     start.plot <- sample(rownames(speciesVsitesMatrix_binary), 1) #get a random seed plot
   }
   result <- list() 
@@ -137,13 +140,13 @@ simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start, plot_name
     simpson <- as.data.frame(as.matrix(beta.pair(speciesVsitesMatrix_binary)$beta.sim)) #simpson beta diversity between all pairs (excludes species nestedness)
     sort.diss <- rev(sort(simpson[start.plot,])) #creates single row data frame holding the vector of dissimilarity comparisons to the seed/start.plot
     equal_plots <- length(which(sort.diss == max(sort.diss)))
-    if (equal_plots == 1) {
+    if(equal_plots == 1) {
       next.plot.name <- names(sort.diss)[1] #select the first plot in the vector, which after sorting is the most dissimilar
     }
-    if (equal_plots > 1) {
-      next.plot.name <- sample(names(sort.diss[,1:equal_plots]),1)#select the first plot in the vector, which after sorting is the most dissimilar
+    if(equal_plots > 1) {
+      next.plot.name <- sample(names(sort.diss[,1:equal_plots])[(!names(sort.diss[,1:equal_plots]) %in% start.plot)],1) #select the first plot in the vector, which after sorting is the most dissimilar
     }
-    if(next.plot.name == start.plot) {next.plot.name <- names(sort.diss)[2]}
+    #if(next.plot.name == start.plot) {next.plot.name <- names(sort.diss)[2]}
     result[n] <- next.plot.name #add it to the list of plots to save
     cat(next.plot.name, " ", sort.diss[,1], "\n") #Print out the chosen plot and its dissimilarity score
     speciesVsitesMatrix_binary[start.plot,] <- speciesVsitesMatrix_binary[start.plot,] + speciesVsitesMatrix_binary[next.plot.name,] #Merge the seed plot with the latest selected plot to get all occurrences into one virtual plot
