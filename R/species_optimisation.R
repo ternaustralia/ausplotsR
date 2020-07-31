@@ -50,7 +50,9 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_na
   } #end if simpson
    
   if(frequent) {
-  	result$Frequent <- Frequent_simpson_beta.opt(speciesVsitesMatrix_binary, n.plt, iterations) 
+  	hold <- Frequent_simpson_beta.opt(speciesVsitesMatrix_binary, n.plt, iterations) 
+    result$Frequent <- hold$Freq
+    result$SimpsonBeta_randSeed <- hold$simspon_rand
   } #end if freqent plots
   
    if(random) {
@@ -60,7 +62,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_na
   
   ##########################
   #wrap up:
-  
+	
   if(plot) {
   	plot.opt(result)
   	} #end if plot
@@ -171,7 +173,18 @@ Frequent_simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, iterati
     freq_plots <- freq_plots[rev(order(freq_plots$freq)),]
     freq_plots <- freq_plots[1:n.plt,] 
     freq_accum <- specaccum(speciesVsitesMatrix_binary[as.character(freq_plots$x),], method="collector")
-    return(freq_accum)
+    
+    #create mean/sd accumulation for simpson iterations with random seed
+    combined.rand_specaccum <- opt.runs.freq[[1]] #copy one specaccum object in the list of random starts for format
+    combined_matrix_rand <- do.call(rbind, lapply(opt.runs.freq, function(x) {return(x$richness)})) #compile the cumulative richness results from reps above into a matrix
+    combined.rand_specaccum$richness <- apply(combined_matrix_rand, 2, mean) #using the matrix, calculate the mean for each additional plot, and add that to the richness slot in the specaccum object
+    combined.rand_specaccum$sd <- apply(combined_matrix_rand, 2, sd) #same for standard deviation
+    combined.rand_specaccum$method <- "random" #assign it as random not collector so it plots correctly as mean and SD
+    
+    freq_accum_lst <- list()
+    freq_accum_lst$simspon_rand <- combined.rand_specaccum
+    freq_accum_lst$Freq <- freq_accum
+    return(freq_accum_lst)
 }  
   
   
@@ -194,10 +207,10 @@ Random.opt <- function(speciesVsitesMatrix_binary, n.plt, iterations) {
 
 
 #################################
-plot.opt <- function(result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "Random")) {
+plot.opt <- function(result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random")) {
   	result <- result[names(result) %in% choices]
   	plot(1, ylim=c(0, max(unlist(lapply(result, FUN=function(x) max(x$richness))))), xlim=c(0, length(result[[1]]$richness)), type="n", xlab = "Number of plots", ylab = "Cumulative species", main="Site optimisation applying the Maximum Coverage Problem", las=1, bty="l", cex.main=1.2) #blank template plot
-    opt.col <- sample(rainbow(7), length(which(names(result) %in% choices[1:7]))) #random colours for the plot lines of optimisers, but exclude random for now
+    opt.col <- sample(rainbow(8), length(which(names(result) %in% choices[1:8]))) #random colours for the plot lines of optimisers, but exclude random for now
     zzz <- 0
     for(j in result) { #for each optimiser result in the list
       zzz <- zzz + 1
