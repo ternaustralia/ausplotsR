@@ -2,7 +2,7 @@
 \alias{optim_species}
 
 \title{Optimisation methods for plot selection with different diversity indexes in order to maximise species accumulation}
-\description{This function allows applying different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the 'Maximum coverage problem' framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}
+\description{This function allows the application of different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the 'Maximum coverage problem' framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}
 
 \usage{
   optim_species(x, n.plt=250, richness=TRUE, RRR=TRUE, 
@@ -12,48 +12,39 @@
   }
     
 \arguments{
-  \item{x}{data frame, species versus sites matrix, where rows are sites and columns are species}
-  \item{n.plt}{Number of plots n conforming the subset to be optimised}
-  \item{richness}{Species richness selected as optimiser. By default is TRUE}
-  \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE}
-  \item{CWE}{Corrected Weight Endemism selected as optimiser. By default is TRUE}
-  \item{shannon}{Shannon-Wiener diversity index selected as optimiser. By default is TRUE}
-  \item{simpson}{Simpson diversity index selected as optimiser. By default is TRUE}
-  \item{simpson_beta}{Simpson dissimilarity selected as optimiser. By default is TRUE}
-  \item{start}{Choose under which condition the first plot for the simpson_beta optimiser is selected. 
-    By default "fixed" is selected a start seed.}
-  \item{plot_name}{Specific plot to start the optimisation when the user has selected start = "defined". 
-    By default plot_name = NULL. When provided it should be in the form x[nrow,]}
-  \item{frequent}{By default is TRUE}
-  \item{iterations}{Number of times the simpson_beta function is going to be implemented with a random seed}
-  \item{random}{By default is FALSE}
-  \item{plot}{Function to plot the species accumulation curves for all the optimisers}
+  \item{x}{data frame, species versus sites matrix, where rows are sites and columns are species.}
+  \item{n.plt}{Number of plots, n, conforming the subset to be optimised.}
+  \item{richness}{Species richness selected as optimiser. By default is TRUE.}
+  \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE.}
+  \item{CWE}{Corrected Weight Endemism selected as optimiser. By default is TRUE.}
+  \item{shannon}{Shannon-Wiener diversity index selected as optimiser. By default is TRUE.}
+  \item{simpson}{Simpson diversity index selected as optimiser. By default is TRUE.}
+  \item{simpson_beta}{Simpson dissimilarity selected as optimiser. By default is TRUE.}
+  \item{start}{Choose under which condition the first plot for the simpson_beta optimiser is selected. By default, "fixed", the most speciose plot is selected a start seed.}
+  \item{plot_name}{Specific plot to start the optimisation when the user has selected start = "defined". By default, \code{plot_name = NULL}. When provided, the plot name should be in character format and must match the relevant rowname in the input species matrix.}
+  \item{frequent}{See Details. By default is TRUE.}
+  \item{iterations}{Number of random seed replications for \code{simpson_beta} if \code{frequent=TRUE} and also number of random replicates if \code{random=TRUE}.}
+  \item{random}{Generation of a set of random species accumulations. By default is FALSE}
+  \item{plot}{Whether or not to immediately plot the species accumulation curves for all the optimisers.}
 }
     
 \details{
   The data frame input is a species versus sites matrix. If chosen by the user, the first column can be the sites names. If so, it must contain text, it cannot be numeric. 
-  Depending on the desired optimiser the data input needs to be presence/absence or abundance. 
-  For richness, RRR, CWE, and simpson_beta optimisers, a presence/absence input matrix is required. 
-  For shannon and simpson optimisers, an abundance matrix is required
+  Depending on the desired optimiser, the data input needs to be presence/absence or abundance.  For richness, RRR, CWE, and simpson_beta optimisers, a presence/absence input matrix is required. For shannon and simpson optimisers, an abundance matrix is required. If the input data include abundance, the function automatically generates binary presence/absence data when required.
   
-  The start refers to the first plot used as starting seed when using the simpson_beta optimiser.
+  The \code{start} refers to the first plot used as starting seed when using the simpson_beta optimiser.
   If "fixed", the plot with the greatest species richness is chosen as a start. 
   If "random", a random plot is selected as a start. 
   If "defined" the user assigns a specific starting plot. 
-  Notice that if start = "defined" then the plot_name argument must be provided. 
+  Notice that if \code{start = "defined"} then the \code{plot_name} argument must be provided. 
   
-  \code{plot_name} must be provided when start = "defined" for the simpson_beta optimiser. 
-  If the input matrix contains site names, then plot_name must match the name of the desired site to be used as starting seed. 
-  If the input matrix does not contain site name, then plot_name should be the number of the desired row to be used as starting seed.
+  \code{plot_name} must be provided when start = "defined" for the simpson_beta optimiser. If the input matrix contains site names, then plot_name must match the name of the desired site to be used as starting seed. If the input matrix does not contain site name, then plot_name should be the number of the desired row to be used as starting seed.
   
-  \code{richness} refers to Species richness, which is the count of the number of species present in a given site. 
-  It is best used when the goal is to identify biodiversity hotspots. 
+  \code{richness} refers to Species richness, which is the count of the number of species present in a given site. It is best used when the goal is to identify biodiversity hotspots.
       
-  \code{RRR} refers to Range rarity richness, which is a rarity-weighted richness calculated as the inverse of the number of sites in which a species occur. 
-  It is best used when the goal is to identify areas of high biodiversity and biological uniqueness. 
+  \code{RRR} refers to Range rarity richness, which is a rarity-weighted richness calculated as the inverse of the number of sites in which a species occur. It is best used when the goal is to identify areas of high biodiversity and biological uniqueness. 
       
-  CWE refers to Corrected Weight Endemism, which is calculated as range rarity richness (RRR) divided by species richness. 
-  It is best used when the goal is to identify centers of endemism highlighting range-restricted species. 
+  \code{CWE} refers to Corrected Weight Endemism, which is calculated as range rarity richness (RRR) divided by species richness. It is best used when the goal is to identify centers of endemism highlighting range-restricted species. 
       
   \code{shannon} referst to the Shannon--Wiener diversity index, which combines species richness and the evenness or equitability by computing the species' relative abundances. The Shannon-Wiener diversity index assumes that all species are represented in a sample and that they are randomly sampled. 
   The Shannon--Wiener index is defined as
@@ -76,14 +67,14 @@
   In order to do so, the starting seed for the simpson_beta optimiser is "random". The result will display two different accumulation curves:
   one with the most frequent selected plots and another one with the mean and standard deviation of all the species accumulation curves obtained with a random starting seed for all the iterations
   
-  \code{random} refers to the species accumulation when the sites are selected randomly
+  \code{random} refers to the species accumulation when the sites are selected randomly.
   
   \code{plot} calls a function that allows plotting all the species accumulation curves obtained for each of the optimisers included in the optim_species function, see \code{\link{plot.opt}}.
 }
   
   
 \value{
-  For each optimiser within the function the species accummulation (see specaccum function from vegan R package) will be returned.
+  Returns a list containing, for each optimiser within the function, a species accummulation (see \code{\link[vegan]{specaccum}} object as returned from vegan R package) will be returned.
   The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
   Likewise, a list of the sites selected in order to maximise the value of the species accumulated using each optimiser will be return. 
   Additionally, the function will plot by default of the species cumulative curves obtained by the different optimisers.
@@ -119,13 +110,13 @@
 }
 
 \seealso{
-\code{\link{specacum}}
+\code{\link[vegan]{specaccum}}
 \cr
 \cr
-\code{\link{fisher.alpha}}
+\code{\link[vegan]{fisher.alpha}}
 }  
     
-\author{Irene Mart?n-For?s, Samantha Munroe and Greg R. Guerin.}
+\author{Irene Mart?n-For?s, Samantha Munroe and Greg Guerin.}
 
 \examples{
   #example with dune database from vegan
@@ -138,9 +129,9 @@
   \dontrun{
   library(ausplotsR)
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
-  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA")
+  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
-  optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
+  optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=FALSE, random=TRUE, iterations=20)
   }
 }  
 
