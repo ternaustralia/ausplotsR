@@ -15,7 +15,7 @@
 }
     
 \value{
-    This function will return a plot including the species cumulative curves obtained by the different optimisers in the optim_species function.
+    This function will return a plot including the species cumulative curves obtained by the different optimisers in the \code{\link{optim_species}} function.
 }
     
     
