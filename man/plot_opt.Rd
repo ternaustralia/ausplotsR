@@ -22,19 +22,19 @@
 \author{Greg R. Guerin}
   
 \examples{
-  \example with dune database from vegan
+  #example with dune database from vegan
   library(vegan)
   data(dune)
-  example1 <- optim_species(dune, n.plt=15, iterations=20)
+  example1 <- optim_species(dune, n.plt=15, iterations=20, plot=FALSE)
   plot.opt(example1)
   plot.opt(example1, choices=c("Richness", "SimpsonBeta"))
       
-  \example with auplots database from ausplotsR
+  #example with auplots database from ausplotsR
   \dontrun{
   library(ausplotsR)
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
   ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA")
-  example2 <- optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
+  example2 <- optim_species(ausplotsPAdata, n.plt=5, iterations=5, plot=FALSE)
   plot.opt(example2)
   plot.opt(example2, choices=c("RRR", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed"))
   }
