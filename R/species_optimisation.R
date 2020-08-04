@@ -142,7 +142,7 @@ simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start, plot_name
   result[n] <- start.plot
   for(i in 1:(n.plt-1)) {
     n <- n + 1 
-    simpson <- as.data.frame(as.matrix(beta.pair(speciesVsitesMatrix_binary)$beta.sim)) #simpson beta diversity between all pairs (excludes species nestedness)
+    simpson <- as.data.frame(as.matrix(betapart::beta.pair(speciesVsitesMatrix_binary)$beta.sim)) #simpson beta diversity between all pairs (excludes species nestedness)
     sort.diss <- rev(sort(simpson[start.plot,])) #creates single row data frame holding the vector of dissimilarity comparisons to the seed/start.plot
     equal_plots <- length(which(sort.diss == max(sort.diss)))
     if(equal_plots == 1) {
