@@ -210,25 +210,25 @@ Random.opt <- function(speciesVsitesMatrix_binary, n.plt, iterations) {
 
 
 #################################
-plot.opt <- function(result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random")) {
-  	result <- result[names(result) %in% choices]
-  	plot(1, ylim=c(0, max(unlist(lapply(result, FUN=function(x) max(x$richness))))), xlim=c(0, length(result[[1]]$richness)), type="n", xlab = "Number of plots", ylab = "Cumulative species", main="Site optimisation applying the Maximum Coverage Problem", las=1, bty="l", cex.main=1.2) #blank template plot
-    opt.col <- sample(rainbow(8), length(which(names(result) %in% choices[1:8]))) #random colours for the plot lines of optimisers, but exclude random for now
+plot.opt <- function(optim_result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random")) {
+  optim_result <- optim_result[names(optim_result) %in% choices]
+  	plot(1, ylim=c(0, max(unlist(lapply(optim_result, FUN=function(x) max(x$richness))))), xlim=c(0, length(optim_result[[1]]$richness)), type="n", xlab = "Number of plots", ylab = "Cumulative species", main="Site optimisation applying the Maximum Coverage Problem", las=1, bty="l", cex.main=1.2) #blank template plot
+    opt.col <- sample(rainbow(8), length(which(names(optim_result) %in% choices[1:8]))) #random colours for the plot lines of optimisers, but exclude random for now
     zzz <- 0
-    for(j in result) { #for each optimiser result in the list
+    for(j in optim_result) { #for each optimiser result in the list
       zzz <- zzz + 1
-      if(names(result)[zzz] != "Random") {
-      	plot(result[[zzz]], col=opt.col[zzz], lwd=1.5, add=TRUE) #add line for each optimiser
+      if(names(optim_result)[zzz] != "Random") {
+      	plot(optim_result[[zzz]], col=opt.col[zzz], lwd=1.5, add=TRUE) #add line for each optimiser
       	} #end if not random
-      if(names(result)[zzz] == "Random") {
-      	plot(result[[zzz]], col="gray", lwd=1, lty=2, add=TRUE) #add line for random
+      if(names(optim_result)[zzz] == "Random") {
+      	plot(optim_result[[zzz]], col="gray", lwd=1, lty=2, add=TRUE) #add line for random
       } #end if Random
     } #close for j in ...
-    if("Random" %in% names(result)) {
-    	legend("bottomright", legend=names(result), lty=c(rep(1, (length(result)-1)), 2), col=c(opt.col[1:(length(result)-1)], "gray"), cex=1, bty='n', lwd=rep(3, length(result))) 	
+    if("Random" %in% names(optim_result)) {
+    	legend("bottomright", legend=names(optim_result), lty=c(rep(1, (length(optim_result)-1)), 2), col=c(opt.col[1:(length(optim_result)-1)], "gray"), cex=1, bty='n', lwd=rep(3, length(optim_result))) 	
     } #end if Random
-    if(!"Random" %in% names(result)) {
-    	legend("bottomright", legend=names(result), lty=rep(1, length(result)), col=opt.col[1:length(result)], cex=1, bty='n', lwd=rep(3, length(result))) 	
+    if(!"Random" %in% names(optim_result)) {
+    	legend("bottomright", legend=names(optim_result), lty=rep(1, length(optim_result)), col=opt.col[1:length(optim_result)], cex=1, bty='n', lwd=rep(3, length(optim_result))) 	
     } #end if not Random
   } #end plot.opt function
 
