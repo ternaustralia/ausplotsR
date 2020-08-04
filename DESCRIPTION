@@ -31,7 +31,8 @@ Imports:
     maptools,
     ggplot2,
     gtools,
-    jose
+    jose,
+    betapart
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
 License: GPL-3 + file LICENSE
