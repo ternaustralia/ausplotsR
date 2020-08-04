@@ -1,5 +1,5 @@
 \name{plot.opt}
-\alias{plot_optim}
+\alias{plot.opt}
 
 \title{Plot species accumulation curves derived from the optim_species function}
 \description{This function allows plotting different species accumulation curves obtained from selected sites through different optimisers in the \code{\link{optim_species}} function.}
