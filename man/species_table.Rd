@@ -25,11 +25,12 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
 \code{my.matrix <- as.data.frame(melt(as.matrix(my.matrix)))}
 \cr
 \code{my.matrix <- my.matrix[-which(my.matrix $value == 0),]}
-
-}
+\cr
+\cr
 
 The \code{\link{round}} function can be used on the returned matrix to estimate percent covers to the nearest percent if desired (i.e., with digits=0)
 }
+
 \value{Returns a matrix with species as columns and sites as rows as a data frame. Values are determined by argument m_kind
 }
 
