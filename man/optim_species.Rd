@@ -5,7 +5,11 @@
 \description{This function allows applying different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the 'Maximum coverage problem' framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}
 
 \usage{
-  optim_species(x, n.plt=250, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, start="fixed", plot_name= NULL, frequent=TRUE, random=FALSE, iterations=10, plot=TRUE) {
+  optim_species(x, n.plt=250, richness=TRUE, RRR=TRUE, 
+  CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, 
+  start="fixed", plot_name= NULL, frequent=TRUE, random=FALSE, 
+  iterations=10, plot=TRUE)
+  }
     
 \arguments{
   \item{x}{data frame, species versus sites matrix, where rows are sites and columns are species}
@@ -38,48 +42,48 @@
   If "defined" the user assigns a specific starting plot. 
   Notice that if start = "defined" then the plot_name argument must be provided. 
   
-  plot_name must be provided when start = "defined" for the simpson_beta optimiser. 
+  \code{plot_name} must be provided when start = "defined" for the simpson_beta optimiser. 
   If the input matrix contains site names, then plot_name must match the name of the desired site to be used as starting seed. 
   If the input matrix does not contain site name, then plot_name should be the number of the desired row to be used as starting seed.
   
-  richness refers to Species richness, which is the count of the number of species present in a given site. 
+  \code{richness} refers to Species richness, which is the count of the number of species present in a given site. 
   It is best used when the goal is to identify biodiversity hotspots. 
       
-  RRR refers to Range rarity richness, which is a rarity-weighted richness calculated as the inverse of the number of sites in which a species occur. 
+  \code{RRR} refers to Range rarity richness, which is a rarity-weighted richness calculated as the inverse of the number of sites in which a species occur. 
   It is best used when the goal is to identify areas of high biodiversity and biological uniqueness. 
       
   CWE refers to Corrected Weight Endemism, which is calculated as range rarity richness (RRR) divided by species richness. 
   It is best used when the goal is to identify centers of endemism highlighting range-restricted species. 
       
-  shannon referst to the Shannon--Wiener diversity index, which combines species richness and the evenness or equitability by computing the species' relative abundances. The Shannon-Wiener diversity index assumes that all species are represented in a sample and that they are randomly sampled. 
+  \code{shannon} referst to the Shannon--Wiener diversity index, which combines species richness and the evenness or equitability by computing the species' relative abundances. The Shannon-Wiener diversity index assumes that all species are represented in a sample and that they are randomly sampled. 
   The Shannon--Wiener index is defined as
   \eqn{H = -\sum_i p_i \log_{b} p_i}{H = -sum p_i log(b) p_i}, where
   \eqn{p_i} is the proportional abundance of species \eqn{i} and \eqn{b}
   is the base of the logarithm.  It is most popular to use natural logarithms, but some argue for base \eqn{b = 2} (which makes sense, but no real difference).
 
-  simpson refers to the Simpson diversity index which combines species richness and the evenness or equitability by computing the species' relative abundances. The Simpson diversity index is a dominance index, giving more weight to
+  \code{simpson} refers to the Simpson diversity index which combines species richness and the evenness or equitability by computing the species' relative abundances. The Simpson diversity index is a dominance index, giving more weight to
   common or dominant species. 
   The Simpson diversity index is based on
   \eqn{D = \sum p_i^2}{D = sum p_i^2}
   and returns \eqn{1-D} 
 
-  simpson_beta refers to the Simpson dissimilarity, which is based on diversity partitioning, which separates species replacement (i.e. turnover) from species loss (i.e. nestedness). 
+  \code{simpson_beta} refers to the Simpson dissimilarity, which is based on diversity partitioning, which separates species replacement (i.e. turnover) from species loss (i.e. nestedness). 
   The Simpson dissimilarity corresponds to the turnover component of the Sorensen dissimilarity. Thus, it is used to maximise species turnover. 
   By default, the function will extract and compile data from the top n selected plots based on all the different optimisers. 
   The starting seed by default will be "fixed" which will correspond to the site with the highest value of species richness. 
   
-  frequent refers to the most frequent sites that have been selected using the simpson_beta optimiser in certain number of iterations that must be defined by the user. 
+  \code{frequent} refers to the most frequent sites that have been selected using the simpson_beta optimiser in certain number of iterations that must be defined by the user. 
   In order to do so, the starting seed for the simpson_beta optimiser is "random". The result will display two different accumulation curves:
   one with the most frequent selected plots and another one with the mean and standard deviation of all the species accumulation curves obtained with a random starting seed for all the iterations
   
-  random refers to the species accumulation when the sites are selected randomly
+  \code{random} refers to the species accumulation when the sites are selected randomly
   
-  plot is a function that allows plotting all the species accumulation curves obtained for each of the optimisers included in the optim_species function.
+  \code{plot} calls a function that allows plotting all the species accumulation curves obtained for each of the optimisers included in the optim_species function, see \code{\link{plot.opt}}.
 }
   
   
 \value{
-  For each optimiser within the function the species accummulation (see specaccum function from vegan R package) will be return.
+  For each optimiser within the function the species accummulation (see specaccum function from vegan R package) will be returned.
   The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
   Likewise, a list of the sites selected in order to maximise the value of the species accumulated using each optimiser will be return. 
   Additionally, the function will plot by default of the species cumulative curves obtained by the different optimisers.
@@ -113,21 +117,30 @@
   
   Oksanen, Jari, et al. (2016). vegan: Community Ecology Package. R package version 2.4-3. Vienna: R Foundation for Statistical Computing.
 }
+
+\seealso{
+\code{\link{specacum}}
+\cr
+\cr
+\code{\link{fisher.alpha}}
+}  
     
-\author{Irene Martín-Forés, Samantha Munroe and Greg R. Guerin (\code{fisher.alpha}).}
+\author{Irene Mart?n-For?s, Samantha Munroe and Greg R. Guerin.}
 
 \examples{
-  \example with dune database from vegan
+  #example with dune database from vegan
   library(vegan)
   data(dune)
   optim_species(dune, n.plt=15, iterations=20)
   optim_species(dune, n.plt=15, start="defined", plot=TRUE, plot_name="2", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
   
-  \example with auplots database from ausplotsR
+  #example with auplots database from ausplotsR
+  \dontrun{
   library(ausplotsR)
-  ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE,)
+  ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
   ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA")
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
   optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
+  }
 }  
 
