@@ -5,7 +5,7 @@
 \description{This function allows plotting different species accumulation curves obtained from selected sites through different optimisers in the \code{\link{optim_species}} function.}
 
 \usage{
-  plot.opt(optim_result, choices)
+  plot.opt(optim_result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random"))
 }
     
 \arguments{
