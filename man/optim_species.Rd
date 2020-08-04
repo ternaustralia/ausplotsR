@@ -69,7 +69,7 @@
   
   \code{random} refers to the species accumulation when the sites are selected randomly.
   
-  \code{plot} calls a function that allows plotting all the species accumulation curves obtained for each of the optimisers included in the optim_species function, see \code{\link{plot.opt}}.
+  \code{plot} calls a function that allows plotting all the species accumulation curves obtained for each of the optimisers included in the optim_species function, see \code{\link{plot_opt}}.
 }
   
   

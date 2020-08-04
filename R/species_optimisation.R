@@ -67,7 +67,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRU
   #wrap up:
 	
   if(plot) {
-  	plot.opt(result)
+  	plot_opt(result)
   	} #end if plot
     
   return(result)
@@ -210,7 +210,7 @@ Random.opt <- function(speciesVsitesMatrix_binary, n.plt, iterations) {
 
 
 #################################
-plot.opt <- function(optim_result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random")) {
+plot_opt <- function(optim_result, choices=c("Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random")) {
   optim_result <- optim_result[names(optim_result) %in% choices]
   	plot(1, ylim=c(0, max(unlist(lapply(optim_result, FUN=function(x) max(x$richness))))), xlim=c(0, length(optim_result[[1]]$richness)), type="n", xlab = "Number of plots", ylab = "Cumulative species", main="Site optimisation applying the Maximum Coverage Problem", las=1, bty="l", cex.main=1.2) #blank template plot
     opt.col <- sample(rainbow(8), length(which(names(optim_result) %in% choices[1:8]))) #random colours for the plot lines of optimisers, but exclude random for now
@@ -230,6 +230,6 @@ plot.opt <- function(optim_result, choices=c("Richness", "RRR", "CWE", "Shannon"
     if(!"Random" %in% names(optim_result)) {
     	legend("bottomright", legend=names(optim_result), lty=rep(1, length(optim_result)), col=opt.col[1:length(optim_result)], cex=1, bty='n', lwd=rep(3, length(optim_result))) 	
     } #end if not Random
-  } #end plot.opt function
+  } #end plot_opt function
 
  
