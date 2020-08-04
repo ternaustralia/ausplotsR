@@ -1,18 +1,18 @@
 \name{optim_species}
 \alias{optim_species}
 
-\title{Optimisation methods for plot selection with different diversity indexes in order to maximise species accumulation}
+\title{Optimisation methods for plot selection with different diversity indices in order to maximise species accumulation}
 \description{This function allows the application of different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the 'Maximum coverage problem' framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}
 
 \usage{
-  optim_species(x, n.plt=250, richness=TRUE, RRR=TRUE, 
+  optim_species(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRUE, 
   CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, 
   start="fixed", plot_name= NULL, frequent=TRUE, random=FALSE, 
   iterations=10, plot=TRUE)
   }
     
 \arguments{
-  \item{x}{data frame, species versus sites matrix, where rows are sites and columns are species.}
+  \item{speciesVsitesMatrix}{data frame, species versus sites matrix, where rows are sites and columns are species.}
   \item{n.plt}{Number of plots, n, conforming the subset to be optimised.}
   \item{richness}{Species richness selected as optimiser. By default is TRUE.}
   \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE.}
@@ -123,7 +123,9 @@
   library(vegan)
   data(dune)
   optim_species(dune, n.plt=15, iterations=20)
-  optim_species(dune, n.plt=15, start="defined", plot=TRUE, plot_name="2", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
+  optim_species(dune, n.plt=15, start="defined", plot=TRUE, plot_name="2", 
+  richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, 
+  frequent=TRUE, random=TRUE, iterations=20)
   
   #example with auplots database from ausplotsR
   \dontrun{
@@ -131,7 +133,9 @@
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
   ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
-  optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=FALSE, random=TRUE, iterations=20)
+  optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, 
+  plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, 
+  simpson=TRUE, simpson_beta=TRUE, frequent=FALSE, random=TRUE, iterations=20)
   }
 }  
 
