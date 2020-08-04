@@ -1,4 +1,4 @@
-single_cover_value <- function(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=5, my.growth_forms=c("Tree/Palm", "Tree Mallee")) {
+single_cover_value <- function(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=5, max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee")) {
 
 #
 #input checks
@@ -7,8 +7,9 @@ if(any(!c("growth_form", "site_unique", "height") %in% names(veg.PI))) {stop("Ca
 if(!is.logical(in_canopy_sky)) {stop("in_canopy_sky must be logical (TRUE/FALSE)")}
 if(!is.logical(by.growth_form)) {stop("by.growth_form must be logical (TRUE/FALSE)")}
 if(!is.numeric(min.height)) {stop("min.height must be numeric")}
+if(!missing(max.height)) {if(!is.numeric(max.height)) {stop("max.height must be numeric")}}
 if(!is.character(my.growth_forms)) {stop("my.growth_forms must be a character vector")}
-if(by.growth_form) {if(any(!my.growth_forms %in% unique(veg.PI$growth_form))) {stop("One or more growth forms supplied in my.growth_forms is not present in the veg.PI dataset")}}
+if(by.growth_form) {if(!any(my.growth_forms %in% unique(veg.PI$growth_form))) {stop("One or more growth forms supplied in my.growth_forms is not present in the veg.PI dataset")}}
 
 ###################
 	
@@ -31,6 +32,8 @@ hits <- veg.PI #to match the raw input to historical label in below
 	if(min.height > 0) {hits <- subset(hits, height >= min.height)} #subset to hits with height at least that set in call - substrate only has NA height (zero!) so should already be removed.
 	
 	if(min.height == 0) {hits <- subset(hits, !is.na(growth_form))} #user wishes to get all cover regardless of height, so in this case we need to make sure that a small number of records are included where there was a growth form on the hit but height was recorded as NA. To remove substrate only hits, we remove NA growth forms.
+	
+	if(!missing(max.height)) {hits <- subset(hits, height <= max.height)}
 	
 	if(in_canopy_sky==FALSE) { #remove in canopy sky if needed - removed by default
 		hits <- subset(hits, in_canopy_sky == FALSE)

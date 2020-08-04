@@ -3,30 +3,38 @@ Type: Package
 Title: TERN AusPlots analysis package
 Version: 1.2
 Date: 2020-05-11
+Author: Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-Fores, Andrew Tokmakoff
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
     person("Tom", "Saleeba", role = "aut"),
     person("Samantha", "Munroe", role = "aut"),
     person("Irene", "Martín-Forés", role = "aut"),
+    person("Bernardo", "Blanco-Martin", role="aut"),
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 Depends:
+    R (>= 3.1.0), 
+    vegan, 
+    maps,
+    mapdata
+Suggests:
+    knitr,
+    rmarkdown,
+    goeveg
+Imports:
     plyr,
     R.utils,
     simba,
     httr,
     jsonlite,
-    jose,
-    vegan,
-    betapart,
-    dplyr
-Suggests:
-    knitr,
-    rmarkdown,
-    goeveg
+    sp,
+    maptools,
+    ggplot2,
+    gtools,
+    jose
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
-License: GPL-3
+License: GPL-3 + file LICENSE
 LazyData: TRUE
-RoxygenNote: 5.0.1
 VignetteBuilder: knitr
+RoxygenNote: 7.1.1

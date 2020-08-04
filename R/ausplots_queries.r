@@ -1,7 +1,3 @@
-require(httr)
-require(jsonlite)
-require(jose)
-
 .ausplots_api <- function(path, query) {
   # override this API URL with:
   #   library("ausplotsR")
@@ -18,17 +14,17 @@ require(jose)
     path <- paste(path, "_inc_unpub", sep="")
     five_days <- 60 * 60 * 24 * 5
     exp_time <- as.integer(Sys.time() + five_days)
-    claim <- jwt_claim(role = the_role, exp = exp_time)
-    jwt_val <- jwt_encode_hmac(claim, secret = charToRaw(the_secret))
+    claim <- jose::jwt_claim(role = the_role, exp = exp_time)
+    jwt_val <- jose::jwt_encode_hmac(claim, secret = charToRaw(the_secret))
     auth_header <- paste('Bearer', jwt_val)
   }
 
-  resp <- httr::GET(getOption("ausplotsR_api_url"), add_headers(Authorization = auth_header), path=path, query=query)
-  stop_for_status(resp)
-  if (http_type(resp) != "application/json") {
+  resp <- httr::GET(getOption("ausplotsR_api_url"), httr::add_headers(Authorization = auth_header), path=path, query=query)
+  httr::stop_for_status(resp)
+  if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  return(jsonlite::fromJSON(content(resp, "text"), simplifyDataFrame = TRUE))
+  return(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
 }
 
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs, extra_query=list()) {
