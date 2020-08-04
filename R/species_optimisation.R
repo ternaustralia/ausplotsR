@@ -1,4 +1,4 @@
-optim_species <- function(speciesVsitesMatrix, n.plt=250, start="fixed", plot_name=NULL, plot=TRUE, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=10) {
+optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, start="fixed", plot_name=NULL, frequent=TRUE, random=FALSE, iterations=10, plot=TRUE) {
 	
 ############################
 #check inputs

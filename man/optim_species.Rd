@@ -1,1 +1,133 @@
-\name{optim_species}\alias{optim_species}\title{Optimisation methods for plot selection with different diversity indexes in order to maximise species accumulation}\description{This function allows applying different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the ‘Maximum coverage problem’ framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}\usage{optim_species(x, n.plt=250, start="fixed", plot_name= NULL, plot=TRUE, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=10) {	\arguments{  \item{x}{data frame, species versus sites matrix, where rows are sites and columns are species. The first column must be the sites names. Depending on the desired optimiser the data input needs to be presence/absence or abundance. For richness, RRR, CWE, and simpson_beta optimisers, a presence/absence input matrix is required. For shannon and simpson optimisers, an abundance matrix is required}  \item{n.plt}{Number of plots n conforming the subset to be optimised}  \item{start}{Choose under which condition the first plot is selected. If "fixed", the plot with the greatest species richness is chosen as a start. If "random", a random plot is selected as a start. If "defined" the user assigns a specific starting plot. Notice that if start = "defined" then the plot_name argument must be provided. By default “fixed” is selected a start seed.}  \item{plot_name}{Specific plot to start the optimisation when the user has selected start = "defined". By default plot_name = NULL. When provided it should be in the form x[nrow,]}  \item{richness}{Species richness selected as optimiser. By default is TRUE}  \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE}  \item{CWE}{Corrected Weight Endemism selected as optimiser. By default is TRUE}  \item{shannon}{Shannon-Wiener diversity index selected as optimiser. By default is TRUE}  \item{simpson}{Simpson diversity index selected as optimiser. By default is TRUE}  \item{simpson_beta}{Simpson dissimilarity selected as optimiser. By default is TRUE}  \item{shannon}{Shannon-Wiener diversity index selected as optimiser. By default is TRUE}  \item{frequent}{By default is TRUE}  \item{random}{By default is TRUE}  \item{iterations}{Number of times the simpson_beta function is going to be implemented with a random seed}  \item{plot}{Function to plot the species accumulation curves for all the optimisers}}\details{Species richness is the count of the number of species present in a given site. Best used when the goal is to identify biodiversity hotspots. Range rarity richness is a rarity-weighted richness calculated as the inverse of the number of sites in which a species occur. Best used when the goal is to identify areas of high biodiversity and biological uniqueness. Corrected Weight Endemism is best used when the goal is to identify centers of endemism highlighting range-restricted species. It is calculated as range rarity richness (RRR) divided by species richness. The Shannon-Wiener diversity index combines species richness and the evenness or equitability by computing the species’ relative abundances. The Shannon-Wiener diversity index assumes that all species are represented in a sample and that they are randomly sampled. The Shannon-Wiener index is defined as  \eqn{H' = -\sum_i p_i \log_{b} p_i}{H = -sum p_i log(b) p_i}, where  \eqn{p_i} is the proportional abundance of species \eqn{i} and \eqn{b}  is the base of the logarithm.  It is most popular to use natural  logarithms, but some argue for base \eqn{b = 2} (which makes sense,  but no real difference).The Simpson diversity index combines species richness and the evenness or equitability by computing the species’ relative abundances. The Simpson diversity index is a dominance index, giving more weight tocommon or dominant species. The Simpson diversity index is based on \eqn{D = \sum p_i^2}{D = sum p_i^2}and returns \eqn{1-D} The Simpson dissimilarity is based on diversity partitioning, which separates species replacement (i.e. turnover) from species loss (i.e. nestedness). The Simpson dissimilarity corresponds to the turnover component of the Sorensen dissimilarity. It is used to maximise species turnover. By default, the function will extract and compile data from the top n selected plots based on all the different optimisers. The starting seed by default will be the one with the highest value of species richness. Arguments allow the user to select the number of plots to optimized, the desired optimisers to implement and the starting seed plot for the optimisation. The lists returned by the function will specify the top selected plots according to each of the optimisers, as well as the cumulative species when employing each of them. Additionally, the function will plot by default of the species cumulative curves obtained by the different optimisers.} 
+\name{optim_species}
+\alias{optim_species}
+
+\title{Optimisation methods for plot selection with different diversity indexes in order to maximise species accumulation}
+\description{This function allows applying different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the 'Maximum coverage problem' framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}
+
+\usage{
+  optim_species(x, n.plt=250, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, start="fixed", plot_name= NULL, frequent=TRUE, random=FALSE, iterations=10, plot=TRUE) {
+    
+\arguments{
+  \item{x}{data frame, species versus sites matrix, where rows are sites and columns are species}
+  \item{n.plt}{Number of plots n conforming the subset to be optimised}
+  \item{richness}{Species richness selected as optimiser. By default is TRUE}
+  \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE}
+  \item{CWE}{Corrected Weight Endemism selected as optimiser. By default is TRUE}
+  \item{shannon}{Shannon-Wiener diversity index selected as optimiser. By default is TRUE}
+  \item{simpson}{Simpson diversity index selected as optimiser. By default is TRUE}
+  \item{simpson_beta}{Simpson dissimilarity selected as optimiser. By default is TRUE}
+  \item{start}{Choose under which condition the first plot for the simpson_beta optimiser is selected. 
+    By default "fixed" is selected a start seed.}
+  \item{plot_name}{Specific plot to start the optimisation when the user has selected start = "defined". 
+    By default plot_name = NULL. When provided it should be in the form x[nrow,]}
+  \item{frequent}{By default is TRUE}
+  \item{iterations}{Number of times the simpson_beta function is going to be implemented with a random seed}
+  \item{random}{By default is FALSE}
+  \item{plot}{Function to plot the species accumulation curves for all the optimisers}
+}
+    
+\details{
+  The data frame input is a species versus sites matrix. If chosen by the user, the first column can be the sites names. If so, it must contain text, it cannot be numeric. 
+  Depending on the desired optimiser the data input needs to be presence/absence or abundance. 
+  For richness, RRR, CWE, and simpson_beta optimisers, a presence/absence input matrix is required. 
+  For shannon and simpson optimisers, an abundance matrix is required
+  
+  The start refers to the first plot used as starting seed when using the simpson_beta optimiser.
+  If "fixed", the plot with the greatest species richness is chosen as a start. 
+  If "random", a random plot is selected as a start. 
+  If "defined" the user assigns a specific starting plot. 
+  Notice that if start = "defined" then the plot_name argument must be provided. 
+  
+  plot_name must be provided when start = "defined" for the simpson_beta optimiser. 
+  If the input matrix contains site names, then plot_name must match the name of the desired site to be used as starting seed. 
+  If the input matrix does not contain site name, then plot_name should be the number of the desired row to be used as starting seed.
+  
+  richness refers to Species richness, which is the count of the number of species present in a given site. 
+  It is best used when the goal is to identify biodiversity hotspots. 
+      
+  RRR refers to Range rarity richness, which is a rarity-weighted richness calculated as the inverse of the number of sites in which a species occur. 
+  It is best used when the goal is to identify areas of high biodiversity and biological uniqueness. 
+      
+  CWE refers to Corrected Weight Endemism, which is calculated as range rarity richness (RRR) divided by species richness. 
+  It is best used when the goal is to identify centers of endemism highlighting range-restricted species. 
+      
+  shannon referst to the Shannon--Wiener diversity index, which combines species richness and the evenness or equitability by computing the species' relative abundances. The Shannon-Wiener diversity index assumes that all species are represented in a sample and that they are randomly sampled. 
+  The Shannon--Wiener index is defined as
+  \eqn{H = -\sum_i p_i \log_{b} p_i}{H = -sum p_i log(b) p_i}, where
+  \eqn{p_i} is the proportional abundance of species \eqn{i} and \eqn{b}
+  is the base of the logarithm.  It is most popular to use natural logarithms, but some argue for base \eqn{b = 2} (which makes sense, but no real difference).
+
+  simpson refers to the Simpson diversity index which combines species richness and the evenness or equitability by computing the species' relative abundances. The Simpson diversity index is a dominance index, giving more weight to
+  common or dominant species. 
+  The Simpson diversity index is based on
+  \eqn{D = \sum p_i^2}{D = sum p_i^2}
+  and returns \eqn{1-D} 
+
+  simpson_beta refers to the Simpson dissimilarity, which is based on diversity partitioning, which separates species replacement (i.e. turnover) from species loss (i.e. nestedness). 
+  The Simpson dissimilarity corresponds to the turnover component of the Sorensen dissimilarity. Thus, it is used to maximise species turnover. 
+  By default, the function will extract and compile data from the top n selected plots based on all the different optimisers. 
+  The starting seed by default will be "fixed" which will correspond to the site with the highest value of species richness. 
+  
+  frequent refers to the most frequent sites that have been selected using the simpson_beta optimiser in certain number of iterations that must be defined by the user. 
+  In order to do so, the starting seed for the simpson_beta optimiser is "random". The result will display two different accumulation curves:
+  one with the most frequent selected plots and another one with the mean and standard deviation of all the species accumulation curves obtained with a random starting seed for all the iterations
+  
+  random refers to the species accumulation when the sites are selected randomly
+  
+  plot is a function that allows plotting all the species accumulation curves obtained for each of the optimisers included in the optim_species function.
+}
+  
+  
+\value{
+  For each optimiser within the function the species accummulation (see specaccum function from vegan R package) will be return.
+  The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
+  Likewise, a list of the sites selected in order to maximise the value of the species accumulated using each optimiser will be return. 
+  Additionally, the function will plot by default of the species cumulative curves obtained by the different optimisers.
+}
+    
+\references{
+  Albuquerque, F., & Beier, P. (2015). Rarity-weighted richness: a simple and reliable 
+  alternative to integer programming and heuristic algorithms for minimum set and maximum 
+  coverage problems in conservation planning. \emph{PloS one} \strong{10}.
+      
+  Baselga, A. (2010). Multiplicative partition of true diversity yields independent alpha and beta components; additive partition does not. 
+  \emph{Ecology} \strong{91}, 1974--1981.
+  
+  Baselga, A. (2012). The relationship between species replacement, dissimilarity derived from nestedness, and nestedness. 
+  \emph{Global Ecology and Biogeography} \strong{21}, 1223--1232.
+  
+  Baselga, A., & Leprieur, F. (2015). Comparing methods to separate components of beta diversity. 
+  \emph{Methods in Ecology and Evolution} \strong{6}, 1069--1079.
+  
+  Guerin, G. R. & Lowe, A. J. (2015). 'Sum of inverse range-sizes'(SIR), a biodiversity metric with many names and interpretations.
+  \emph{Biodiversity and conservation} \strong{24}, 2877--2882.
+
+  Guerin, G. R., Ruokolainen, L., & Lowe, A. J. (2015). A georeferenced implementation of weighted endemism. 
+  \emph{Methods in Ecology and Evolution} \strong{6}, 845--852.
+  
+  Jost, L. (2007). Partitioning diversity into independent alpha and beta components. 
+  \emph{Ecology} \strong{88}, 2427--2439.
+  
+  Koleff, P., Gaston, K. J., & Lennon, J. J. (2003). Measuring beta diversity for presence-absence data. 
+  \emph{Journal of Animal Ecology} \strong{72}, 367--382. 
+  
+  Oksanen, Jari, et al. (2016). vegan: Community Ecology Package. R package version 2.4-3. Vienna: R Foundation for Statistical Computing.
+}
+    
+\author{Irene Martín-Forés, Samantha Munroe and Greg R. Guerin (\code{fisher.alpha}).}
+
+\examples{
+  \example with dune database from vegan
+  library(vegan)
+  data(dune)
+  optim_species(dune, n.plt=15, iterations=20)
+  optim_species(dune, n.plt=15, start="defined", plot=TRUE, plot_name="2", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
+  
+  \example with auplots database from ausplotsR
+  library(ausplotsR)
+  ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE,)
+  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA")
+  optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
+  optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
+}  
+
