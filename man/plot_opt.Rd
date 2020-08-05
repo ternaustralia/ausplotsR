@@ -2,7 +2,7 @@
 \alias{plot_opt}
 
 \title{Plot species accumulation curves derived from the optim_species function}
-\description{This function allows plotting different species accumulation curves obtained from selected sites through different optimisers in the \code{\link{optim_species}} function.}
+\description{This function plots different species accumulation curves obtained through different optimisers in the \code{\link{optim_species}} function.}
 
 \usage{
   plot_opt(optim_result, choices=c("Richness", "RRR", "CWE", "Shannon", 
@@ -16,7 +16,7 @@
 }
     
 \value{
-    This function will return a plot including the species cumulative curves obtained by the different optimisers in the \code{\link{optim_species}} function.
+    This function will return a plot of the species cumulative curves obtained by the different optimisers in the \code{\link{optim_species}} function.
 }
     
     
