@@ -31,7 +31,7 @@ whittaker = TRUE, outfile=NULL, max.plots = 5)
 }
 \details{By default, extracts sample data, allowing the user to explore the dataset in a single call, or to easily visualise an extracted AusPlots dataset. Included in the default demonstration plots are maps of plot locations with and without coding by tree cover, and then a set of four panels for a smaller sample of AusPlots, depicting data from the main vegetation tables in the package, i.e., fractional cover, growth form cover, species cover and species relative abundance. This function is intended as a simple demonstration of the data available. Refer to TERN tutorials for many other ways to visualise and explore AusPlots.
 }
-\value{Plots are written to a pdf file, by default in the working directory.
+\value{Plots are written to a pdf file, saved by default in the working directory.
 }
 \references{Guerin, G.R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., Lowe, A.J. (2017) Opportunities for integrated ecological analysis across inland Australia with standardised data from AusPlots Rangelands. PLoS ONE 12, e0170137.
 	
