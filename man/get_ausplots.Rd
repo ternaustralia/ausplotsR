@@ -69,7 +69,7 @@ my.data$citation
 #Get site info, veg vouchers and veg point intercept for all available plots:
 \dontrun{get_ausplots()} 
 
-#Get veg voucher records for "Eucalyptus moderata" and presence sites info:
+#Get veg voucher records for "Eucalyptus moderata":
 Eucalyptus_moderata <- get_ausplots(species_name_search="Eucalyptus moderata")
 Eucalyptus_moderata$veg.vouch
 }
