@@ -1,6 +1,7 @@
 get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE,
                          veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
-                         soil_character=FALSE, bounding_box="none", species_name_search=NULL) {
+                         soil_character=FALSE, bounding_box="none", herbarium_determination_search=NULL, 
+                         family_search=NULL, standardised_name_search=NULL) {
 
 	
 	#
@@ -11,12 +12,29 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	ausplots.data <- list() # an empty list that will be filled with whatever elements (soil, veg...) were requested and returned from the function
 
-	is_not_null_or_single_char_vector <- !is.null(species_name_search) && !(is.character(species_name_search) && is.vector(species_name_search) && length(species_name_search) == 1)
-	if(is_not_null_or_single_char_vector) stop("species_name_search must be a single element character vector") #
+	herb_is_not_null_or_single_char_vector <- !is.null(herbarium_determination_search) && !(is.character(herbarium_determination_search) && is.vector(herbarium_determination_search) && length(herbarium_determination_search) == 1)
+	if(	herb_is_not_null_or_single_char_vector) stop("herbarium_determination_search must be a single element character vector") #
+	
+	family_is_not_null_or_single_char_vector <- !is.null(family_search) && !(is.character(family_search) && is.vector(family_search) && length(family_search) == 1)
+	if(family_is_not_null_or_single_char_vector) stop("family_search must be a single element character vector") #
+	
+	standard_is_not_null_or_single_char_vector <- !is.null(standardised_name_search) && !(is.character(standardised_name_search) && is.vector(standardised_name_search) && length(standardised_name_search) == 1)
+	if(	standard_is_not_null_or_single_char_vector) stop("standardised_name_search must be a single element character vector") #
+	
+	family_and_species_search_1 <- !is.null(family_search) && !is.null(herbarium_determination_search)
+	if(family_and_species_search_1) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
+	
+	family_and_species_search_2 <- !is.null(family_search) && !is.null(standardised_name_search)
+	if(family_and_species_search_2) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") #
+	
+	family_and_species_search_2 <- !is.null(herbarium_determination_search) && !is.null(standardised_name_search)
+	if(family_and_species_search_2) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
+	
+	#
 	
 	#
 
-	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, species_name_search=species_name_search)
+	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
   
   # FIXME check when no plots are found and give informative message
 	#
@@ -110,7 +128,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(basal.wedge) {
 		
-		basal <- extract_basal(Plot_IDs, species_name_search) #
+		basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search)) #
 		
 		basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
 		
@@ -122,12 +140,17 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.vouchers) {
 		
-		vouch <- extract_vouch(Plot_IDs, species_name_search)
+		vouch <- extract_vouch(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search)
 		
 		#some cleaning operations on the names:
 		vouch$herbarium_determination <- trim.trailing(vouch$herbarium_determination)
 		vouch$herbarium_determination <- tolower(vouch$herbarium_determination)
 		vouch$herbarium_determination <- capitalize(vouch$herbarium_determination)
+		
+		
+		vouch$standardised_name <- trim.trailing(vouch$standardised_name)
+		vouch$standardised_name <- tolower(vouch$standardised_name)
+		vouch$standardised_name <- capitalize(vouch$standardised_name)
 		
 		vouch$site_unique <- do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique code for a site/visit combination
 		
@@ -147,6 +170,14 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		#clear white spaces that interfere with recognising duplicate entries as same species
 		hits$herbarium_determination <- tolower(hits$herbarium_determination)
 		hits$herbarium_determination <- capitalize(hits$herbarium_determination)
+		
+		
+		
+		#some cleaning operations...
+		hits$standardised_name<- trim.trailing(hits$standardised_name)
+		#clear white spaces that interfere with recognising duplicate entries as same species
+		hits$standardised_name <- tolower(hits$standardised_name)
+		hits$standardised_name <- capitalize(hits$standardised_name)
 		
 		#manually correct an odd transect identifier or two:
 		delete <- grep("W5-.E", hits$transect)
@@ -174,4 +205,4 @@ ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") A
 } # end function
 
 
-utils::globalVariables(c("bioregion.f", "height", "herbarium_determination", "site_location_name", "site_unique", "hits_unique", "growth_form", "longitude", "latitude", "long", "lat", "group", "Tree_cover", "dead"))
+utils::globalVariables(c("bioregion.f", "height", "family", "herbarium_determination", "standardised_name", "site_location_name", "site_unique", "hits_unique", "growth_form", "longitude", "latitude", "long", "lat", "group", "Tree_cover", "dead"))
