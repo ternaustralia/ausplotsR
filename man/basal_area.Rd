@@ -15,9 +15,9 @@ basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE)
   \item{by.hits}{Set to TRUE to return the number of individual basal wedge hits rather than basal area per se.
 }
 }
-\details{TBA
+\details{Basal area is the cross-sectional area of tree trunks per unit area, and is measured at each plot using a basal wedge sweep. Measurement is by species at nine points. Basal area is averaged, while raw tree stem counts are also recorded.
 }
-\value{Returns a data frame with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
+\value{Returns a dataframe with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
 }
 \author{Greg R. Guerin
 }

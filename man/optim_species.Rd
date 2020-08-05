@@ -12,7 +12,7 @@
   }
     
 \arguments{
-  \item{speciesVsitesMatrix}{dataframe or matrix, formatted as species (presence/absence or abundance) versus sites, where rows are sites and columns are species. See details for more information on formatting.}
+  \item{speciesVsitesMatrix}{dataframe or matrix, formatted as species (presence/absence or abundance) versus sites, where rows are sites and columns are species. See \code{Details} for more information on formatting.}
   \item{n.plt}{Number of plots, n, conforming the subset to be optimised.}
   \item{richness}{Species richness selected as optimiser. By default is TRUE.}
   \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE.}
@@ -116,7 +116,7 @@
 \code{\link[vegan]{fisher.alpha}}
 }  
     
-\author{Irene Mart?n-For?s, Samantha Munroe and Greg Guerin.}
+\author{Irene Martin-Fores, Samantha Munroe and Greg Guerin.}
 
 \examples{
   #example with dune database from vegan
