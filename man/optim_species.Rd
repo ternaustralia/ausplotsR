@@ -1,8 +1,8 @@
 \name{optim_species}
 \alias{optim_species}
 
-\title{Optimisation methods for plot selection with different diversity indices in order to maximise species accumulation}
-\description{This function allows the application of different optimisers to select a subset of plots in order to maximise species accumulation based on desired biodiversity parameters chosen by the user. The function operates under the 'Maximum coverage problem' framework, by which the user sets the number of plots to select and the function selects them to represent the largest number of species in the given number of sites.}
+\title{Optimisation methods for plot selection using different diversity indices in order to maximise species accumulation}
+\description{This function applys different optimisation methods to select a subset of plots that maximise species accumulation. Optimisation methods vary based on the desired biodiversity parameters chosen by the user. The function operates under the 'Maximum covering species problem' framework, which seeks to identify the plots that will protect the maximum number of species in a specified number of plots. The user specifies the number of plots to select, and each optimiser selects the plots that represent the largest number of species for that given number of plots.}
 
 \usage{
   optim_species(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRUE, 
