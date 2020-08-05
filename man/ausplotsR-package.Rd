@@ -18,7 +18,7 @@ License: \tab GPL-3\cr
 }
 TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring.
 
-The AusPlots survey method is made up of a series of individual modules, which are described in full in the protocols manual (White et al. 2012). Data from the following modules can currently be accessed through ausplotsR: plot selection and layout; vascular plant vouchering; point intercept; basal area; structural summary; and soils. Field data are recorded directly onto mobile (tablet) devices before being stored in cloud-based server infrastructure.
+The AusPlots survey method is made up of a series of individual modules, which are described in full in the protocols manual (White et al. 2012, Sparrow et al. 2020). Data from the following modules can currently be accessed through ausplotsR: plot selection and layout; vascular plant vouchering; point intercept; basal area; structural summary; and soils. Field data are recorded directly onto mobile (tablet) devices before being stored in cloud-based server infrastructure.
 
 Method summaries:
 
@@ -72,6 +72,8 @@ Maintainer: Greg Guerin <ggueri01@gmail.com>
 Tokmakoff, A., Sparrow, B., Turner, D., & Lowe, A. (2016). AusPlots Rangelands field data collection and publication: Infrastructure for ecological monitoring. Future Generation Computer Systems, 56, 537-549.
 
 Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & Lowe, A. J. (2017). Opportunities for integrated ecological analysis across inland Australia with standardised data from Ausplots Rangelands. PloS ONE, 12(1), e0170137.
+
+Sparrow, B., Foulkes, J., Wardle, G., Leitch, E., Caddy-Retalic, S., van Leeuwen, S., Tokmakoff, A., Thurgate, N., Guerin, G.R. and Lowe, A.J. (2020). A vegetation and soil survey method for surveillance monitoring of rangeland environments. Frontiers in Ecology and Evolution, 8:157.
  
 }
 
