@@ -22,7 +22,7 @@ basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE)
 %%     ~~Describe \code{structural_summaries} here~~
 }
 }
-\details{Users should be aware that herbarium determinations are provided by state herbariums and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are also made to the lowest possible taxonomic level, which, depending on the quality of the vegetation voucher sample, may be at the family, genus, species, subspecies or variety level. Therefore, if by.spp=T, the results will include a mix of taxonomic levels, not all of which are at the species level.
+\details{Users should be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. If by.spp=T, results will include a mix of taxonomic ranks.
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{Returns a data frame with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.

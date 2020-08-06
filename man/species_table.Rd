@@ -23,7 +23,7 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
 %%     ~~Describe \code{structural_summaries} here~~
 }
 }
-\details{Users should be aware that herbarium determinations are provided by state herbariums and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are also made to the lowest possible taxonomic level, which, depending on the quality of the vegetation voucher sample, may be at the family, genus, species, subspecies or variety level. Therefore, while the majority of the raw point intercept hits record the "Genus species", occurrence matrices will include a mix of taxonomic levels, not all of which are at the species level.
+\details{Users should be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. Occurrence matrices will include a mix of taxonomic ranks.
 
 
 The returned occurrence matrix (species against sites) can be converted to long format (with rows as species records) using:
