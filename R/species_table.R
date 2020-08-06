@@ -4,7 +4,8 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
   
 #assuming the following columns are available in standardised name, family, genus, genus_species, infraspecific taxa split up, taxonomic issue flag etc etc.
 
-
+  if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most commonly used scientific names in the given state. As a result, scientific names may vary between states due to disagreements on taxonomy/nomenclature. 
+                                  To ensure consistency between all plots, we recommend using the 'standardised_name' or 'genus_species' for species_table calculations")
 hits <- veg.PI
 
 #default is SN
@@ -78,7 +79,6 @@ hits <- veg.PI
     
     
   } #end M-kind == freq
-  
   
   
   if(m_kind == "IVI") {
@@ -231,7 +231,6 @@ if(species_name=="GS"){ #using genus species
   
   if(m_kind=="freq" | m_kind == "IVI") {
     
-    
     hits<-hits[!is.na(hits$genus_species), ]##remove hits not determined as a species
     
     transects <- plyr::count(hits, c("site_unique", "genus_species", "transect")) #count PI records for each uniqe plot/species/transect combo
@@ -263,10 +262,8 @@ if(species_name=="GS"){ #using genus species
     species_table <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
     
   } #end IVI section
-} # end species_
+} # end genus_species
 
-
-if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most commonly used scientific names in the given state. As a result, scientific names may vary between states due to disagreements on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' or 'genus_species' for species_table calculations")
 
 return(species_matrix)
 	
