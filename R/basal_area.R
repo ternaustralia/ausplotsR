@@ -1,4 +1,4 @@
-basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE) {
+basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS")) {
 	
 	basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
 	
@@ -16,16 +16,35 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE) {
 
 		} #end if(!by.spp)
 		
-		if(by.spp) { #Basal Area by species per plot
-			
-			bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
-			
-			names(bas_areas_spp_mean) <- c("site_unique", "herbarium_determination", "basal_area_m2_ha")
-			
-			return(bas_areas_spp_mean)
-			
-		} #end if(by.spp)
-	
+		if(by.spp) { #Basal Area by species per plot, default is standardised_name
+		    
+		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
+		    
+		    names(bas_areas_spp_mean) <- c("site_unique", "standardised_name", "basal_area_m2_ha")
+		  
+		  if(species_name=="HD") {
+		    
+		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
+		    
+		    names(bas_areas_spp_mean) <- c("site_unique", "herbarium_determination", "basal_area_m2_ha") 
+		  } #end HD
+		    
+		    if(species_name=="GS") {
+		      
+		      basal<-basal[!is.na(basal$genus_species), ]#assumes that if a genus_species identification is not possible, the cell value for the row will be NA
+		      
+		      #alternatively, we might assign it a no data term, in which case
+		      #basal<-basal[!(basal$genus_species=="No ID",]
+		      
+		      bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$genus_species), FUN=mean)
+		      
+		      names(bas_areas_spp_mean) <- c("site_unique", "genus_species", "basal_area_m2_ha") 
+		    } #end GS
+		    
+		    return(bas_areas_spp_mean)
+		    
+		  }#end if(by.spp)
+	  
 	} #end if(!by.hits)
 	
 	
@@ -43,17 +62,45 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE) {
 			
 		} #end if(!by.spp)
 		
-		if(by.spp) { #Hits by species:
-			
-			dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
-			
-			names(dens_spp_mean) <- c("site_unique", "herbarium_determination", "mean_hits")
-			
-			return(dens_spp_mean)
-
-		} #end if(by.spp)
-		
-		
+	  if(by.spp) { #Hits by species:
+	    
+	      
+	      dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
+	      
+	      names(dens_spp_mean) <- c("site_unique", "standardised_name", "mean_hits")
+	      
+	    
+	      if(species_name=="HD") {
+	      
+	      ens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
+	      
+	      names(dens_spp_mean) <- c("site_unique", "herbarium_determination", "mean_hits")
+	      
+	      }
+	      
+	      
+	      if(species_name=="GS") {
+	        
+	        basal<-basal[!is.na(basal$genus_species), ]#assumes that if a genus_species identification is not possible, the cell value for the row will be NA
+	        
+	        #alternatively, we might assign it a no data term, in which case
+	        #basal<-basal[!(basal$genus_species=="No ID",]
+	        
+	        ens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$genus_species), FUN=mean)
+	        
+	        names(dens_spp_mean) <- c("site_unique", "genus_species", "mean_hits")
+	        
+	      }
+	      
+	      return(dens_spp_mean)
+	      
+	    } #if(!herb_determination)
+	    
+	  } #end if(by.spp)
+	  
+	  
 	} #end if(by.hits)
 
+	if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' if by.spp=T"')
+	
 } #end function
