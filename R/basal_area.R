@@ -1,6 +1,10 @@
 basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS")) {
 	
-	basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
+  if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most 
+  commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements 
+  on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' if by.spp=T")
+  
+  basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
 	
 	if(!by.hits) {
 		
@@ -30,11 +34,6 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("H
 		  } #end HD
 		    
 		    if(species_name=="GS") {
-		      
-		      basal<-basal[!is.na(basal$genus_species), ]#assumes that if a genus_species identification is not possible, the cell value for the row will be NA
-		      
-		      #alternatively, we might assign it a no data term, in which case
-		      #basal<-basal[!(basal$genus_species=="No ID",]
 		      
 		      bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$genus_species), FUN=mean)
 		      
@@ -94,13 +93,11 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("H
 	      
 	      return(dens_spp_mean)
 	      
-	    } #if(!herb_determination)
 	    
 	  } #end if(by.spp)
 	  
 	  
 	} #end if(by.hits)
 
-	if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' if by.spp=T"')
 	
 } #end function
