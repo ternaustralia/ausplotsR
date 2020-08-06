@@ -2,9 +2,8 @@
 species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("HD","SN","GS")) {
 
   
-#assuming the follwing columns are available in standardised name, family, genus, genus_species, infraspecific taxa split up, taxonomic issue flag etc etc.
+#assuming the following columns are available in standardised name, family, genus, genus_species, infraspecific taxa split up, taxonomic issue flag etc etc.
 
-  
 
 hits <- veg.PI
 
@@ -14,7 +13,7 @@ hits <- veg.PI
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
-    hits <- stats::na.omit(hits) #remove hots not determined as a species
+    hits<-hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -46,7 +45,7 @@ hits <- veg.PI
     covers$percent <- covers$freq/covers$total.points*100 #add a new column to convert from number of hits to percent. Some plots have less or more than the standard 1010 PI hits for various reasons, so this ensures dividing by the actual number of unique hits, which is calculated from the raw data and unique transect/number combos
     
     covers <- stats::na.omit(covers) #to remove percents for records with no herbarium determination
-    
+   
     
     #generate sites by species matrix:
     cover_matrix <- simba::mama(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
@@ -59,7 +58,7 @@ hits <- veg.PI
   if(m_kind=="freq" | m_kind == "IVI") {
     
     
-    hits <- stats::na.omit(hits) #remove NA herbarium determinations
+    hits<-hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
     
     transects <- plyr::count(hits, c("site_unique", "standardised_name", "transect")) #count PI records for each uniqe plot/species/transect combo
     
@@ -99,7 +98,7 @@ if(species_name=="HD"){
       
       hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
       
-      hits <- stats::na.omit(hits) #remove hots not determined as a species
+      hits<-hits[!is.na(hits$herbarium_determination), ]) #remove hots not determined as a species
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
@@ -178,29 +177,18 @@ if(m_kind == "IVI") {
 } # end species_name=="HD"
 
 
-########################using standardised_name###############
-
-
-
 
 #########genus_species##########################
 
-
 if(species_name=="GS"){ #using genus species
-  
-  #need to remove no data cells
-  
-  hits<-hits[!is.na(hits$genus_species), ]#assumes that if a genus_species identification is not possible, the cell value for the row will be NA
-  
-  #alternatively, we might assign it a no data term, in which case
-  #hits<-hits[!(hits$genus_species=="No ID",]
-  
   
   if(m_kind == "PA") {
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "genus_species"),])), c("site_unique", "genus_species")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
-    hits <- stats::na.omit(hits) #remove hots not determined as a species
+    hits<-hits[!is.na(hits$genus_species), ]##remove hits not determined as a species
+    #alternatively, we might assign it a no data term, in which case
+    #hits<-hits[!(hits$genus_species=="No ID",]
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -233,7 +221,6 @@ if(species_name=="GS"){ #using genus species
     
     covers <- stats::na.omit(covers) #to remove percents for records with no herbarium determination
     
-    
     #generate sites by species matrix:
     cover_matrix <- simba::mama(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
     
@@ -245,7 +232,7 @@ if(species_name=="GS"){ #using genus species
   if(m_kind=="freq" | m_kind == "IVI") {
     
     
-    hits <- stats::na.omit(hits) #remove NA herbarium determinations
+    hits<-hits[!is.na(hits$genus_species), ]##remove hits not determined as a species
     
     transects <- plyr::count(hits, c("site_unique", "genus_species", "transect")) #count PI records for each uniqe plot/species/transect combo
     
