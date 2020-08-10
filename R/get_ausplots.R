@@ -13,22 +13,22 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	ausplots.data <- list() # an empty list that will be filled with whatever elements (soil, veg...) were requested and returned from the function
 
 	herb_is_not_null_or_single_char_vector <- !is.null(herbarium_determination_search) && !(is.character(herbarium_determination_search) && is.vector(herbarium_determination_search) && length(herbarium_determination_search) == 1)
-	if(	herb_is_not_null_or_single_char_vector) stop("herbarium_determination_search must be a single element character vector") #
+	if(herb_is_not_null_or_single_char_vector) stop("herbarium_determination_search must be a single element character vector") #
 	
 	family_is_not_null_or_single_char_vector <- !is.null(family_search) && !(is.character(family_search) && is.vector(family_search) && length(family_search) == 1)
 	if(family_is_not_null_or_single_char_vector) stop("family_search must be a single element character vector") #
 	
 	standard_is_not_null_or_single_char_vector <- !is.null(standardised_name_search) && !(is.character(standardised_name_search) && is.vector(standardised_name_search) && length(standardised_name_search) == 1)
-	if(	standard_is_not_null_or_single_char_vector) stop("standardised_name_search must be a single element character vector") #
+	if(standard_is_not_null_or_single_char_vector) stop("standardised_name_search must be a single element character vector") #
 	
-	family_and_species_search_1 <- !is.null(family_search) && !is.null(herbarium_determination_search)
-	if(family_and_species_search_1) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
+	is_family_and_herbarium_name_supplied<- !is.null(family_search) && !is.null(herbarium_determination_search)
+	if(is_family_and_herbarium_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
-	family_and_species_search_2 <- !is.null(family_search) && !is.null(standardised_name_search)
-	if(family_and_species_search_2) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") #
+	is_family_and_standardised_name_supplied <- !is.null(family_search) && !is.null(standardised_name_search)
+	if(is_family_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") #
 	
-	family_and_species_search_2 <- !is.null(herbarium_determination_search) && !is.null(standardised_name_search)
-	if(family_and_species_search_2) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
+	is_herbarium_determination_and_standardised_name_supplied <- !is.null(herbarium_determination_search) && !is.null(standardised_name_search)
+	if(is_herbarium_determination_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
 	#
 	
