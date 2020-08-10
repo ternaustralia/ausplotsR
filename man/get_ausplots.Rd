@@ -38,7 +38,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
  
  
-\item{standardised_name_search} {Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the column. Search term parameters and outputs follow the same rules as  \code{herbarium_determination_search}. \code{standardised_name_search} values are based on the \code{herbarium_determination_search} but have been edited to match the most commonly used or widely accepted scientific name in Australia. This helps to ensure scientific names will not differ between states. \code{standardised_name_search} determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety.
+\item{standardised_name_search} {Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the column. Search term parameters and outputs follow the same rules as  \code{herbarium_determination_search}. \code{standardised_name_search} values are based on the \code{veg.PI$herbarium_determination} but have been edited to match the most commonly used or widely accepted scientific name in Australia. This helps to ensure scientific names will not differ between states. \code{standardised_name_search} determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety.
 }
 
 }
