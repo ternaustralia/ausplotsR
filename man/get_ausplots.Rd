@@ -49,7 +49,7 @@ AusPlots surveys are identified by a plot ID and unique visit number, that are c
   \item{$soil.char }{Data frame with soil characterisation data from the 1 m pit at the SW corner of each plot.}
   \item{$citation }{Auto-generated citation for the data extracted. Please cite ausplotsR and the TERN AusPlots data you use.}
 }
-\author{Greg R. Guerin, Andrew Tokmakoff, Tom Saleeba, Samantha Munroe
+\author{Greg Guerin, Andrew Tokmakoff, Tom Saleeba, Samantha Munroe
 }
 
 \seealso{
