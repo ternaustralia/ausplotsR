@@ -1,6 +1,6 @@
 ---
 title: "ausplotsR: quickstart guide to basic analysis of TERN AusPlots vegetation data"
-author: "Greg Guerin"
+author: "Greg Guerin & Bernardo Blanco-Martin"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -111,20 +111,27 @@ points(ND$latitude, ND$predict , type="l", lwd=2, col="darkblue")
 
 ## Example 2: Species by sites table
 
-Aside from 'gross' values from plots such as fractional cover, many analyses in community ecology begin with a species against sites table populated with abundance information. With ausplotsR you can generate this easily from the more complex vegetation point intercept hit data as follows:
+Aside from 'gross' values from plots such as fractional cover, many analyses in community ecology begin with species abundance information. With ausplotsR you can generate this easily from the more complex vegetation point-intercept data. The first step to work with species-level AusPlots data is to create a species occurrence matrix. The `species_table` function in the ausplotsR package can be used to create this type of matrix. This function takes a data frame of individual raw point-intercept hits (i.e. a `$veg.PI` data frame) generated using the `get_ausplots` function and returns a ‘species against sites’ matrix:
 
 ```{r}
 my.sppBYsites <- species_table(my.ausplots.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
-dim(my.sppBYsites) #the number of rows and columns in the matrix
+dim(my.sppBYsites) #the number of rows (plots) and columns (species) in the matrix
 my.sppBYsites[1:5, 1:5] #look at the top left corner (the matrix is large)
 
 ```
 
-Here are simple examples of downstream analysis and visualisation uinsg the species occurrence matrix:
+We can crudely pull out the 10 highest ranking species in terms of their percent cover cumulative across all plots they occur in:
+
+```{r}
+rev(sort(colSums(my.sppBYsites)))[1:10]
+```
+
+A simple example of downstream visualisation and analysis of species-level AusPlots data is Rank-Abundance Curves (also known as Whittaker Plots). Rank-Abundance Curves provide further information on species diversity. They provide a more complete picture than a single diversity index. Their x-axis represents the abundance rank (from most to least abundant) and in the y-axis the species relative abundance. Thus, they depict both Species Richness and Species Evenness (slope of the line that fits the rank; steep gradient indicates low evenness and a shallow gradient high evenness).
 
 ```{r, fig.height = 4, fig.width = 6}
-#Whittaker plots:
+#Whittaker plots for selected AusPlots:
 goeveg::racurves(my.sppBYsites[10:15,], bw=F)
-#With possible relative abundance models for one community:
+
+#And then with alternative relative abundance models fitted for one community:
 plot(vegan::radfit(round(my.sppBYsites[10,], digits=0), log="xy"), pch=20)
 ```
