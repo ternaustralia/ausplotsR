@@ -14,8 +14,19 @@ When you're hacking on this package locally, you can test it by installing from 
       install.packages("devtools")
       install.packages("roxygen2")
       ```
-  1. use the `devtools::load_all` ([doco](https://rdrr.io/cran/devtools/man/load_all.html)) function to load the package from source:
+  1. install the dependencies for our package:
       ```R
+      devtools::install_deps(pkg='.')
+      ```
+  1. use the `devtools::load_all`
+     ([doco](https://rdrr.io/cran/devtools/man/load_all.html)) function to load
+     the package from source. There is no argument to this function as it looks
+     in your current working directory:
+      ```R
+      # check your working directory with
+      #   getwd()
+      # ...and set your working directory with
+      #   setwd('/path/to/dir')
       devtools::load_all()
       ```
   1. if you make code changes, re-run `devtools::load_all()` to reload.
