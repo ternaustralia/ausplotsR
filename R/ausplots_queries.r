@@ -46,7 +46,7 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
   } 
   if(!is.null(standardised_name_search)) { 
-    extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))} #search by standardised_name
+    extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep=""))) #search by standardised_name
 }
   if(Plot_IDs[1] == "none") {
     Plot_IDs <- c()
