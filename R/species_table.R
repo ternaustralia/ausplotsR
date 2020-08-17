@@ -98,7 +98,7 @@ if(species_name=="HD"){
       
       hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
       
-      hits<-hits[!is.na(hits$herbarium_determination), ]) #remove hots not determined as a species
+      hits<-hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a species
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
