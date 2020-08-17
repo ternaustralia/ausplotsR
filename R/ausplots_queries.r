@@ -20,7 +20,7 @@
   }
 
   resp <- httr::GET(getOption("ausplotsR_api_url"), httr::add_headers(Authorization = auth_header), path=path, query=query)
-  httr::stop_for_status(resp)
+  httr::stop_for_status(resp, task = httr::content(resp, "text"))
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
@@ -40,14 +40,14 @@
 list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
   extra_query <- list()
   if(!is.null(family_search)) {
-    extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep=""))) #search by family 
+   extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep=""))) #search by family
   }
   if(!is.null(herbarium_determination_search)) {
     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
   } 
-  if(!is.null(standardised_name_search)) { 
-    extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep=""))) #search by standardised_name
-}
+  if(!is.null(standardised_name_search)) {
+  extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep=""))) #search by standardised_name
+  }
   if(Plot_IDs[1] == "none") {
     Plot_IDs <- c()
   }
@@ -132,7 +132,7 @@ extract_basal <- function(Plot_IDs, herbarium_determination_search=NULL, family_
 
 ############################
 
-extract_vouch <- function(Plot_IDs, species_name_search=NULL) {
+extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
   extra_query <- list()
   path <- "veg_voucher"
   if(!is.null(family_search)) {
