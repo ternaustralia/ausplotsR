@@ -128,7 +128,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(basal.wedge) {
 		
-		basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search)) #
+		basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search) #
 		
 		basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
 		
