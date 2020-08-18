@@ -8,13 +8,14 @@ if(!is.logical(cumulative)) {stop("cumulative? must be logical (TRUE/FALSE)")}
 if(!is.logical(by_strata)) {stop("by_strata? must be logical (TRUE/FALSE)")}
 if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
 if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
-if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' of 'genus_species' for growth form richness calculations")
+
 
 #veg-hits
 #this will need to change to be more specific because of additional columns
 #default will be SN
+  if(species_name=="SN") {
 
-hits<-veg.PI[!is.na(veg.PI$standardised_name), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
+    hits<-veg.PI[!is.na(veg.PI$standardised_name), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
 
 
 #remove 'in canopy sky' hits if projected foliage cover required:
@@ -93,6 +94,8 @@ growth_form_matrix <- growthForm_matrix_SPPweights
 
 } #end richness weights
 
+} #end SN
+
 ####################if species_name=HD
   
 if(species_name=="HD"){
@@ -158,6 +161,8 @@ if(species_name=="HD"){
   
   
   if(m_kind=="richness") {
+    
+    warning("'herbarium_determination' species names are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' of 'genus_species' for growth form richness calculations")
     
     form_rows2 <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, herbarium_determination=hits$herbarium_determination)
     

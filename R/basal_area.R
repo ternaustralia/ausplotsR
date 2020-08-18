@@ -1,8 +1,6 @@
 basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS")) {
 	
-  if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most 
-  commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements 
-  on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' if by.spp=T")
+  
   
   basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
 	
@@ -21,10 +19,13 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("H
 		} #end if(!by.spp)
 		
 		if(by.spp) { #Basal Area by species per plot, default is standardised_name
+		  
+		  if(species_name=="SN") {
 		    
 		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
 		    
 		    names(bas_areas_spp_mean) <- c("site_unique", "standardised_name", "basal_area_m2_ha")
+		  } #end SN
 		  
 		  if(species_name=="HD") {
 		    
@@ -63,14 +64,15 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("H
 		
 	  if(by.spp) { #Hits by species:
 	    
+	    if(species_name=="SN") {
 	      
 	      dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
 	      
 	      names(dens_spp_mean) <- c("site_unique", "standardised_name", "mean_hits")
-	      
+	    } #end SN
 	    
 	      if(species_name=="HD") {
-	      
+	        
 	      ens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
 	      
 	      names(dens_spp_mean) <- c("site_unique", "herbarium_determination", "mean_hits")

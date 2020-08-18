@@ -4,11 +4,12 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
   
 #assuming the following columns are available in standardised name, family, genus, genus_species, infraspecific taxa split up, taxonomic issue flag etc etc.
 
-  if(species_name=="HD") warning("'herbarium_determination' species names are provided by state herbariums and are the most commonly used scientific names in the given state. As a result, scientific names may vary between states due to disagreements on taxonomy/nomenclature. 
-                                  To ensure consistency between all plots, we recommend using the 'standardised_name' or 'genus_species' for species_table calculations")
+  
 hits <- veg.PI
 
 #default is SN
+
+if(species_name=="SN") {
   
   if(m_kind == "PA") {
     
@@ -86,19 +87,22 @@ hits <- veg.PI
     
     IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
     
-    species_table <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
+    species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
     
   } #end IVI section
+} #end SN
 
 ###################using herbarium determination################
 
 if(species_name=="HD"){ 
   
+  warning("Be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in a given state. Scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It also includes incomplete and generic identifications (e.g. "Dead Tree/Shrub", "Annual Grass"). Consider using "SN" or "GS" to ensure greater consistency between plots")
+  
   if(m_kind == "PA") {
       
-      hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
-      
-      hits<-hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a species
+    hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
+    
+    hits<-hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a speciesemove hots not determined as a species
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
@@ -171,7 +175,7 @@ if(m_kind == "IVI") {
 		
 	IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
 	
-	species_table <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
+	species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
 
 } #end IVI section
 } # end species_name=="HD"
@@ -259,7 +263,7 @@ if(species_name=="GS"){ #using genus species
     
     IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
     
-    species_table <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
+    species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
     
   } #end IVI section
 } # end genus_species
