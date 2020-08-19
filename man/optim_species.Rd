@@ -75,7 +75,7 @@
   
   
 \value{
-  Returns a list containing, for each optimiser within the function, a species accummulation object will be returned (see \code{\link[vegan]{specaccum}}, object as returned from   vegan R package). The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
+  Returns a list containing, for each optimiser within the function, a species accummulation object will be returned (see \code{\link[vegan]{specaccum}}, object as returned from vegan R package). The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
   Likewise, a list of the sites selected in order to maximise the value of the species accumulated using each optimiser will be returned. 
   Additionally, the function will plot by default of the species cumulative curves obtained by the different optimisers.
 }
