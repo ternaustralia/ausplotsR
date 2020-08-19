@@ -79,11 +79,10 @@ if(m_kind=="freq" | m_kind == "IVI") {
 
 
 if(m_kind == "IVI") {
-	freq_matrix_percents <- freq_matrix*100 #convert to %
 		
-	IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
+	IVI <- (cover_matrix/rowSums(cover_matrix))*100 + (freq_matrix/rowSums(freq_matrix))*100  #combine relative freq and cover i.e. as proportion of total across all species, to get a measure of IVI
 	
-	species_table <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
+	species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
 
 } #end IVI section
 
