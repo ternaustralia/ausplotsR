@@ -16,6 +16,7 @@ if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
   
   if(missing(species_name)) {
     species_name = "SN"
+    warning("No species_name supplied, defaulting to species_name='SN'")
   } #end missing
   
   if(species_name=="SN") {
@@ -104,6 +105,7 @@ growth_form_matrix <- growthForm_matrix_SPPweights
 ####################if species_name=HD
   
 if(species_name=="HD"){
+  
   hits<-veg.PI[!is.na(veg.PI$herbarium_determination), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
   
   #remove 'in canopy sky' hits if projected foliage cover required:
@@ -166,8 +168,6 @@ if(species_name=="HD"){
   
   
   if(m_kind=="richness") {
-    
-    warning("'herbarium_determination' species names are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. To ensure consistency between all plots, we recommend using the 'standardised_name' of 'genus_species' for growth form richness calculations")
     
     form_rows2 <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, herbarium_determination=hits$herbarium_determination)
     

@@ -20,26 +20,27 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 		
 		if(by.spp) { #Basal Area by species per plot, default is standardised_name
 		
-		  if(missing(species_name)) {
+		  if(missing(species_name)) { #if no species_name supplied, default to SN
 	       species_name = "SN"
+	       warning("No species_name supplied, defaulting to species_name='SN'")
 		  } #end missing
 		  
 		  
-		  if(species_name=="SN") {
+		  if(species_name=="SN") { #uses standardised name
 		    
 		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
 		    
 		    names(bas_areas_spp_mean) <- c("site_unique", "standardised_name", "basal_area_m2_ha")
 		  } #end SN
 		  
-		  if(species_name=="HD") {
+		  if(species_name=="HD") { #uses herbarium determination
 		    
 		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
 		    
 		    names(bas_areas_spp_mean) <- c("site_unique", "herbarium_determination", "basal_area_m2_ha") 
 		  } #end HD
 		    
-		    if(species_name=="GS") {
+		    if(species_name=="GS") { #uses genus_species
 		      
 		      bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$genus_species), FUN=mean)
 		      
@@ -71,6 +72,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 	    
 	    if(missing(species_name)) {
 	      species_name = "SN"
+	      warning("No species_name supplied, defaulting to species_name='SN'")
 	    }
 	    
 	    if(species_name=="SN") {
@@ -91,7 +93,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 	      
 	      if(species_name=="GS") {
 	        
-	        basal<-basal[!is.na(basal$genus_species), ]#assumes that if a genus_species identification is not possible, the cell value for the row will be NA
+	        basal<-basal[!is.na(basal$genus_species), ] #assumes that if a genus_species identification is not possible, the cell value for the row will be NA
 	        
 	        #alternatively, we might assign it a no data term, in which case
 	        #basal<-basal[!(basal$genus_species=="No ID",]
