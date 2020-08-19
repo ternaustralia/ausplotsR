@@ -1,5 +1,5 @@
 
-species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("HD","SN","GS")) {
+species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS")) {
 
   
 #assuming the following columns are available in standardised name, family, genus, genus_species, infraspecific taxa split up, taxonomic issue flag etc etc.
@@ -8,6 +8,10 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
 hits <- veg.PI
 
 #default is SN
+
+if(missing(species_name)) {
+  species_name = "SN"
+} #end missing
 
 if(species_name=="SN") {
   
@@ -96,7 +100,7 @@ if(species_name=="SN") {
 
 if(species_name=="HD"){ 
   
-  warning("Be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in a given state. Scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It also includes incomplete and generic identifications (e.g. "Dead Tree/Shrub", "Annual Grass"). Consider using "SN" or "GS" to ensure greater consistency between plots")
+  warning("Be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in a given state. Scientific names may differ between states and international databases due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It also includes incomplete and generic identifications (e.g. Dead Tree/Shrub, Annual Grass). Consider using SN or GS to ensure greater consistency between plots")
   
   if(m_kind == "PA") {
       

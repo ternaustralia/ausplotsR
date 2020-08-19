@@ -1,4 +1,4 @@
-basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS")) {
+basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("SN","HD","GS")) {
 	
   
   
@@ -19,6 +19,11 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("H
 		} #end if(!by.spp)
 		
 		if(by.spp) { #Basal Area by species per plot, default is standardised_name
+		
+		  if(missing(species_name)) {
+	       species_name = "SN"
+		  } #end missing
+		  
 		  
 		  if(species_name=="SN") {
 		    
@@ -63,6 +68,10 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("H
 		} #end if(!by.spp)
 		
 	  if(by.spp) { #Hits by species:
+	    
+	    if(missing(species_name)) {
+	      species_name = "SN"
+	    }
 	    
 	    if(species_name=="SN") {
 	      

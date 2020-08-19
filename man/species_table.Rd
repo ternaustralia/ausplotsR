@@ -16,10 +16,10 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
   \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC' (which may be more suitable for some applications such as comparison to remotely sensed cover products).
  }
 
-\item{species_name}{Set to "SN" to use "standardised_names"", "HD" to use "herbarium_determination"", and "GS" to use "genus_species". See details for explaination of each setting.
+\item{species_name}{Set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for an explaination of each setting.
  
 }
-\details{\code{species_name} provides multiple options for calculating plant cover, presence or frequency. If \code{species_name="HD"}, the function will use the "herbarium_determination" provided by state herbaria to identify unique species. "herbarium_determination" are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It includes incomplete identifications, dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass"), and "No ID" labels. If \code{species_name="SN"}, scientific names are based on the "standardised_name"" in the veg.PI input table. Values are based on the \code{veg.PI$herbarium_determination} but have been edited to match the most commonly used or widely accepted scientific name according to "World Flora Online" (http://www.worldfloraonline.org/). "standardised_name" determinations are made to the lowest possible taxonomic rank, which may be the genus, species, subspecies or variety, but not family. It excludes incomplete identifications, dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass"), and "No ID" labels. If \code{species_name="GS"}, only the standardised genus species rank ("genus_species" in the veg.PI input table) is used. \code{species_name="GS"} maximises consistency in species comparisons between plots, but reduces the taxonomic detail and excludes records where only the genus was identified. 
+\details{\code{species_name} provides multiple options for calculating plant cover, presence or frequency. If \code{species_name="HD"}, the function will use the "herbarium_determination" provided by state herbaria to identify unique species. "herbarium_determination" are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It includes incomplete identifications, dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass"), and "No ID" labels. If \code{species_name="SN"}, the default, the function will use the the "standardised_name" to identify unique species. Values are based on the \code{veg.PI$herbarium_determination} but have been edited to match the most commonly used or widely accepted scientific name according to "World Flora Online" (http://www.worldfloraonline.org/). "standardised_name" determinations are made to the lowest possible taxonomic rank, which may be the genus, species, subspecies or variety, but not family. It excludes dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass") and "No ID" labels. If \code{species_name="GS"}, only the standardised genus species rank ("genus_species" in the veg.PI input table) is used to identify species. \code{species_name="GS"} maximises consistency in species comparisons between plots, but reduces the taxonomic detail and excludes records where only the genus was identified.
 
 The returned occurrence matrix (species against sites) can be converted to long format (with rows as species records) using:
 
@@ -51,7 +51,7 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE)
 
-#generate a percent cover occurrence matrix:
-species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
+#generate a percent cover occurrence matrix using "genus_species" species identification:
+species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="GS")
 }
 

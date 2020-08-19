@@ -1,4 +1,4 @@
-growth_form_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "richness"), cover_type=c("PFC", "OCC"), cumulative=TRUE, by_strata=FALSE, species_name=c("HD","SN","GS")) {
+growth_form_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "richness"), cover_type=c("PFC", "OCC"), cumulative=TRUE, by_strata=FALSE, species_name=c("SN","HD","GS")) {
 
 
 #input checks
@@ -13,6 +13,11 @@ if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
 #veg-hits
 #this will need to change to be more specific because of additional columns
 #default will be SN
+  
+  if(missing(species_name)) {
+    species_name = "SN"
+  } #end missing
+  
   if(species_name=="SN") {
 
     hits<-veg.PI[!is.na(veg.PI$standardised_name), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
