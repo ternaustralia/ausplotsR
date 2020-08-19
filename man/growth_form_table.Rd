@@ -19,7 +19,7 @@ growth_form_table(veg.PI, m_kind=c("PA", "percent_cover", "richness"),
 }
 \item{by_strata}{Logical. If set to \code{TRUE}, cover is calculated by strata (as defined by growth forms).  Ignored except when \code{m_kind="percent_cover"}.
 }
-\item{species_name} Set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for an explaination of each setting.
+\item{species_name}{Set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for an explaination of each setting.
 }
 }
 \details{Probably the most useful data output from this function is the matrix of plant growth forms against sites with percent cover. This could be used in manova, ordination, classification etc. It also provides a multivariate structural and functional response variable.
