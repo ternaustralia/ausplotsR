@@ -1,6 +1,6 @@
 ---
 title: "ausplotsR: quickstart guide to basic analysis of TERN AusPlots vegetation data"
-author: "Greg Guerin"
+author: "Greg Guerin & Bernardo Blanco-Martin"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -12,23 +12,29 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  tidy.opts=list(width.cutoff=80), 
+  tidy = 'formatR', 
   comment = "#>"
 )
 ```
 
 ## Introduction
 
-TERN AusPlots is a national field plot-based terrestrial ecosystem surveillance monitoring method and dataset for Australia. Through ausplotsR, users can directly access AusPlots data on vegetation and soils, including physical sample barcode numbers. The package also includes functions for creating tables of species composition, tree basal area, fractional cover and so on.
+TERN AusPlots is a national plot-based terrestrial ecosystem surveillance monitoring method and dataset for Australia (Sparrow et al. 2020). Through **ausplotsR**, users can directly access AusPlots data collected by on-ground observers on vegetation and soils, including physical sample/voucher details and barcode numbers. The dataset can be downloaded in its entirety or as individual modules, and can be subsetted by geographic bounding box or species name search. The package also includes a series of bespoke functions for working with AusPlots data, including visualisation, creating tables of species composition, and calculation of tree basal area, fractional cover or vegetation cover by growth form/structure/strata and so on.
 
-This is a guide for getting started with analysis of AusPlots data through the ausplotsR R package. More information on AusPlots is available through the package help file. Below, we demonstrate installing the package, accessing some AusPlots data, generating matrices and running simple example analysis.
+This is a short guide for getting started with analysis of AusPlots data through the **ausplotsR** R package. More information on making use of AusPlots data in **ausplotsR** is available through the package help files and manual. Below, we demonstrate installing the package, accessing some AusPlots data, generating matrices and running simple example analyses.
+
+More comprehensive tutorials on accessing and analysing AusPlots data (Blanco-Martin 2019) are available at:
+[https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData](https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData)
+
 
 ## Installing the package and accessing raw data
 
-ausplotsR can be installed directly from github using the `devtools` package, which must be installed first.
+The latest version of **ausplotsR** can be installed directly from github using the `devtools` package, which must be installed first.
 
 ```
 library(devtools)
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE)
+install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
 Once installed, load the package.
@@ -37,33 +43,73 @@ Once installed, load the package.
 library(ausplotsR)
 ```
 
-We can now access data, starting with basic site information and vegetation point intercept.
+We can now access live data, starting here with basic site information and vegetation point-intercept modules and using a bounding box to spatially filter the dataset to central Australia. All data modules are extracted via a single function, `get_ausplots`:
 
 ```{r}
-my.ausplots.data <- get_ausplots(veg.vouchers=F)
+#see ?get_ausplots to explore all data modules available
+my.ausplots.data <- get_ausplots(veg.vouchers = FALSE, bounding_box = c(125, 140, -40, -10))
 ```
 
-The output of the above call is a list with the following $elements:
+The output of the above call is a list with the following `$elements`:
 
 ```{r}
 names(my.ausplots.data)
 ```
 
+The 'site.info' table contains basic site and visit details. Here are a selected few of the many fields:
+```{r}
+head(my.ausplots.data$site.info[,c("site_location_name", "site_unique", "longitude", "latitude", "bioregion_name")])
+```
+
+**Each survey is identified by the *'site_unique'* field, which is unique combination of site ID ('site_location_name') and visit ID ('site_location_visit_id'). The *'site_unique'* field therefore links all tables returned from the `get_ausplots` function**.
+
+The 'site.info' table and can be used to identify, subset or group surveys in space and time, for example:
+
+```{r}
+#count plot visits per Australian States:
+summary(as.factor(my.ausplots.data$site.info$state))
+```
+
+
+## Map AusPlots sites and visualise data
+
+The package has an in-built function - see `?ausplots_visual` - to rapidly map AusPlots over Australia and to visualise the relative cover/abundance of green vegetation, plant growth forms and species. Maps can also be generated manually using the longitude and latitude fields in the `$site.info` table.
+
+```{r fig1, fig.height = 4, fig.width = 6}
+#Sites are coded by IBRA bioregion by default. 
+map_ausplots(my.ausplots.data)
+```
+
+Alternatively, the following call generates a pdf with a map of all sites and attribute graphics for selected AusPlots:
+`ausplotsR::ausplots_visual()`
+
+
+Here is a snippet of the raw point-intercept data that will be used in the following examples to derive vegetation attributes:
+
+```{r}
+head(subset(my.ausplots.data$veg.PI, !is.na(herbarium_determination)))
+```
+
+Note that 'veg_barcode' links species hits to the vegetation vouchers module, while the 'hits_unique' field identifies the individual point-intercept by transect and point number (see `help(ausplotsR)` and references for more details on the plot layout and survey method). At each point, plant species (if any), growth form and height are recorded along with substrate type.
 
 ## Example 1: latitudinal pattern in proportional vegetation cover
 
-Let's visualise vegetation cover as a function of latitude. First, we call the `fractional_cover` function on the extracted point intercept data. Note the calculation may take a few minutes for all AusPlots, so for this example we will pull out a subset of 100 randomly drawn sites to work with.
+Let's visualise basic vegetation cover as a function of latitude. First, we call the `fractional_cover` function on the extracted point-intercept data (`$veg.PI`). The function converts the raw data to proportional cover of green/brown vegetation and bare substrate. Note the calculation may take a few minutes for many AusPlots, so for this example we will pull out a subset of 100 randomly drawn sites to work with.
 
-```{r,warning=FALSE}
-my.fractional <- fractional_cover(my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_unique %in% sample(my.ausplots.data$site.info$site_unique, 100)), ])
+```{r, warning=FALSE}
+sites100 <- my.ausplots.data$veg.PI[which(my.ausplots.data$veg.PI$site_unique  %in% sample(my.ausplots.data$site.info$site_unique, 100)), ]
+my.fractional <- fractional_cover(sites100)
+
 head(my.fractional)
 ```
 
-Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. Each survey is identified by the 'site_unique' field, which is unique combination of site ID ('site_location_name') and visit ID ('site_location_visit_id'). The 'site_unique' field therefore links all tables returned from the get_ausplots function:
+Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. We use the 'site_unique' field (unique combination of site and visit IDs) to link tables returned from the `get_ausplots` function:
 
 ```{r}
 my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "NA.", "longitude", "latitude")]
+
 my.fractional <- na.omit(my.fractional)
+
 head(my.fractional)
 ```
 
@@ -82,7 +128,8 @@ LM <- lm(bare ~ latitude + quadratic, data=my.fractional)
 summary(LM)
 
 #generate predicted values for plotting:
-ND <- data.frame(latitude=seq(from=min(my.fractional$latitude), to=max(my.fractional$latitude), length.out=50), quadratic=seq(from=min(my.fractional$latitude), to=max(my.fractional$latitude), length.out=50)^2)
+MinMax <- c(min(my.fractional$latitude), max(my.fractional$latitude))
+ND <- data.frame(latitude=seq(from=MinMax[1], to=MinMax[2], length.out=50), quadratic=seq(from=MinMax[1], to=MinMax[2], length.out=50)^2)
 ND$predict <- predict(LM, newdata=ND)
 #
 plot(bare ~ latitude, data=my.fractional, pch=20, bty="n")
@@ -91,20 +138,49 @@ points(ND$latitude, ND$predict , type="l", lwd=2, col="darkblue")
 
 ## Example 2: Species by sites table
 
-Aside from gross values from plots such as fractional cover, many analyses in community ecology begin with a species against sites table populated with abundance information. With ausplotsR you can generate this easily from the more complex vegetation point intercept hit data as follows:
+Aside from 'gross' values from plots such as fractional cover, many analyses in community ecology begin with species abundance information. With **ausplotsR** you can generate this easily from the more complex vegetation point-intercept data. The first step to work with species-level AusPlots data is to create a species occurrence matrix. The `species_table` function in the **ausplotsR** package can be used to create this type of matrix. This function takes a data frame of individual raw point-intercept hits (i.e. a `$veg.PI` data frame) generated using the `get_ausplots` function and returns a ‘species against sites’ matrix:
 
 ```{r}
 my.sppBYsites <- species_table(my.ausplots.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
-dim(my.sppBYsites) #the number of rows and columns in the matrix
-my.sppBYsites[1:5, 1:5] #look at the top left corner (the matrix is large)
+
+#check the number of rows (plots) and columns (species) in the matrix
+dim(my.sppBYsites)
+
+#look at the top left corner (as the matrix is large)
+my.sppBYsites[1:5, 1:5] 
 
 ```
 
-Here are examples of downstream analysis and visualisation uinsg the species occurrence matrix:
+We can crudely pull out the 10 highest ranking species in terms of their percent cover cumulative across all plots they occur in:
+
+```{r}
+rev(sort(colSums(my.sppBYsites)))[1:10]
+```
+
+A simple example of downstream visualisation and analysis of species-level AusPlots data is Rank-Abundance Curves (also known as Whittaker Plots). Rank-Abundance Curves provide further information on species diversity. They provide a more complete picture than a single diversity index. Their x-axis represents the abundance rank (from most to least abundant) and in the y-axis the species relative abundance. Thus, they depict both Species Richness and Species Evenness (slope of the line that fits the rank; steep gradient indicates low evenness and a shallow gradient high evenness).
+
 
 ```{r, fig.height = 4, fig.width = 6}
-#Whittaker plots:
+#Whittaker plots for some selected AusPlots:
 goeveg::racurves(my.sppBYsites[10:15,], bw=F)
-#With possible relativce abundance models for one community:
-plot(vegan::radfit(round(my.sppBYsites[10,], digits=0), log="xy"), pch=20)
+
+#And then with alternative relative abundance models fitted for communities individually:
+par(mfrow=c(2,2), mar=c(4,4,1,1))
+for(i in c(1:4)) {
+  plot(vegan::radfit(round(my.sppBYsites[9+i,], digits=0), log="xy"), pch=20, legend=FALSE, bty="l")
+  legend("topright", legend=c("Null", "Preemption", "Lognormal", "Zipf", "Mandelbrot"), lwd=rep(1, 5), col=c("black", "red", "green", "blue", "cyan"), cex=0.7, bty="n")
+}
 ```
+
+
+
+## Explore TERN AusPlots
+
+In addition to the key site info and vegetation point-intercept modules introduced above, `get_ausplots` is your gateway to raw data modules for vegetation structural summaries, vegetation vouchers (covers the full species diversity observed at the plot and includes tissue sample details), basal wedge, and soils subsites, bulk density and pit/characterisation (including bulk and metagenomics soil samples).
+
+
+## References
+
+Blanco-Martin, B. (2019) Tutorial: Understanding and using the 'ausplotsR' package and AusPlots data. Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/
+
+Sparrow, B., Foulkes, J., Wardle, G., Leitch, E., Caddy-Retalic, S., van Leeuwen, S., Tokmakoff, A., Thurgate, N., Guerin, G.R. and Lowe, A.J. (2020) A vegetation and soil survey method for surveillance monitoring of rangeland environments. *Frontiers in Ecology and Evolution*, 8:157.

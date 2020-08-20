@@ -2,7 +2,7 @@
 \alias{optim_species}
 
 \title{Optimisation methods for plot selection using different diversity indices in order to maximise species accumulation}
-\description{This function applys different optimisation methods to select a subset of plots that maximise species accumulation. Optimisation methods vary based on the desired biodiversity parameters chosen by the user. The function operates under the 'Maximum covering species problem' framework, which seeks to identify the plots that will protect the maximum number of species in a specified number of plots. The user specifies the number of plots to select, and each optimiser selects the plots that represent the largest number of species for that given number of plots.}
+\description{This function applys different optimisation methods to select a subset of plots that maximise species accumulation. Optimisation methods vary based on the desired biodiversity parameters chosen by the user. The function operates under the 'Maximum covering problem' framework, which seeks to identify the plots that will protect the maximum number of species in a specified number of plots. The user specifies the number of plots to select, and each optimiser selects the plots that represent the largest number of species for that given number of plots.}
 
 \usage{
   optim_species(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRUE, 
@@ -12,7 +12,7 @@
   }
     
 \arguments{
-  \item{speciesVsitesMatrix}{dataframe or matrix, formatted as species (presence/absence or abundance) versus sites, where rows are sites and columns are species. See details for more information on formatting.}
+  \item{speciesVsitesMatrix}{dataframe or matrix, formatted as species (presence/absence or abundance) versus sites, where rows are sites and columns are species. See \code{Details} for more information on formatting.}
   \item{n.plt}{Number of plots, n, conforming the subset to be optimised.}
   \item{richness}{Species richness selected as optimiser. By default is TRUE.}
   \item{RRR}{Range rarity richness selected as optimiser. By default is TRUE.}
@@ -75,7 +75,7 @@
   
   
 \value{
-  Returns a list containing, for each optimiser within the function, a species accummulation object will be returned (see \code{\link[vegan]{specaccum}}, object as returned from   vegan R package). The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
+  Returns a list containing, for each optimiser within the function, a species accummulation object will be returned (see \code{\link[vegan]{specaccum}}, object as returned from vegan R package). The species accumulation refers to the cummulative curve or the number of species for a certain number of selected sites or individuals.
   Likewise, a list of the sites selected in order to maximise the value of the species accumulated using each optimiser will be returned. 
   Additionally, the function will plot by default of the species cumulative curves obtained by the different optimisers.
 }
@@ -116,7 +116,7 @@
 \code{\link[vegan]{fisher.alpha}}
 }  
     
-\author{Irene Mart?n-For?s, Samantha Munroe and Greg Guerin.}
+\author{Irene Martin-Fores, Samantha Munroe and Greg Guerin.}
 
 \examples{
   #example with dune database from vegan

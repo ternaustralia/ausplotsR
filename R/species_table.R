@@ -1,4 +1,5 @@
 
+
 species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS")) {
 
   
@@ -86,15 +87,13 @@ if(species_name=="SN") {
     
   } #end M-kind == freq
   
-  
   if(m_kind == "IVI") {
-    freq_matrix_percents <- freq_matrix*100 #convert to %
     
-    IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
+    IVI <- (cover_matrix/rowSums(cover_matrix))*100 + (freq_matrix/rowSums(freq_matrix))*100  #combine relative freq and cover i.e. as proportion of total across all species, to get a measure of IVI
     
     species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
     
-  } #end IVI section
+  } #
 } #end SN
 
 ###################using herbarium determination################
@@ -179,14 +178,13 @@ if(m_kind=="freq" | m_kind == "IVI") {
 
 
 
-if(m_kind == "IVI") {
-	freq_matrix_percents <- freq_matrix*100 #convert to %
-		
-	IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
-	
-	species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
-
-} #end IVI section
+  if(m_kind == "IVI") {
+    
+    IVI <- (cover_matrix/rowSums(cover_matrix))*100 + (freq_matrix/rowSums(freq_matrix))*100  #combine relative freq and cover i.e. as proportion of total across all species, to get a measure of IVI
+    
+    species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
+    
+  } #end IVI section
 } # end species_name=="HD"
 
 
@@ -265,20 +263,20 @@ if(species_name=="GS"){ #using genus species
     
   } #end M-kind == freq
   
-  
+##################  
   
   if(m_kind == "IVI") {
-    freq_matrix_percents <- freq_matrix*100 #convert to %
     
-    IVI <- (cover_matrix + freq_matrix_percents)/2  #combine freq and cover to get IVI
+    IVI <- (cover_matrix/rowSums(cover_matrix))*100 + (freq_matrix/rowSums(freq_matrix))*100  #combine relative freq and cover i.e. as proportion of total across all species, to get a measure of IVI
     
     species_matrix <-  IVI #note that the frequencies appear to dominate the output as they are overall much higher than the covers
     
-  } #end IVI section
+  } #
 } # end genus_species
 
 
 return(species_matrix)
 	
 } #end function
+
 

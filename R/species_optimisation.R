@@ -67,7 +67,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRU
   #wrap up:
 	
   if(plot) {
-  	plot_opt(result)
+  	try(plot_opt(result))
   	} #end if plot
     
   return(result)
