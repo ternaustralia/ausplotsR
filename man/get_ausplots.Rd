@@ -78,11 +78,11 @@ my.data$citation
 \dontrun{get_ausplots()} 
 
 #Get veg voucher records for "Eucalyptus moderata" using "herbarium_determination" :
-Eucalyptus_moderata <- get_ausplots(herbarium_determination_search="Eucalyptus moderata")
+Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, herbarium_determination_search="Eucalyptus moderata")
 Eucalyptus_moderata$veg.vouch
 
 #Get veg voucher records for all species in the family "Myrtaceae"
-Myrtaceae <- get_ausplots(family="Myrtaceae")
+Myrtaceae <- get_ausplots(veg.PI=FALSE, family_search="Myrtaceae")
 Myrtaceae$veg.vouch
 
 }
