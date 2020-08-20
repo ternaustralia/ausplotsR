@@ -110,8 +110,8 @@ Which would you like to update?
  ...
 ```
 AusplotsR has a list of other packages, and their versions, that it needs to
-work. R is being helpful and telling you that it can install the newest versions
-of those packages rather than they versions that AusplotsR has asked for.
+work. R is being helpful and telling you that it can install the *newest* versions
+of those packages rather than the versions that AusplotsR has asked for.
 
 The safest choice is to select `3: None`, which means the exact versions
 AusplotsR asks for will be installed. You're free to install newer versions of
