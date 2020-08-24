@@ -64,6 +64,7 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE)
 
 #generate a percent cover occurrence matrix using "genus_species" species identification:
-species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="GS")
+species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", 
+species_name="GS")
 }
 
