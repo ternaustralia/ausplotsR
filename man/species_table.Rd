@@ -48,7 +48,7 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
 \value{Returns a matrix with species as columns and sites as rows as a data frame. Values are determined by argument \code{m_kind}.
 }
 
-\author{Greg R. Guerin
+\author{Greg R. Guerin, Samantha E.M. Munroe
 }
 
 \references{
