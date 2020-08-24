@@ -44,8 +44,8 @@ tree.cover <- single_cover_value(my.dat$veg.PI)
 tree.cover
 
 #Tussock grasses of any height (minimum height set to zero):
-grass.cover <- single_cover_value(my.dat$veg.PI, my.growth_forms=c("Tussock grass"), 
-min.height=0) 
+grass.cover <- single_cover_value(my.dat$veg.PI, 
+my.growth_forms=c("Tussock grass"), min.height=0) 
 grass.cover
 
 #Any green veg at least 2 m in height:
@@ -54,7 +54,7 @@ min.height=2)
 veg.height.eg
 
 #Any green veg up to 1 m high:
-ground.cover <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, min.height=0, 
-max.height=1)
+ground.cover <- single_cover_value(my.dat$veg.PI, by.growth_form=FALSE, 
+min.height=0, max.height=1)
 ground.cover
 }

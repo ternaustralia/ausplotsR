@@ -124,15 +124,19 @@
   data(dune)
   optim_species(dune, n.plt=15, iterations=20)
   optim_species(dune, n.plt=15, start="defined", plot=TRUE, plot_name="2", 
-  richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, 
-  frequent=TRUE, random=TRUE, iterations=20)
+  richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, 
+  simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
   
   #example with auplots database from ausplotsR
   \dontrun{
   library(ausplotsR)
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
-  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC")
+  
+  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="percent_cover", 
+  cover_type="PFC")
+  
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
+  
   optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, 
   plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, 
   simpson=TRUE, simpson_beta=TRUE, frequent=FALSE, random=TRUE, iterations=20)

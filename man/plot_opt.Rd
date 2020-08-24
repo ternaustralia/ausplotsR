@@ -37,7 +37,8 @@
   ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA")
   example2 <- optim_species(ausplotsPAdata, n.plt=5, iterations=5, plot=FALSE)
   plot_opt(example2)
-  plot_opt(example2, choices=c("RRR", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed"))
+  plot_opt(example2, 
+  choices=c("RRR", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed"))
   }
 }  
 

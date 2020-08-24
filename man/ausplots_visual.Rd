@@ -71,9 +71,9 @@ ausplots_visual()
 my.data <- get_ausplots(veg.vouchers=FALSE)
 
 #Set maximum number of plots to all available in the veg.PI data:
-ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, fraction.pie = FALSE, 
-growthform.pie = FALSE, cumulative.cover = FALSE, whittaker = FALSE, 
-outfile = "AusPlots_treeCover.pdf", 
+ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, 
+fraction.pie = FALSE, growthform.pie = FALSE, cumulative.cover = FALSE, 
+whittaker = FALSE, outfile = "AusPlots_treeCover.pdf", 
 max.plots=length(unique(my.data$veg.PI$site_location_name))) 
 }
 }

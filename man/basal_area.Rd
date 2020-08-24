@@ -6,7 +6,7 @@
 }
 \usage{
 basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, 
-species_name=c("HD","SN","GS"))
+species_name=c("SN","HD","GS"))
 }
 \arguments{
   \item{veg.basal}{Raw basal wedge data generated from \code{\link{get_ausplots}}.
@@ -15,8 +15,7 @@ species_name=c("HD","SN","GS"))
 }
   \item{by.hits}{Set to TRUE to return the number of individual basal wedge hits rather than basal area per se.
 }
-\item{species_name}{If \code{by.spp=TRUE}, set to "SN" to use "standardised_names" (the default), 
-"HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for explaination of each setting.
+\item{species_name}{If \code{by.spp=TRUE}, set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for explaination of each setting.
 }
 
 }
