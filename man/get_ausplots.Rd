@@ -33,8 +33,6 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 
   \item{herbarium_determination_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the "herbarium_determination" column. See details for search term settings.
-  
-
   }
 
 \item{family_search}{Optional character string filter for selecting AusPlots based on the presence of a plant family as recorded in the "family" column.  Will be NA if no family indentification was possible. See details for search term settings.
