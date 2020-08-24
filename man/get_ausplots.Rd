@@ -8,7 +8,8 @@
 get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 	veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE,
 	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
-	herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL)
+	herbarium_determination_search=NULL, family_search=NULL, 
+	standardised_name_search=NULL)
 }
 \arguments{
   \item{my.Plot_IDs}{Optional character vector of AusPlots plot IDs to request data for specific set of plots.
@@ -80,7 +81,8 @@ my.data$citation
 \dontrun{get_ausplots()} 
 
 #Get veg voucher records for "Eucalyptus moderata" using "herbarium_determination" :
-Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, herbarium_determination_search="Eucalyptus moderata")
+Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, 
+herbarium_determination_search="Eucalyptus moderata")
 Eucalyptus_moderata$veg.vouch
 
 #Get veg voucher records for all species in the family "Myrtaceae"
