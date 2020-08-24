@@ -5,7 +5,8 @@
 \description{Calculates basal area (or number of basal wedge hits) for each plot, using the raw basal wedge data returned from \code{get_ausplots}.
 }
 \usage{
-basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS"))
+basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, 
+species_name=c("HD","SN","GS"))
 }
 \arguments{
   \item{veg.basal}{Raw basal wedge data generated from \code{\link{get_ausplots}}.
@@ -14,7 +15,8 @@ basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS"
 }
   \item{by.hits}{Set to TRUE to return the number of individual basal wedge hits rather than basal area per se.
 }
-\item{species_name}{If \code{by.spp=TRUE}, set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for explaination of each setting.
+\item{species_name}{If \code{by.spp=TRUE}, set to "SN" to use "standardised_names" (the default), 
+"HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for explaination of each setting.
 }
 <<<<<<< HEAD
 }
@@ -26,7 +28,7 @@ Basal area is the cross-sectional area of tree trunks per unit area, and is meas
 }
 \value{Returns a dataframe with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
 }
-\author{Greg R. Guerin
+\author{Greg R. Guerin, Samantha E.M. Munroe
 }
 
 \seealso{
