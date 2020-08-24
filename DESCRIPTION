@@ -3,12 +3,12 @@ Type: Package
 Title: TERN AusPlots analysis package
 Version: 1.2
 Date: 2020-05-11
-Author: Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-Fores, Andrew Tokmakoff
+Author: Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martín-Forés, Andrew Tokmakoff
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
     person("Tom", "Saleeba", role = "aut"),
     person("Samantha", "Munroe", role = "aut"),
-    person("Irene", "Martin-Fores", role = "aut"),
+    person("Irene", "Martín-Forés", role = "aut"),
     person("Bernardo", "Blanco-Martin", role="aut"),
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
@@ -39,3 +39,4 @@ License: GPL-3 + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
+Encoding: UTF-8
