@@ -32,25 +32,19 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10). Possible extensions to spatial filtering of sites are the ability to extract sites via IBRA regions, political boundaries or user-provided shapefile.
 }
-
-  \item{herbarium_determination_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the "herbarium_determination" column. See details for search term settings.
-  
-
-  }
-
-\item{family_search}{Optional character string filter for selecting AusPlots based on the presence of a plant family as recorded in the "family" column.  Will be NA if no family indentification was possible. See details for search term settings.
+  \item{herbarium_determination_search}{Optional character string filter for selecting AusPlots based on the presence of a genus or species as recorded in the "herbarium_determination" column. See details for search term settings.
 }
- 
- 
-\item{standardised_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the "standardised_name"" column. Will be NA if no genus rank (at minimum) was possible. See details for search term settings.
+\item{family_search}{Optional character string filter for selecting AusPlots based on the presence of a plant family as recorded in the 'family' column.  Will be NA if no family indentification was possible. See details for search term settings.
+}
+\item{standardised_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the 'standardised_name' column. Will be NA if no genus rank (at minimum) was possible. See details for search term settings.
+}
 }
 
-}
 \details{By default, the function will extract and compile data from the vegetation vouchers and point intercept modules over all available plots and provide a basic site information table. Arguments allow the user to select sites by ID numbers, geographic bounding box, or species, and select which modules data are drawn from. The datasets returned by the function are used directly by further formatting and analysis functions in ausplotsR (such as \code{\link{species_table}} to generate a species by sites matrix for community analysis), making it simple to go from raw data extract to ecological analysis.
 	
 AusPlots surveys are identified by a plot ID and unique visit number, that are combined to identify a unique measurement for sites with repeat visits, identified in the extracted data tables as 'site_unique'.
 
-"herbarium_determination_search"", "family search"", and "standardised_name_search" search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata","Eucalyptus", and "euca" are all acceptable search terms). If veg.vouch=TRUE, veg.vouch will return a data frame that only includes voucher records that match the species or family search. If veg.PI= TRUE, veg.PI will return point intercept data for all plots where the species or family occurs. If basal.wedge=TRUE, veg.basal will return a dataframe that only includes the raw basal wedge data of records that match the species or family. For all other data.frames, get_ausplots will return data for all the plots where the species or family occurs. 
+"herbarium_determination_search", "family search", and "standardised_name_search" search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata", "Eucalyptus", and "euca" are all acceptable search terms). If \code{veg.vouch=TRUE}, veg.vouch will return a data frame that only includes voucher records that match the species or family search. If \code{veg.PI=TRUE}, veg.PI will return point intercept data for all plots where the species or family occurs. If \code{basal.wedge=TRUE}, veg.basal will return a dataframe that only includes the raw basal wedge data of records that match the species or family. For all other data.frames, get_ausplots will return data for all the plots where the species or family occurs. 
 
 \code{herbarium determinations} are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may differ between states and with international databases due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It also includes incomplete identifications, dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass"), and "No ID" labels.
     
