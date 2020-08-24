@@ -100,11 +100,8 @@ if(species_name=="SN") {
 
 if(species_name=="HD"){ 
   
-  warning("Be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in a given state. 
-          Scientific names may differ between states and international databases due to disagreements on taxonomy/nomenclature. 
-          Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. 
-          It also includes incomplete and generic identifications (e.g. Dead Tree/Shrub, Annual Grass). 
-          Consider using SN or GS to ensure greater consistency between plots")
+  warning("herbarium determinations are provided by state herbaria and may differ between states and international databases.
+  See details for more information.Consider using SN or GS for consistency between plots")
   
   if(m_kind == "PA") {
       
