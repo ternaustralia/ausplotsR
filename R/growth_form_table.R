@@ -21,7 +21,7 @@ if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
   
   if(species_name=="SN") {
 
-    hits<-veg.PI[!is.na(veg.PI$standardised_name), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
+    hits <- veg.PI[!is.na(veg.PI$standardised_name), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
 
 
 #remove 'in canopy sky' hits if projected foliage cover required:
@@ -63,7 +63,7 @@ if(m_kind =="percent_cover") {
 	if(!cumulative) {
 		form_rows <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, hits_unique=hits$hits_unique, dummy=rep(1, length(hits$growth_form))) #list of individual PI hits with what growth form they were - simplified from input df for processing
 		form_rows <- form_rows[-which(duplicated(form_rows)),] #in this case, remove rows that are duplicated, i.e. same site_unique, same growth form, AND same hits_unique, so that there can only be one score for each GF at a point, meaning absolute cover with a max of 100% for each growth form.
-		form_rows <- form_rows[,-3] #remove the hits_unique column now that it is unique per GF for mama processing later. The data now only include unique hite by GF by point, not unique by species too.	
+		form_rows <- form_rows[,-3] #remove the hits_unique column now that it is unique per GF for mama processing later. The data now only include unique hits by GF by point, not unique by species too.	
 	}
 	
 	
@@ -106,7 +106,7 @@ growth_form_matrix <- growthForm_matrix_SPPweights
   
 if(species_name=="HD"){
   
-  hits<-veg.PI[!is.na(veg.PI$herbarium_determination), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
+  hits <- veg.PI[!is.na(veg.PI$herbarium_determination), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
   
   #remove 'in canopy sky' hits if projected foliage cover required:
   if(cover_type == "PFC") {
@@ -188,7 +188,7 @@ if(species_name=="HD"){
 
 ####################if species_name=GS
 
-if(species_name=="GS"){
+if(species_name == "GS"){
   hits<-veg.PI[!is.na(veg.PI$genus_species), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
   
   #remove 'in canopy sky' hits if projected foliage cover required:
@@ -213,7 +213,7 @@ if(species_name=="GS"){
   
   
   
-  if(m_kind =="percent_cover") {
+  if(m_kind == "percent_cover") {
     
     if(by_strata) {
       hits$growth_form[hits$growth_form %in% c("Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte")] <- "Upper"
@@ -250,7 +250,7 @@ if(species_name=="GS"){
   
   
   
-  if(m_kind=="richness") {
+  if(m_kind == "richness") {
     
     form_rows2 <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, genus_species=hits$genus_species)
     
