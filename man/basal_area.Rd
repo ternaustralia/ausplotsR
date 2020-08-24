@@ -26,7 +26,7 @@ Basal area is the cross-sectional area of tree trunks per unit area, and is meas
 }
 \value{Returns a dataframe with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
 }
-\author{Greg R. Guerin
+\author{Greg R. Guerin, Samantha E.M. Munroe
 }
 
 \seealso{
