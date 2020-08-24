@@ -5,7 +5,7 @@
 \description{Calculates basal area (or number of basal wedge hits) for each plot, using the raw basal wedge data returned from \code{get_ausplots}.
 }
 \usage{
-basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("HD","SN","GS"))
+basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("SN","HD","GS"))
 }
 \arguments{
   \item{veg.basal}{Raw basal wedge data generated from \code{\link{get_ausplots}}.
