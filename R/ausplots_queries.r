@@ -30,7 +30,7 @@
   return(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
 }
 ################
-
+#initial filter function
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs_to_filter_for, extra_query=list()) {
   query <- extra_query
   if (length(Plot_IDs_to_filter_for) > 0) {
@@ -40,6 +40,7 @@
   return(.ausplots_api(path, query)) 
 } 
 ################
+#subsequent filter function
 
 .ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
   plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")

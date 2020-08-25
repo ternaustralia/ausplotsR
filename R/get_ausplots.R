@@ -8,11 +8,9 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 	trim.trailing <- function (x) sub("\\s+$", "", x) #function that strips trailing white spaces from entries in d.f.
 	
-	#
-	
 	ausplots.data <- list() # an empty list that will be filled with whatever elements (soil, veg...) were requested and returned from the function
 
-	#search term names must be character vectors and users can only search one name at a time
+	#input checks
 	
 	herb_is_not_null_or_single_char_vector <- !is.null(herbarium_determination_search) && !(is.character(herbarium_determination_search) && is.vector(herbarium_determination_search) && length(herbarium_determination_search) == 1)
 	if(herb_is_not_null_or_single_char_vector) stop("herbarium_determination_search must be a single element character vector") #
@@ -33,11 +31,14 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	if(is_herbarium_determination_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
 	if(!class(my.Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
+	
+	
+	#####list available plots
 
 	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
-  
-  # FIXME check when no plots are found and give informative message
-	#
+	
+	
+	#check that plot IDs specified by user actually exist 
 	
 	if(my.Plot_IDs[1] != "none") {
 		
@@ -57,6 +58,11 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 	} #end 	if(my.Plot_IDs != "none")
 	
+	#check other search parameters specified by the user actually exist
+	#return warning if other search parameters ("extra queries") return 0 results, e.g. no species have that name
+	#returns warning rather than an error in case people are running a loop with a list of species names
+	
+	if(length(Plot_IDs) < 1) {warning("Your search parameters returned 0 results.")}
   
 	#######
 	
@@ -146,7 +152,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		vouch$herbarium_determination <- tolower(vouch$herbarium_determination)
 		vouch$herbarium_determination <- capitalize(vouch$herbarium_determination)
 		
-		
 		vouch$standardised_name <- trim.trailing(vouch$standardised_name)
 		vouch$standardised_name <- tolower(vouch$standardised_name)
 		vouch$standardised_name <- capitalize(vouch$standardised_name)
@@ -168,8 +173,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		#clear white spaces that interfere with recognising duplicate entries as same species
 		hits$herbarium_determination <- tolower(hits$herbarium_determination)
 		hits$herbarium_determination <- capitalize(hits$herbarium_determination)
-		
-		
 		
 		#some cleaning operations...
 		hits$standardised_name<- trim.trailing(hits$standardised_name)
@@ -202,5 +205,5 @@ ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") A
 	
 } # end function
 
-
-utils::globalVariables(c("bioregion.f", "height", "family", "herbarium_determination", "standardised_name", "site_location_name", "site_unique", "hits_unique", "growth_form", "longitude", "latitude", "long", "lat", "group", "Tree_cover", "dead", "genus_species"))
+utils::globalVariables(c("bioregion.f", "height", "family", "herbarium_determination", "standardised_name", "site_location_name", "site_unique", 
+                         "hits_unique", "growth_form", "longitude", "latitude", "long", "lat", "group", "Tree_cover", "dead", "genus_species"))

@@ -13,7 +13,7 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
 }
   \item{m_kind}{The desired species scoring method: PA: binary (presence/absence), percent cover, frequency (based on occurrences on the 10 point-intercept transects within plots) or IVI (combination of cover and frequency - see Details).
 }
-  \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected, hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC' (which may be more suitable for some applications such as comparison to remotely sensed cover products).
+  \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected (the default), hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'. 'PFC' may be more suitable for some applications such as comparison to remotely sensed cover products.
  }
  \item{species_name}{Set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species" See details for an explaination of each setting.
 }
