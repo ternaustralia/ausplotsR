@@ -36,7 +36,8 @@ map_ausplots(my.ausplots.object)
 }
 \value{Plots are written to a pdf file to ensure consistent formatting, saved by default in the working directory.
 }
-\references{Blanco-Martin, B. (2019) Tutorial: Understanding and using the 'ausplotsR' package and AusPlots data. Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/
+\references{Blanco-Martin, B. (2019) Tutorial: Understanding and using the 'ausplotsR' package and AusPlots data. Terrestrial Ecology Research Network. Version 2019.04.0, April 2019.
+https://github.com/ternaustralia/TERN-Data-Skills/
 
 Guerin, G.R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., Lowe, A.J. (2017) Opportunities for integrated ecological analysis across inland Australia with standardised data from AusPlots Rangelands. \emph{PLoS ONE} \strong{12}, e0170137.
 	

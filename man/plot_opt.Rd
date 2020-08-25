@@ -1,7 +1,7 @@
 \name{plot_opt}
 \alias{plot_opt}
 
-\title{Plot species accumulation curves derived from the optim_species function}
+\title{Plot a set of species accumulation curves together}
 \description{This function plots different species accumulation curves obtained through different optimisers in the \code{\link{optim_species}} function.}
 
 \usage{
@@ -10,15 +10,21 @@
 }
     
 \arguments{
-      \item{optim_result}{Object returned from the \code{\link{optim_species}} function, which is a list of species accumulation objects obtained with the different optimisers.}
-      \item{choices}{select the optimisers from which the species accumulations curves are going to be plotted. 
-      The choices can be "Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random"}
+      \item{optim_result}{Object returned from the \code{\link{optim_species}} function, which is a list of species accumulation objects (see \code{\link[vegan]{specaccum}}) obtained with the different optimisers.}
+      \item{choices}{select the optimisers from which the species accumulations curves are going to be plotted. The choices can be "Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random"}
 }
     
+\Details{
+
+}
+
 \value{
     This function will return a plot of the species cumulative curves obtained by the different optimisers in the \code{\link{optim_species}} function.
 }
     
+\seealso{
+\code{\link{optim_species}}
+}
     
 \author{Greg R. Guerin}
   
