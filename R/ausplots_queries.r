@@ -40,7 +40,7 @@
   return(.ausplots_api(path, query)) 
 } 
 ################
-#subseqent filter function
+#subsequent filter function
 
 .ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
   plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")

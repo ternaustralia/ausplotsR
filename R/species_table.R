@@ -3,17 +3,29 @@
 species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS")) {
 
   
-#assuming the following columns are available in standardised name, family, genus, genus_species, infraspecific taxa split up, taxonomic issue flag etc etc.
+#input checks
 
+if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}  
+if(missing(m_kind)){stop("Please specify the desired species scoring method with 'm_kind'")}
+if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
+if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
+  
+#setting defaults  
+if(missing(cover_type)){
+  cover_type = "PFC"
+  warning("No cover_type supplied, defaulting to 'PFC'")
+}
+  
+if(missing(species_name)) {
+  species_name = "SN"
+  warning("No species_name supplied, defaulting to species_name='SN'")
+} 
+  
+
+#####
   
 hits <- veg.PI
 
-#default is SN
-
-if(missing(species_name)) { #if no species_name supplied, default to SN
-  species_name = "SN"
-  warning("No species_name supplied, defaulting to species_name='SN'")
-} #end missing
 
 if(species_name=="SN") {
   
@@ -101,7 +113,7 @@ if(species_name=="SN") {
 if(species_name=="HD"){ 
   
   warning("herbarium determinations are provided by state herbaria and may differ between states and international databases.
-  See details for more information.Consider using SN or GS for consistency between plots")
+  See details for more information. Consider using SN or GS for consistency between plots")
   
   if(m_kind == "PA") {
       
