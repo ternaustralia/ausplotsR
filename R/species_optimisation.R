@@ -2,9 +2,9 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRU
 	
 ############################
 #check inputs
-  #NB (GRG) this would be better as guidance in the help/Rd file as site names as the first column is non-standard and doesn't match the species table from ausplotsR nor the matrices in the dune and mite example datasets.
   
   if(!is.numeric(speciesVsitesMatrix[,1])) {
+    cat("Non-numeric first column... assuming these are site names. \n")
     rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
     speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the first column
   }#if the first column of the dataset corresponds to the site names, then apply site names to the rows and remove the column
