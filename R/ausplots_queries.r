@@ -22,7 +22,13 @@
     print('query string value=')
     print(query)
   }
-  resp <- httr::GET(getOption("ausplotsR_api_url"), httr::add_headers(Authorization = auth_header), path=path, query=query)
+  resp <- httr::GET(
+                    getOption("ausplotsR_api_url"),
+                    httr::user_agent(.make_user_agent()),
+                    httr::add_headers(Authorization = auth_header),
+                    path=path,
+                    query=query
+  )
   httr::stop_for_status(resp, task = httr::content(resp, "text"))
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
@@ -166,4 +172,18 @@ extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_
 extract_hits <- function(Plot_IDs) {
   path <- "veg_pi"
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
+}
+
+############################
+
+.make_user_agent <- function() {
+  # thanks https://github.com/r-lib/httr/blob/af25ebd0e3b72d2dc6e1423242b94efc25bc97cc/R/config.r#L137
+  versions <- c(
+                ausplotsR = as.character(utils::packageVersion("ausplotsR")),
+                libcurl = curl::curl_version()$version,
+                `r-curl` = as.character(utils::packageVersion("curl")),
+                httr = as.character(utils::packageVersion("httr"))
+  )
+  result <- paste0(names(versions), "/", versions, collapse = " ")
+  return(result)
 }
