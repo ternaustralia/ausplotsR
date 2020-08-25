@@ -3,10 +3,6 @@
   #   library("ausplotsR")
   #   options("ausplotsR_api_url" = "http://localhost:30000")
   #   ...continue to call functions
-  if (is.null(getOption("ausplotsR_api_url"))) {
-    options("ausplotsR_api_url" = "http://swarmapi.ausplots.aekos.org.au:80")
-  }
-
   auth_header <- ""
   the_role <- getOption("ausplotsR_role")
   the_secret <- getOption("ausplotsR_secret")
@@ -18,12 +14,12 @@
     jwt_val <- jose::jwt_encode_hmac(claim, secret = charToRaw(the_secret))
     auth_header <- paste('Bearer', jwt_val)
   }
-  if (!is.null(getOption("ausplotsR_api_debug")) && getOption("ausplotsR_api_debug")) {
+  if (getOption("ausplotsR_api_debug", default = FALSE)) {
     print('query string value=')
     print(query)
   }
   resp <- httr::GET(
-                    getOption("ausplotsR_api_url"),
+                    getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"),
                     httr::user_agent(.make_user_agent()),
                     httr::add_headers(Authorization = auth_header),
                     path=path,
@@ -176,14 +172,24 @@ extract_hits <- function(Plot_IDs) {
 
 ############################
 
+
+cache <- new.env(parent = emptyenv())
+cache$user_agent <- NULL
+
 .make_user_agent <- function() {
   # thanks https://github.com/r-lib/httr/blob/af25ebd0e3b72d2dc6e1423242b94efc25bc97cc/R/config.r#L137
-  versions <- c(
-                ausplotsR = as.character(utils::packageVersion("ausplotsR")),
-                libcurl = curl::curl_version()$version,
-                `r-curl` = as.character(utils::packageVersion("curl")),
-                httr = as.character(utils::packageVersion("httr"))
-  )
-  result <- paste0(names(versions), "/", versions, collapse = " ")
-  return(result)
+  if (is.null(cache$user_agent)) {
+    if (getOption("ausplotsR_api_debug", default = FALSE)) {
+      print('building user_agent string and storing in cache')
+    }
+    versions <- c(
+                  ausplotsR = as.character(utils::packageVersion("ausplotsR")),
+                  libcurl = curl::curl_version()$version,
+                  `r-curl` = as.character(utils::packageVersion("curl")),
+                  httr = as.character(utils::packageVersion("httr"))
+    )
+    result <- paste0(names(versions), "/", versions, collapse = " ")
+    cache$user_agent <- result
+  }
+  cache$user_agent
 }
