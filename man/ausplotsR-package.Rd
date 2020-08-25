@@ -45,7 +45,7 @@ It is important that users of data extracted via ausplotsR acknowledge TERN, the
 TERN ("year") AusPlots ecosystem surveillance monitoring dataset 
 (URL: http://aekos.org.au/). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
 
-To cite the ausplotsR package itself and the functions it contains, enter: \code{citation('ausplotsR')}, or see links to citable archived versions with DOI at \href{https://github.com/ternaustralia/ausplotsR}.
+To cite the ausplotsR package itself and the functions it contains, enter: \code{citation('ausplotsR')}, or see links to citable archived versions with DOI at \href{https://github.com/ternaustralia/ausplotsR}{https://github.com/ternaustralia/ausplotsR}.
 
 
 \emph{Key functions in the ausplotsR package:}
@@ -64,7 +64,11 @@ To cite the ausplotsR package itself and the functions it contains, enter: \code
  
  \code{single_cover_value} :  Vegetation cover in TERN AusPlots by height and growth form subsets.
 
+ \code{species_list} :  Simplified plant species lists for TERN AusPlots based on verified vouchers.
+ 
+ \code{optim_species} :  Species accumulation optimisation for community data including TERN AusPlots.
 }
+
 \author{
 Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-Fores, Andrew Tokmakoff
 

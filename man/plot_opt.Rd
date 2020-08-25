@@ -22,6 +22,9 @@
     This function will return a plot of the species cumulative curves obtained by the different optimisers in the \code{\link{optim_species}} function.
 }
     
+\seealso{
+\code{\link{optim_species}}
+}
     
 \author{Greg R. Guerin}
   

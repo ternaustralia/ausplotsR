@@ -94,6 +94,9 @@ Oksanen, J. et al. (2016) vegan: Community Ecology Package. R package version 2.
 }
 
 \seealso{
+\code{\link{plot_opt}}
+\cr
+\cr
 \code{\link[vegan]{specaccum}}
 \cr
 \cr
