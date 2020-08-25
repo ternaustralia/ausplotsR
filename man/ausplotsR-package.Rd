@@ -43,9 +43,9 @@ It is important that users of data extracted via ausplotsR acknowledge TERN, the
 
 
 TERN ("year") AusPlots ecosystem surveillance monitoring dataset 
-(URL: http://aekos.org.au/collection/adelaide.edu.au/ausplotsrangelands). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
+(URL: http://aekos.org.au/). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed "day month year".
 
-To cite the ausplotsR package itself and the functions it contains, enter: \code{citation('ausplotsR')}
+To cite the ausplotsR package itself and the functions it contains, enter: \code{citation('ausplotsR')}, or see links to citable archived versions with DOI at \href{https://github.com/ternaustralia/ausplotsR}.
 
 
 \emph{Key functions in the ausplotsR package:}
@@ -70,13 +70,13 @@ Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-
 
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 }
-\references{Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & Lowe, A. J. (2017). Opportunities for integrated ecological analysis across inland Australia with standardised data from Ausplots Rangelands. PloS ONE, 12(1), e0170137.
+\references{Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & Lowe, A. J. (2017). Opportunities for integrated ecological analysis across inland Australia with standardised data from Ausplots Rangelands. \emph{PLoS ONE}, \strong{12}, e0170137.
 
 NVIS Technical Working Group (2017). Australian Vegetation Attribute Manual: National Vegeta- tion Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
  
-Sparrow, B., Foulkes, J., Wardle, G., Leitch, E., Caddy-Retalic, S., van Leeuwen, S., Tokmakoff, A., Thurgate, N., Guerin, G.R. and Lowe, A.J. (2020). A vegetation and soil survey method for surveillance monitoring of rangeland environments. Frontiers in Ecology and Evolution, 8:157.
+Sparrow, B., Foulkes, J., Wardle, G., Leitch, E., Caddy-Retalic, S., van Leeuwen, S., Tokmakoff, A., Thurgate, N., Guerin, G.R. and Lowe, A.J. (2020). A vegetation and soil survey method for surveillance monitoring of rangeland environments. \emph{Frontiers in Ecology and Evolution}, \strong{8}, 157.
 
-Tokmakoff, A., Sparrow, B., Turner, D., & Lowe, A. (2016). AusPlots Rangelands field data collection and publication: Infrastructure for ecological monitoring. Future Generation Computer Systems, 56, 537-549.
+Tokmakoff, A., Sparrow, B., Turner, D., & Lowe, A. (2016). AusPlots Rangelands field data collection and publication: Infrastructure for ecological monitoring. \emph{Future Generation Computer Systems}, \strong{56}, 537-549.
 
 White, A., Sparrow, B., Leitch, E., Foulkes, J., Flitton, R., Lowe, A. J., & Caddy-Retalic, S. (2012). AUSPLOTS rangelands survey protocols manual. University of Adelaide Press.
 }
