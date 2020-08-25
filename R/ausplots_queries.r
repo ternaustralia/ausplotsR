@@ -18,7 +18,10 @@
     jwt_val <- jose::jwt_encode_hmac(claim, secret = charToRaw(the_secret))
     auth_header <- paste('Bearer', jwt_val)
   }
-
+  if (!is.null(getOption("ausplotsR_api_debug")) && getOption("ausplotsR_api_debug")) {
+    print('query string value=')
+    print(query)
+  }
   resp <- httr::GET(getOption("ausplotsR_api_url"), httr::add_headers(Authorization = auth_header), path=path, query=query)
   httr::stop_for_status(resp, task = httr::content(resp, "text"))
   if (httr::http_type(resp) != "application/json") {
@@ -26,27 +29,37 @@
   }
   return(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
 }
+################
 
-.ausplots_api_with_plot_filter <- function(path, Plot_IDs, extra_query=list()) {
+.ausplots_api_with_plot_filter <- function(path, Plot_IDs_to_filter_for, extra_query=list()) {
   query <- extra_query
-  if (length(Plot_IDs) > 0) {
-    plotFilter <- paste("in.(", paste(Plot_IDs, collapse=","), ")", sep="")
+  if (length(Plot_IDs_to_filter_for) > 0) {
+    plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
     query <- c(query, list(site_location_name = plotFilter))
   }
-	return(.ausplots_api(path, query)) 
+  return(.ausplots_api(path, query)) 
+} 
+################
+
+.ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
+  plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
+  query <- c(extra_query, list(site_location_name = plotFilter))
+  return(.ausplots_api(path, query))
 } 
 ################
 
 list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
   extra_query <- list()
+  
   if(!is.null(family_search)) {
-   extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep=""))) #search by family
+    extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep=""))) #search by family
   }
+  
   if(!is.null(herbarium_determination_search)) {
     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
   } 
   if(!is.null(standardised_name_search)) {
-  extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep=""))) #search by standardised_name
+    extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep=""))) #search by standardised_name
   }
   if(Plot_IDs[1] == "none") {
     Plot_IDs <- c()
@@ -75,7 +88,7 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
 
 extract_site_info <- function(Plot_IDs) {
   path <- "site"
-  result<-.ausplots_api_with_plot_filter(path, Plot_IDs)
+  result<-.ausplots_api_with_specified_plot_ids(path, Plot_IDs)
   result$state = mapply(function(x) substr(x, 0, 2), result$site_location_name)
   result$state[result$state == "NS"] <- "NSW"
   result$state[result$state == "QD"] <- "QLD"
@@ -89,28 +102,28 @@ extract_site_info <- function(Plot_IDs) {
 
 extract_struct_summ <- function(Plot_IDs) {
   path <- "structural_summary"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 } 
 
 ####################
 
 extract_soil_subsites <- function(Plot_IDs) {
   path <- "soil_subsite"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
 ##################
 
 extract_bulk_density <- function(Plot_IDs) {
   path <- "soil_bulk_density"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
 ##################
 
 extract_soil_char <- function(Plot_IDs) {
   path <- "soil_characterisation"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
 ##################
@@ -127,7 +140,7 @@ extract_basal <- function(Plot_IDs, herbarium_determination_search=NULL, family_
    if(!is.null(standardised_name_search)) { 
      extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))#search by standardised_name
    } 
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs, extra_query))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs, extra_query))
 }
 
 ############################
@@ -144,12 +157,12 @@ extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_
   if(!is.null(standardised_name_search)) { 
     extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))#search by standardised_name
   } 
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs, extra_query))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs, extra_query))
 }
 
 ############################
 
 extract_hits <- function(Plot_IDs) {
   path <- "veg_pi"
-  return(.ausplots_api_with_plot_filter(path, Plot_IDs))
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }

@@ -12,6 +12,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	ausplots.data <- list() # an empty list that will be filled with whatever elements (soil, veg...) were requested and returned from the function
 
+	#search term names must be character vectors and users can only search one name at a time
+	
 	herb_is_not_null_or_single_char_vector <- !is.null(herbarium_determination_search) && !(is.character(herbarium_determination_search) && is.vector(herbarium_determination_search) && length(herbarium_determination_search) == 1)
 	if(herb_is_not_null_or_single_char_vector) stop("herbarium_determination_search must be a single element character vector") #
 	
@@ -30,9 +32,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	is_herbarium_determination_and_standardised_name_supplied <- !is.null(herbarium_determination_search) && !is.null(standardised_name_search)
 	if(is_herbarium_determination_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
-	#
-	
-	#
+	if(!class(my.Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
 
 	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
   
@@ -40,8 +40,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#
 	
 	if(my.Plot_IDs[1] != "none") {
-
-		if(!class(my.Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
 		
 		if(all(my.Plot_IDs %in% Plot_IDs)) {cat("User-supplied Plot_IDs located. \n")}
 		
@@ -58,6 +56,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		Plot_IDs <- my.Plot_IDs #now the list of plots we will use is just those provided by user after checking they match these available
 		
 	} #end 	if(my.Plot_IDs != "none")
+	
   
 	#######
 	
@@ -154,7 +153,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		vouch$site_unique <- do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique code for a site/visit combination
 		
-				
 		ausplots.data$veg.vouch <- vouch
 
 	} #end if(veg.vouchers)

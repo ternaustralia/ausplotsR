@@ -39,6 +39,13 @@ You can check the current setting of the API URL with:
 getOption("ausplotsR_api_url")
 ```
 
+You can also set an option to turn on (or off) debug logs:
+
+```R
+options("ausplotsR_api_debug" = TRUE)
+#...continue to call functions
+```
+
 
 ## Running locally in a clean command line R environment (in Docker)
 To test that the package can install into a fresh environment, we can use a Docker container. Note that this will use

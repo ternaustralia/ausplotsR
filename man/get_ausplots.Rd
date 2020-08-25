@@ -32,7 +32,9 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10). Possible extensions to spatial filtering of sites are the ability to extract sites via IBRA regions, political boundaries or user-provided shapefile.
 }
+
   \item{herbarium_determination_search}{Optional character string filter for selecting AusPlots based on the presence of a genus or species as recorded in the "herbarium_determination" column. See details for search term settings.
+
 }
 \item{family_search}{Optional character string filter for selecting AusPlots based on the presence of a plant family as recorded in the 'family' column.  Will be NA if no family indentification was possible. See details for search term settings.
 }
