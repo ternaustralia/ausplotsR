@@ -32,7 +32,7 @@ append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt")
 }
 
 
-\value{Returns a matrix with species as columns and sites as rows as a data frame. Values are determined by argument \code{m_kind}.
+\value{Returns a list containing a character vector of species names for each plot/visit grouping. If \code{grouping="collapse"}, a single character vector is returned. If \code{writefile=TRUE}, a text file is written to path \code{outfile} in the working directory.
 }
 
 \author{Greg Guerin, Samantha Munroe
