@@ -50,7 +50,7 @@ To cite the ausplotsR package itself and the functions it contains, enter: \code
 
 \code{\link{get_ausplots}} :  This function is the starting point for accessing data through the ausplotsR package for the following survey modules: Site information; Vegetation point intercept; Vegetation vouchers; Basal wedge; Vegetation structural summaries; Soils and soil samples information.
 
- \code{\link{ausplots_visual}} :  Quick demonstration graphics for AusPlots.
+ \code{\link{ausplots_visual}} :  Quick maps and demonstration graphics for AusPlots.
  
  \code{\link{species_table}} :  Species occurrence matrices for AusPlots.
 

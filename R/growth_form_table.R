@@ -137,7 +137,7 @@ if(species_name=="HD"){
   
   
   
-  if(m_kind =="percent_cover") {
+  if(m_kind == "percent_cover") {
     
     if(by_strata) {
       hits$growth_form[hits$growth_form %in% c("Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte")] <- "Upper"
@@ -174,7 +174,7 @@ if(species_name=="HD"){
   
   
   
-  if(m_kind=="richness") {
+  if(m_kind == "richness") {
     
     form_rows2 <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, herbarium_determination=hits$herbarium_determination)
     

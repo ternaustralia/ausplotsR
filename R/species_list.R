@@ -7,16 +7,7 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   if(any(!is.logical(c(strip_bryophytes, append_family, writefile)))) {
     stop("Arguments 4:6 must be TRUE or FALSE")
   }
-  
-  if(!grouping %in% c("by_site", "by_visit", "collapse")){
-    stop("Grouping argument does not match available choices")
-  }
-  
-  if(!species_name %in% c("SN", "GS", "HD")){
-    stop("Species_name argument does not match available choices")
-  }
-  
-    
+
   if(missing(species_name)) { #if no species_name supplied, default to SN
     species_name <- "SN"
     warning("No species_name supplied, defaulting to species_name='SN'")
@@ -27,6 +18,16 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
     warning("No grouping supplied, defaulting to 'by_site'")
   } #end missing
   
+  
+  if(!grouping %in% c("by_site", "by_visit", "collapse")){
+    stop("Grouping argument does not match available choices")
+  }
+  
+  if(!species_name %in% c("SN", "GS", "HD")){
+    stop("Species_name argument does not match available choices")
+  }
+  
+    
   #if(strip_bryophytes) {veg.vouch <- subset(veg.vouch, group !="bryophyte")}
   
   if(species_name == "SN") {
