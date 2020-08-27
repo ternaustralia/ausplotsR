@@ -1,19 +1,23 @@
 
 
-species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS")) {
+species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS"), strip_bryophytes=FALSE) {
 
   
 #input checks
 
-if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}  
-if(missing(m_kind)){stop("Please specify the desired species scoring method with 'm_kind'")}
-if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
-if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
-  
+  if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}  
+  if(missing(m_kind)){stop("Please specify the desired species scoring method with 'm_kind'")}
+  if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
+  if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
+  if(!is.logical(strip_bryophytes)) {stop("strip_bryophytes must be TRUE or FALSE")}
+
+
 #setting defaults  
-if(missing(cover_type)){
-  cover_type = "PFC"
-  warning("No cover_type supplied, defaulting to 'PFC'")
+if(missing(cover_type)) {
+  if(m_kind %in% c("percent_cover", "IVI")) {
+    cover_type <- "PFC"
+    warning("No cover_type supplied, defaulting to 'PFC'")
+  }
 }
   
 if(missing(species_name)) {
@@ -27,13 +31,13 @@ if(missing(species_name)) {
 hits <- veg.PI
 
 
-if(species_name=="SN") {
+if(species_name == "SN") {
   
   if(m_kind == "PA") {
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
-    hits<-hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
+    hits < -hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -43,7 +47,7 @@ if(species_name=="SN") {
   } # end PA section
   
   
-  if(m_kind=="percent_cover" | m_kind == "IVI") {
+  if(m_kind == "percent_cover" | m_kind == "IVI") {
     
     
     #count combined (PI) cover scores for each species in each plot:
@@ -52,11 +56,15 @@ if(species_name=="SN") {
     
     total.points <- data.frame(site_unique = unique(hits$site_unique), total.points = unlist(lapply(unique(hits$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
     
-    #remove in canopy sky hits if projected foliage cover required:
+    
+    #now that we have plot total.points, we remove unwanted points
+    #1. remove in canopy sky hits if projected foliage cover required:
     if(cover_type == "PFC") {
       hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
     } #close if PFC
     
+    #2. strip bryophytes if requested
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
     
     covers <- plyr::count(hits, c("site_unique", "standardised_name")) #counts number of rows with same site and species name
     
@@ -75,7 +83,7 @@ if(species_name=="SN") {
   
   
   
-  if(m_kind=="freq" | m_kind == "IVI") {
+  if(m_kind == "freq" | m_kind == "IVI") {
     
     
     hits<-hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
@@ -110,7 +118,7 @@ if(species_name=="SN") {
 
 ###################using herbarium determination################
 
-if(species_name=="HD"){ 
+if(species_name == "HD"){ 
   
   warning("herbarium determinations are provided by state herbaria and may differ between states and international databases.
   See details for more information. Consider using SN or GS for consistency between plots")
@@ -129,7 +137,7 @@ if(species_name=="HD"){
     } # end PA section
     
 
-if(m_kind=="percent_cover" | m_kind == "IVI") {
+if(m_kind == "percent_cover" | m_kind == "IVI") {
 	
 
 #count combined (PI) cover scores for each species in each plot:
@@ -138,10 +146,14 @@ total.points.fun <- function(x) {return(length(unique(hits[which(hits$site_uniqu
 
 total.points <- data.frame(site_unique = unique(hits$site_unique), total.points = unlist(lapply(unique(hits$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
 
-#remove in canopy sky hits if projected foliage cover required:
+#now that we have plot total.points, we remove unwanted points
+#1. remove in canopy sky hits if projected foliage cover required:
 if(cover_type == "PFC") {
-	hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
+  hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
 } #close if PFC
+
+#2. strip bryophytes if requested
+if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
 
 
 covers <- plyr::count(hits, c("site_unique", "herbarium_determination")) #counts number of rows with same site and species name
@@ -161,7 +173,7 @@ species_matrix <- cover_matrix
 
 
 
-if(m_kind=="freq" | m_kind == "IVI") {
+if(m_kind == "freq" | m_kind == "IVI") {
 	
 	
 	hits <- stats::na.omit(hits) #remove NA herbarium determinations
@@ -200,7 +212,7 @@ if(m_kind=="freq" | m_kind == "IVI") {
 
 #########genus_species##########################
 
-if(species_name=="GS"){ #using genus species
+if(species_name == "GS"){ #using genus species
   
   if(m_kind == "PA") {
     
@@ -218,7 +230,7 @@ if(species_name=="GS"){ #using genus species
   } # end PA section
   
   
-  if(m_kind=="percent_cover" | m_kind == "IVI") {
+  if(m_kind == "percent_cover" | m_kind == "IVI") {
     
     
     #count combined (PI) cover scores for each species in each plot:
@@ -227,10 +239,14 @@ if(species_name=="GS"){ #using genus species
     
     total.points <- data.frame(site_unique = unique(hits$site_unique), total.points = unlist(lapply(unique(hits$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
     
-    #remove in canopy sky hits if projected foliage cover required:
+    #now that we have plot total.points, we remove unwanted points
+    #1. remove in canopy sky hits if projected foliage cover required:
     if(cover_type == "PFC") {
       hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
     } #close if PFC
+    
+    #2. strip bryophytes if requested
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
     
     
     covers <- plyr::count(hits, c("site_unique", "genus_species")) #counts number of rows with same site and species name
@@ -249,7 +265,7 @@ if(species_name=="GS"){ #using genus species
   
   
   
-  if(m_kind=="freq" | m_kind == "IVI") {
+  if(m_kind == "freq" | m_kind == "IVI") {
     
     hits<-hits[!is.na(hits$genus_species), ]##remove hits not determined as a species
     
