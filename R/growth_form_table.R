@@ -15,7 +15,7 @@ if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
 if(missing(m_kind)){stop("Please specify the desired scoring method using 'm_kind'")}
 
 if(missing(cover_type)) {
-  if(m_kind="percent_cover") {
+  if(m_kind == "percent_cover") {
     cover_type <- "PFC"
     warning("No cover_type supplied, defaulting to 'PFC'")
   }
@@ -92,7 +92,7 @@ if(species_name=="SN") {
 
 
 
-  if(m_kind=="richness") {
+  if(m_kind == "richness") {
   	
   	form_rows2 <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, standardised_name=hits$standardised_name)
   	
