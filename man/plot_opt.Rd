@@ -14,7 +14,7 @@
       \item{choices}{select the optimisers from which the species accumulations curves are going to be plotted. The choices can be "Richness", "RRR", "CWE", "Shannon", "Simpson", "SimpsonBeta", "Frequent", "SimpsonBeta_randSeed", "Random"}
 }
     
-\Details{
+\Details{Line colours are assigned randomly on each run.
 
 }
 
