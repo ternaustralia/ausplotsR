@@ -39,6 +39,8 @@ if(species_name == "SN") {
     
     hits < -hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
     
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
     cover_matrix_binary <- simba::mama(hits) #generate an occurrence matrix (binary)
@@ -85,8 +87,9 @@ if(species_name == "SN") {
   
   if(m_kind == "freq" | m_kind == "IVI") {
     
+    hits <- hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
     
-    hits<-hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
     
     transects <- plyr::count(hits, c("site_unique", "standardised_name", "transect")) #count PI records for each uniqe plot/species/transect combo
     
@@ -127,7 +130,9 @@ if(species_name == "HD"){
       
     hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
-    hits<-hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a speciesemove hots not determined as a species
+    hits <- hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a speciesemove hots not determined as a species
+    
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
@@ -142,7 +147,6 @@ if(m_kind == "percent_cover" | m_kind == "IVI") {
 
 #count combined (PI) cover scores for each species in each plot:
 total.points.fun <- function(x) {return(length(unique(hits[which(hits$site_unique == x),]$hits_unique)))} #function to go through a list of plot names and count how many unique hits there were (for a standard plot, this will equal 1010)
-
 
 total.points <- data.frame(site_unique = unique(hits$site_unique), total.points = unlist(lapply(unique(hits$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
 
@@ -175,10 +179,11 @@ species_matrix <- cover_matrix
 
 if(m_kind == "freq" | m_kind == "IVI") {
 	
+	hits <- hits[!is.na(hits$herbarium_determination), ] ##remove hits not determined as a species
 	
-	hits <- stats::na.omit(hits) #remove NA herbarium determinations
+	if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
 	
-	transects <- plyr::count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each uniqe plot/species/transect combo
+	transects <- plyr::count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each unique plot/species/transect combo
 	
 	transects$freq <- 1 #revert to 1 rather than a count (presence on a transect within a plot)
 	
@@ -218,9 +223,11 @@ if(species_name == "GS"){ #using genus species
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "genus_species"),])), c("site_unique", "genus_species")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
-    hits<-hits[!is.na(hits$genus_species), ]##remove hits not determined as a species
+    hits <- hits[!is.na(hits$genus_species), ] ##remove hits not determined as a species
     #alternatively, we might assign it a no data term, in which case
-    #hits<-hits[!(hits$genus_species=="No ID",]
+    #hits <- hits[!(hits$genus_species == "No ID",]
+    
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -267,7 +274,9 @@ if(species_name == "GS"){ #using genus species
   
   if(m_kind == "freq" | m_kind == "IVI") {
     
-    hits<-hits[!is.na(hits$genus_species), ]##remove hits not determined as a species
+    hits <- hits[!is.na(hits$genus_species), ] ##remove hits not determined as a species
+    
+    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
     
     transects <- plyr::count(hits, c("site_unique", "genus_species", "transect")) #count PI records for each uniqe plot/species/transect combo
     
