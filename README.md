@@ -24,7 +24,7 @@ to get started on EcoCloud and be sure to create an *RStudio* instance.
 
 ## AusplotsR on your computer
 
-ausplotsR requires the following packages: plyr, R.utils, simba, httr, jsonlite, vegan, maps, mapdata, sp, maptools, ggplot2, gtools, jose; ('Suggests' needed to build vignette if 'build_vignettes' is set to TRUE below: knitr, rmarkdown, goeveg).
+ausplotsR requires the following packages: 'Depends': vegan, maps, mapdata; 'Imports': plyr, R.utils, simba, httr, jsonlite, sp, maptools, ggplot2, gtools, jose, betapart; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, rmarkdown, goeveg.
 
 ausplotsR can be installed directly from github using the devtools package, which must be installed first.
  
