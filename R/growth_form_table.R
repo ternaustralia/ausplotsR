@@ -14,9 +14,11 @@ if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
   
 if(missing(m_kind)){stop("Please specify the desired scoring method using 'm_kind'")}
 
-if(missing(cover_type)){
-  cover_type = "PFC"
-  warning("No cover_type supplied, defaulting to 'PFC'")
+if(missing(cover_type)) {
+  if(m_kind="percent_cover") {
+    cover_type <- "PFC"
+    warning("No cover_type supplied, defaulting to 'PFC'")
+  }
 }
   
 if(missing(species_name)) {
