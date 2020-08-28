@@ -7,6 +7,18 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
+## New features in ausplotsR version 1.2
+
+Update to the latest package version to make use of new features:
+ 1. Demonstration maps and graphical vegetation attributes in a single call
+ 1. Additional standardised plant taxonomic fields making it easy to clean species occurrence data or filter or search data by plant family.
+ 1. Simple species lists for sites.
+ 1. Revamped help files and manual.
+ 1. Detailed metadata for all data modules.
+ 1. Additional options for calculating vegetation cover by plant growth form, e.g., cumulative by species versus absolute cover; cover by strata.
+ 1. Corrected implementation of Importance Value Index (IVI) calculation as measure of species importance.
+ 1. Optimisation of plot selection to maximise species accumulation.
+
 # Using AusplotsR
 
 You have two options for using the package:
