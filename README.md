@@ -102,7 +102,7 @@ We would then use this to install this specific version of the package with:
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, ref = '559e0eb77ca3d42a7276351695db42331ef170b4')
 ```
 
-Authors: Greg Guerin, Tom Saleeba, Andrew Tokmakoff
+Authors: Greg Guerin, Tom Saleeba, Samantha Munroe, Irene Martín-Forés, Bernardo Blanco-Martin, Andrew Tokmakoff
 
 # Troubleshooting
 
