@@ -10,7 +10,7 @@ The data have been collected by TERN’s Ecosystem Surveillance platform via fie
 ## New features in ausplotsR version 1.2
 
 Update to the latest package version to make use of new features:
- 1. Demonstration maps and graphical vegetation attributes in a single call
+ 1. Demonstration maps and graphical vegetation attributes in a single call.
  1. Additional standardised plant taxonomic fields making it easy to clean species occurrence data or filter or search data by plant family.
  1. Simple species lists for sites.
  1. Revamped help files and manual.
