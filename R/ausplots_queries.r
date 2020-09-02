@@ -1,3 +1,5 @@
+cache <- new.env(parent = emptyenv())
+
 .ausplots_api <- function(path, query) {
   # override this API URL with:
   #   library("ausplotsR")
@@ -172,8 +174,6 @@ extract_hits <- function(Plot_IDs) {
 
 ############################
 
-
-cache <- new.env(parent = emptyenv())
 cache$user_agent <- NULL
 
 .make_user_agent <- function() {
@@ -192,4 +192,20 @@ cache$user_agent <- NULL
     cache$user_agent <- result
   }
   cache$user_agent
+}
+
+############################
+
+cache$metadata_dictionary <- NULL
+
+.get_metadata_dictionary <- function(force_refresh = FALSE) {
+  if (is.null(cache$metadata_dictionary) || force_refresh) {
+    if (getOption("ausplotsR_api_debug", default = FALSE)) {
+      print('refreshing metadata_dictionary and storing in cache')
+    }
+    path <- "metadata_dictionary"
+    result <- .ausplots_api(path, NULL)
+    cache$metadata_dictionary <- result
+  }
+  cache$metadata_dictionary
 }
