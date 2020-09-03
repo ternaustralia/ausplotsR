@@ -7,7 +7,7 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-An updated version of ausplotsR (v1.2 – in progress 2020) will offer improved functionality, including built-in demonstration graphics of site locations and vegetation attributes, additional taxonomic fields and enhanced ability to filter on them, simple species lists for sites, and selected new analysis functions.
+**The updated version of ausplotsR (v1.2 – coming soon 2020) will offer improved functionality, including built-in demonstration graphics of site locations and key vegetation attributes, additional standardised taxonomic fields and enhanced ability to filter on them and clean species records, simple species lists for sites, selected new analysis functions, revamped help manual and a comprehensive variable dictionary as metadata to help interpret the raw data modules.**
 
 # Using AusplotsR
 
