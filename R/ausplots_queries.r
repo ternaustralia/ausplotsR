@@ -203,7 +203,7 @@ cache$metadata_dictionary <- NULL
     if (getOption("ausplotsR_api_debug", default = FALSE)) {
       print('refreshing metadata_dictionary and storing in cache')
     }
-    path <- "metadata_dictionary"
+    path <- "metadata-dictionary.json"
     result <- .ausplots_api(path, NULL)
     cache$metadata_dictionary <- result
   }
