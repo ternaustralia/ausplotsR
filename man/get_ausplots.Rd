@@ -40,6 +40,8 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 \item{standardised_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the 'standardised_name' column. Will be NA if no genus rank (at minimum) was possible. See details for search term settings.
 }
+\item{dictionary}{Whether the metadata variable dictionary is required. Provides a table that describes all the variables and values in each data frame.
+}
 }
 
 \details{By default, the function will extract and compile data from the vegetation vouchers and point intercept modules over all available plots and provide a basic site information table. Arguments allow the user to select sites by ID numbers, geographic bounding box, or species, and select which modules data are drawn from. Further spatial filtering of sites is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table.
@@ -64,6 +66,7 @@ AusPlots surveys are identified by a plot ID and unique visit number, that are c
   \item{$soil.sub }{Data frame with details of soil subsites within each plot including sample IDs.}
   \item{$soil.bulk }{Data frame with raw bulk density data from each plot.}
   \item{$soil.char }{Data frame with soil characterisation data from the 1 m pit at the SW corner of each plot.}
+   \item{$metadata.dictionary }{Data frame that lists and describes each variable and corresponding values in each data frame.}
   \item{$citation }{Auto-generated citation for the data extracted. Please cite ausplotsR and the TERN AusPlots data you use.}
 }
 

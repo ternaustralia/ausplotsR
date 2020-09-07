@@ -1,7 +1,7 @@
 get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE,
                          veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
                          soil_character=FALSE, bounding_box="none", herbarium_determination_search=NULL, 
-                         family_search=NULL, standardised_name_search=NULL) {
+                         family_search=NULL, standardised_name_search=NULL, dictionary=F) {
 
 	
 	#
@@ -195,6 +195,15 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 	} #end if(veg.PI)
 
+	
+	if(dictionary) {
+	  
+	  metadata_dictionary<-.get_metadata_dictionary()
+	  
+	  ausplots.data$metadata.dictionary <- metadata_dictionary
+	  
+	} #end if(dictionary)
+	
 ########
 #add a data citation to the object
 ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") AusPlots ecosystem surveillance monitoring dataset (URL: http://aekos.org.au/). Obtained via the ausplotsR R package (URL: https://github.com/ternaustralia/ausplotsR), accessed ", format(Sys.Date(), format="%d %B %Y"), ".")	
