@@ -1,7 +1,7 @@
 get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE,
                          veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
                          soil_character=FALSE, bounding_box="none", herbarium_determination_search=NULL, 
-                         family_search=NULL, standardised_name_search=NULL, dictionary=F) {
+                         family_search=NULL, standardised_name_search=NULL, dictionary=FALSE) {
 
 	
 	#
@@ -21,7 +21,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	standard_is_not_null_or_single_char_vector <- !is.null(standardised_name_search) && !(is.character(standardised_name_search) && is.vector(standardised_name_search) && length(standardised_name_search) == 1)
 	if(standard_is_not_null_or_single_char_vector) stop("standardised_name_search must be a single element character vector") #
 	
-	is_family_and_herbarium_name_supplied<- !is.null(family_search) && !is.null(herbarium_determination_search)
+	is_family_and_herbarium_name_supplied <- !is.null(family_search) && !is.null(herbarium_determination_search)
 	if(is_family_and_herbarium_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
 	is_family_and_standardised_name_supplied <- !is.null(family_search) && !is.null(standardised_name_search)
@@ -198,7 +198,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(dictionary) {
 	  
-	  metadata_dictionary<-.get_metadata_dictionary()
+	  metadata_dictionary <- .get_metadata_dictionary()
 	  
 	  ausplots.data$metadata.dictionary <- metadata_dictionary
 	  
