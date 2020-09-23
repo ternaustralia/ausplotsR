@@ -103,7 +103,7 @@
 \title{ausplotsR: quickstart guide to basic analysis of TERN AusPlots
 vegetation data}
 \author{Greg Guerin \& Bernardo Blanco-Martin}
-\date{2020-08-11}
+\date{2020-09-23}
 
 \begin{document}
 \maketitle
@@ -147,7 +147,12 @@ library(devtools)
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, dependencies = TRUE)
 \end{verbatim}
 
-Once installed, load the package.
+Once installed, load the package as follows. Note, packages vegan, maps
+and mapdata are required for \textbf{ausplotsR} to load, and functions
+are also imported from packages: plyr, R.utils, simba, httr, jsonlite,
+sp, maptools, ggplot2, gtools, jose, curl and betapart, while knitr,
+rmarkdown and goeveg are required to build this package vignette (i.e.,
+if `build\_vignettes' is set to TRUE above).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -162,9 +167,13 @@ extracted via a single function, \texttt{get\_ausplots}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# see ?get_ausplots to explore all data modules available}
-\NormalTok{my.ausplots.data <-}\StringTok{ }\KeywordTok{get_ausplots}\NormalTok{(}\DataTypeTok{veg.vouchers =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{bounding_box =} \KeywordTok{c}\NormalTok{(}\DecValTok{125}\NormalTok{, }\DecValTok{140}\NormalTok{, }
-    \DecValTok{-40}\NormalTok{, }\DecValTok{-10}\NormalTok{))}
+\CommentTok{# See ?get_ausplots to explore all data modules available}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.ausplots.data <-}\StringTok{ }\KeywordTok{get_ausplots}\NormalTok{(}\DataTypeTok{bounding_box =} \KeywordTok{c}\NormalTok{(}\DecValTok{125}\NormalTok{, }\DecValTok{140}\NormalTok{, }\DecValTok{-40}\NormalTok{, }\DecValTok{-10}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -174,7 +183,7 @@ The output of the above call is a list with the following
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{names}\NormalTok{(my.ausplots.data)}
-\CommentTok{#> [1] "site.info" "veg.PI"    "citation"}
+\CommentTok{#> [1] "site.info" "veg.vouch" "veg.PI"    "citation"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -242,27 +251,41 @@ the following examples to derive vegetation attributes:
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{head}\NormalTok{(}\KeywordTok{subset}\NormalTok{(my.ausplots.data}\OperatorTok{$}\NormalTok{veg.PI, }\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(herbarium_determination)))}
-\CommentTok{#>    site_location_name site_location_visit_id transect point_number veg_barcode}
-\CommentTok{#> 17         NTAMGD0002                  53466    E5-W5            2 NTA  006387}
-\CommentTok{#> 20         NTAMGD0002                  53466    E5-W5            5 NTA  006345}
-\CommentTok{#> 29         NTAMGD0002                  53466    E5-W5           15 NTA  006345}
-\CommentTok{#> 30         NTAMGD0002                  53466    E5-W5           16 NTA  006317}
-\CommentTok{#> 31         NTAMGD0002                  53466    E5-W5           17 NTA  006401}
-\CommentTok{#> 33         NTAMGD0002                  53466    E5-W5           19 NTA  006387}
-\CommentTok{#>    herbarium_determination substrate in_canopy_sky  dead   growth_form height hits_unique}
-\CommentTok{#> 17       Sorghum timorense      Bare         FALSE FALSE Tussock grass   0.10     E5-W5 2}
-\CommentTok{#> 20         Sida fibulifera      Bare         FALSE FALSE          Forb   0.05     E5-W5 5}
-\CommentTok{#> 29         Sida fibulifera    Gravel         FALSE FALSE          Forb   0.10    E5-W5 15}
-\CommentTok{#> 30        Iseilema fragile      Bare         FALSE FALSE Tussock grass   0.20    E5-W5 16}
-\CommentTok{#> 31      Astrebla elymoides    Gravel         FALSE FALSE Tussock grass   0.20    E5-W5 17}
-\CommentTok{#> 33       Sorghum timorense    Gravel         FALSE FALSE Tussock grass   0.10    E5-W5 19}
-\CommentTok{#>         site_unique}
-\CommentTok{#> 17 NTAMGD0002-53466}
-\CommentTok{#> 20 NTAMGD0002-53466}
-\CommentTok{#> 29 NTAMGD0002-53466}
-\CommentTok{#> 30 NTAMGD0002-53466}
-\CommentTok{#> 31 NTAMGD0002-53466}
-\CommentTok{#> 33 NTAMGD0002-53466}
+\CommentTok{#>     site_location_name site_location_visit_id transect point_number}
+\CommentTok{#> 312         NTAMGD0002                  53466    E5-W5           46}
+\CommentTok{#> 315         NTAMGD0002                  53466    E5-W5           50}
+\CommentTok{#> 339         NTAMGD0002                  53466    E5-W5           87}
+\CommentTok{#> 351         NTAMGD0002                  53466    W4-E4            5}
+\CommentTok{#> 361         NTAMGD0002                  53466    W4-E4           26}
+\CommentTok{#> 378         NTAMGD0002                  53466    W4-E4           50}
+\CommentTok{#>     herbarium_determination substrate in_canopy_sky  dead growth_form height}
+\CommentTok{#> 312          Cleome viscosa    Gravel         FALSE FALSE        Forb   0.10}
+\CommentTok{#> 315          Cleome viscosa      Bare         FALSE FALSE        Forb   0.05}
+\CommentTok{#> 339          Cleome viscosa      Bare         FALSE FALSE        Forb   0.20}
+\CommentTok{#> 351          Cleome viscosa      Bare         FALSE FALSE        Forb   0.20}
+\CommentTok{#> 361          Cleome viscosa      Bare         FALSE FALSE        Forb   0.10}
+\CommentTok{#> 378        Portulaca digyna    Gravel         FALSE FALSE        Forb   0.02}
+\CommentTok{#>     veg_barcode standardised_name        family     genus specific_epithet}
+\CommentTok{#> 312 NTA  006351    Cleome viscosa    Cleomaceae    Cleome          viscosa}
+\CommentTok{#> 315 NTA  006351    Cleome viscosa    Cleomaceae    Cleome          viscosa}
+\CommentTok{#> 339 NTA  006351    Cleome viscosa    Cleomaceae    Cleome          viscosa}
+\CommentTok{#> 351 NTA  006351    Cleome viscosa    Cleomaceae    Cleome          viscosa}
+\CommentTok{#> 361 NTA  006351    Cleome viscosa    Cleomaceae    Cleome          viscosa}
+\CommentTok{#> 378 NTA  006311  Portulaca digyna Portulacaceae Portulaca           digyna}
+\CommentTok{#>     infraspecific_rank infraspecific_epithet taxa_status    genus_species authorship}
+\CommentTok{#> 312               <NA>                  <NA>    Accepted   Cleome viscosa         L.}
+\CommentTok{#> 315               <NA>                  <NA>    Accepted   Cleome viscosa         L.}
+\CommentTok{#> 339               <NA>                  <NA>    Accepted   Cleome viscosa         L.}
+\CommentTok{#> 351               <NA>                  <NA>    Accepted   Cleome viscosa         L.}
+\CommentTok{#> 361               <NA>                  <NA>    Accepted   Cleome viscosa         L.}
+\CommentTok{#> 378               <NA>                  <NA>   Unchecked Portulaca digyna   F.Muell.}
+\CommentTok{#>           published_in    rank hits_unique      site_unique}
+\CommentTok{#> 312   Sp. Pl. 672 1753 SPECIES    E5-W5 46 NTAMGD0002-53466}
+\CommentTok{#> 315   Sp. Pl. 672 1753 SPECIES    E5-W5 50 NTAMGD0002-53466}
+\CommentTok{#> 339   Sp. Pl. 672 1753 SPECIES    E5-W5 87 NTAMGD0002-53466}
+\CommentTok{#> 351   Sp. Pl. 672 1753 SPECIES     W4-E4 5 NTAMGD0002-53466}
+\CommentTok{#> 361   Sp. Pl. 672 1753 SPECIES    W4-E4 26 NTAMGD0002-53466}
+\CommentTok{#> 378 Fragm. 1: 170 1859 SPECIES    W4-E4 50 NTAMGD0002-53466}
 \end{Highlighting}
 \end{Shaded}
 
@@ -292,13 +315,13 @@ work with.
 \NormalTok{my.fractional <-}\StringTok{ }\KeywordTok{fractional_cover}\NormalTok{(sites100)}
 
 \KeywordTok{head}\NormalTok{(my.fractional)}
-\CommentTok{#>                       site_unique  bare brown green  NA.}
-\CommentTok{#> NTAARP0001-58422 NTAARP0001-58422  3.27 28.42 68.32 0.00}
-\CommentTok{#> NTAARP0003-58424 NTAARP0003-58424 25.45 40.40 34.16 0.00}
-\CommentTok{#> NTABRT0002-53617 NTABRT0002-53617 11.78 25.74 61.49 0.99}
-\CommentTok{#> NTABRT0005-53620 NTABRT0005-53620 36.63 19.41 43.96 0.00}
-\CommentTok{#> NTAFIN0002-53622 NTAFIN0002-53622  5.63 19.25 75.12 0.00}
-\CommentTok{#> NTAFIN0002-58018 NTAFIN0002-58018 14.65 40.50 44.85 0.00}
+\CommentTok{#>                       site_unique  bare brown green NA.}
+\CommentTok{#> NTAARP0003-58424 NTAARP0003-58424 25.45 40.50 34.06   0}
+\CommentTok{#> NTABRT0001-53616 NTABRT0001-53616 18.22 33.27 48.51   0}
+\CommentTok{#> NTABRT0003-53618 NTABRT0003-53618 14.65 30.59 54.75   0}
+\CommentTok{#> NTABRT0004-53619 NTABRT0004-53619 22.10 31.42 46.48   0}
+\CommentTok{#> NTABRT0005-53620 NTABRT0005-53620 36.63 19.41 43.96   0}
+\CommentTok{#> NTAFIN0002-53622 NTAFIN0002-53622  5.63 19.15 75.22   0}
 \end{Highlighting}
 \end{Shaded}
 
@@ -315,13 +338,13 @@ from the \texttt{get\_ausplots} function:
 \NormalTok{my.fractional <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(my.fractional)}
 
 \KeywordTok{head}\NormalTok{(my.fractional)}
-\CommentTok{#>        site_unique  bare brown green  NA. longitude  latitude}
-\CommentTok{#> 1 NTAARP0001-58422  3.27 28.42 68.32 0.00  132.2701 -13.55729}
-\CommentTok{#> 2 NTAARP0003-58424 25.45 40.40 34.16 0.00  132.4571 -13.51697}
-\CommentTok{#> 3 NTABRT0002-53617 11.78 25.74 61.49 0.99  133.2506 -22.28367}
-\CommentTok{#> 4 NTABRT0005-53620 36.63 19.41 43.96 0.00  133.6121 -22.29108}
-\CommentTok{#> 5 NTAFIN0002-53622  5.63 19.25 75.12 0.00  133.4343 -24.00942}
-\CommentTok{#> 6 NTAFIN0002-58018 14.65 40.50 44.85 0.00  133.4343 -24.00942}
+\CommentTok{#>        site_unique  bare brown green NA. longitude  latitude}
+\CommentTok{#> 1 NTAARP0003-58424 25.45 40.50 34.06   0  132.4571 -13.51697}
+\CommentTok{#> 2 NTABRT0001-53616 18.22 33.27 48.51   0  133.2473 -22.28360}
+\CommentTok{#> 3 NTABRT0003-53618 14.65 30.59 54.75   0  133.2699 -22.28358}
+\CommentTok{#> 4 NTABRT0004-53619 22.10 31.42 46.48   0  133.6164 -22.28981}
+\CommentTok{#> 5 NTABRT0005-53620 36.63 19.41 43.96   0  133.6121 -22.29108}
+\CommentTok{#> 6 NTAFIN0002-53622  5.63 19.15 75.22   0  133.4343 -24.00942}
 \end{Highlighting}
 \end{Shaded}
 
@@ -335,7 +358,7 @@ latitude.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{start_guide_files/figure-latex/unnamed-chunk-9-1.pdf}
+\includegraphics{start_guide_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 There appears to be a hump-backed relationship, with a higher proportion
 of bare ground in the arid inland at mid-latitudes. We can add a simple
@@ -353,19 +376,19 @@ quadratic model to test/approximate this:
 \CommentTok{#> }
 \CommentTok{#> Residuals:}
 \CommentTok{#>     Min      1Q  Median      3Q     Max }
-\CommentTok{#> -37.162 -10.619  -2.078   9.729  56.228 }
+\CommentTok{#> -41.719 -12.352  -3.899  10.287  51.866 }
 \CommentTok{#> }
 \CommentTok{#> Coefficients:}
 \CommentTok{#>               Estimate Std. Error t value Pr(>|t|)    }
-\CommentTok{#> (Intercept) -164.71186   28.46523  -5.786 9.00e-08 ***}
-\CommentTok{#> latitude     -16.63759    2.23952  -7.429 4.50e-11 ***}
-\CommentTok{#> quadratic     -0.33299    0.04271  -7.796 7.65e-12 ***}
+\CommentTok{#> (Intercept) -176.71497   29.77860  -5.934 4.79e-08 ***}
+\CommentTok{#> latitude     -17.89721    2.43854  -7.339 7.23e-11 ***}
+\CommentTok{#> quadratic     -0.35673    0.04778  -7.467 3.94e-11 ***}
 \CommentTok{#> ---}
 \CommentTok{#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1}
 \CommentTok{#> }
-\CommentTok{#> Residual standard error: 17.66 on 96 degrees of freedom}
-\CommentTok{#> Multiple R-squared:  0.407,  Adjusted R-squared:  0.3946 }
-\CommentTok{#> F-statistic: 32.94 on 2 and 96 DF,  p-value: 1.279e-11}
+\CommentTok{#> Residual standard error: 19.03 on 95 degrees of freedom}
+\CommentTok{#> Multiple R-squared:  0.3712, Adjusted R-squared:  0.3579 }
+\CommentTok{#> F-statistic: 28.04 on 2 and 95 DF,  p-value: 2.696e-10}
 
 \CommentTok{# generate predicted values for plotting:}
 \NormalTok{MinMax <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(my.fractional}\OperatorTok{$}\NormalTok{latitude), }\KeywordTok{max}\NormalTok{(my.fractional}\OperatorTok{$}\NormalTok{latitude))}
@@ -378,7 +401,7 @@ quadratic model to test/approximate this:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{start_guide_files/figure-latex/unnamed-chunk-10-1.pdf}
+\includegraphics{start_guide_files/figure-latex/unnamed-chunk-12-1.pdf}
 
 \hypertarget{example-2-species-by-sites-table}{%
 \subsection{Example 2: Species by sites
@@ -397,27 +420,44 @@ returns a `species against sites' matrix:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# The species_table function below can also take the `$veg.voucher` module as}
+\CommentTok{# input, but `m_kind='PA'` must be specified to get a sensible presence/absence}
+\CommentTok{# output.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# The 'species_name' argument below specifies use of the 'standardised_name'}
+\CommentTok{# field to identify species, which is based on herbarium_determination names}
+\CommentTok{# (i.e., 'HD' option in species_name) matched to accepted scientific name}
+\CommentTok{# according to a standard (http://www.worldfloraonline.org/).}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{my.sppBYsites <-}\StringTok{ }\KeywordTok{species_table}\NormalTok{(my.ausplots.data}\OperatorTok{$}\NormalTok{veg.PI, }\DataTypeTok{m_kind =} \StringTok{"percent_cover"}\NormalTok{, }
-    \DataTypeTok{cover_type =} \StringTok{"PFC"}\NormalTok{)}
+    \DataTypeTok{cover_type =} \StringTok{"PFC"}\NormalTok{, }\DataTypeTok{species_name =} \StringTok{"SN"}\NormalTok{)}
 
 \CommentTok{# check the number of rows (plots) and columns (species) in the matrix}
 \KeywordTok{dim}\NormalTok{(my.sppBYsites)}
-\CommentTok{#> [1]  391 1956}
+\CommentTok{#> [1]  391 1751}
 
 \CommentTok{# look at the top left corner (as the matrix is large)}
 \NormalTok{my.sppBYsites[}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{, }\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{]}
-\CommentTok{#>                  Abutilon.fraseri Abutilon.halophilum Abutilon.hannii}
-\CommentTok{#> NTAARP0001-58422                0                   0               0}
-\CommentTok{#> NTAARP0002-58423                0                   0               0}
-\CommentTok{#> NTAARP0003-58424                0                   0               0}
-\CommentTok{#> NTABRT0001-53616                0                   0               0}
-\CommentTok{#> NTABRT0002-53617                0                   0               0}
-\CommentTok{#>                  Abutilon.hannii.subsp..prostrate..p.k.latz.427. Abutilon.leucopetalum}
-\CommentTok{#> NTAARP0001-58422                                               0                     0}
-\CommentTok{#> NTAARP0002-58423                                               0                     0}
-\CommentTok{#> NTAARP0003-58424                                               0                     0}
-\CommentTok{#> NTABRT0001-53616                                               0                     0}
-\CommentTok{#> NTABRT0002-53617                                               0                     0}
+\CommentTok{#>                  Abutilon Abutilon.fraseri Abutilon.halophilum Abutilon.hannii}
+\CommentTok{#> NTAARP0001-58422        0                0                   0               0}
+\CommentTok{#> NTAARP0002-58423        0                0                   0               0}
+\CommentTok{#> NTAARP0003-58424        0                0                   0               0}
+\CommentTok{#> NTABRT0001-53616        0                0                   0               0}
+\CommentTok{#> NTABRT0002-53617        0                0                   0               0}
+\CommentTok{#>                  Abutilon.leucopetalum}
+\CommentTok{#> NTAARP0001-58422                     0}
+\CommentTok{#> NTAARP0002-58423                     0}
+\CommentTok{#> NTAARP0003-58424                     0}
+\CommentTok{#> NTABRT0001-53616                     0}
+\CommentTok{#> NTABRT0002-53617                     0}
 \end{Highlighting}
 \end{Shaded}
 
@@ -427,12 +467,14 @@ percent cover cumulative across all plots they occur in:
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{rev}\NormalTok{(}\KeywordTok{sort}\NormalTok{(}\KeywordTok{colSums}\NormalTok{(my.sppBYsites)))[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{]}
-\CommentTok{#>     Triodia.basedowii    Aristida.holathera    Eucalyptus.obliqua         Eulalia.aurea }
-\CommentTok{#>              651.4038              399.9520              359.5146              340.4958 }
-\CommentTok{#>    Eucalyptus.baxteri     Triodia.bitextura     Cenchrus.ciliaris       Triodia.pungens }
-\CommentTok{#>              335.0025              325.2499              306.7625              291.3861 }
-\CommentTok{#>       Acacia.shirleyi Schizachyrium.fragile }
-\CommentTok{#>              282.0792              264.3876}
+\CommentTok{#>     Triodia.basedowii    Aristida.holathera    Eucalyptus.obliqua }
+\CommentTok{#>              651.4038              456.6403              359.5146 }
+\CommentTok{#>         Eulalia.aurea    Eucalyptus.baxteri     Triodia.bitextura }
+\CommentTok{#>              340.4958              335.0025              325.2499 }
+\CommentTok{#>     Cenchrus.ciliaris       Triodia.pungens       Acacia.shirleyi }
+\CommentTok{#>              306.7625              291.3861              282.0792 }
+\CommentTok{#> Schizachyrium.fragile }
+\CommentTok{#>              264.3876}
 \end{Highlighting}
 \end{Shaded}
 
@@ -453,7 +495,7 @@ shallow gradient high evenness).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{start_guide_files/figure-latex/unnamed-chunk-13-1.pdf}
+\includegraphics{start_guide_files/figure-latex/unnamed-chunk-17-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -471,7 +513,102 @@ shallow gradient high evenness).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{start_guide_files/figure-latex/unnamed-chunk-13-2.pdf}
+\includegraphics{start_guide_files/figure-latex/unnamed-chunk-17-2.pdf}
+
+\hypertarget{example-3-quick-species-lists}{%
+\subsection{Example 3: Quick species
+lists}\label{example-3-quick-species-lists}}
+
+Perhaps you simply want to browse which plant species have been recorded
+in AusPlots, without all the associated raw data? Here, the
+\texttt{species\_list} function is your friend:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# The species_list function is designed to take $veg.voucher as input but can}
+\CommentTok{# also take $veg.PI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# print a list of genus_species-only records from selected plots:}
+\KeywordTok{species_list}\NormalTok{(}\KeywordTok{subset}\NormalTok{(my.ausplots.data}\OperatorTok{$}\NormalTok{veg.vouch, site_unique }\OperatorTok{%in%}\StringTok{ }\KeywordTok{unique}\NormalTok{(site_unique)[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]), }
+    \DataTypeTok{grouping =} \StringTok{"by_site"}\NormalTok{, }\DataTypeTok{species_name =} \StringTok{"GS"}\NormalTok{)}
+\CommentTok{#> $NTAMGD0002}
+\CommentTok{#>  [1] Abutilon hannii             Abutilon indicum           }
+\CommentTok{#>  [3] Aristida latifolia          Astrebla elymoides         }
+\CommentTok{#>  [5] Astrebla squarrosa          Boerhavia paludosa         }
+\CommentTok{#>  [7] Brachyachne convergens      Bulbostylis barbata        }
+\CommentTok{#>  [9] Cleome viscosa              Crotalaria dissitiflora    }
+\CommentTok{#> [11] Crotalaria medicaginea      Cyperus gilesii            }
+\CommentTok{#> [13] Cyperus iria                Dactyloctenium radulans    }
+\CommentTok{#> [15] Desmodium muelleri          Enneapogon polyphyllus     }
+\CommentTok{#> [17] Euphorbia                   Fimbristylis dichotoma     }
+\CommentTok{#> [19] Gomphrena breviflora        Goodenia fascicularis      }
+\CommentTok{#> [21] Heliotropium conocarpum     Heliotropium plumosum      }
+\CommentTok{#> [23] Heliotropium tenuifolium    Hibiscus                   }
+\CommentTok{#> [25] Indigofera polygaloides     Ipomoea coptica            }
+\CommentTok{#> [27] Ipomoea lonchophylla        Iseilema fragile           }
+\CommentTok{#> [29] Kallstroemia pentandra      Neptunia monosperma        }
+\CommentTok{#> [31] Panicum laevinode           Paspalidium retiglume      }
+\CommentTok{#> [33] Phyllanthus lacerosus       Phyllanthus maderaspatensis}
+\CommentTok{#> [35] Portulaca                   Portulaca digyna           }
+\CommentTok{#> [37] Portulaca oleracea          Portulaca oligosperma      }
+\CommentTok{#> [39] Portulaca pilosa            Ptilotus exaltatus         }
+\CommentTok{#> [41] Ptilotus spicatus           Rhynchosia minima          }
+\CommentTok{#> [43] Salsola kali                Sclerolaena bicornis       }
+\CommentTok{#> [45] Sclerolaena lanicuspis      Sida argillacea            }
+\CommentTok{#> [47] Sida fibulifera             Sida spinosa               }
+\CommentTok{#> [49] Sorghum timorense           Sporobolus carolii         }
+\CommentTok{#> [51] Streptoglossa bubakii       Tragus australianus        }
+\CommentTok{#> [53] Trianthema triquetra        Uranthoecium truncatum     }
+\CommentTok{#> }
+\CommentTok{#> $SATSTP0002}
+\CommentTok{#>  [1] Abutilon leucopetalum        Acacia ligulata             }
+\CommentTok{#>  [3] Acacia victoriae             Aristida arida              }
+\CommentTok{#>  [5] Casuarina pauper             Cenchrus ciliaris           }
+\CommentTok{#>  [7] Convolvulus remotus          Dissocarpus paradoxus       }
+\CommentTok{#>  [9] Dodonaea viscosa             Dysphania cristata          }
+\CommentTok{#> [11] Einadia nutans               Enchylaena tomentosa        }
+\CommentTok{#> [13] Enneapogon avenaceus         Enneapogon cylindricus      }
+\CommentTok{#> [15] Eragrostis dielsii           Eremophila sturtii          }
+\CommentTok{#> [17] Euphorbia drummondii         Lysiana exocarpi            }
+\CommentTok{#> [19] Maireana pyramidata          Nicotiana simulans          }
+\CommentTok{#> [21] Paractaenum novae-hollandiae Pimelea microcephala        }
+\CommentTok{#> [23] Rhagodia spinescens          Salsola kali                }
+\CommentTok{#> [25] Santalum lanceolatum         Sclerolaena obliquicuspis   }
+\CommentTok{#> [27] Senecio spanomerus           Senna artemisioides         }
+\CommentTok{#> [29] Sida ammophila               Sida fibulifera             }
+\CommentTok{#> [31] Solanum quadriloculatum      Sonchus oleraceus           }
+\CommentTok{#> [33] Swainsona burkittii          Tetragonia eremaea          }
+\CommentTok{#> [35] Triraphis mollis}
+
+\CommentTok{# overall species list ordered by family (for demonstration we print only part):}
+\KeywordTok{species_list}\NormalTok{(my.ausplots.data}\OperatorTok{$}\NormalTok{veg.vouch, }\DataTypeTok{grouping =} \StringTok{"collapse"}\NormalTok{, }\DataTypeTok{species_name =} \StringTok{"SN"}\NormalTok{, }
+    \DataTypeTok{append_family =} \OtherTok{TRUE}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{]}
+\CommentTok{#>  [1] Acanthaceae--Dicliptera armata              }
+\CommentTok{#>  [2] Acanthaceae--Dipteracanthus australasicus   }
+\CommentTok{#>  [3] Acanthaceae--Hygrophila ringens var. ringens}
+\CommentTok{#>  [4] Acanthaceae--Nelsonia canescens             }
+\CommentTok{#>  [5] Acanthaceae--Rostellularia adscendens       }
+\CommentTok{#>  [6] Aizoaceae--Carpobrotus rossii               }
+\CommentTok{#>  [7] Aizoaceae--Carpobrotus virescens            }
+\CommentTok{#>  [8] Aizoaceae--Disphyma clavellatum             }
+\CommentTok{#>  [9] Aizoaceae--Gunniopsis                       }
+\CommentTok{#> [10] Aizoaceae--Gunniopsis calcarea              }
+\CommentTok{#> [11] Aizoaceae--Gunniopsis kochii                }
+\CommentTok{#> [12] Aizoaceae--Gunniopsis quadrifida            }
+\CommentTok{#> [13] Aizoaceae--Gunniopsis septifraga            }
+\CommentTok{#> [14] Aizoaceae--Gunniopsis zygophylloides        }
+\CommentTok{#> [15] Aizoaceae--Mesembryanthemum crystallinum    }
+\CommentTok{#> [16] Aizoaceae--Mesembryanthemum nodiflorum      }
+\CommentTok{#> [17] Aizoaceae--Sarcozona praecox                }
+\CommentTok{#> [18] Aizoaceae--Tetragonia                       }
+\CommentTok{#> [19] Aizoaceae--Tetragonia eremaea               }
+\CommentTok{#> [20] Aizoaceae--Tetragonia implexicoma}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{explore-tern-ausplots}{%
 \subsection{Explore TERN AusPlots}\label{explore-tern-ausplots}}
