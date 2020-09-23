@@ -9,7 +9,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 	veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE,
 	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
 	herbarium_determination_search=NULL, family_search=NULL, 
-	standardised_name_search=NULL)
+	standardised_name_search=NULL, dictionary=FALSE)
 }
 \arguments{
   \item{my.Plot_IDs}{Optional character vector of AusPlots plot IDs to request data for specific set of plots.
