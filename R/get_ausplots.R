@@ -74,7 +74,9 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		site.info <- extract_site_info(Plot_IDs)  #
 
-		site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		#site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		site.info <- data.frame(site_unique = do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")), site.info)
+		
 		
 		ausplots.data$site.info <- site.info
 
@@ -86,8 +88,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		struct.summ <- extract_struct_summ(Plot_IDs) #
 		
-		struct.summ$site_unique <- do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
-		
+		#struct.summ$site_unique <- do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		struct.summ <- data.frame(site_unique = do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")), struct.summ)
 		ausplots.data$struct.summ <- struct.summ
 		
 	} #end if(structural_summaries)
@@ -99,7 +101,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.subsites <- extract_soil_subsites(Plot_IDs) #
 		
-		soil.subsites$site_unique <- do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		#soil.subsites$site_unique <- do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		soil.subsites <- data.frame(site_unique = do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")), soil.subsites)
 		
 		ausplots.data$soil.subsites <- soil.subsites
 		
@@ -111,7 +114,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.bulk <- extract_bulk_density(Plot_IDs) #
 		
-		soil.bulk$site_unique <- do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		#soil.bulk$site_unique <- do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		soil.bulk <- data.frame(site_unique = do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")), soil.bulk)
 		
 		ausplots.data$soil.bulk <- soil.bulk
 		
@@ -123,7 +127,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		soil.char <- extract_soil_char(Plot_IDs) #
 		
-		soil.char$site_unique <- do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		#soil.char$site_unique <- do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
+		soil.char <- data.frame(site_unique = do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")), soil.char)
 		
 		ausplots.data$soil.char <- soil.char
 		
@@ -135,7 +140,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search) #
 		
-		basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
+		#basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
+		basal <- data.frame(site_unique = do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")), basal)
 		
 		ausplots.data$veg.basal <- basal
 		
@@ -156,7 +162,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		vouch$standardised_name <- tolower(vouch$standardised_name)
 		vouch$standardised_name <- capitalize(vouch$standardised_name)
 		
-		vouch$site_unique <- do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique code for a site/visit combination
+		#vouch$site_unique <- do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique code for a site/visit combination
+		vouch <- data.frame(site_unique = do.call(paste, c(vouch[c("site_location_name", "site_location_visit_id")], sep = "-")), vouch)
 		
 		ausplots.data$veg.vouch <- vouch
 
@@ -189,7 +196,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		hits$hits_unique <- do.call(paste, c(hits[c("transect", "point_number")], sep = " ")) #create a new column in the hits data with transect and hit combined to make unique combination within plot, this is to identify unique samples for the calculation of cover and species accumulation curves etc.
 		
-		hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")) #because there are potential multiple visits to sites, here making a new single field combining site and visit IDs to get unique plot/visit identifiers that still have the plot site name.
+		#hits$site_unique <- do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")) #because there are potential multiple visits to sites, here making a new single field combining site and visit IDs to get unique plot/visit identifiers that still have the plot site name.
+		hits <- data.frame(site_unique = do.call(paste, c(hits[c("site_location_name", "site_location_visit_id")], sep = "-")), hits)
 		
 	ausplots.data$veg.PI <- hits
 		
