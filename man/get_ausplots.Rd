@@ -40,7 +40,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 \item{standardised_name_search}{Optional character string filter for selecting AusPlots based on the presence of a genus and/or species as recorded in the 'standardised_name' column. Will be NA if no genus rank (at minimum) was possible. See details for search term settings.
 }
-\item{dictionary}{Whether the metadata variable dictionary is required. Provides a table that describes all the variables and values in each data frame.
+\item{dictionary}{Whether the metadata variable dictionary is required. Provides a table that describes many of the variables and values in each data frame.
 }
 }
 
@@ -54,7 +54,10 @@ AusPlots surveys are identified by a plot ID and unique visit number, that are c
 
 \code{herbarium determinations} are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may differ between states and with international databases due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It also includes incomplete identifications, dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass"), and "No ID" labels.
     
-\code{standardised_name_search} values are based on the \code{veg.PI$herbarium_determination} but have been edited to match the most commonly used or widely accepted scientific name according to "World Flora Online" (http://www.worldfloraonline.org/). This helps ensure scientific names will not differ between states and will be more consistent with global databases. \code{standardised_name_search} determinations are made to the lowest possible taxonomic rank, which may be the genus, species, subspecies or variety, but not family. It excludes dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass") and "No ID" labels. The genus, specific_epithet, infraspecific_rank, infraspecific_epithet and genus_species based on the standardised_name are listed as separate columns in veg.PI, veg.vouch, and veg.basal data tables.  
+\code{standardised_name_search} values are based on the \code{veg.PI$herbarium_determination} but have been edited to match the most commonly used or widely accepted scientific name according to "World Flora Online" (http://www.worldfloraonline.org/). This helps ensure scientific names will not differ between states and will be more consistent with global databases. \code{standardised_name_search} determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It excludes dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass") and "No ID" labels. The genus, specific_epithet, infraspecific_rank, infraspecific_epithet and genus_species based on the standardised_name are listed as separate columns in veg.PI, veg.vouch, and veg.basal data tables.  Phrase names supplied by herbaria that have not been formally published or described are not transfered to \code{standardised_name_search} determinations.  
+
+The metadata variable dictionary returned by \code{dictionary=T} may not include all of the the variables and values in each data frame, but will be expnaded over time.
+
 }
 
 \value{Returns a list with following elements, depending on the AusPlots modules requested in the function call.
@@ -93,10 +96,10 @@ my.data$citation
 #Get voucher records for "Eucalyptus moderata" using "herbarium_determination":
 Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, 
 herbarium_determination_search="Eucalyptus moderata")
-Eucalyptus_moderata$veg.vouch
+head(Eucalyptus_moderata$veg.vouch,10)
 
 #Get veg voucher records for all species in the family "Myrtaceae"
 Myrtaceae <- get_ausplots(veg.PI=FALSE, family_search="Myrtaceae")
-Myrtaceae$veg.vouch
+head(Myrtaceae$veg.vouch,10)
 
 }
