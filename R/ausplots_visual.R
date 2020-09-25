@@ -80,7 +80,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 
 	if(growthform.pie) {
 		if(n == 1) {
-			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"))
+			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"), species_name="SN")
 			GF_col <- rev(terrain.colors(length(names(GF))))
 			names(GF_col) <- names(GF)
 		}
@@ -95,7 +95,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 
 	if(whittaker) {
 		if(n == 1) {
-			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC")
+			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
 			}
 		par(mar=c(5,5,5,2))
 		whitt.plot(sppBYsites[i,])

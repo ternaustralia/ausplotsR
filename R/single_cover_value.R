@@ -1,6 +1,6 @@
 single_cover_value <- function(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=5, max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee")) {
 
-#
+
 #input checks
 if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}
 if(any(!c("growth_form", "site_unique", "height") %in% names(veg.PI))) {stop("Can't match names of veg.PI; data frame should be returned from get_ausplots")}

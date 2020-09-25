@@ -3,7 +3,7 @@ Type: Package
 Title: TERN AusPlots analysis package
 Version: 1.2
 Date: 2020-05-11
-Author: Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-Fores, Andrew Tokmakoff
+Author: Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martín-Forés, Andrew Tokmakoff
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
     person("Tom", "Saleeba", role = "aut"),
@@ -32,10 +32,12 @@ Imports:
     ggplot2,
     gtools,
     jose,
-    betapart
+    betapart,
+    curl
 Description: Extraction, preparation, visualisation and analysis of TERN
     AusPlots ecosystem monitoring data.
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
+Encoding: UTF-8

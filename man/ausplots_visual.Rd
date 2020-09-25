@@ -36,7 +36,8 @@ map_ausplots(my.ausplots.object)
 }
 \value{Plots are written to a pdf file to ensure consistent formatting, saved by default in the working directory.
 }
-\references{Blanco-Martin, B. (2019) Tutorial: Understanding and using the 'ausplotsR' package and AusPlots data. Terrestrial Ecology Research Network. Version 2019.04.0, April 2019. https://github.com/ternaustralia/TERN-Data-Skills/
+\references{Blanco-Martin, B. (2019) Tutorial: Understanding and using the 'ausplotsR' package and AusPlots data. Terrestrial Ecology Research Network. Version 2019.04.0, April 2019.
+https://github.com/ternaustralia/TERN-Data-Skills/
 
 Guerin, G.R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., Lowe, A.J. (2017) Opportunities for integrated ecological analysis across inland Australia with standardised data from AusPlots Rangelands. \emph{PLoS ONE} \strong{12}, e0170137.
 	
@@ -71,9 +72,9 @@ ausplots_visual()
 my.data <- get_ausplots(veg.vouchers=FALSE)
 
 #Set maximum number of plots to all available in the veg.PI data:
-ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, fraction.pie = FALSE, 
-growthform.pie = FALSE, cumulative.cover = FALSE, whittaker = FALSE, 
-outfile = "AusPlots_treeCover.pdf", 
+ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, 
+fraction.pie = FALSE, growthform.pie = FALSE, cumulative.cover = FALSE, 
+whittaker = FALSE, outfile = "AusPlots_treeCover.pdf", 
 max.plots=length(unique(my.data$veg.PI$site_location_name))) 
 }
 }
