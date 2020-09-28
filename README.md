@@ -7,7 +7,17 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-**The updated version of ausplotsR (v1.2 – coming soon 2020) will offer improved functionality, including built-in demonstration graphics of site locations and key vegetation attributes, additional standardised taxonomic fields and enhanced ability to filter on them and clean species records, simple species lists for sites, selected new analysis functions, revamped help manual and a comprehensive variable dictionary as metadata to help interpret the raw data modules.**
+## New features in ausplotsR version 1.2
+
+Update to the latest package version to make use of new features:
+ 1. Demonstration maps and graphical vegetation attributes in a single call.
+ 1. Additional standardised plant taxonomic fields making it easy to clean species occurrence data or filter or search data by plant family.
+ 1. Simple species lists for sites.
+ 1. Revamped help files and manual.
+ 1. Detailed metadata for all data modules.
+ 1. Additional options for calculating vegetation cover by plant growth form, e.g., cumulative by species versus absolute cover; cover by strata.
+ 1. Corrected implementation of Importance Value Index (IVI) calculation as measure of species importance.
+ 1. Optimisation of plot selection to maximise species accumulation.
 
 # Using AusplotsR
 
@@ -26,7 +36,7 @@ to get started on EcoCloud and be sure to create an *RStudio* instance.
 
 ## AusplotsR on your computer
 
-ausplotsR requires the following packages: plyr, R.utils, simba, httr, jsonlite; ('Suggests' needed to build vignette if 'build_vignettes' is set to TRUE below: vegan, knitr, rmarkdown, goeveg).
+ausplotsR requires the following packages: 'Depends': vegan, maps, mapdata; 'Imports': plyr, R.utils, simba, httr, jsonlite, sp, maptools, ggplot2, gtools, jose, betapart, curl; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, rmarkdown, goeveg.
 
 ausplotsR can be installed directly from github using the devtools package, which must be installed first.
  
@@ -92,7 +102,7 @@ We would then use this to install this specific version of the package with:
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, ref = '559e0eb77ca3d42a7276351695db42331ef170b4')
 ```
 
-Authors: Greg Guerin, Tom Saleeba, Andrew Tokmakoff
+Authors: Greg Guerin, Tom Saleeba, Samantha Munroe, Irene Martín-Forés, Bernardo Blanco-Martin, Andrew Tokmakoff
 
 # Troubleshooting
 

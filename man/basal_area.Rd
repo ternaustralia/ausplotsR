@@ -1,51 +1,37 @@
 \name{basal_area}
 \alias{basal_area}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Basal area of tree trunks in TERN AusPlots
-%%  ~~function to do ... ~~
 }
-\description{Calculates basal area (or number of basal wedge hits) for each plot, using the raw basal wedge data returned from \code{\link{get_ausplots}}.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+\description{Calculates basal area (or number of basal wedge hits) for each plot, using the raw basal wedge data returned from \code{get_ausplots}.
 }
 \usage{
-basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE)
+basal_area(veg.basal, by.spp=FALSE, by.hits=FALSE, 
+species_name=c("SN","HD","GS"))
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{veg.basal}{Raw basal wedge data generated from \code{\link{get_ausplots}}.
-%%     ~~Describe \code{my.Plot_IDs} here~~
 }
   \item{by.spp}{Set to TRUE to get values per individual species in plots rather than combined values per plot.
-%%     ~~Describe \code{site_info} here~~
 }
   \item{by.hits}{Set to TRUE to return the number of individual basal wedge hits rather than basal area per se.
-%%     ~~Describe \code{structural_summaries} here~~
 }
+\item{species_name}{If \code{by.spp=TRUE}, set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for explaination of each setting.
 }
-\details{Users should be aware that herbarium determinations are provided by state herbaria and are the most commonly used scientific names in the given state. However, scientific names may vary between states due to disagreements on taxonomy/nomenclature. Herbarium determinations are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. If by.spp=T, results will include a mix of taxonomic ranks.
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{Returns a data frame with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{n/a
-%% ~put references to the literature/web site here ~
-}
-\author{Greg R. Guerin
-%%  ~~who you are~~
-}
-\note{n/a
-%%  ~~further notes~~
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\details{Basal area is the cross-sectional area of tree trunks per unit area, and is measured at each plot using a basal wedge sweep. Measurement is by species at nine points. Basal area is averaged, while raw tree stem counts are also recorded.
 
-\seealso{\code{\link{get_ausplots}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{species_name} provides multiple options for calculating basal area if \code{by.spp=TRUE}. For example, if \code{species_name="HD"}, the function will use the "herbarium_determination" provided by state herbaria to identify unique species. "herbarium_determination" are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. It includes incomplete identifications, dead or generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass"), and "No ID" labels. If \code{species_name="SN"}, the default, the function will use the the "standardised_name" to identify unique species. Values are based on the \code{veg.PI$herbarium_determination} but have been edited to match the most commonly used or widely accepted scientific name according to "World Flora Online" (http://www.worldfloraonline.org/). "standardised_name" determinations are made to the lowest possible taxonomic rank, which may be the genus, species, subspecies or variety, but not family. It excludes generic vegetation identifications (e.g. "Dead Tree/Shrub", "Annual Grass") and "No ID" labels. If \code{species_name="GS"}, only the standardised genus species rank ("genus_species" in the veg.basal input table) is used to identify species. \code{species_name="GS"} maximises consistency in species comparisons between plots, but reduces the taxonomic detail and excludes records where only the genus was identified.
+
+
+}
+\value{Returns a dataframe with rows for plots (or species by plots) and basal area (m2/ha) or hit scores.
+}
+\author{Greg R. Guerin, Samantha E.M. Munroe
+}
+
+\seealso{
+\code{\link{get_ausplots}}
 }
 \examples{
 #get basal wedge data for selected plots:
@@ -55,7 +41,3 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 #calculate basal area:
 basal_area(my.data$veg.basal)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
