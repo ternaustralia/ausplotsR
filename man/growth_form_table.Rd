@@ -66,9 +66,9 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 
 #generate a percent cover occurrence matrix for plant growth forms:
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC",
-cumulative=FALSE)
+cumulative=FALSE, species_name="SN")
 
 #calculate cover of strata:
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", 
-cover_type="PFC", cumulative=FALSE, by_strata=TRUE)
+cover_type="PFC", cumulative=FALSE, by_strata=TRUE, species_name="SN")
 }
