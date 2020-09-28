@@ -17,7 +17,6 @@ species_name=c("SN","HD","GS"))
 }
 \item{species_name}{If \code{by.spp=TRUE}, set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species". See details for explaination of each setting.
 }
-
 }
 
 \details{Basal area is the cross-sectional area of tree trunks per unit area, and is measured at each plot using a basal wedge sweep. Measurement is by species at nine points. Basal area is averaged, while raw tree stem counts are also recorded.
