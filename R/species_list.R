@@ -54,11 +54,11 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   
   
   if(grouping == "by_site") {
-    final_list <- lapply(split(veg.vouch, veg.vouch$site_location_name), gather_names)
+    final_list <- lapply(split(veg.vouch, veg.vouch$site_location_name, drop=TRUE), gather_names)
   }
   
   if(grouping == "by_visit") {
-    final_list <- lapply(split(veg.vouch, veg.vouch$site_unique), gather_names)
+    final_list <- lapply(split(veg.vouch, veg.vouch$site_unique, drop=TRUE), gather_names)
     }
 
   if(grouping == "collapse") {
