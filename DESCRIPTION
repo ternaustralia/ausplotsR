@@ -2,7 +2,7 @@ Package: ausplotsR
 Type: Package
 Title: TERN AusPlots analysis package
 Version: 1.2
-Date: 2020-05-11
+Date: 2020-09-28
 Author: Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martín-Forés, Andrew Tokmakoff
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
