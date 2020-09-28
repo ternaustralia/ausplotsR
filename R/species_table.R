@@ -35,7 +35,7 @@ if(species_name == "SN") {
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
-    hits < -hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
+    hits <- hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
     
     if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
