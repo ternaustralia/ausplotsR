@@ -33,11 +33,11 @@ if(species_name == "SN") {
   
   if(m_kind == "PA") {
     
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
+    
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
     hits <- hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
-    
-    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -126,11 +126,11 @@ if(species_name == "HD"){
   
   if(m_kind == "PA") {
       
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
+    
     hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
     hits <- hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a speciesemove hots not determined as a species
-    
-    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
@@ -219,13 +219,13 @@ if(species_name == "GS"){ #using genus species
   
   if(m_kind == "PA") {
     
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
+    
     hits <- hits[which(!duplicated(hits[,c("site_unique", "genus_species"),])), c("site_unique", "genus_species")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
     hits <- hits[!is.na(hits$genus_species), ] ##remove hits not determined as a species
     #alternatively, we might assign it a no data term, in which case
     #hits <- hits[!(hits$genus_species == "No ID",]
-    
-    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
