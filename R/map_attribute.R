@@ -18,8 +18,9 @@ map_attribute <- function(my.ausplots.object) {
 	####
 	the_map <- ggplot(data = tree_cover, aes(x = longitude, y = latitude, group = bioregion.f), alpha = 0.5) + 
 	         geom_polygon(data=fortify(aus.sp), aes(x=long, y=lat, group=group), col="black", fill="seashell") +
-		     geom_point(aes(colour=bioregion.f, fill=bioregion.f, size=Tree_cover)) + 
-		     ggtitle("AusPlots locations") + 
+		     #geom_point(aes(colour=bioregion.f, fill=bioregion.f, size=Tree_cover)) + 
+	        geom_point(aes(size=Tree_cover), shape=1, colour = "darkgreen") + 
+		     ggtitle("AusPlots locations with tree cover") + 
 		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14))
 		     print(the_map)
 	} else {#close tree GFs
