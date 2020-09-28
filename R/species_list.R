@@ -27,7 +27,7 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   }
   
     
-  if(strip_bryophytes) {veg.vouch <- subset(veg.vouch, group != "bryophyte")}
+  if(strip_bryophytes) {veg.vouch <- subset(veg.vouch, taxa_group != "bryophytes")}
   
   
   if(species_name == "SN") {

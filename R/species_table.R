@@ -1,5 +1,3 @@
-
-
 species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS"), strip_bryophytes=FALSE) {
 
   
@@ -39,7 +37,7 @@ if(species_name == "SN") {
     
     hits < -hits[!is.na(hits$standardised_name), ] #remove hots not determined as a species
     
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -66,7 +64,7 @@ if(species_name == "SN") {
     } #close if PFC
     
     #2. strip bryophytes if requested
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     covers <- plyr::count(hits, c("site_unique", "standardised_name")) #counts number of rows with same site and species name
     
@@ -89,7 +87,7 @@ if(species_name == "SN") {
     
     hits <- hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
     
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     transects <- plyr::count(hits, c("site_unique", "standardised_name", "transect")) #count PI records for each uniqe plot/species/transect combo
     
@@ -132,7 +130,7 @@ if(species_name == "HD"){
     
     hits <- hits[!is.na(hits$herbarium_determination), ] #remove hots not determined as a speciesemove hots not determined as a species
     
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
@@ -157,7 +155,7 @@ if(cover_type == "PFC") {
 } #close if PFC
 
 #2. strip bryophytes if requested
-if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
 
 
 covers <- plyr::count(hits, c("site_unique", "herbarium_determination")) #counts number of rows with same site and species name
@@ -181,7 +179,7 @@ if(m_kind == "freq" | m_kind == "IVI") {
 	
 	hits <- hits[!is.na(hits$herbarium_determination), ] ##remove hits not determined as a species
 	
-	if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+	if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
 	
 	transects <- plyr::count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each unique plot/species/transect combo
 	
@@ -227,7 +225,7 @@ if(species_name == "GS"){ #using genus species
     #alternatively, we might assign it a no data term, in which case
     #hits <- hits[!(hits$genus_species == "No ID",]
     
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
@@ -253,7 +251,7 @@ if(species_name == "GS"){ #using genus species
     } #close if PFC
     
     #2. strip bryophytes if requested
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     
     covers <- plyr::count(hits, c("site_unique", "genus_species")) #counts number of rows with same site and species name
@@ -276,7 +274,7 @@ if(species_name == "GS"){ #using genus species
     
     hits <- hits[!is.na(hits$genus_species), ] ##remove hits not determined as a species
     
-    if(strip_bryophytes) {hits <- hits[-which(hits$group == "bryophyte"), ]}
+    if(strip_bryophytes) {hits <- hits[-which(hits$taxa_group == "bryophytes"), ]}
     
     transects <- plyr::count(hits, c("site_unique", "genus_species", "transect")) #count PI records for each uniqe plot/species/transect combo
     
