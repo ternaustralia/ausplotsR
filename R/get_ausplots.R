@@ -223,4 +223,4 @@ ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") A
 } # end function
 
 utils::globalVariables(c("bioregion.f", "height", "family", "herbarium_determination", "standardised_name", "site_location_name", "site_unique", 
-                         "hits_unique", "growth_form", "longitude", "latitude", "long", "lat", "group", "Tree_cover", "dead", "genus_species"))
+                         "hits_unique", "growth_form", "longitude", "latitude", "long", "lat", "group", "Tree_cover", "dead", "genus_species", "taxa_group"))
