@@ -2,7 +2,7 @@
 \alias{species_table}
 \title{Species occurrence matrices for AusPlots
 }
-\description{This function takes a data frame of individual raw point-intercept hits from AusPlots generated using the \code{\link{get_ausplots}} function, and generates species occurrence matrices as desired based on presence/absence, cover, frequencey or IVI.
+\description{This function takes a data frame of individual raw point-intercept hits from AusPlots generated using the \code{\link{get_ausplots}} function, and generates species occurrence matrices as desired based on presence/absence, cover, frequency or IVI.
 }
 \usage{
 species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
@@ -16,9 +16,9 @@ species_table(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"),
 }
   \item{cover_type}{A choice between PFC: 'projected foliage cover' and OCC: 'opaque canopy cover' and only applies to percent_cover and IVI. If 'PFC' is selected (the default), hits scored as 'in canopy sky' are removed, whereas they are retained as cover for that species for 'OCC'. 'PFC' may be more suitable for some applications such as comparison to remotely sensed cover products.
  }
- \item{species_name}{Set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species" See details for an explaination of each setting.
+ \item{species_name}{Set to "SN" to use "standardised_names" (the default), "HD" to use "herbarium_determination", and "GS" to use "genus_species" See details for an explanation of each setting.
 }
- \item{strip_bryophytes}{Logical. Switch to \code{TRUE} to exclude bryophyte records and only return vascular plants in Angiosperm (flowering plants), Gymnosperm (conifers) and Pteridophyte (ferns and allies) groups. Althrough there are a number of bryophyte records in Ausplots, they are not surveyed systematically.
+ \item{strip_bryophytes}{Logical. Switch to \code{TRUE} to exclude bryophyte records and only return vascular plants in Angiosperm (flowering plants), Gymnosperm (conifers) and Pteridophyte (ferns and allies) groups. Although there are a number of bryophyte records in Ausplots, they are not surveyed systematically.
 }
 }
 

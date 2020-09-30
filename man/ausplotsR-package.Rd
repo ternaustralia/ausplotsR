@@ -24,17 +24,17 @@ The AusPlots survey method is made up of a series of individual modules, which a
 
 \emph{Plot layout}: 1 ha (100 x 100 m) plots are permanently marked over a homogenous patch of terrestrial vegetation.
 
-\emph{Soil sampling}: soils are characterised in a pit at the SW corner of the plot to 1 m depth and 500 g samples are collected at 10 cm depth intervals; soil bulk density is measured; nine soil subsites are located across the plots and 500 g samples are taken at 10 cm depths to 30 cm. Additionallly, 200 g surface soil (~3 cm depth) samples are taken at the nine subsites and silica-dried for metagenomic analysis.
+\emph{Soil sampling}: soils are characterised in a pit at the SW corner of the plot to 1 m depth and 500 g samples are collected at 10 cm depth intervals; soil bulk density is measured; nine soil subsites are located across the plots and 500 g samples are taken at 10 cm depths to 30 cm. Additionally, 200 g surface soil (~3 cm depth) samples are taken at the nine subsites and silica-dried for metagenomic analysis.
 
 \emph{Structural summary}: the dominant species in three vegetation strata (lower, middle and upper) are identified visually by the observer. The vegetation is then categorised into MVGs according to the Australian National Vegetation Information System (NVIS 2017).
 
 \emph{Vascular plant vouchering}: all vascular plants within the plot are detected visually, with a herbarium voucher taken for each unique taxon, which is assigned a barcode and identified then permanently stored in a herbarium. Additionally, silica-dried material is sampled from each species for genetic and isotopic analysis, and five replicate samples are taken for dominant species. Bryophytes are sometimes recorded opportunistically (e.g. when prominent) but full diversity is not systematically collected.
 
-\emph{Point-intercept} : 10 x 100 m long transects are laid out within the plot in a grid pattern. A staff with laser pointer and densitometer is used to record species, growth form and height plus substrate type every 1 m along the transects, resulting in a total of 1010 (10 x 101) point-intercept hits for the plot.
+\emph{Point-intercept} : 10 x 100 m long transects are laid out within the plot in a grid pattern. A staff with laser pointer and densiometer is used to record species, growth form and height plus substrate type every 1 m along the transects, resulting in a total of 1010 (10 x 101) point-intercept hits for the plot.
 
 \emph{Basal wedge} : a basal wedge is used to determine the basal area of trees and shrubs at 1.3 m, with measures of hits per species taken at nine locations across the plot.
 
-Additional modules in the AusPlots method not avaialable through this package include: full DGPS coordinate data (only the coordinates of the SW corner are provided here), photo panoramas, Leaf Area Index. \cr
+Additional modules in the AusPlots method not available through this package include: full DGPS coordinate data (only the coordinates of the SW corner are provided here), photo panoramas, Leaf Area Index. \cr
 
 \emph{Acknowledging TERN AusPlots data in publications:}
 
@@ -74,7 +74,7 @@ Maintainer: Greg Guerin <ggueri01@gmail.com>
 }
 \references{Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & Lowe, A. J. (2017). Opportunities for integrated ecological analysis across inland Australia with standardised data from Ausplots Rangelands. \emph{PLoS ONE}, \strong{12}, e0170137.
 
-NVIS Technical Working Group (2017). Australian Vegetation Attribute Manual: National Vegeta- tion Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
+NVIS Technical Working Group (2017). Australian Vegetation Attribute Manual: National Vegetation Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
  
 Sparrow, B., Foulkes, J., Wardle, G., Leitch, E., Caddy-Retalic, S., van Leeuwen, S., Tokmakoff, A., Thurgate, N., Guerin, G.R. and Lowe, A.J. (2020). A vegetation and soil survey method for surveillance monitoring of rangeland environments. \emph{Frontiers in Ecology and Evolution}, \strong{8}, 157.
 

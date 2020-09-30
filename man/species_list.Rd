@@ -14,9 +14,9 @@ append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt")
   }
   \item{grouping}{One of \code{c("by_site", "by_visit", "collapse")}. Determines whether species names are  pooled over all visits to each plot (\code{site_location_name}, the default), or gathered by individual site visits (\code{site_unique}). The final option 'collapse' returns a complete list of species over the plots provided.
   }
-  \item{species_name}{Defaults to "SN" (standardised_name); set to  "HD" to use "herbarium_determination", and "GS" to use standardised "genus_species" format. See details for an explaination of each setting.
+  \item{species_name}{Defaults to "SN" (standardised_name); set to  "HD" to use "herbarium_determination", and "GS" to use standardised "genus_species" format. See details for an explanation of each setting.
   }
-  \item{strip_bryophytes}{Logical. Switch to \code{TRUE} to exclude bryophyte records and only return vascular plants in Angiosperm (flowering plants), Gymnosperm (conifers) and Pteridophyte (ferns and allies) groups. Althrough there are a number of bryophyte records in Ausplots, they are not surveyed systematically.
+  \item{strip_bryophytes}{Logical. Switch to \code{TRUE} to exclude bryophyte records and only return vascular plants in Angiosperm (flowering plants), Gymnosperm (conifers) and Pteridophyte (ferns and allies) groups. Although there are a number of bryophyte records in Ausplots, they are not surveyed systematically.
   }
   \item{append_family}{Logical. If set to \code{TRUE}, names in the the returned species lists are appended with (and sorted by) family standardised name.
   }
