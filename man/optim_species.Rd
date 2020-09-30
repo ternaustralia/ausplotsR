@@ -107,18 +107,17 @@ Oksanen, J. et al. (2016) vegan: Community Ecology Package. R package version 2.
   #example with dune database from vegan
   library(vegan)
   data(dune)
-  optim_species(dune, n.plt=15, iterations=20)
-  optim_species(dune, n.plt=15, start="defined", plot=TRUE, plot_name="2", 
-  richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, 
-  simpson_beta=TRUE, frequent=TRUE, random=TRUE, iterations=20)
+  
+  optim_species(dune, n.plt=15, frequent=FALSE)
   
   #example with auplots database from ausplotsR
   \dontrun{
   library(ausplotsR)
+  
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
   
   ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="percent_cover", 
-  cover_type="PFC")
+  cover_type="PFC", species_name="SN")
   
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
   
