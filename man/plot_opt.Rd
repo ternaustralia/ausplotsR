@@ -31,15 +31,20 @@
   #example with dune database from vegan
   library(vegan)
   data(dune)
-  example1 <- optim_species(dune, n.plt=15, iterations=20, plot=FALSE)
+  
+  example1 <- optim_species(dune, n.plt=15, frequent=FALSE, plot=FALSE)
+  
   plot_opt(example1)
   plot_opt(example1, choices=c("Richness", "SimpsonBeta"))
       
   #example with auplots database from ausplotsR
   \dontrun{
   library(ausplotsR)
+  
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
-  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA")
+  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA", 
+  species_name="SN")
+  
   example2 <- optim_species(ausplotsPAdata, n.plt=5, iterations=5, plot=FALSE)
   plot_opt(example2)
   plot_opt(example2, 

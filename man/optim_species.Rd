@@ -122,8 +122,7 @@ Oksanen, J. et al. (2016) vegan: Community Ecology Package. R package version 2.
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
   
   optim_species(ausplotsPAdata, n.plt=5, start="defined", plot=TRUE, 
-  plot_name="WAANUL0001-56966", richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, 
-  simpson=TRUE, simpson_beta=TRUE, frequent=FALSE, random=TRUE, iterations=20)
+  plot_name="WAANUL0001-56966", frequent=FALSE, random=TRUE, iterations=20)
   }
 }  
 
