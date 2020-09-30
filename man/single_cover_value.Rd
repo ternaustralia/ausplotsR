@@ -37,7 +37,7 @@ my.growth_forms=c("Tree/Palm", "Tree Mallee"))
 \code{\link{fractional_cover}}
 }
 \examples{
-my.dat <- get_ausplots(bounding_box=c(140, 150, -20, -10))
+my.dat <- get_ausplots(bounding_box=c(140, 142, -20, -18), veg.vouchers=FALSE, site_info=FALSE)
 
 #Default settings, where cover of trees 5 m or higher is calculated:
 tree.cover <- single_cover_value(my.dat$veg.PI)
