@@ -33,8 +33,7 @@ Imports:
     jose,
     betapart,
     curl
-Description: Extraction, preparation, visualisation and analysis of TERN
-    AusPlots ecosystem monitoring data.
+Description: Extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem monitoring data. Direct access to plot-based data on vegetation and soils across Australia, including physical sample barcode numbers. Simple function calls extract the data and merge them into species occurrence matrices for downstream analysis, or calculate things like basal area and fractional cover. TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - https://www.tern.org.au), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
