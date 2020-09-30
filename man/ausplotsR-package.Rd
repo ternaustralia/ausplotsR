@@ -104,6 +104,6 @@ my.data$struct.summ
 #get a species by sites table:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"))
 
-species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", speies_name="SN")
+species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
 
 }
