@@ -116,7 +116,7 @@ Oksanen, J. et al. (2016) vegan: Community Ecology Package. R package version 2.
   
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
   
-  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="percent_cover", 
+  ausplotsPAdata <- species_table(ausplotsdata$veg.PI, m_kind="percent_cover", 
   cover_type="PFC", species_name="SN")
   
   optim_species(ausplotsPAdata, n.plt=5, iterations= 5)
