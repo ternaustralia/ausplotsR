@@ -45,6 +45,10 @@ library(ausplotsR)
 
 We can now access live data, starting here with basic site information and vegetation point-intercept modules and using a bounding box to spatially filter the dataset to central Australia. All data modules are extracted via a single function, `get_ausplots`:
 
+```{r, echo=FALSE}
+oldpar <- par(no.readonly = TRUE)
+```
+
 ```{r}
 #See ?get_ausplots to explore all data modules available
 ```
@@ -203,6 +207,9 @@ species_list(subset(my.ausplots.data$veg.vouch, site_unique %in% unique(site_uni
 species_list(my.ausplots.data$veg.vouch, grouping="collapse", species_name="SN", append_family=TRUE)[1:20]
 ```
 
+```{r, echo=FALSE}
+par(oldpar)
+```
 
 ## Explore TERN AusPlots
 
