@@ -42,7 +42,7 @@
   library(ausplotsR)
   
   ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
-  ausplotsPAdata <- species_table(my.data$veg.PI, m_kind="PA", 
+  ausplotsPAdata <- species_table(ausplotsdata$veg.PI, m_kind="PA", 
   species_name="SN")
   
   example2 <- optim_species(ausplotsPAdata, n.plt=5, iterations=5, plot=FALSE)
