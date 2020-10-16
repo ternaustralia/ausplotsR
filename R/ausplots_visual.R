@@ -1,5 +1,9 @@
 ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fraction.pie = TRUE, growthform.pie = TRUE, cumulative.cover = TRUE, whittaker = TRUE, outfile = NULL, max.plots=5) {
 	
+  #############################
+  #reset graphical defaults
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
 	#############################
 	#check input formats
 	if(!any(map, map.attribute, fraction.pie, growthform.pie, cumulative.cover, whittaker)) {stop("You have not requested any outputs! Set at least one option to TRUE")}
