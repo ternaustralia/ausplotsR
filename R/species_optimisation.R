@@ -170,7 +170,7 @@ Frequent_simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, iterati
     for(i in 1:iterations) {
       n <- n + 1
       if(verbose) cat("Rep ", n, "\n")
-      opt.runs.freq[[n]] <- simpson_beta.opt(speciesVsitesMatrix_binary, n.plt, start = "random", verbose)
+      opt.runs.freq[[n]] <- simpson_beta.opt(speciesVsitesMatrix_binary, n.plt, start = "random", verbose=verbose)
       } #end iterations
     freq_plots <- plyr::count(unlist(lapply(opt.runs.freq, FUN=function(x) as.character(names(x$richness)))))
     freq_plots <- freq_plots[rev(order(freq_plots$freq)),]
