@@ -24,6 +24,6 @@ map_attribute <- function(my.ausplots.object) {
 		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14))
 		     print(the_map)
 	} else {#close tree GFs
-		message("The selected plots have no trees. Let's just say tree cover is zero and move on. \n")
+		message("The selected plots have no trees. Let's just say tree cover is zero and move on.")
 			} #cls else
 }

@@ -4,7 +4,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRU
 #check inputs
   
   if(!is.numeric(speciesVsitesMatrix[,1])) {
-    message("Non-numeric first column... assuming these are site names. \n")
+    message("Non-numeric first column... assuming these are site names.")
     rownames(speciesVsitesMatrix) <- speciesVsitesMatrix[,1]
     speciesVsitesMatrix <- speciesVsitesMatrix[,-1] #remove the first column
   }#if the first column of the dataset corresponds to the site names, then apply site names to the rows and remove the column
@@ -14,7 +14,7 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRU
   if(!is.null(plot_name) && (!plot_name %in% rownames(speciesVsitesMatrix))) {stop("Selected plot_name must match a site/row name in the species~sites data.")}
   
 	if(n.plt > nrow(speciesVsitesMatrix)) {
-		message("You are attempting to optimise more sites that exist in the dataset - trimming to maximum. \n")
+		message("You are attempting to optimise more sites that exist in the dataset - trimming to maximum.")
 		n.plt <- nrow(speciesVsitesMatrix)
 	}
   
