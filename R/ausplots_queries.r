@@ -17,8 +17,8 @@ cache <- new.env(parent = emptyenv())
     auth_header <- paste('Bearer', jwt_val)
   }
   if (getOption("ausplotsR_api_debug", default = FALSE)) {
-    print('query string value=')
-    print(query)
+    message('query string value=')
+    message(query)
   }
   resp <- httr::GET(
                     getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"),
@@ -180,7 +180,7 @@ cache$user_agent <- NULL
   # thanks https://github.com/r-lib/httr/blob/af25ebd0e3b72d2dc6e1423242b94efc25bc97cc/R/config.r#L137
   if (is.null(cache$user_agent)) {
     if (getOption("ausplotsR_api_debug", default = FALSE)) {
-      print('building user_agent string and storing in cache')
+      message('building user_agent string and storing in cache')
     }
     versions <- c(
                   ausplotsR = as.character(utils::packageVersion("ausplotsR")),
@@ -201,7 +201,7 @@ cache$metadata_dictionary <- NULL
 .get_metadata_dictionary <- function(force_refresh = FALSE) {
   if (is.null(cache$metadata_dictionary) || force_refresh) {
     if (getOption("ausplotsR_api_debug", default = FALSE)) {
-      print('refreshing metadata_dictionary and storing in cache')
+      message('refreshing metadata_dictionary and storing in cache')
     }
     path <- "metadata-dictionary.json"
     result <- .ausplots_api(path, NULL)
