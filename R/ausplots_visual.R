@@ -22,7 +22,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	#check number of heavy plots requested
 		if(any(fraction.pie, cumulative.cover)) {
 			if(length(unique(my.ausplots.object$veg.PI$site_location_name)) > max.plots) {
-				cat("You are trying to plot fractional or cumulative cover for many sites, which can be slow. Only plotting a subset: you can increase the number of sites with 'max.plots' in your call... \n")
+				warning("You are trying to plot fractional or cumulative cover for many sites, which can be slow. Only plotting a subset: you can increase the number of sites with 'max.plots' in your call... \n")
 				strip_ <- 1
 			} #cls if more than max plots message
 		} #close if fraction or cover	
@@ -31,10 +31,9 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	#################################################
 	#check data and extract if missing
 	if(missing(my.ausplots.object)) {
-		cat("Obtaining sample data... \n")#combine two calls to get all sites but only veg.PI for that bounding box so make it quicker.
+		message("Obtaining sample data... \n") #combine two calls to get all sites but only veg.PI for that bounding box so make it quicker.
 		my.ausplots.object <- get_ausplots(veg.vouchers=FALSE, veg.PI=FALSE) #get all sites
 		my.ausplots.object$veg.PI <- get_ausplots(my.Plot_IDs=sample(my.ausplots.object$site.info$site_location_name, max.plots), site_info=FALSE, veg.vouchers=FALSE)$veg.PI #get veg PI for random plots  - according to max.plots
-		#print(unique(my.ausplots.object$veg.PI$site_unique))
 	}
 	
 	###############################################
@@ -46,7 +45,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 #####################################################	
 	pdf(outfile, width=9, height=6)
 	
-	cat("Generating plots... \n")
+	message("Generating plots... \n")
 	
 	##########################################
 	#call individual graphical functions that are switched on
@@ -72,7 +71,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 		n <- n + 1
 		
 				
-		cat("Working on individual plots for ", i, "\n")
+		message("Working on individual plots for ", i, "\n")
 		
 	if(fraction.pie) {
 		if(n == 1) {
@@ -110,6 +109,6 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	} #end if any individual veg.PI plots
 	
 	dev.off()
-	cat("Plots written to file. \n")
+	message("Plots written to file. \n")
 
 } #end function
