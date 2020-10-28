@@ -17,8 +17,7 @@ cache <- new.env(parent = emptyenv())
     auth_header <- paste('Bearer', jwt_val)
   }
   if (getOption("ausplotsR_api_debug", default = FALSE)) {
-    message('query string value=')
-    message(query)
+    message('query string value = ', query)
   }
   resp <- httr::GET(
                     getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"),
