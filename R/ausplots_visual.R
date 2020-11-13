@@ -3,7 +3,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
   #############################
   #reset graphical defaults
   oldpar <- par(no.readonly = TRUE)
-  on.exit(par(oldpar))
+  on.exit(suppressWarnings(par(oldpar)))
 	#############################
 	#check input formats
 	if(!any(map, map.attribute, fraction.pie, growthform.pie, cumulative.cover, whittaker)) {stop("You have not requested any outputs! Set at least one option to TRUE")}
