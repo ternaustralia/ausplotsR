@@ -19,13 +19,13 @@ Update to the latest package version to make use of new features:
  1. Corrected implementation of Importance Value Index (IVI) calculation as measure of species importance.
  1. Optimisation of plot selection to maximise species accumulation.
 
-# Using AusplotsR
+# Using ausplotsR
 
 You have two options for using the package:
  1. in the cloud via [EcoCloud](https://ecocloud.org.au/)
  1. installed on your computer
 
-## AusplotsR on EcoCloud
+## ausplotsR on EcoCloud
 
 [EcoCloud](https://ecocloud.org.au/) allows you to get started very quickly with
 AusplotsR. When you start a new RStudio instance on EcoCloud, AusplotsR is
@@ -34,7 +34,9 @@ Follow the [official
 guide](https://support.ecocloud.org.au/support/solutions/articles/6000200382-ecocloud-how-to-guide)
 to get started on EcoCloud and be sure to create an *RStudio* instance.
 
-## AusplotsR on your computer
+*NOTE* EcoCloud is no longer being updated, pending launch of the new [EcoCommons](https://ecocommons.org.au) online resource, and so only an older version of ausplotsR is available.
+
+## ausplotsR on your computer
 
 ausplotsR is now available on [CRAN](https://cran.r-project.org/web/packages/ausplotsR/index.html), meaning it can be installed using the 'install packages' command or menu in an R or RStudio session.
 
