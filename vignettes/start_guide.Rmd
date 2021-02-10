@@ -37,7 +37,7 @@ library(devtools)
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
-Once installed, load the package as follows. Note, packages vegan, maps and mapdata are required for **ausplotsR** to load, and functions are also imported from packages: plyr, R.utils, simba, httr, jsonlite, sp, maptools, ggplot2, gtools, jose, curl and betapart, while knitr, rmarkdown and goeveg are required to build this package vignette (i.e., if 'build_vignettes' is set to TRUE above). 
+Once installed, load the package as follows. Note, packages vegan, maps and mapdata are required for **ausplotsR** to load, and functions are also imported from packages: plyr, R.utils, simba, httr, jsonlite, sp, maptools, ggplot2, gtools, jose, curl and betapart, while knitr and rmarkdown are required to build this package vignette (i.e., if 'build_vignettes' is set to TRUE above). 
 
 ```{R, warning=FALSE, message=FALSE, error=FALSE}
 library(ausplotsR)
@@ -178,10 +178,7 @@ A simple example of downstream visualisation and analysis of species-level AusPl
 
 
 ```{r, fig.height = 4, fig.width = 6}
-#Whittaker plots for some selected AusPlots:
-goeveg::racurves(my.sppBYsites[10:15,], bw=F)
-
-#And then with alternative relative abundance models fitted for communities individually:
+#Whittaker plots for some selected AusPlots with alternative relative abundance models fitted to the plant community data:
 par(mfrow=c(2,2), mar=c(4,4,1,1))
 for(i in c(1:4)) {
   plot(vegan::radfit(round(my.sppBYsites[9+i,], digits=0), log="xy"), pch=20, legend=FALSE, bty="l")
