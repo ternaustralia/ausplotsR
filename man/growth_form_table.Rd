@@ -47,7 +47,7 @@ cover_type="PFC")}
 The \code{\link{round}} function can be used on the returned matrix to estimate percent covers to the nearest percent if desired (i.e., with digits=0)
 
 }
-\value{Returns a matrix with plant growth forms as columns and sites as rows as a data frame. Values are determined by argument m_kind. For 'PA', binary presence/absence (0/1) is returned; for 'richness', the numbers of species (integer) in growth form categories are returned; for 'percent_cover', percent cover from point-intercept is returned (see \code{Details}).
+\value{Returns a data frame with plant growth forms as columns and sites as rows. Values are determined by argument m_kind. For 'PA', binary presence/absence (0/1) is returned; for 'richness', the numbers of species (integer) in growth form categories are returned; for 'percent_cover', percent cover from point-intercept is returned (see \code{Details}).
 }
 \references{NVIS Technical Working Group (2017) Australian Vegetation Attribute Manual: National Vegetation Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
 }
