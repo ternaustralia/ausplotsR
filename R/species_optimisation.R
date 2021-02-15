@@ -143,13 +143,17 @@ simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start, plot_name
   for(i in 1:(n.plt-1)) {
     n <- n + 1 
     simpson <- as.data.frame(as.matrix(betapart::beta.pair(speciesVsitesMatrix_binary)$beta.sim)) #simpson beta diversity between all pairs (excludes species nestedness)
-    sort.diss <- rev(sort(simpson[start.plot,])) #creates single row data frame holding the vector of dissimilarity comparisons to the seed/start.plot
-    equal_plots <- length(which(sort.diss == max(sort.diss)))
+    
+    simpson_unlist <- unlist(simpson[start.plot,]) #get the row for the start plot as a vector with names still attached (cf. as.numeric which strips names)
+    diss_order <- rev(sort.list(unname(simpson_unlist))) #vector of places along the vector to find highest to lowest values - must unname the vector to use sort.list safely
+    sort.diss <- simpson[start.plot, diss_order] #create single row data frame holding the vector of dissimilarity comparisons to the seed/start.plot in highest to lowest order
+    
+    equal_plots <- length(which(unlist(sort.diss) == max(unlist(sort.diss))))
     if(equal_plots == 1) {
       next.plot.name <- names(sort.diss)[1] #select the first plot in the vector, which after sorting is the most dissimilar
     }
     if(equal_plots > 1) {
-      next.plot.name <- sample(names(sort.diss[,1:equal_plots])[(!names(sort.diss[,1:equal_plots]) %in% start.plot)],1) #select the first plot in the vector, which after sorting is the most dissimilar
+      next.plot.name <- sample(names(sort.diss[,1:equal_plots])[(!names(sort.diss[,1:equal_plots]) %in% start.plot)],1) #make a random choice of selected plot out of all that have the same dissimilarity score to avoid alpbabetical selection
     }
     #if(next.plot.name == start.plot) {next.plot.name <- names(sort.diss)[2]}
     result[n] <- next.plot.name #add it to the list of plots to save
