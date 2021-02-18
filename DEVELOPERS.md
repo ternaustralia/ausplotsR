@@ -118,6 +118,10 @@ devtools::install_github("ternaustralia/ausplotsR@somebranch")
 
 
 ## Accessing unpublished data
+*For developers*: the server-side mechanism to allow this is described in the
+[docs for the
+server](https://github.com/ternandsparrow/swarm-rest/#exposing-unpublished-data).
+
 By default the public (unauthorised users) can only access site visits that are
 marked as *published* in the database.
 
