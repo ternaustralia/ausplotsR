@@ -1,5 +1,6 @@
 ## Loading development code in R
-When you're hacking on this package locally, you can test it by installing from source:
+When you're hacking on this package locally, you can test it by installing from
+source:
 
   1. change into the repo's root directory
       ```bash
@@ -9,7 +10,8 @@ When you're hacking on this package locally, you can test it by installing from 
       ```bash
       R
       ```
-  1. make sure `devtools` and `roxygen2` are installed, you only need to do this once
+  1. make sure `devtools` and `roxygen2` are installed, you only need to do this
+     once
       ```R
       install.packages("devtools")
       install.packages("roxygen2")
@@ -34,9 +36,11 @@ When you're hacking on this package locally, you can test it by installing from 
 
 ## Override the API URL
 
-The `load_all()` function defaults to exporting everything so you can access all package private functions to test them.
+The `load_all()` function defaults to exporting everything so you can access all
+package private functions to test them.
 
-You might also want to change the URL of the API that is used (to your local machine?). To do so, we need to set an R option:
+You might also want to change the URL of the API that is used (to your local
+machine?). To do so, we need to set an R option:
 
 ```R
 devtools::load_all()
@@ -59,8 +63,9 @@ options("ausplotsR_api_debug" = TRUE)
 
 
 ## Running locally in a clean command line R environment (in Docker)
-To test that the package can install into a fresh environment, we can use a Docker container. Note that this will use
-the repo you have locally, but it *WILL NOT* use dirty working directory state. It installs clean commits only.
+To test that the package can install into a fresh environment, we can use a
+Docker container. Note that this will use the repo you have locally, but it
+*WILL NOT* use dirty working directory state. It installs clean commits only.
 
   1. start the container
       ```bash
@@ -72,7 +77,8 @@ the repo you have locally, but it *WILL NOT* use dirty working directory state. 
         -v `pwd`:/app \
         zamora/r-devtools
       ```
-  1. in the container, install our package from the local source we mounted as a volume in the container
+  1. in the container, install our package from the local source we mounted as a
+     volume in the container
       ```R
       devtools::install_git('/app', ref = 'somebranch') # ref can be branch or commit
       ```
@@ -112,12 +118,19 @@ devtools::install_github("ternaustralia/ausplotsR@somebranch")
 
 
 ## Accessing unpublished data
-By default the public (unauthorised users) can only access site visits that are marked as *published* in the database.
+By default the public (unauthorised users) can only access site visits that are
+marked as *published* in the database.
 
-If you authorise yourself, you can access these unpublished records. To do so:
+The database also contains unpublished data. If you authorise yourself, you can
+access these unpublished records.
+
+Follow these steps to access the unpublished site visits:
 
   1. load the ausplotsR library like normal
-  1. set your credentials by running
+  1. configure some authorization to prove that you're allowed to access
+     unpublished data. **Note**: this command is an example, you'll need to ask
+     someone who maintains the ausplotsR database for the real *role* and
+     *secret* values.
       ```R
       ausplotsR:::set_auth('somerole', 'somesecret')
       ```
@@ -127,10 +140,12 @@ If you authorise yourself, you can access these unpublished records. To do so:
       ausplotsR:::unset_auth()
       ```
 
-The authorisation will expire. If you leave your R session open for a really long time, you might see an error like:
+The authorisation will expire. If you leave your R session open for a really
+long time, you might see an error like:
 ```
 Error in .ausplots_api(path, query) : Unauthorized (HTTP 401).
 ```
 
-If this is the case, re-run the `set_auth()` function and things should start working again.
+If this is the case, re-run the `set_auth()` function and things should start
+working again.
 
