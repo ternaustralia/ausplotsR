@@ -24,7 +24,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
   ###
   
   #Check internet connection
-  if (!curl::has_internet()) {
+  if(!curl::has_internet()) {
     message("No internet connection")
     return(invisible(NULL))
   }
@@ -36,7 +36,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
   }
   
   #Check http error
-  if (httr::http_error(resp)) { 
+  if(httr::http_error(resp)) { 
     httr::message_for_status(resp)
     return(invisible(NULL))
   }
