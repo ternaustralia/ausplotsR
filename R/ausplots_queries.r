@@ -19,6 +19,11 @@ cache <- new.env(parent = emptyenv())
   if (getOption("ausplotsR_api_debug", default = FALSE)) {
     message('query string value = ', query)
   }
+  
+  if(is.null(gracefully_fail(getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80")))) {
+    return(invisible(NULL))
+  }
+  
   resp <- httr::GET(
                     getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"),
                     httr::user_agent(.make_user_agent()),
@@ -207,4 +212,46 @@ cache$metadata_dictionary <- NULL
     cache$metadata_dictionary <- result
   }
   cache$metadata_dictionary
+}
+
+
+#####################################
+
+# Fail gracefully if API or internet not available (CRAN policy = no errors)
+#
+# Based on code from (12 March 2021):
+# https://github.com/lgnbhl/wikisourcer/blob/master/R/utils.R
+# 
+#See full discussion regarding CRAN policy 
+# <https://community.rstudio.com/t/internet-resources-should-fail-gracefully/49199>
+
+gracefully_fail <- function(remote_url) {
+  try_GET <- function(x, ...) {
+    tryCatch(
+      httr::GET(url = x, httr::timeout(600), ...), #timeout 10 minutes
+      error = function(e) conditionMessage(e),
+      warning = function(w) conditionMessage(w)
+    )
+  }
+  is_response <- function(x) {
+    class(x) == "response"
+  }
+  
+  # First check internet connection
+  if (!curl::has_internet()) {
+    message("No internet connection")
+    return(invisible(NULL))
+  }
+  # Try for timeout problems
+  resp <- try_GET(remote_url)
+  if (!is_response(resp)) {
+    message(resp)
+    return(invisible(NULL))
+  }
+  # Stop if status > 400
+  if (httr::http_error(resp)) { 
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
+  
 }
