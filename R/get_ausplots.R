@@ -3,7 +3,44 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
                          soil_character=FALSE, bounding_box="none", herbarium_determination_search=NULL, 
                          family_search=NULL, standardised_name_search=NULL, dictionary=FALSE) {
 
-	
+	#
+  ####################
+  # Fail gracefully if API or internet not available (CRAN policy = no errors)
+  #
+  # Based on code from (12 March 2021):
+  # https://github.com/lgnbhl/wikisourcer/blob/master/R/utils.R
+  # 
+  #See full discussion regarding CRAN policy 
+  # <https://community.rstudio.com/t/internet-resources-should-fail-gracefully/49199>
+  
+  ### 
+  try_GET <- function(x, ...) {
+    tryCatch(
+      httr::GET(url = x, httr::timeout(600), ...), #timeout 10 minutes
+      error = function(e) conditionMessage(e),
+      warning = function(w) conditionMessage(w)
+    )
+  }
+  ###
+  
+  #Check internet connection
+  if(!curl::has_internet()) {
+    message("No internet connection")
+    return(invisible(NULL))
+  }
+  #Check timeout
+  resp <- try_GET(getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"))
+  if(class(resp) != "response") {
+    message(resp)
+    return(invisible(NULL))
+  }
+  
+  #Check http error
+  if(httr::http_error(resp)) { 
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
+  ###############################
 	#
 
 	trim.trailing <- function (x) sub("\\s+$", "", x) #function that strips trailing white spaces from entries in d.f.
