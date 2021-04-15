@@ -60,6 +60,7 @@ The \code{\link{round}} function can be used on the returned matrix to estimate 
     \code{\link{single_cover_value}}
 }
 \examples{
+\dontrun{
 #get veg.PI data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE)
@@ -71,4 +72,5 @@ cumulative=FALSE, species_name="SN")
 #calculate cover of strata:
 growth_form_table(my.data$veg.PI, m_kind="percent_cover", 
 cover_type="PFC", cumulative=FALSE, by_strata=TRUE, species_name="SN")
+}
 }
