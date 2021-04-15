@@ -80,6 +80,7 @@ The metadata variable dictionary returned by \code{dictionary=T} may not include
 \code{\link{species_table}}
 }
 \examples{
+\dontrun{
 #get data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), 
 veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
@@ -90,8 +91,8 @@ my.data$struct.summ
 #Get data citation and extraction date info:
 my.data$citation
 
-#Get site info, veg vouchers and veg point intercept for all available plots:
-\dontrun{get_ausplots()} 
+#Get site info, veg vouchers and veg point intercept for ALL available plots:
+get_ausplots()
 
 #Get voucher records for "Eucalyptus moderata" using "herbarium_determination":
 Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, 
@@ -101,5 +102,5 @@ head(Eucalyptus_moderata$veg.vouch,10)
 #Get veg voucher records for all species in the family "Myrtaceae"
 Myrtaceae <- get_ausplots(veg.PI=FALSE, family_search="Myrtaceae")
 head(Myrtaceae$veg.vouch,10)
-
+}
 }
