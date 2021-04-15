@@ -88,6 +88,7 @@ White, A., Sparrow, B., Leitch, E., Foulkes, J., Flitton, R., Lowe, A. J., & Cad
 \code{\link{get_ausplots}}
 }
 \examples{
+\dontrun{
 #load package:
 library(ausplotsR)
 
@@ -98,12 +99,12 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 #view module:
 my.data$struct.summ
 
-#get site info, veg vouchers and veg point intercept for all available plots:
-\dontrun{get_ausplots()} 
+#get site info, veg vouchers and veg point intercept for ALL available plots:
+get_ausplots() 
 
 #get a species by sites table:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"))
 
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
-
+}
 }
