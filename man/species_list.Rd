@@ -45,6 +45,7 @@ append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt")
   \code{\link{species_table}}
 }
 \examples{
+  \dontrun{
   #get veg.vouch data for selected plots:
   my.data <- get_ausplots(site_info=FALSE, veg.PI=FALSE, 
   my.Plot_IDs=c("SAAFLB0005", "SAAFLB0006"))
@@ -56,5 +57,6 @@ append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt")
   #generate a complete species list ordered by family:
   species_list(my.data$veg.vouch, grouping="collapse", 
   species_name="SN", append_family=TRUE, writefile=FALSE)
+  }
 }
 

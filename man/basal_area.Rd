@@ -34,10 +34,12 @@ species_name=c("SN","HD","GS"))
 \code{\link{get_ausplots}}
 }
 \examples{
+\dontrun{
 #get basal wedge data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE, veg.PI=FALSE, basal.wedge=TRUE)
 
 #calculate basal area:
 basal_area(my.data$veg.basal)
+}
 }

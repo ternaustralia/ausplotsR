@@ -12,8 +12,8 @@ Through ausplotsR, users can directly access plot-based data on vegetation and s
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 1.2.3\cr
-Date: \tab 2021-3-12\cr
+Version: \tab 1.2.4\cr
+Date: \tab 2021-4-15\cr
 License: \tab GPL-3\cr
 }
 TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/}{https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/}).
@@ -88,6 +88,7 @@ White, A., Sparrow, B., Leitch, E., Foulkes, J., Flitton, R., Lowe, A. J., & Cad
 \code{\link{get_ausplots}}
 }
 \examples{
+\dontrun{
 #load package:
 library(ausplotsR)
 
@@ -98,12 +99,12 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 #view module:
 my.data$struct.summ
 
-#get site info, veg vouchers and veg point intercept for all available plots:
-\dontrun{get_ausplots()} 
+#get site info, veg vouchers and veg point intercept for ALL available plots:
+get_ausplots() 
 
 #get a species by sites table:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"))
 
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
-
+}
 }

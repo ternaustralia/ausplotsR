@@ -60,6 +60,7 @@ Ellenberg, D. & Mueller-Dombois, D. (1974) Aims and methods of vegetation ecolog
 \code{\link{get_ausplots}}
 }
 \examples{
+\dontrun{
 #get veg.PI data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 	veg.vouchers=FALSE, site_info=FALSE)
@@ -68,4 +69,4 @@ my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", 
 species_name="GS")
 }
-
+}
