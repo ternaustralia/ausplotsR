@@ -84,7 +84,7 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
 
   path <- "search"
   response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
-  result <- unique(response$site_location_name)
+  result <- sort(unique(response$site_location_name))
   return(result)
 }
 
