@@ -55,7 +55,7 @@ oldpar <- par(no.readonly = TRUE)
 
 
 ```{r}
-my.ausplots.data <- get_ausplots(bounding_box = c(125, 140, -40, -10))
+my.ausplots.data <- try(get_ausplots(bounding_box = c(125, 140, -40, -10)))
 ```
 
 ```{r, echo=FALSE}
