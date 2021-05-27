@@ -93,7 +93,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 			
 		} #end if(!all(my.Plot_IDs %in% Plot_IDs)) {
 		
-		Plot_IDs <- my.Plot_IDs #now the list of plots we will use is just those provided by user after checking they match these available
+		Plot_IDs <- sort(my.Plot_IDs) #now the list of plots we will use is just those provided by user after checking they match these available
 		
 	} #end 	if(my.Plot_IDs != "none")
 	
