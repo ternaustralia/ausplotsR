@@ -30,7 +30,11 @@ cache <- new.env(parent = emptyenv())
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  return(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
+  result <- try(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
+  if(class(result) == "try-error") {
+    stop("Data extraction aborted due to database connection issue.")
+  }
+  return(result)
 }
 ################
 #initial filter function
