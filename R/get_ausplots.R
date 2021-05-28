@@ -73,7 +73,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#####list available plots
 
 	my.Plot_IDs <- sort(my.Plot_IDs)
-	#MAY need to wrap the following line in try() or in query function:
 	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
 	
 	
@@ -111,7 +110,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 	if(site_info) {
 		
-	  #MAY need to wrap the following line in try():
 	  site.info <- extract_site_info(Plot_IDs)  #
 
 		#site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
@@ -126,7 +124,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(structural_summaries) {
 		
-	  #MAY need to wrap the following line in try():
 	  struct.summ <- extract_struct_summ(Plot_IDs) #
 		
 		#struct.summ$site_unique <- do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
@@ -140,7 +137,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_subsites) {
 		
-	  #MAY need to wrap the following line in try():
 	  soil.subsites <- extract_soil_subsites(Plot_IDs) #
 		
 		#soil.subsites$site_unique <- do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
@@ -154,7 +150,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_bulk_density) {
 		
-	  #MAY need to wrap the following line in try():
 	  soil.bulk <- extract_bulk_density(Plot_IDs) #
 		
 		#soil.bulk$site_unique <- do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
@@ -168,7 +163,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_character) {
 		
-	  #MAY need to wrap the following line in try():
 	  soil.char <- extract_soil_char(Plot_IDs) #
 		
 		#soil.char$site_unique <- do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
@@ -182,7 +176,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(basal.wedge) {
 		
-	  #MAY need to wrap the following line in try():
 	  basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search) #
 		
 		#basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
@@ -196,7 +189,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.vouchers) {
 		
-	  #MAY need to wrap the following line in try():
 	  vouch <- extract_vouch(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search)
 		
 		#some cleaning operations on the names:
@@ -219,7 +211,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.PI) {
 		
-	  #MAY need to wrap the following line in try():
 	  hits <- extract_hits(Plot_IDs) #
 		
 		#some cleaning operations...
@@ -253,7 +244,6 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(dictionary) {
 	  
-	  #MAY need to wrap the following line in try():
 	  metadata_dictionary <- .get_metadata_dictionary()
 	  
 	  ausplots.data$metadata.dictionary <- metadata_dictionary
