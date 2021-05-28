@@ -44,7 +44,6 @@ cache <- new.env(parent = emptyenv())
     plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
     query <- c(query, list(site_location_name = plotFilter))
   }
-  #MAY need to wrap the following line in try():
   return(.ausplots_api(path, query)) 
 } 
 ################
@@ -53,7 +52,6 @@ cache <- new.env(parent = emptyenv())
 .ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
   plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
   query <- c(extra_query, list(site_location_name = plotFilter))
-  #MAY need to wrap the following line in try():
   return(.ausplots_api(path, query))
 } 
 ################
@@ -89,7 +87,6 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
   }
 
   path <- "search"
-  #MAY need to wrap the following line in try():
   response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
   result <- sort(unique(response$site_location_name))
   return(result)
@@ -99,7 +96,6 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
 
 extract_site_info <- function(Plot_IDs) {
   path <- "site"
-  #MAY need to wrap the following line in try():
   result <- .ausplots_api_with_specified_plot_ids(path, Plot_IDs)
   result$state = mapply(function(x) substr(x, 0, 2), result$site_location_name)
   result$state[result$state == "NS"] <- "NSW"
@@ -114,7 +110,6 @@ extract_site_info <- function(Plot_IDs) {
 
 extract_struct_summ <- function(Plot_IDs) {
   path <- "structural_summary"
-  #MAY need to wrap the following line in try():
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 } 
 
@@ -122,7 +117,6 @@ extract_struct_summ <- function(Plot_IDs) {
 
 extract_soil_subsites <- function(Plot_IDs) {
   path <- "soil_subsite"
-  #MAY need to wrap the following line in try():
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
@@ -130,7 +124,6 @@ extract_soil_subsites <- function(Plot_IDs) {
 
 extract_bulk_density <- function(Plot_IDs) {
   path <- "soil_bulk_density"
-  #MAY need to wrap the following line in try():
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
@@ -138,7 +131,6 @@ extract_bulk_density <- function(Plot_IDs) {
 
 extract_soil_char <- function(Plot_IDs) {
   path <- "soil_characterisation"
-  #MAY need to wrap the following line in try():
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
@@ -156,7 +148,6 @@ extract_basal <- function(Plot_IDs, herbarium_determination_search=NULL, family_
    if(!is.null(standardised_name_search)) { 
      extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))#search by standardised_name
    } 
-   #MAY need to wrap the following line in try():
    return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs, extra_query))
 }
 
@@ -174,7 +165,6 @@ extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_
   if(!is.null(standardised_name_search)) { 
     extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))#search by standardised_name
   } 
-  #MAY need to wrap the following line in try():
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs, extra_query))
 }
 
@@ -182,7 +172,6 @@ extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_
 
 extract_hits <- function(Plot_IDs) {
   path <- "veg_pi"
-  #MAY need to wrap the following line in try():
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
 
@@ -218,7 +207,6 @@ cache$metadata_dictionary <- NULL
       message('refreshing metadata_dictionary and storing in cache')
     }
     path <- "metadata-dictionary.json"
-    #MAY need to wrap the following line in try():
     result <- .ausplots_api(path, NULL)
     cache$metadata_dictionary <- result
   }
