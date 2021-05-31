@@ -72,6 +72,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	#####list available plots
 
+	my.Plot_IDs <- sort(my.Plot_IDs)
 	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
 	
 	
@@ -91,7 +92,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 			
 		} #end if(!all(my.Plot_IDs %in% Plot_IDs)) {
 		
-		Plot_IDs <- my.Plot_IDs #now the list of plots we will use is just those provided by user after checking they match these available
+		Plot_IDs <- sort(my.Plot_IDs) #now the list of plots we will use is just those provided by user after checking they match these available
 		
 	} #end 	if(my.Plot_IDs != "none")
 	
@@ -104,12 +105,13 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#######
 	
 	#Plot_IDs is now a character vector of valid site_location_names that will be used to query the database below for selected data modules
+	Plot_IDs <- sort(Plot_IDs) #final sort to standardise order before getting data, regardless of whether user-input or found in list_available_plots based on any search parameters
 	
 	#######
 
 	if(site_info) {
 		
-		site.info <- extract_site_info(Plot_IDs)  #
+	  site.info <- extract_site_info(Plot_IDs)  #
 
 		#site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		site.info <- data.frame(site_unique = do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")), site.info)
@@ -123,7 +125,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(structural_summaries) {
 		
-		struct.summ <- extract_struct_summ(Plot_IDs) #
+	  struct.summ <- extract_struct_summ(Plot_IDs) #
 		
 		#struct.summ$site_unique <- do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		struct.summ <- data.frame(site_unique = do.call(paste, c(struct.summ[c("site_location_name", "site_location_visit_id")], sep = "-")), struct.summ)
@@ -136,7 +138,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_subsites) {
 		
-		soil.subsites <- extract_soil_subsites(Plot_IDs) #
+	  soil.subsites <- extract_soil_subsites(Plot_IDs) #
 		
 		#soil.subsites$site_unique <- do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		soil.subsites <- data.frame(site_unique = do.call(paste, c(soil.subsites[c("site_location_name", "site_location_visit_id")], sep = "-")), soil.subsites)
@@ -149,7 +151,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_bulk_density) {
 		
-		soil.bulk <- extract_bulk_density(Plot_IDs) #
+	  soil.bulk <- extract_bulk_density(Plot_IDs) #
 		
 		#soil.bulk$site_unique <- do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		soil.bulk <- data.frame(site_unique = do.call(paste, c(soil.bulk[c("site_location_name", "site_location_visit_id")], sep = "-")), soil.bulk)
@@ -162,7 +164,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(soil_character) {
 		
-		soil.char <- extract_soil_char(Plot_IDs) #
+	  soil.char <- extract_soil_char(Plot_IDs) #
 		
 		#soil.char$site_unique <- do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		soil.char <- data.frame(site_unique = do.call(paste, c(soil.char[c("site_location_name", "site_location_visit_id")], sep = "-")), soil.char)
@@ -175,7 +177,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(basal.wedge) {
 		
-		basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search) #
+	  basal <- extract_basal(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search) #
 		
 		#basal$site_unique <- do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier
 		basal <- data.frame(site_unique = do.call(paste, c(basal[c("site_location_name", "site_location_visit_id")], sep = "-")), basal)
@@ -188,7 +190,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.vouchers) {
 		
-		vouch <- extract_vouch(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search)
+	  vouch <- extract_vouch(Plot_IDs, herbarium_determination_search, family_search, standardised_name_search)
 		
 		#some cleaning operations on the names:
 		vouch$herbarium_determination <- trim.trailing(vouch$herbarium_determination)
@@ -210,7 +212,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	
 	if(veg.PI) {
 		
-		hits <- extract_hits(Plot_IDs) #
+	  hits <- extract_hits(Plot_IDs) #
 		
 		#some cleaning operations...
 		hits$herbarium_determination <- trim.trailing(hits$herbarium_determination)
