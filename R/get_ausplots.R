@@ -105,6 +105,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	#######
 	
 	#Plot_IDs is now a character vector of valid site_location_names that will be used to query the database below for selected data modules
+	Plot_IDs <- sort(Plot_IDs) #final sort to standardise order before getting data, regardless of whether user-input or found in list_available_plots based on any search parameters
 	
 	#######
 
