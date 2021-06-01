@@ -32,6 +32,8 @@ cache <- new.env(parent = emptyenv())
   }
   result <- try(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
   if(class(result) == "try-error") {
+    try(configure_sentry("https://8bd2638aad2d45e992f7a3a42ff558a3@o760123.ingest.sentry.io/5792757")) #NOT THE REAL PROJECT
+    try(capture_exception(result))
     stop("Data extraction aborted due to database connection issue.")
   }
   return(result)
