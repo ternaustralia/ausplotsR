@@ -5,6 +5,9 @@ cache <- new.env(parent = emptyenv())
   #   library("ausplotsR")
   #   options("ausplotsR_api_url" = "http://localhost:30000")
   #   ...continue to call functions
+  
+  try(configure_sentry("https://8bd2638aad2d45e992f7a3a42ff558a3@o760123.ingest.sentry.io/5792757")) #NOT THE REAL PROJECT
+  
   auth_header <- ""
   the_role <- getOption("ausplotsR_role")
   the_secret <- getOption("ausplotsR_secret")
@@ -31,11 +34,14 @@ cache <- new.env(parent = emptyenv())
     stop("API did not return json", call. = FALSE)
   }
   result <- try(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
+  
   if(class(result) == "try-error") {
-    try(configure_sentry("https://8bd2638aad2d45e992f7a3a42ff558a3@o760123.ingest.sentry.io/5792757")) #NOT THE REAL PROJECT
-    try(capture_exception(result))
-    stop("Data extraction aborted due to database connection issue.")
+    send_report <- TRUE
   }
+  
+  if(send_report) try(capture_exception(result))
+  if(send_report) stop("Data extraction aborted due to database connection issue.")
+  
   return(result)
 }
 ################
