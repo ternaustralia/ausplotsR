@@ -1,4 +1,6 @@
 # ausplotsR
+[![](https://cranlogs.r-pkg.org/badges/ausplotsR)](https://cran.r-project.org/package=ausplotsR)
+
 R package for live extraction, preparation, visualisation and analysis of TERN Ecosystem Surveillance monitoring data (AusPlots data).
 
 *(See bottom of page for troubleshooting help)*
