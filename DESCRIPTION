@@ -22,7 +22,6 @@ Suggests:
 Imports:
     plyr,
     R.utils,
-    simba,
     httr,
     jsonlite,
     sp,
