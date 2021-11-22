@@ -15,7 +15,7 @@
 
 #To be used as an internal function only in ausplotsR to replace import of simba::mama as simba was archived on CRAN.
 
-ma_plot_ma <-
+ma_ausplot_ma <-
 function(dat, spl = TRUE) {
 	dat <- data.frame(dat)
 	plot <- as.character(dat[,1])
