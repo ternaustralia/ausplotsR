@@ -46,7 +46,7 @@ if(species_name=="SN") {
   	
   	form_rows_NoDups <- form_rows[-which(duplicated(form_rows)),] #remove duplicate rows, so left with individual rows for unique growth forms in each plot and a dummy '1' (for 'mama')
   
-  	growthForm_PA <- simba::mama(form_rows_NoDups)
+  	growthForm_PA <- ma_plot_ma(form_rows_NoDups)
   
   	growth_form_matrix <- growthForm_PA
   
@@ -80,7 +80,7 @@ if(species_name=="SN") {
 	
 	total.points <- data.frame(site_unique = unique(veg.PI$site_unique), total.points = unlist(lapply(unique(veg.PI$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
 
-	growthForm_matrix_PIweights <- simba::mama(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
+	growthForm_matrix_PIweights <- ma_plot_ma(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
 	
 	#However, to convert that to a percent cover, it needs to be divided by the actual number of unique PI hits for that particular plot and multiplied by 100 (not all plots have exactly 1010 unique hits):
 	for(i in row.names(growthForm_matrix_PIweights)) {
@@ -102,7 +102,7 @@ if(species_name=="SN") {
   	
   	species_weights <- species_weights[,-(3:4)] #remove redundant columns
   	
-  	growthForm_matrix_SPPweights <- simba::mama(species_weights) #plots as rows, growth forms as columns, values are the number of species.
+  	growthForm_matrix_SPPweights <- ma_plot_ma(species_weights) #plots as rows, growth forms as columns, values are the number of species.
   
   growth_form_matrix <- growthForm_matrix_SPPweights
   
@@ -130,7 +130,7 @@ if(species_name=="HD"){
     
     form_rows_NoDups <- form_rows[-which(duplicated(form_rows)),] #remove duplicate rows, so left with individual rows for unique growth forms in each plot and a dummy '1' (for 'mama')
     
-    growthForm_PA <- simba::mama(form_rows_NoDups)
+    growthForm_PA <- ma_plot_ma(form_rows_NoDups)
     
     growth_form_matrix <- growthForm_PA
     
@@ -164,7 +164,7 @@ if(species_name=="HD"){
     
     total.points <- data.frame(site_unique = unique(veg.PI$site_unique), total.points = unlist(lapply(unique(veg.PI$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
     
-    growthForm_matrix_PIweights <- simba::mama(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
+    growthForm_matrix_PIweights <- ma_plot_ma(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
     
     #However, to convert that to a percent cover, it needs to be divided by the actual number of unique PI hits for that particular plot and multiplied by 100 (not all plots have exactly 1010 unique hits):
     for(i in row.names(growthForm_matrix_PIweights)) {
@@ -186,7 +186,7 @@ if(species_name=="HD"){
     
     species_weights <- species_weights[,-(3:4)] #remove redundant columns
     
-    growthForm_matrix_SPPweights <- simba::mama(species_weights) #plots as rows, growth forms as columns, values are the number of species.
+    growthForm_matrix_SPPweights <- ma_plot_ma(species_weights) #plots as rows, growth forms as columns, values are the number of species.
     
     growth_form_matrix <- growthForm_matrix_SPPweights
     
@@ -213,7 +213,7 @@ if(species_name == "GS"){
     
     form_rows_NoDups <- form_rows[-which(duplicated(form_rows)),] #remove duplicate rows, so left with individual rows for unique growth forms in each plot and a dummy '1' (for 'mama')
     
-    growthForm_PA <- simba::mama(form_rows_NoDups)
+    growthForm_PA <- ma_plot_ma(form_rows_NoDups)
     
     growth_form_matrix <- growthForm_PA
     
@@ -247,7 +247,7 @@ if(species_name == "GS"){
     
     total.points <- data.frame(site_unique = unique(veg.PI$site_unique), total.points = unlist(lapply(unique(veg.PI$site_unique), total.points.fun))) #site/visit and associated number of unique PI hits taken, by applying the above function
     
-    growthForm_matrix_PIweights <- simba::mama(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
+    growthForm_matrix_PIweights <- ma_plot_ma(count(form_rows)[,-3]) #values are the raw number of hits a particular growth form got in PI for each plot/visit
     
     #However, to convert that to a percent cover, it needs to be divided by the actual number of unique PI hits for that particular plot and multiplied by 100 (not all plots have exactly 1010 unique hits):
     for(i in row.names(growthForm_matrix_PIweights)) {
@@ -269,7 +269,7 @@ if(species_name == "GS"){
     
     species_weights <- species_weights[,-(3:4)] #remove redundant columns
     
-    growthForm_matrix_SPPweights <- simba::mama(species_weights) #plots as rows, growth forms as columns, values are the number of species.
+    growthForm_matrix_SPPweights <- ma_plot_ma(species_weights) #plots as rows, growth forms as columns, values are the number of species.
     
     growth_form_matrix <- growthForm_matrix_SPPweights
     
