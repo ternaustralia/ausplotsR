@@ -41,7 +41,7 @@ if(species_name == "SN") {
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
-    cover_matrix_binary <- simba::mama(hits) #generate an occurrence matrix (binary)
+    cover_matrix_binary <- ma_plot_ma(hits) #generate an occurrence matrix (binary)
     
     species_matrix <- cover_matrix_binary
   } # end PA section
@@ -76,7 +76,7 @@ if(species_name == "SN") {
    
     
     #generate sites by species matrix:
-    cover_matrix <- simba::mama(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
+    cover_matrix <- ma_plot_ma(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
     
     species_matrix <- cover_matrix
   } # close cover matrix section
@@ -101,7 +101,7 @@ if(species_name == "SN") {
     
     freqs$freq.z <- freqs$freq.x/freqs$freq.y #divide by the actual number of transects (should range from 0.1 to 1)
     
-    freq_matrix <- simba::mama(freqs[,c(1,2,5),]) #create a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot; selecting columns 1,2 and 5 to exclude the freq.x and freq.y cols for mam
+    freq_matrix <- ma_plot_ma(freqs[,c(1,2,5),]) #create a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot; selecting columns 1,2 and 5 to exclude the freq.x and freq.y cols for mam
     
     species_matrix <- freq_matrix
     
@@ -134,7 +134,7 @@ if(species_name == "HD"){
       
       hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
       
-      cover_matrix_binary <- simba::mama(hits) #generate an occurrence matrix (binary)
+      cover_matrix_binary <- ma_plot_ma(hits) #generate an occurrence matrix (binary)
       
       species_matrix <- cover_matrix_binary
     } # end PA section
@@ -168,7 +168,7 @@ covers <- stats::na.omit(covers) #to remove percents for records with no herbari
 
 
 #generate sites by species matrix:
-cover_matrix <- simba::mama(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
+cover_matrix <- ma_plot_ma(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
 
 species_matrix <- cover_matrix
 } # close cover matrix section
@@ -193,7 +193,7 @@ if(m_kind == "freq" | m_kind == "IVI") {
 	
 	freqs$freq.z <- freqs$freq.x/freqs$freq.y #divide by the actual number of transects (should range from 0.1 to 1)
 	
-	freq_matrix <- simba::mama(freqs[,c(1,2,5),]) #create a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot; selecting columns 1,2 and 5 to exclude the freq.x and freq.y cols for mam
+	freq_matrix <- ma_plot_ma(freqs[,c(1,2,5),]) #create a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot; selecting columns 1,2 and 5 to exclude the freq.x and freq.y cols for mam
 	
 	species_matrix <- freq_matrix
 
@@ -229,7 +229,7 @@ if(species_name == "GS"){ #using genus species
     
     hits$presence <- rep(1, nrow(hits)) #add a column of '1's for presence (for mama function)
     
-    cover_matrix_binary <- simba::mama(hits) #generate an occurrence matrix (binary)
+    cover_matrix_binary <- ma_plot_ma(hits) #generate an occurrence matrix (binary)
     
     species_matrix <- cover_matrix_binary
   } # end PA section
@@ -263,7 +263,7 @@ if(species_name == "GS"){ #using genus species
     covers <- stats::na.omit(covers) #to remove percents for records with no herbarium determination
     
     #generate sites by species matrix:
-    cover_matrix <- simba::mama(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
+    cover_matrix <- ma_plot_ma(covers[,-c(3, 4)]) #third/fourth columns (count of individual hits and total hits) excluded as we want to the mama function to read our fourth column 'percent' [percent cover] as the abundance value (assumed to be the 3rd column): this generates a data.frame with sites as rows and species as columns, with percent covers from PI hits as values
     
     species_matrix <- cover_matrix
   } # close cover matrix section
@@ -288,7 +288,7 @@ if(species_name == "GS"){ #using genus species
     
     freqs$freq.z <- freqs$freq.x/freqs$freq.y #divide by the actual number of transects (should range from 0.1 to 1)
     
-    freq_matrix <- simba::mama(freqs[,c(1,2,5),]) #create a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot; selecting columns 1,2 and 5 to exclude the freq.x and freq.y cols for mam
+    freq_matrix <- ma_plot_ma(freqs[,c(1,2,5),]) #create a species ~ sites matrix with the frequencies as values, and zeros if species occur on no transect for a plot; selecting columns 1,2 and 5 to exclude the freq.x and freq.y cols for mam
     
     species_matrix <- freq_matrix
     
