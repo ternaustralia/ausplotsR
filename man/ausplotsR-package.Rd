@@ -7,6 +7,9 @@ Live extraction, preparation, visualisation and analysis of TERN AusPlots ecosys
 }
 \description{
 Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, including physical sample barcode numbers. Simple function calls extract the data and merge them into species occurrence matrices for downstream analysis or calculate things like basal area and fractional cover.
+
+Warning: ausplotsR was built in R version 3.
+
 }
 \details{
 \tabular{ll}{
