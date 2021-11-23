@@ -18,7 +18,8 @@ Depends:
     mapdata
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    markdown
 Imports:
     plyr,
     R.utils,
