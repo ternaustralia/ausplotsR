@@ -74,6 +74,8 @@ Maintainer: Greg Guerin <ggueri01@gmail.com>
 }
 \references{Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & Lowe, A. J. (2017). Opportunities for integrated ecological analysis across inland Australia with standardised data from Ausplots Rangelands. \emph{PLoS ONE}, \strong{12}, e0170137.
 
+Munroe, S., Guerin, G.R., Saleeba, T., Martin-Fores, M., Blanco-Martin, B., Sparrow, B. & Tokmakoff, A. (2021). ausplotsR: An R package for rapid extraction and analysis of vegetation and soil data collected by Australia’s Terrestrial Ecosystem Research Network. \emph{Journal of Vegetation Science}, \strong{32}, e13046.
+
 NVIS Technical Working Group (2017). Australian Vegetation Attribute Manual: National Vegetation Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
  
 Sparrow, B., Foulkes, J., Wardle, G., Leitch, E., Caddy-Retalic, S., van Leeuwen, S., Tokmakoff, A., Thurgate, N., Guerin, G.R. and Lowe, A.J. (2020). A vegetation and soil survey method for surveillance monitoring of rangeland environments. \emph{Frontiers in Ecology and Evolution}, \strong{8}, 157.
