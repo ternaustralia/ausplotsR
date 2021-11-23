@@ -73,7 +73,7 @@ names(fractional_cover_output) <- c("Plot", "Fraction", "Percent") #these names 
 fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits=2)
 
 #create a matrix version to condense the data, columns are fractions, rows are plots:
-fractional_cover_output.matrix <- simba::mama(fractional_cover_output)
+fractional_cover_output.matrix <- ma_ausplot_ma(fractional_cover_output)
 fractional_cover_output.matrix$site_unique <- row.names(fractional_cover_output.matrix)
 
 COL <- ncol(fractional_cover_output.matrix)
@@ -148,7 +148,7 @@ names(ground.fractional.output) <- c("Plot", "Fraction", "Percent") #these names
 ground.fractional.output$Percent <- round(ground.fractional.output$Percent, digits=2)
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
-ground.fractional.output.matrix <- simba::mama(ground.fractional.output)
+ground.fractional.output.matrix <- ma_ausplot_ma(ground.fractional.output)
 
 ground.fractional.output.matrix$site_unique <- row.names(ground.fractional.output.matrix)
 

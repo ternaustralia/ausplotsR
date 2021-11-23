@@ -7,13 +7,16 @@ Live extraction, preparation, visualisation and analysis of TERN AusPlots ecosys
 }
 \description{
 Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, including physical sample barcode numbers. Simple function calls extract the data and merge them into species occurrence matrices for downstream analysis or calculate things like basal area and fractional cover.
+
+Warning: ausplotsR was built in R version 3.
+
 }
 \details{
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 1.2.6\cr
-Date: \tab 2021-7-16\cr
+Version: \tab 1.2.7\cr
+Date: \tab 2021-11-23\cr
 License: \tab GPL-3\cr
 }
 TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/}{https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/}).
@@ -73,6 +76,8 @@ Greg Guerin, Tom Saleeba, Samantha Munroe, Bernardo Blanco-Martin, Irene Martin-
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 }
 \references{Guerin, G. R., Sparrow, B., Tokmakoff, A., Smyth, A., Leitch, E., Baruch, Z., & Lowe, A. J. (2017). Opportunities for integrated ecological analysis across inland Australia with standardised data from Ausplots Rangelands. \emph{PLoS ONE}, \strong{12}, e0170137.
+
+Munroe, S., Guerin, G.R., Saleeba, T., Martin-Fores, M., Blanco-Martin, B., Sparrow, B. & Tokmakoff, A. (2021). ausplotsR: An R package for rapid extraction and analysis of vegetation and soil data collected by Australia’s Terrestrial Ecosystem Research Network. \emph{Journal of Vegetation Science}, \strong{32}, e13046.
 
 NVIS Technical Working Group (2017). Australian Vegetation Attribute Manual: National Vegetation Information System, Version 7.0. Department of the Environment and Energy, Canberra. Prep by Bolton, M.P., deLacey, C. and Bossard, K.B. (Eds)
  
