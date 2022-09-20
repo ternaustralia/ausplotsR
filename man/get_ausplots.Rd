@@ -6,7 +6,7 @@
 }
 \usage{
 get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
-	veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE,
+	veg.vouchers=FALSE, veg.PI=FALSE, basal.wedge=FALSE, soil_subsites=FALSE,
 	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
 	herbarium_determination_search=NULL, family_search=NULL, 
 	standardised_name_search=NULL, dictionary=FALSE)
@@ -18,9 +18,9 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{structural_summaries}{Whether site vegetation structural summaries are required.
 }
-  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples. Default is to include.
+  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples.
 }
-  \item{veg.PI}{Whether point-intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot. Default is to include. 
+  \item{veg.PI}{Whether point-intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot.
 }
   \item{basal.wedge}{Whether basal wedge data raw hits are required to enable calculation of basal area by species by plot.
 }
@@ -44,7 +44,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 }
 
-\details{By default, the function will extract and compile data from the vegetation vouchers and point intercept modules over all available plots and provide a basic site information table. Arguments allow the user to select sites by ID numbers, geographic bounding box, or species, and select which modules data are drawn from. Further spatial filtering of sites is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table.
+\details{By default, the function will extract and compile a site information table including details of all available plot visits. Arguments allow the user to select sites by plot ID and visit codes, geographic bounding box, or species, and select which modules data are drawn from. Partial/wildcard site code matches are enabled, and further spatial filtering of sites from a master list is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table. Additional tables such as vegetation vouchers, point intercept modules and soil attributes can be requested by setting the desired modules to 'TRUE'.
 
 The datasets returned by the function are used directly by further formatting and analysis functions in ausplotsR (such as \code{\link{species_table}} to generate a species by sites matrix for community analysis), making it simple to go from raw data extract to ecological analysis.
 	
