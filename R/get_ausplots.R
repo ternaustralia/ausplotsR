@@ -1,5 +1,5 @@
-get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=TRUE,
-                         veg.PI =TRUE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
+get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=FALSE,
+                         veg.PI=FALSE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
                          soil_character=FALSE, bounding_box="none", herbarium_determination_search=NULL, 
                          family_search=NULL, standardised_name_search=NULL, dictionary=FALSE) {
 
