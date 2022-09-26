@@ -115,7 +115,28 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 		#site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		site.info <- data.frame(site_unique = do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")), site.info)
+    
+		#Add column ith visit dates reformatted as class "Date" (default date/time column is read as character string).
+		site.info$visit_date <- as.Date(unlist(lapply(strsplit(site.info$visit_start_date, "T"), function(x) paste(x[1]))))
 		
+		#Rank visit order:	#vector of plots that have a revisit
+		revisited_plots <- unique(site.info$site_location_name[which(duplicated(site.info$site_location_name))])
+		
+		n <- 0
+		for(i in revisited_plots) {
+		  n <- n + 1
+		  current_site <- site.info[site.info$site_location_name == i,]
+		  current_site <- current_site[order(current_site$visit_date),]
+		  current_site$visit_number <- seq(from = 1, to = nrow(current_site))
+		  if(n == 1) {current_site_master <- current_site}
+		  if(n>1) {current_site_master <- rbind(current_site_master, current_site)}
+		}
+		
+		#merge visit rank back into main table - use left join so revisited data area added to ALL rows/plots including single visit sites. #effectively just adds a visit_number column to existing site data, with NA entered for single-visits...
+		site.info <- merge(site.info, current_site_master[,c("site_unique", "visit_number")], by="site_unique", all.x=TRUE)
+		
+		#convert NAs for no revisit to '1'
+		site.info$visit_number[is.na(site.info$visit_number)] <- 1
 		
 		ausplots.data$site.info <- site.info
 
