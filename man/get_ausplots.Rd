@@ -82,8 +82,7 @@ The metadata variable dictionary returned by \code{dictionary=T} may not include
 \examples{
 \dontrun{
 #get data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), 
-veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), basal.wedge=TRUE, structural_summaries=TRUE)
 
 #View module:
 my.data$struct.summ
@@ -91,16 +90,19 @@ my.data$struct.summ
 #Get data citation and extraction date info:
 my.data$citation
 
-#Get site info, veg vouchers and veg point intercept for ALL available plots:
-get_ausplots()
+#Get site info for all available plots:
+my.data <- get_ausplots()
+
+#Subset site records to plots with revisits only
+revisited_site.info <- subset(my.data$site.info, site_location_name %in% unique(subset(my.data$site.info, visit_number > 1)$site_location_name))
 
 #Get voucher records for "Eucalyptus moderata" using "herbarium_determination":
-Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, 
+Eucalyptus_moderata <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
 herbarium_determination_search="Eucalyptus moderata")
 head(Eucalyptus_moderata$veg.vouch,10)
 
 #Get veg voucher records for all species in the family "Myrtaceae"
-Myrtaceae <- get_ausplots(veg.PI=FALSE, family_search="Myrtaceae")
+Myrtaceae <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, family_search="Myrtaceae")
 head(Myrtaceae$veg.vouch,10)
 }
 }
