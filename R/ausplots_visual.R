@@ -78,7 +78,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			frac <- suppressWarnings(fractional_cover(my.ausplots.object$veg.PI))
 		}
 		par(mar=c(0,0,2,0))
-		fraction_pie(frac, n)
+		try(fraction_pie(frac, n))
 		}
 
 	if(growthform.pie) {
@@ -88,12 +88,12 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			names(GF_col) <- names(GF)
 		}
 		par(mar=c(0,0,2,0))
-		growthform_pie(GF[n,], GF_col)
+		try(growthform_pie(GF[n,], GF_col))
 		}
 
 	if(cumulative.cover) {
 		par(mar=c(5,5,5,2))
-		cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == i))
+		try(cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == i)))
 		}
 
 	if(whittaker) {
@@ -101,7 +101,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
 			}
 		par(mar=c(5,5,5,2))
-		whitt.plot(sppBYsites[i,])
+		try(whitt.plot(sppBYsites[i,]))
 		}
 		
 		} #end loop through site_unique
