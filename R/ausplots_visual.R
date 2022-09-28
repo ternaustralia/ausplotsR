@@ -78,17 +78,17 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			frac <- suppressWarnings(fractional_cover(my.ausplots.object$veg.PI))
 		}
 		par(mar=c(0,0,2,0))
-		try(fraction_pie(frac, n))
+		try(fraction_pie(frac, i))
 		}
 
 	if(growthform.pie) {
 		if(n == 1) {
-			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"), species_name="SN")
+			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"), species_name="HD")
 			GF_col <- rev(terrain.colors(length(names(GF))))
 			names(GF_col) <- names(GF)
 		}
 		par(mar=c(0,0,2,0))
-		try(growthform_pie(GF[n,], GF_col))
+		try(growthform_pie(GF[i,], GF_col))
 		}
 
 	if(cumulative.cover) {
@@ -98,7 +98,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 
 	if(whittaker) {
 		if(n == 1) {
-			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
+			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="HD")
 			}
 		par(mar=c(5,5,5,2))
 		try(whitt.plot(sppBYsites[i,]))
