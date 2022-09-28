@@ -14,6 +14,7 @@ Update to the latest package version to make use of new and improved features:
  1. Standardised NVIS vegetation description fields for each survey visit.
  1. Updated implementation of tree Basal Area (BA) calculation as measure of species dominance where tree species are patchily distributed.
  1. Filter site downloads based on unique site/visit codes as well as partial code match/wildcard feature.
+ 1. Bug fixes and corrected plot order in ausplots_visual
  1. ETC TRAITS, INVASION, SAMPLE REQUESTS
 
 # Using ausplotsR
