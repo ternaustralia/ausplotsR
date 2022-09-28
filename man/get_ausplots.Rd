@@ -94,17 +94,25 @@ my.data$citation
 #Get site info for all available plots:
 my.data <- get_ausplots()
 
-#Subset site records to plots with revisits only
-revisited_site.info <- subset(my.data$site.info, 
-site_location_name %in% unique(subset(my.data$site.info, visit_number > 1)$site_location_name))
+##Subset site records to plots with revisits only
+#vector of plots with revisits
+revisited_plots <- unique(my.data$site.info$site_location_name[
+which(my.data$site.info$visit_number > 1)])
+
+#subset site table to revisited plots
+revisited_site.info <- my.data$site.info[
+which(my.data$site.info$site_location_name \%in\% revisited_plots),]
 
 #Get voucher records for "Eucalyptus moderata" using "herbarium_determination":
 Eucalyptus_moderata <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
 herbarium_determination_search="Eucalyptus moderata")
+
 head(Eucalyptus_moderata$veg.vouch,10)
 
 #Get veg voucher records for all species in the family "Myrtaceae"
-Myrtaceae <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, family_search="Myrtaceae")
+Myrtaceae <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
+family_search="Myrtaceae")
+
 head(Myrtaceae$veg.vouch,10)
 }
 }
