@@ -33,7 +33,11 @@ if(species_name == "SN") {
   
   if(m_kind == "PA") {
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {
+      if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+        hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+      } #close if any bryophytes
+    } #close if strip_bryophytes
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
@@ -64,7 +68,11 @@ if(species_name == "SN") {
     } #close if PFC
     
     #2. strip bryophytes if requested
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {
+      if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+        hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+      } #close if any bryophytes
+    } #close if strip_bryophytes
     
     covers <- plyr::count(hits, c("site_unique", "standardised_name")) #counts number of rows with same site and species name
     
@@ -87,7 +95,11 @@ if(species_name == "SN") {
     
     hits <- hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {
+      if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+        hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+      } #close if any bryophytes
+    } #close if strip_bryophytes
     
     transects <- plyr::count(hits, c("site_unique", "standardised_name", "transect")) #count PI records for each uniqe plot/species/transect combo
     
@@ -126,7 +138,11 @@ if(species_name == "HD"){
   
   if(m_kind == "PA") {
       
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {
+      if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+        hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+      } #close if any bryophytes
+    } #close if strip_bryophytes
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
@@ -155,7 +171,11 @@ if(cover_type == "PFC") {
 } #close if PFC
 
 #2. strip bryophytes if requested
-if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+if(strip_bryophytes) {
+  if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+    hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+  } #close if any bryophytes
+} #close if strip_bryophytes
 
 
 covers <- plyr::count(hits, c("site_unique", "herbarium_determination")) #counts number of rows with same site and species name
@@ -179,7 +199,11 @@ if(m_kind == "freq" | m_kind == "IVI") {
 	
 	hits <- hits[!is.na(hits$herbarium_determination), ] ##remove hits not determined as a species
 	
-	if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+	if(strip_bryophytes) {
+	  if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+	    hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+	  } #close if any bryophytes
+	} #close if strip_bryophytes
 	
 	transects <- plyr::count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each unique plot/species/transect combo
 	
@@ -219,7 +243,11 @@ if(species_name == "GS"){ #using genus species
   
   if(m_kind == "PA") {
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {
+      if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+        hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+      } #close if any bryophytes
+    } #close if strip_bryophytes
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "genus_species"),])), c("site_unique", "genus_species")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
@@ -274,7 +302,11 @@ if(species_name == "GS"){ #using genus species
     
     hits <- hits[!is.na(hits$genus_species), ] ##remove hits not determined as a species
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {
+      if(any(na.omit(hits$taxa_group) == "bryophytes")) {
+        hits <- subset(hits, is.na(taxa_group) | taxa_group != "bryophytes")
+      } #close if any bryophytes
+    } #close if strip_bryophytes
     
     transects <- plyr::count(hits, c("site_unique", "genus_species", "transect")) #count PI records for each uniqe plot/species/transect combo
     
