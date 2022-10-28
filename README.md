@@ -10,6 +10,7 @@ The data have been collected by TERN’s Ecosystem Surveillance platform via fie
 ## New features in ausplotsR version 2.0
 
 Update to the latest package version to make use of new and improved features:
+ 1. Default data extraction now includes only site information table to increase data exploration efficiency, while vegetation data and other modules can be added by user choice.
  1. Visualise changes in parameters between revisits and easier coding of repeat visits.
  1. Standardised NVIS vegetation description fields for each survey visit.
  1. Updated implementation of tree Basal Area (BA) calculation as measure of species dominance where tree species are patchily distributed.
