@@ -13,7 +13,7 @@ The data have been collected by TERN’s Ecosystem Surveillance platform via fie
 
 To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are currently mapped to a standard using "World Flora Online" (http://www.worldfloraonline.org/). However, this mapping has become out-dated and is no longer the best solution available.
 
-We are therefore in the process of providing updated name standardisation to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) to improve waning coverage and fix matching errors. In the interim, by selecting herbarium determination to build tables, you will maximise coverage of species records in the database. Package documentation will be updated to explain the changes within a pending minor version update.
+We are therefore in the process of providing updated name standardisation according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html) to improve waning coverage and fix matching errors. In the interim, by selecting herbarium determination to build tables, you will maximise coverage of species records in the database. Package documentation will be updated to explain the changes within a pending minor version update.
 
 ## New features coming soon in ausplotsR version 2
 
