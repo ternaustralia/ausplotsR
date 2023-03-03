@@ -9,36 +9,21 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-## New features in ausplotsR version 1.2
+## Standardised names - an update
 
-Update to the latest package version to make use of new features:
- 1. Demonstration maps and graphical vegetation attributes in a single call.
- 1. Additional standardised plant taxonomic fields making it easy to clean species occurrence data or filter or search data by plant family.
- 1. Simple species lists for sites.
- 1. Revamped help files and manual.
- 1. Detailed metadata for all data modules.
- 1. Additional options for calculating vegetation cover by plant growth form, e.g., cumulative by species versus absolute cover; cover by strata.
- 1. Corrected implementation of Importance Value Index (IVI) calculation as measure of species importance.
- 1. Optimisation of plot selection to maximise species accumulation.
+To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are currently mapped to a standard using "World Flora Online" (http://www.worldfloraonline.org/). However, this mapping has become out-dated and is no longer the best solution available.
+
+We are therefore in the process of providing updated name standardisation to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) to improve waning coverage and fix matching errors. In the interim, by selecting herbarium determination to build tables, you will maximise coverage of species records in the database. Package documentation will be updated to explain the changes within a pending minor version update.
+
+## New features coming soon in ausplotsR version 2
+
+A new package version is under development that will feature a range of bug fixes as well as updated or additional functionality, including:
+ 1. New and improved standardised plant taxonomy as well as herbarium determinations.
+ 1. Reduced size of default data extraction due to the growing size of the database.
+ 1. Easier coding and visualisation of revisits.
+ 1. Enhanced search options including particular site visits and partial site name matches.
 
 # Using ausplotsR
-
-You have two options for using the package:
- 1. in the cloud via [EcoCloud](https://ecocloud.org.au/)
- 1. installed on your computer
-
-## ausplotsR on EcoCloud
-
-[EcoCloud](https://ecocloud.org.au/) allows you to get started very quickly with
-AusplotsR. When you start a new RStudio instance on EcoCloud, AusplotsR is
-already installed for you so you can get into playing with the data right away.
-Follow the [official
-guide](https://support.ecocloud.org.au/support/solutions/articles/6000200382-ecocloud-how-to-guide)
-to get started on EcoCloud and be sure to create an *RStudio* instance.
-
-*NOTE* EcoCloud is no longer being updated, pending launch of the new [EcoCommons](https://ecocommons.org.au) online resource, and so only an older version of ausplotsR is available.
-
-## ausplotsR on your computer
 
 ausplotsR is now available on [CRAN](https://cran.r-project.org/web/packages/ausplotsR/index.html), meaning it can be installed using the 'install packages' command or menu in an R or RStudio session.
 
