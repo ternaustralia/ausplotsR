@@ -18,9 +18,9 @@ While all data extracts will now  the updated and improved name standardisation 
 ## New features coming soon in ausplotsR version 2
 
 A new package version is under development that will feature a range of bug fixes as well as updated or additional functionality, including:
- 1. New and improved standardised plant taxonomy as well as herbarium determinations.
+ 1. New and improved standardised plant taxonomy matching and fields as well as original herbarium determinations.
  1. Reduced size of default data extraction due to the growing size of the database.
- 1. Easier coding and visualisation of revisits.
+ 1. Easier coding, ordering and visualisation of revisits.
  1. Enhanced search options including particular site visits and partial site name matches.
 
 # Using ausplotsR
