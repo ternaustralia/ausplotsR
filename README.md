@@ -13,7 +13,7 @@ The data have been collected by TERN’s Ecosystem Surveillance platform via fie
 
 To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are now mapped to a standard according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html), superseding past standardisation to "World Flora Online" (http://www.worldfloraonline.org/).
 
-While all data extracts will now  the updated and improved name standardisation fields, v1.2.8 of the R package includes updated documentation to reflect changes as well as some modifications to how standardised names are handled in some functions.
+While all data extracts will now include the updated and improved name standardisation fields, v1.2.8 of the R package includes updated documentation to reflect changes as well as some modifications to how standardised names are handled in some functions.
 
 ## New features coming soon in ausplotsR version 2
 
