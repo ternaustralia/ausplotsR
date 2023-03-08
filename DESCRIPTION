@@ -1,8 +1,8 @@
 Package: ausplotsR
 Type: Package
 Title: TERN AusPlots Analysis Package
-Version: 1.2.7
-Date: 2021-11-23
+Version: 1.2.8
+Date: 2023-03-08
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
     person("Tom", "Saleeba", role = "aut"),
