@@ -27,8 +27,8 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   }
   
     
-  if(strip_bryophytes) {veg.vouch <- subset(veg.vouch, taxa_group != "bryophytes")}
-  
+  #if(strip_bryophytes) {veg.vouch <- subset(veg.vouch, taxa_group != "bryophytes")}
+  if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
   
   if(species_name == "SN") {
     veg.vouch <- subset(veg.vouch, !is.na(standardised_name))
