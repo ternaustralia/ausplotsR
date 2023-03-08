@@ -9,7 +9,7 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-## Update in v1.2.8 for new standardised names
+## Update to v1.2.8 to work with new standardised names
 
 To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are now mapped to a standard according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html), superseding past standardisation to "World Flora Online" (http://www.worldfloraonline.org/).
 
