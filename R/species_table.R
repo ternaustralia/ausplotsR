@@ -33,7 +33,9 @@ if(species_name == "SN") {
   
   if(m_kind == "PA") {
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
+    
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
