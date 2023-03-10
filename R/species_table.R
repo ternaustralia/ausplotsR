@@ -3,7 +3,7 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
   
 #input checks
 
-  if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}  
+  if(!inherits(veg.PI, "data.frame")) {stop("veg.PI must be a data.frame")}  
   if(missing(m_kind)){stop("Please specify the desired species scoring method with 'm_kind'")}
   if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
   if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
