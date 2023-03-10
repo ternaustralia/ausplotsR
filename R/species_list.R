@@ -1,7 +1,7 @@
 species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"), species_name=c("SN","HD","GS"), strip_bryophytes=FALSE, append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt") {
   
   #input checks and set defaults
-  if(!class(veg.vouch) == "data.frame") {stop("veg.PI must be a data.frame")}
+  if(!inherits(veg.vouch, "data.frame")) {stop("veg.PI must be a data.frame")}
   if(any(!c("site_location_name", "herbarium_determination") %in% names(veg.vouch))) {stop("Can't match names of veg.vouch; data frame should be returned from get_ausplots")}
   
   if(any(!is.logical(c(strip_bryophytes, append_family, writefile)))) {
