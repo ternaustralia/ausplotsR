@@ -11,7 +11,7 @@ if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
 if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
   
 #setting defaults  
-  
+
 if(missing(m_kind)){stop("Please specify the desired scoring method using 'm_kind'")}
 
 if(missing(cover_type)) {
