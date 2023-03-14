@@ -116,7 +116,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		#site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		site.info <- data.frame(site_unique = do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")), site.info)
     
-		#Add column ith visit dates reformatted as class "Date" (default date/time column is read as character string).
+		#Add column with visit dates reformatted as class "Date" (default date/time column is read as character string).
 		site.info$visit_date <- as.Date(unlist(lapply(strsplit(site.info$visit_start_date, "T"), function(x) paste(x[1]))))
 		
 		#Rank visit order:	#vector of plots that have a revisit
