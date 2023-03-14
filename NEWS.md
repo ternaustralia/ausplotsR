@@ -6,6 +6,8 @@
 
 * Default data download in `get_ausplots` now only includes `$site.info` table (and not vegetation point intercept - `$veg.PI` - nor vegetation vouchers - `$veg.vouch` as per previous default) due to increasing size of the dataset. Users can still select to extract vegetation point-intercept or vouchers as well as all the other modules available in ausplotsR. All downloaded data objects include a data `$citation`.
 
+* Consistent implementation of logical arguments in functions, meaning some existing calls using character strings as selections will no longer work. 
+
 ## New features and data
 
 * New and improved name standardisation fields according to the Australian Plant Census and Australian Plant Name Index. Original herbarium determinations remain available.
