@@ -10,9 +10,9 @@ fractional_cover(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE")
 \arguments{
   \item{veg.PI}{The input raw point-intercept data as generated in the \code{\link{get_ausplots}} function.
 }
-  \item{ground_fractional}{Set to "TRUE" to calculate fractional GROUND cover.
+  \item{ground_fractional}{Logial. Set to TRUE to calculate fractional GROUND cover.
 }
-  \item{in_canopy_sky}{Set to "TRUE" to include in green fraction, thereby calculating opaque canopy cover.
+  \item{in_canopy_sky}{Logical. Set to TRUE to include in green fraction, thereby calculating opaque canopy cover.
 }
 }
 \details{Cover fractions are assigned according to the following:
