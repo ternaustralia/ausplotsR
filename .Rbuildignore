@@ -1,2 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.gitignore$
+^\.RData$
+^\.Rhistory$
+^DEVELOPERS\.md$
+^LICENCE$
+^README\.md$
+^rstudio-config\.png$
+^ausplotsR\.RProj$
