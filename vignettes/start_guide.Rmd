@@ -162,7 +162,7 @@ Aside from 'gross' values from plots such as fractional cover, many analyses in 
 
 
 ```{r}
-#The 'species_name' argument below specifies use of the "standardised_name" field to identify species, which is based on herbarium_determination names (i.e., "HD" option in species_name) matched to accepted scientific name according to a standard (http://www.worldfloraonline.org/).
+#The 'species_name' argument below specifies use of the "standardised_name" field to identify species, which is based on herbarium_determination names (i.e., "HD" option in species_name) matched to accepted scientific name according to a standard (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html).
 ```
 
 
