@@ -30,7 +30,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
   }
   #Check timeout
   resp <- try_GET(getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"))
-  if(class(resp) != "response") {
+  if(!inherits(resp, "response")) {
     message(resp)
     return(invisible(NULL))
   }
@@ -67,7 +67,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	is_herbarium_determination_and_standardised_name_supplied <- !is.null(herbarium_determination_search) && !is.null(standardised_name_search)
 	if(is_herbarium_determination_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
-	if(!class(my.Plot_IDs) == "character") {stop("Plot_IDs must be provided as a character vector.")}
+	if(!inherits(my.Plot_IDs, "character")) {stop("Plot_IDs must be provided as a character vector.")}
 	
 	
 	#####list available plots

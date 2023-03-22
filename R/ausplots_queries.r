@@ -31,7 +31,7 @@ cache <- new.env(parent = emptyenv())
     stop("API did not return json", call. = FALSE)
   }
   result <- try(jsonlite::fromJSON(httr::content(resp, "text"), simplifyDataFrame = TRUE))
-  if(class(result) == "try-error") {
+  if(inherits(result, "try-error")) {
     stop("Data extraction aborted due to database connection issue.")
   }
   return(result)
@@ -73,7 +73,7 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
     Plot_IDs <- c()
   }
   if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
-    if(class(bounding_box) != "numeric" | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
+    if(!inherits(bounding_box, "numeric") | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
     
     min_lon <- bounding_box[1]
     max_lon <- bounding_box[2]

@@ -3,7 +3,7 @@ species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI")
   
 #input checks
 
-  if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}  
+  if(!inherits(veg.PI, "data.frame")) {stop("veg.PI must be a data.frame")}  
   if(missing(m_kind)){stop("Please specify the desired species scoring method with 'm_kind'")}
   if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
   if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
@@ -33,7 +33,9 @@ if(species_name == "SN") {
   
   if(m_kind == "PA") {
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
+    
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "standardised_name"),])), c("site_unique", "standardised_name")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
@@ -64,7 +66,8 @@ if(species_name == "SN") {
     } #close if PFC
     
     #2. strip bryophytes if requested
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
     
     covers <- plyr::count(hits, c("site_unique", "standardised_name")) #counts number of rows with same site and species name
     
@@ -87,7 +90,8 @@ if(species_name == "SN") {
     
     hits <- hits[!is.na(hits$standardised_name), ]  #remove NA standardised_name
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
     
     transects <- plyr::count(hits, c("site_unique", "standardised_name", "transect")) #count PI records for each uniqe plot/species/transect combo
     
@@ -121,12 +125,13 @@ if(species_name == "SN") {
 
 if(species_name == "HD"){ 
   
-  warning("herbarium determinations are provided by state herbaria and may differ between states and international databases.
-  See details for more information. Consider using SN or GS for consistency between plots")
+  # warning("herbarium determinations are provided by state herbaria and may differ between states and international databases.
+  # See details for more information. Consider using SN or GS for consistency between plots")
   
   if(m_kind == "PA") {
       
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "herbarium_determination"),])), c("site_unique", "herbarium_determination")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
@@ -155,8 +160,8 @@ if(cover_type == "PFC") {
 } #close if PFC
 
 #2. strip bryophytes if requested
-if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
-
+#if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
 
 covers <- plyr::count(hits, c("site_unique", "herbarium_determination")) #counts number of rows with same site and species name
 
@@ -179,7 +184,8 @@ if(m_kind == "freq" | m_kind == "IVI") {
 	
 	hits <- hits[!is.na(hits$herbarium_determination), ] ##remove hits not determined as a species
 	
-	if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+	#if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+	if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
 	
 	transects <- plyr::count(hits, c("site_unique", "herbarium_determination", "transect")) #count PI records for each unique plot/species/transect combo
 	
@@ -219,7 +225,8 @@ if(species_name == "GS"){ #using genus species
   
   if(m_kind == "PA") {
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
     
     hits <- hits[which(!duplicated(hits[,c("site_unique", "genus_species"),])), c("site_unique", "genus_species")] #remove duplicated hits (i.e. same species in a given plot - we just want binary presence/absence here)
     
@@ -251,8 +258,8 @@ if(species_name == "GS"){ #using genus species
     } #close if PFC
     
     #2. strip bryophytes if requested
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
-    
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
     
     covers <- plyr::count(hits, c("site_unique", "genus_species")) #counts number of rows with same site and species name
     
@@ -274,7 +281,8 @@ if(species_name == "GS"){ #using genus species
     
     hits <- hits[!is.na(hits$genus_species), ] ##remove hits not determined as a species
     
-    if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    #if(strip_bryophytes) {hits <- subset(hits, taxa_group != "bryophytes")}
+    if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
     
     transects <- plyr::count(hits, c("site_unique", "genus_species", "transect")) #count PI records for each uniqe plot/species/transect combo
     
