@@ -4,7 +4,7 @@
 ^\.RData$
 ^\.Rhistory$
 ^DEVELOPERS\.md$
-^LICENCE$
+^LICENSE$
 ^README\.md$
 ^rstudio-config\.png$
 ^ausplotsR\.RProj$
