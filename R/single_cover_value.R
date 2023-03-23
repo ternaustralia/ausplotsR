@@ -2,7 +2,7 @@ single_cover_value <- function(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE,
 
 
 #input checks
-if(!inherits(veg.PI, "data.frame")) {stop("veg.PI must be a data.frame")}
+if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}
 if(any(!c("growth_form", "site_unique", "height") %in% names(veg.PI))) {stop("Can't match names of veg.PI; data frame should be returned from get_ausplots")}
 if(!is.logical(in_canopy_sky)) {stop("in_canopy_sky must be logical (TRUE/FALSE)")}
 if(!is.logical(by.growth_form)) {stop("by.growth_form must be logical (TRUE/FALSE)")}

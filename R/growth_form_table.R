@@ -3,7 +3,7 @@ growth_form_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "richness"
 
 #input checks
   
-if(!inherits(veg.PI, "data.frame")) {stop("veg.PI must be a data.frame")}
+if(!class(veg.PI) == "data.frame") {stop("veg.PI must be a data.frame")}
 if(any(!c("growth_form", "site_unique") %in% names(veg.PI))) {stop("Can't match names of veg.PI; data frame should be returned from get_ausplots")}
 if(!is.logical(cumulative)) {stop("cumulative? must be logical (TRUE/FALSE)")}
 if(!is.logical(by_strata)) {stop("by_strata? must be logical (TRUE/FALSE)")}

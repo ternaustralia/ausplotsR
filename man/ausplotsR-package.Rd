@@ -15,11 +15,11 @@ ausplotsR whas been tested for R version 4.
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 1.2.8\cr
-Date: \tab 2023-03-08\cr
+Version: \tab 2.0.0\cr
+Date: \tab 2022-12-01\cr
 License: \tab GPL-3\cr
 }
-TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}).
+TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/}{https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/}).
 
 The AusPlots survey method is made up of a series of individual modules, which are described in full in the protocols manual (White et al. 2012, Sparrow et al. 2020). Data from the following modules can currently be accessed through ausplotsR: plot selection and layout; vascular plant vouchering; point intercept; basal area; structural summary; and soils. Field data are recorded directly onto mobile (tablet) devices before being stored in cloud-based server infrastructure. \cr
 

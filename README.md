@@ -7,19 +7,16 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-## Update to v1.2.8 to work with new standardised names
+## New features in ausplotsR version 2.0
 
-To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are now mapped to a standard according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html), superseding past standardisation to "World Flora Online" (http://www.worldfloraonline.org/).
-
-While all data extracts will now include the updated and improved name standardisation fields, v1.2.8 of the R package includes updated documentation to reflect changes as well as some modifications to how standardised names are handled in some functions.
-
-## New features coming soon in ausplotsR version 2
-
-A new package version is under development that will feature a range of bug fixes as well as updated or additional functionality, including:
- 1. New and improved standardised plant taxonomy matching and fields as well as original herbarium determinations.
- 1. Reduced size of default data extraction due to the growing size of the database.
- 1. Easier coding, ordering and visualisation of revisits.
- 1. Enhanced search options including particular site visits and partial site name matches.
+Update to the latest package version to make use of new and improved features:
+ 1. Default data extraction now includes only site information table to increase data exploration efficiency, while vegetation data and other modules can be added by user choice.
+ 1. Visualise changes in parameters between revisits and easier coding of repeat visits.
+ 1. Standardised NVIS vegetation description fields for each survey visit.
+ 1. Updated implementation of tree Basal Area (BA) calculation as measure of species dominance where tree species are patchily distributed.
+ 1. Filter site downloads based on unique site/visit codes as well as partial code match/wildcard feature.
+ 1. Bug fixes and corrected plot order in ausplots_visual
+ 1. ETC TRAITS, INVASION, SAMPLE REQUESTS
 
 # Using ausplotsR
 
