@@ -1,6 +1,6 @@
 Package: ausplotsR
 Type: Package
-Title: TERN AusPlots Analysis Package
+Title: TERN AusPlots Australian Ecosystem Monitoring Data
 Version: 2.0.0
 Date: 2023-03-23
 Authors@R: c(
