@@ -7,15 +7,9 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-## Update to v1.2.8 to work with new standardised names
+## Update to Version 2 to work with new features and settings
 
-To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are now mapped to a standard according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html), superseding past standardisation to "World Flora Online" (http://www.worldfloraonline.org/).
-
-While all data extracts will now include the updated and improved name standardisation fields, v1.2.8 of the R package includes updated documentation to reflect changes as well as some modifications to how standardised names are handled in some functions.
-
-## New features coming soon in ausplotsR version 2
-
-A new package version is under development that will feature a range of bug fixes as well as updated or additional functionality, including:
+The latest package version features a range of bug fixes as well as updated or additional functionality and insome cases altered data extracts and settings, including:
  1. New and improved standardised plant taxonomy matching and fields as well as original herbarium determinations.
  1. Reduced size of default data extraction due to the growing size of the database.
  1. Easier coding, ordering and visualisation of revisits.
