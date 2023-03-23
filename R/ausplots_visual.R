@@ -32,8 +32,8 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	#check data and extract if missing
 	if(missing(my.ausplots.object)) {
 		message("Obtaining sample data...") #combine two calls to get all sites but only veg.PI for that bounding box so make it quicker.
-		my.ausplots.object <- get_ausplots(veg.vouchers=FALSE, veg.PI=FALSE) #get all sites
-		my.ausplots.object$veg.PI <- get_ausplots(my.Plot_IDs=sample(my.ausplots.object$site.info$site_location_name, max.plots), site_info=FALSE, veg.vouchers=FALSE)$veg.PI #get veg PI for random plots  - according to max.plots
+		my.ausplots.object <- get_ausplots() #get all sites, site info only
+		my.ausplots.object$veg.PI <- get_ausplots(my.Plot_IDs=sample(my.ausplots.object$site.info$site_location_name, max.plots), site_info=FALSE, veg.PI=TRUE)$veg.PI #get veg PI for random plots  - according to max.plots
 	}
 	
 	###############################################
@@ -78,30 +78,30 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 			frac <- suppressWarnings(fractional_cover(my.ausplots.object$veg.PI))
 		}
 		par(mar=c(0,0,2,0))
-		fraction_pie(frac, n)
+		try(fraction_pie(frac, i))
 		}
 
 	if(growthform.pie) {
 		if(n == 1) {
-			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"), species_name="SN")
+			GF <- growth_form_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type=("PFC"), species_name="HD")
 			GF_col <- rev(terrain.colors(length(names(GF))))
 			names(GF_col) <- names(GF)
 		}
 		par(mar=c(0,0,2,0))
-		growthform_pie(GF[n,], GF_col)
+		try(growthform_pie(GF[i,], GF_col))
 		}
 
 	if(cumulative.cover) {
 		par(mar=c(5,5,5,2))
-		cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == i))
+		try(cumulative_cover(subset(my.ausplots.object$veg.PI, site_unique == i)))
 		}
 
 	if(whittaker) {
 		if(n == 1) {
-			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
+			sppBYsites <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="HD")
 			}
 		par(mar=c(5,5,5,2))
-		whitt.plot(sppBYsites[i,])
+		try(whitt.plot(sppBYsites[i,]))
 		}
 		
 		} #end loop through site_unique

@@ -11,7 +11,7 @@ if(!is.character(m_kind)) {stop("m_kind must be a character vector")}
 if(!is.character(cover_type)) {stop("cover_type must be a character vector")}
   
 #setting defaults  
-  
+
 if(missing(m_kind)){stop("Please specify the desired scoring method using 'm_kind'")}
 
 if(missing(cover_type)) {
@@ -33,13 +33,6 @@ if(species_name=="SN") {
   hits <- veg.PI[!is.na(veg.PI$standardised_name), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
 
 
-#remove 'in canopy sky' hits if projected foliage cover required:
-  if(cover_type == "PFC") {
-  	hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
-  } #close if PFC
-
-
-
   if(m_kind == "PA") {
   	
   	form_rows <- data.frame(site_unique=hits$site_unique, growth_form=hits$growth_form, dummy=rep(1, length(hits$growth_form))) #list of individual PI hits with what growth form they were - simplified from input df for processing
@@ -57,6 +50,12 @@ if(species_name=="SN") {
 
   if(m_kind =="percent_cover") {
   	
+    #remove 'in canopy sky' hits if projected foliage cover required:
+    if(cover_type == "PFC") {
+      hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
+    } #close if PFC
+    
+    
   	if(by_strata) {
   	hits$growth_form[hits$growth_form %in% c("Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte")] <- "Upper"
   	hits$growth_form[hits$growth_form %in% c("Shrub Mallee", "Shrub", "Grass-tree", "Chenopod", "Heath-shrub")] <- "Mid"
@@ -117,12 +116,7 @@ if(species_name=="HD"){
   
   hits <- veg.PI[!is.na(veg.PI$herbarium_determination), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
   
-  #remove 'in canopy sky' hits if projected foliage cover required:
-  if(cover_type == "PFC") {
-    hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
-  } #close if PFC
-  
-  
+    
   
   if(m_kind == "PA") {
     
@@ -140,6 +134,12 @@ if(species_name=="HD"){
   
   
   if(m_kind == "percent_cover") {
+    
+    #remove 'in canopy sky' hits if projected foliage cover required:
+    if(cover_type == "PFC") {
+      hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
+    } #close if PFC
+    
     
     if(by_strata) {
       hits$growth_form[hits$growth_form %in% c("Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte")] <- "Upper"
@@ -200,12 +200,7 @@ if(species_name=="HD"){
 if(species_name == "GS"){
   hits<-veg.PI[!is.na(veg.PI$genus_species), ] #remove hits not determined as a species - it should only be substrate-only hits that have any NAs, as all fields are relevant when there is a species hit; this is used for summing GF cover
   
-  #remove 'in canopy sky' hits if projected foliage cover required:
-  if(cover_type == "PFC") {
-    hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
-  } #close if PFC
-  
-  
+   
   
   if(m_kind == "PA") {
     
@@ -223,6 +218,12 @@ if(species_name == "GS"){
   
   
   if(m_kind == "percent_cover") {
+    
+    #remove 'in canopy sky' hits if projected foliage cover required:
+    if(cover_type == "PFC") {
+      hits <- hits[which(as.character(hits$in_canopy_sky) == "FALSE"),]
+    } #close if PFC
+    
     
     if(by_strata) {
       hits$growth_form[hits$growth_form %in% c("Tree Mallee", "Tree/Palm", "Tree-fern", "Epiphyte")] <- "Upper"
