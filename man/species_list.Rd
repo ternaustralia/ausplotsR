@@ -47,7 +47,7 @@ append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt")
 \examples{
   \dontrun{
   #get veg.vouch data for selected plots:
-  my.data <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
+  my.data <- get_ausplots(site_info=FALSE, veg.PI=FALSE, 
   my.Plot_IDs=c("SAAFLB0005", "SAAFLB0006"))
   
   #generate 'genus_species' lists by site:

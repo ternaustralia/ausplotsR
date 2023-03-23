@@ -8,7 +8,7 @@ Live extraction, preparation, visualisation and analysis of TERN AusPlots ecosys
 \description{
 Through ausplotsR, users can directly access plot-based data on vegetation and soils across Australia, including physical sample barcode numbers. Simple function calls extract the data and merge them into species occurrence matrices for downstream analysis or calculate things like basal area and fractional cover.
 
-ausplotsR whas been tested for R version 4.
+Warning: ausplotsR was built in R version 3.
 
 }
 \details{
@@ -98,16 +98,17 @@ White, A., Sparrow, B., Leitch, E., Foulkes, J., Flitton, R., Lowe, A. J., & Cad
 library(ausplotsR)
 
 #get data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), basal.wedge=TRUE, structural_summaries=TRUE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
+	veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
 
 #view module:
 my.data$struct.summ
 
-#get site info for all available plot visits:
+#get site info, veg vouchers and veg point intercept for ALL available plots:
 get_ausplots() 
 
 #get a species by sites table:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), veg.PI=TRUE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"))
 
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
 }

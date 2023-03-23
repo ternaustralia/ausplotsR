@@ -6,7 +6,7 @@
 }
 \usage{
 get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
-	veg.vouchers=FALSE, veg.PI=FALSE, basal.wedge=FALSE, soil_subsites=FALSE,
+	veg.vouchers=TRUE, veg.PI=TRUE, basal.wedge=FALSE, soil_subsites=FALSE,
 	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
 	herbarium_determination_search=NULL, family_search=NULL, 
 	standardised_name_search=NULL, dictionary=FALSE)
@@ -18,9 +18,9 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{structural_summaries}{Whether site vegetation structural summaries are required.
 }
-  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples.
+  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples. Default is to include.
 }
-  \item{veg.PI}{Whether point-intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot.
+  \item{veg.PI}{Whether point-intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot. Default is to include. 
 }
   \item{basal.wedge}{Whether basal wedge data raw hits are required to enable calculation of basal area by species by plot.
 }
@@ -44,7 +44,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 }
 
-\details{By default, the function will extract and compile a site information table including details of all available plot visits. Arguments allow the user to select sites by plot ID and visit codes, geographic bounding box, or species, and select which modules data are drawn from. Partial/wildcard site code matches are enabled, and further spatial filtering of sites from a master list is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table. Additional tables such as vegetation vouchers, point intercept modules and soil attributes can be requested by setting the desired modules to 'TRUE'.
+\details{By default, the function will extract and compile data from the vegetation vouchers and point intercept modules over all available plots and provide a basic site information table. Arguments allow the user to select sites by ID numbers, geographic bounding box, or species, and select which modules data are drawn from. Further spatial filtering of sites is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table.
 
 The datasets returned by the function are used directly by further formatting and analysis functions in ausplotsR (such as \code{\link{species_table}} to generate a species by sites matrix for community analysis), making it simple to go from raw data extract to ecological analysis.
 	
@@ -83,7 +83,7 @@ The metadata variable dictionary returned by \code{dictionary=T} may not include
 \dontrun{
 #get data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), 
-basal.wedge=TRUE, structural_summaries=TRUE)
+veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
 
 #View module:
 my.data$struct.summ
@@ -91,28 +91,16 @@ my.data$struct.summ
 #Get data citation and extraction date info:
 my.data$citation
 
-#Get site info for all available plots:
-my.data <- get_ausplots()
-
-##Subset site records to plots with revisits only
-#vector of plots with revisits
-revisited_plots <- unique(my.data$site.info$site_location_name[
-which(my.data$site.info$visit_number > 1)])
-
-#subset site table to revisited plots
-revisited_site.info <- my.data$site.info[
-which(my.data$site.info$site_location_name \%in\% revisited_plots),]
+#Get site info, veg vouchers and veg point intercept for ALL available plots:
+get_ausplots()
 
 #Get voucher records for "Eucalyptus moderata" using "herbarium_determination":
-Eucalyptus_moderata <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
+Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, 
 herbarium_determination_search="Eucalyptus moderata")
-
 head(Eucalyptus_moderata$veg.vouch,10)
 
 #Get veg voucher records for all species in the family "Myrtaceae"
-Myrtaceae <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
-family_search="Myrtaceae")
-
+Myrtaceae <- get_ausplots(veg.PI=FALSE, family_search="Myrtaceae")
 head(Myrtaceae$veg.vouch,10)
 }
 }
