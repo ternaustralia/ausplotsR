@@ -41,8 +41,15 @@ cache <- new.env(parent = emptyenv())
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs_to_filter_for, extra_query=list()) {
   query <- extra_query
   if (length(Plot_IDs_to_filter_for) > 0) {
-    plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
-    query <- c(query, list(site_location_name = plotFilter))
+
+       plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
+
+    
+  #check site location isn't already searched via plot_search argument
+    if(!("site_location_name" %in% names(extra_query))) {
+      query <- c(query, list(site_location_name = plotFilter))
+    }
+    
   }
   return(.ausplots_api(path, query)) 
 } 
@@ -56,7 +63,7 @@ cache <- new.env(parent = emptyenv())
 } 
 ################
 
-list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
+list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
   extra_query <- list()
   
   if(!is.null(family_search)) {
@@ -72,6 +79,12 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
   if(Plot_IDs[1] == "none") {
     Plot_IDs <- c()
   }
+  #####
+  # #insert wildcard match code for plot names 2023 or in get_a function
+ if(!is.null(plot_search)) {
+   extra_query = append(extra_query, list("site_location_name" = paste0("ilike.*", plot_search, "*")))
+   }
+  #####
   if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
     if(!inherits(bounding_box, "numeric") | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
     
@@ -85,7 +98,6 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
     extra_query = append(extra_query, list("longitude" = paste("gte.", min_lon, sep="")))
     extra_query = append(extra_query, list("longitude" = paste("lte.", max_lon, sep="")))
   }
-
   path <- "search"
   response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
   result <- sort(unique(response$site_location_name))
