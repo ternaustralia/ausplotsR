@@ -1,6 +1,6 @@
 get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE, veg.vouchers=FALSE,
                          veg.PI=FALSE, basal.wedge=FALSE, soil_subsites=FALSE, soil_bulk_density=FALSE,
-                         soil_character=FALSE, bounding_box="none", herbarium_determination_search=NULL, 
+                         soil_character=FALSE, plot_search=NULL, bounding_box="none", herbarium_determination_search=NULL, 
                          family_search=NULL, standardised_name_search=NULL, dictionary=FALSE) {
 
 	#
@@ -49,6 +49,10 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 
 	#input checks
 	
+	plot_Search_is_not_null_or_single_char_vector <- !is.null(plot_search) && !(is.character(plot_search) && is.vector(plot_search) && length(plot_search) == 1)
+	if(plot_Search_is_not_null_or_single_char_vector) stop("plot_search must be a single element character vector") #
+	
+	
 	herb_is_not_null_or_single_char_vector <- !is.null(herbarium_determination_search) && !(is.character(herbarium_determination_search) && is.vector(herbarium_determination_search) && length(herbarium_determination_search) == 1)
 	if(herb_is_not_null_or_single_char_vector) stop("herbarium_determination_search must be a single element character vector") #
 	
@@ -68,12 +72,13 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	if(is_herbarium_determination_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
 	if(!inherits(my.Plot_IDs, "character")) {stop("Plot_IDs must be provided as a character vector.")}
-	
+	if(my.Plot_IDs[1] != "none" & !is.null(plot_search)) {stop("Please provide EITHER my.Plot_IDs OR plot_search, not both.")}
 	
 	#####list available plots
 
 	my.Plot_IDs <- sort(my.Plot_IDs)
-	Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
+
+		Plot_IDs <- list_available_plots(Plot_IDs=my.Plot_IDs, plot_search=plot_search, bounding_box=bounding_box, herbarium_determination_search=herbarium_determination_search, family_search=family_search, standardised_name_search=standardised_name_search)
 	
 	
 	#check that plot IDs specified by user actually exist 
