@@ -42,13 +42,25 @@ cache <- new.env(parent = emptyenv())
   query <- extra_query
   if (length(Plot_IDs_to_filter_for) > 0) {
 
-       plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
-
+#sub-routine for visit searches via site_unique versus plot searches
     
-  #check site location isn't already searched via plot_search argument
-    if(!("site_location_name" %in% names(extra_query))) {
-      query <- c(query, list(site_location_name = plotFilter))
-    }
+  site_unique_search <- any(grepl("-", Plot_IDs_to_filter_for, fixed=TRUE))
+    
+      if(site_unique_search) {
+        Plot_visits_to_filter_for <- unlist(lapply(strsplit(Plot_IDs_to_filter_for, "-", fixed=TRUE), function(x) {paste(x[2])}))
+        visitFilter <- paste("in.(", paste(Plot_visits_to_filter_for, collapse=","), ")", sep="")
+        if(!("site_location_name" %in% names(extra_query))) {
+          query <- c(query, list(site_location_visit_id = visitFilter))
+        }
+      }
+
+       if(!site_unique_search) {
+         plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
+         #check site location isn't already searched via plot_search argument - may be redundant as get_ausplots stops if that's the case
+         if(!("site_location_name" %in% names(extra_query))) {
+           query <- c(query, list(site_location_name = plotFilter))
+         }
+      }
     
   }
   return(.ausplots_api(path, query)) 
@@ -57,8 +69,21 @@ cache <- new.env(parent = emptyenv())
 #subsequent filter function
 
 .ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
-  plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
-  query <- c(extra_query, list(site_location_name = plotFilter))
+  
+  
+  site_unique_search <- any(grepl("-", Plot_IDs_to_retrieve_data_for, fixed=TRUE))
+
+  if(!site_unique_search) {
+    plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
+    query <- c(extra_query, list(site_location_name = plotFilter))
+  }
+  
+  if(site_unique_search) {
+    Plot_visits_to_filter_for <- unlist(lapply(strsplit(Plot_IDs_to_retrieve_data_for, "-", fixed=TRUE), function(x) {paste(x[2])}))
+    visitFilter <- paste("in.(", paste(Plot_visits_to_filter_for, collapse=","), ")", sep="")
+    query <- c(extra_query, list(site_location_visit_id = visitFilter))
+  }
+  
   return(.ausplots_api(path, query))
 } 
 ################
@@ -69,7 +94,6 @@ list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="n
   if(!is.null(family_search)) {
     extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep=""))) #search by family
   }
-  
   if(!is.null(herbarium_determination_search)) {
     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
   } 
@@ -100,7 +124,13 @@ list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="n
   }
   path <- "search"
   response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
-  result <- sort(unique(response$site_location_name))
+  
+  site_unique_search <- any(grepl("-", Plot_IDs, fixed=TRUE))
+ 
+  if(!site_unique_search) {result <- sort(unique(response$site_location_name))}
+  
+  if(site_unique_search) {result <- sort(paste0(response$site_location_name, "-", response$site_location_visit_id))}
+  
   return(result)
 }
 
