@@ -117,7 +117,9 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	if(site_info) {
 		
 	  site.info <- extract_site_info(Plot_IDs)  #
-
+	  
+	  if(!length(Plot_IDs) < 1) {
+	     
 		#site.info$site_unique <- do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")) #add unique site/visit identifier for surveys, will make table merges easier later
 		site.info <- data.frame(site_unique = do.call(paste, c(site.info[c("site_location_name", "site_location_visit_id")], sep = "-")), site.info)
     
@@ -155,6 +157,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		ausplots.data$site.info <- site.info
 
+	  } # end if length plot ids 1 or more
+		
 	} #end if(site_info)
 	
 	#
