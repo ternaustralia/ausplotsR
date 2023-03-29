@@ -7,7 +7,7 @@
 \usage{
 get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 	veg.vouchers=FALSE, veg.PI=FALSE, basal.wedge=FALSE, soil_subsites=FALSE,
-	soil_bulk_density=FALSE, soil_character=FALSE, bounding_box="none",
+	soil_bulk_density=FALSE, soil_character=FALSE, plot_search=NULL, bounding_box="none",
 	herbarium_determination_search=NULL, family_search=NULL, 
 	standardised_name_search=NULL, dictionary=FALSE)
 }
@@ -30,6 +30,8 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{soil_character}{Whether soil characterisation and sample ID data at 10 cm increments to a depth of 1 m are required.
 }
+  \item{plot_search}{Optional character string filter for selecting AusPlots based on wildcard/partial match to the \code{site_location_name}.
+}
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10).
 }
 
@@ -44,11 +46,11 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
 }
 
-\details{By default, the function will extract and compile a site information table including details of all available plot visits. Arguments allow the user to select sites by plot ID and visit codes, geographic bounding box, or species, and select which modules data are drawn from. Partial/wildcard site code matches are enabled, and further spatial filtering of sites from a master list is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table. Additional tables such as vegetation vouchers, point intercept modules and soil attributes can be requested by setting the desired modules to 'TRUE'.
+\details{By default, the function will extract and compile a site information table including details of all available plot visits. Arguments allow the user to select sites by plot ID and visit codes, geographic bounding box, or species, and select which modules data are drawn from. Partial/wildcard site code matches are enabled in the \code{plot_search} argument, and further spatial filtering of sites from a master list is possible by using the 'bioregion_name', 'state', and spatial coordinate fields in the site table. Additional tables such as vegetation vouchers, point intercept modules and soil attributes can be requested by setting the desired modules to 'TRUE'.
 
 The datasets returned by the function are used directly by further formatting and analysis functions in ausplotsR (such as \code{\link{species_table}} to generate a species by sites matrix for community analysis), making it simple to go from raw data extract to ecological analysis.
 	
-AusPlots surveys are identified by a plot ID and unique visit number, that are combined to identify a unique measurement for sites with repeat visits, identified in the extracted data tables as 'site_unique'.
+AusPlots surveys are identified by a plot ID called \code{site_location_name} and unique visit number, that are combined to identify a unique measurement for sites with repeat visits, identified in the extracted data tables as 'site_unique'.
 
 "herbarium_determination_search", "family search", and "standardised_name_search" search terms are not case sensitive and do not require an exact taxonomic match (e.g. "Eucalyptus moderata", "Eucalyptus", and "euca" are all acceptable search terms). If \code{veg.vouch=TRUE}, veg.vouch will return a data frame that only includes voucher records that match the species or family search. If \code{veg.PI=TRUE}, veg.PI will return point intercept data for all plots where the species or family occurs. If \code{basal.wedge=TRUE}, veg.basal will return a dataframe that only includes the raw basal wedge data of records that match the species or family. For all other data.frames, get_ausplots will return data for all the plots where the species or family occurs. 
 
