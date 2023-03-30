@@ -47,7 +47,7 @@ if(is.null(plot_select)) {
 
 #OR - selected sites,
 if(!is.null(plot_select)) {
-  ecotraj::trajectoryPlot(dissdiss, sites=my.ausplots.object$site.info$site_location_name, 
+  ecotraj::trajectoryPCoA(dissdiss, sites=my.ausplots.object$site.info$site_location_name, 
   surveys=my.ausplots.object$site.info$visit_number, selection=my.ausplots.object$site.info$site_location_name %in% plot_select, axes = c(1, 2), 
   survey.labels=TRUE, lwd=1.5, lty=1, angle=15, length=0.2, 
   traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
@@ -69,7 +69,7 @@ if("diversity" %in% choices) {
   
   #OR - selected sites,
   if(!is.null(plot_select)) {
-    ecotraj::trajectoryPCoA(DIV, sites=my.ausplots.object$site.info$site_location_name, 
+    ecotraj::trajectoryPlot(DIV, sites=my.ausplots.object$site.info$site_location_name, 
                             surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(1, 2), 
                             survey.labels=TRUE, lwd=1.5, lty=1, angle=15, length=0.2, 
                             traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
