@@ -22,6 +22,8 @@ A new package version is under development that will feature a range of bug fixe
  1. Reduced size of default data extraction due to the growing size of the database.
  1. Easier coding, ordering and visualisation of revisits.
  1. Enhanced search options including particular site visits and partial site name matches.
+ 1. Enrich species occurrences with functional traits including photosynthetic pathway.
+ 1. Standardised native/exotic species status at state and national level.
 
 # Using ausplotsR
 
