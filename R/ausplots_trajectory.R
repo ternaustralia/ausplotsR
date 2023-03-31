@@ -16,27 +16,23 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
 
 #remove sites with less than min.revisits
 my.ausplots.object$site.info <- subset(my.ausplots.object$site.info, site_location_name %in% subset(my.ausplots.object$site.info, visit_number>=min.revisits)$site_location_name)
-print(dim(my.ausplots.object$site.info))
+
 #occurrence atrix
 diss <- species_table(my.ausplots.object$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
-print(dim(diss))
+
 
 #remove sites not in revisited sites table
 diss <- diss[which(rownames(diss) %in% my.ausplots.object$site.info$site_unique),]
-print(dim(diss))
 diss <- diss[,colSums(diss) > 0]
-print(dim(diss))
 
 #remove sites not in veg data
 my.ausplots.object$site.info <- my.ausplots.object$site.info[which(my.ausplots.object$site.info$site_unique %in% rownames(diss)),]
-print(dim(my.ausplots.object$site.info))
 
 
 if("PCoA" %in% choices) {
   
   #dissimilarity
   dissdiss <- vegan::vegdist(diss)
-  print(length(dissdiss))
   
 if(is.null(plot_select)) {
   ecotraj::trajectoryPCoA(dissdiss, sites=my.ausplots.object$site.info$site_location_name, 
@@ -59,7 +55,7 @@ if(!is.null(plot_select)) {
 if("diversity" %in% choices) {
   
   DIV <- data.frame(shannon=vegan::diversity(diss), richness=vegan::diversity(diss, index="simpson"))
-  print(DIV)
+ 
   if(is.null(plot_select)) {
     ecotraj::trajectoryPlot(DIV, sites=my.ausplots.object$site.info$site_location_name, 
                             surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(1, 2), 
