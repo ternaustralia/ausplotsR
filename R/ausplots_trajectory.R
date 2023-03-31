@@ -39,6 +39,8 @@ if(is.null(plot_select)) {
   surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(1, 2), 
   survey.labels=TRUE, lwd=1.5, lty=1, angle=15, length=0.2, 
   traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
+  
+  legend("topleft", legend=my.ausplots.object$site.info$site_location_name, lty=1, lwd=2, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.5, bty="n")
 } #end not select
 
 #OR - selected sites,
