@@ -9,6 +9,22 @@ Through ausplotsR, users can now directly access plot-based data on vegetation a
 
 The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
+## Server capacity issue - please bear with us!
+If you've recently attempted to extract the vegetation point intercept table, you may have encountered the following error:
+
+```
+Error in .ausplots_api(path, query) : 
+Service Unavailable (HTTP 503). Failed to {"details":"no connection to the server\n","message":"Database client error"}.
+```
+
+The error is due to the increasing size of the database as surveys are added continuously, and we are working to fix it as soon as possible.
+
+In the short-term, you can avoid the error by including:
+```..., veg.PI = FALSE, ...```
+in your call to get_ausplots, and if you do need the veg.PI data table, try extracting a subset by using the bounding_box option in get_ausplots, or extract the site_info table first and then specify a subset of plots for veg.PI using the my.Plot_IDs argument.
+
+We apologise for the inconvenience.
+
 ## Update to v1.2.8 to work with new standardised names
 
 To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are now mapped to a standard according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html), superseding past standardisation to "World Flora Online" (http://www.worldfloraonline.org/).
