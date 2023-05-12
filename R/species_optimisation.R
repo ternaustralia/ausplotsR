@@ -80,7 +80,7 @@ Richness.opt <- function(speciesVsitesMatrix_binary, n.plt) {
   Richness <- rowSums(speciesVsitesMatrix_binary) #simple species richness (sum) per plot
   RichnessSort <- rev(sort(Richness))[1:n.plt] #inverse of the sort function to get decreasing order
   RichnessMCP <- RichnessSort[1:n.plt] #get top n.plt plots based on Richness
-  RichnessMCPaccum <- specaccum(speciesVsitesMatrix_binary[names(RichnessMCP),], method="collector") #get a species accumulation curve for these selected plots
+  RichnessMCPaccum <- vegan::specaccum(speciesVsitesMatrix_binary[names(RichnessMCP),], method="collector") #get a species accumulation curve for these selected plots
    return(RichnessMCPaccum)
 }  
 
@@ -90,7 +90,7 @@ RRR.opt <- function(speciesVsitesMatrix_binary, n.plt) {
   RRR <- rowSums(speciesVsitesMatrix_binary/colSums(speciesVsitesMatrix_binary)) #presence/absence matrix with presences divided by frequency of that species
   RRRSort <- rev(sort(RRR)) #inverse of the sort function to get decreasing order
   RRRMCP <- RRRSort[1:n.plt] #get top n.plt plots based on RRR
-  RRRMCPaccum <- specaccum(speciesVsitesMatrix_binary[names(RRRMCP),], method="collector") #get a species accumulation curve for these selected plots
+  RRRMCPaccum <- vegan::specaccum(speciesVsitesMatrix_binary[names(RRRMCP),], method="collector") #get a species accumulation curve for these selected plots
   return(RRRMCPaccum)
 }
 
@@ -99,7 +99,7 @@ CWE.opt <- function(speciesVsitesMatrix_binary, n.plt) {
   CWE <- rowSums(speciesVsitesMatrix_binary/colSums(speciesVsitesMatrix_binary))/rowSums(speciesVsitesMatrix_binary) #It's RRR divided by richness
   CWESort <- rev(sort(CWE)) #inverse of the sort function to get decreasing order
   CWEMCP <- CWESort[1:n.plt] #get top n.plt plots based on CWE
-  CWEMCPaccum <- specaccum(speciesVsitesMatrix_binary[names(CWEMCP),], method="collector") #get a species accumulation curve for these selected plots
+  CWEMCPaccum <- vegan::specaccum(speciesVsitesMatrix_binary[names(CWEMCP),], method="collector") #get a species accumulation curve for these selected plots
   #plot(CWEMCPaccum, col="gold", lwd=2,main="CWE optimiser", xlab = "Number of plots", ylab = "Cumulative species")
   return(CWEMCPaccum)
 }
@@ -107,20 +107,20 @@ CWE.opt <- function(speciesVsitesMatrix_binary, n.plt) {
 
 ########################
 Shannon.opt <- function(speciesVsitesMatrix, n.plt) {
-  Shannon <- diversity(speciesVsitesMatrix, index = "shannon") #Normal Shannon diversity index using vegan package
+  Shannon <- vegan::diversity(speciesVsitesMatrix, index = "shannon") #Normal Shannon diversity index using vegan package
   ShannonSort <- rev(sort(Shannon)) #inverse of the sort function to get decreasing order
   ShannonMCP <- ShannonSort[1:n.plt] #get top n.plt plots based on Shannon-Wienner diversity index
-  ShannonMCPaccum <- specaccum(speciesVsitesMatrix[names(ShannonMCP),], method="collector") #get a species accumulation curve for these selected plots
+  ShannonMCPaccum <- vegan::specaccum(speciesVsitesMatrix[names(ShannonMCP),], method="collector") #get a species accumulation curve for these selected plots
   return(ShannonMCPaccum)
 }
 
 
 ########################
 Simpson.opt <- function(speciesVsitesMatrix, n.plt) {
-  Simpson <- diversity(speciesVsitesMatrix, index = "simpson") #Normal Simpson diversity index using vegan package
+  Simpson <- vegan::diversity(speciesVsitesMatrix, index = "simpson") #Normal Simpson diversity index using vegan package
   SimpsonSort <- rev(sort(Simpson)) #inverse of the sort function to get decreasing order
   SimpsonMCP <- SimpsonSort[1:n.plt] #get top n.plt plots based on Shannon-Wienner diversity index
-  SimpsonMCPaccum <- specaccum(speciesVsitesMatrix[names(SimpsonMCP),], method="collector") #get a species accumulation curve for these selected plots
+  SimpsonMCPaccum <- vegan::specaccum(speciesVsitesMatrix[names(SimpsonMCP),], method="collector") #get a species accumulation curve for these selected plots
   return(SimpsonMCPaccum)
 }
 
@@ -163,7 +163,7 @@ simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, start, plot_name
     speciesVsitesMatrix_binary <- speciesVsitesMatrix_binary[(!rownames(speciesVsitesMatrix_binary) %in% next.plot.name),]
   }
   dissimilarplots <- unlist(result) #vector of plot names in order selected
-  return(specaccum(original_matrix[dissimilarplots,], method="collector"))
+  return(vegan::specaccum(original_matrix[dissimilarplots,], method="collector"))
 }
 
 
@@ -179,7 +179,7 @@ Frequent_simpson_beta.opt <- function(speciesVsitesMatrix_binary, n.plt, iterati
     freq_plots <- plyr::count(unlist(lapply(opt.runs.freq, FUN=function(x) as.character(names(x$richness)))))
     freq_plots <- freq_plots[rev(order(freq_plots$freq)),]
     freq_plots <- freq_plots[1:n.plt,] 
-    freq_accum <- specaccum(speciesVsitesMatrix_binary[as.character(freq_plots$x),], method="collector")
+    freq_accum <- vegan::specaccum(speciesVsitesMatrix_binary[as.character(freq_plots$x),], method="collector")
     
     #create mean/sd accumulation for simpson iterations with random seed
     combined.rand_specaccum <- opt.runs.freq[[1]] #copy one specaccum object in the list of random starts for format
@@ -202,7 +202,7 @@ Random.opt <- function(speciesVsitesMatrix_binary, n.plt, iterations, verbose) {
     for(i in 1:iterations) {
       n <- n + 1
       if(verbose) cat("Rep ", n, "\n")
-      Sppaccum_freq[[n]]<- specaccum(speciesVsitesMatrix_binary[sample(nrow(speciesVsitesMatrix_binary), n.plt),], method="collector")
+      Sppaccum_freq[[n]]<- vegan::specaccum(speciesVsitesMatrix_binary[sample(nrow(speciesVsitesMatrix_binary), n.plt),], method="collector")
       }  
     combined.rand_specaccum <- Sppaccum_freq[[1]] #copy one for format
     combined_matrix_rand <- do.call(rbind, lapply(Sppaccum_freq, function(x) {return(x$richness)})) #compile the cumulative richness results from reps above into a matrix
