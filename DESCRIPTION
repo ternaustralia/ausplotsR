@@ -9,7 +9,7 @@ Authors@R: c(
     person("Samantha", "Munroe", role = "aut"),
     person("Bernardo", "Blanco-Martin", role = "aut"),
     person("Irene", "Martín-Forés", role = "aut"),
-    person("Walid", "Al Naim", role = "ctb")
+    person("Walid", "Al Naim", role = "ctb"),
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 Depends:
