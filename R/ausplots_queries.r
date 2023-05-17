@@ -1,5 +1,75 @@
 cache <- new.env(parent = emptyenv())
 
+LIMIT <- 40000
+END_POINT <- getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80")
+# END_POINT <- "http://localhost:80/"
+
+try_GET <- function(path, query, auth_header,...) {
+  return(httr::GET(
+                    END_POINT,
+                    httr::user_agent(.make_user_agent()),
+                    httr::add_headers(
+                      `Prefer`='count=exact', 
+                       Authorization = auth_header),
+                    path=path,
+                    query=query)
+  )
+}
+
+# getting response using limit and offset 
+get_http_content <- function(field, limit, offset, query, auth_header) {
+  # append new query parameters
+  query <- append(query, list('limit' = limit))
+  query <- append(query, list('offset' = offset))
+
+  resp <- try_GET(field, query, auth_header)
+  # create map using response and the max size of the payload
+  response_data <- r2r::hashmap()
+  # response string without first and last string e.g [ or ]
+  response_data[["body"]] <- stringr::str_sub(httr::content(resp, 'text'),2,-2)
+
+  # by default the max size should be greater than offset
+  #   so that we can call api constantly
+  response_data[["max_size"]] <- offset + limit + 1
+  
+  # total number of rows can be found in response header
+  # e.g content-length: 0-599/103199
+  #   103199 is the total number of rows
+  content_length <- try(strsplit(head(resp)$all_headers[[1]]$headers$`content-range`, split = '/')[[1]][2])
+  if(!inherits(content_length, "try-error") && content_length != '*') {
+    # if content length presents
+    response_data[["max_size"]] <- strtoi(content_length)
+  }
+  # return both response body and content length
+  return(response_data)
+}
+
+get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_header){
+  # if offset is greater or equal to max size we can stop here
+  if (offset >= max_size) {
+    return(paste('[' , existing_rows, ']', sep = ""))
+  }
+
+  # get http content using limit and offset
+  response_data <- get_http_content(field, limit, offset, query, auth_header)
+  # append new rows recursively
+  existing_rows <- if (offset == 0) response_data[['body']] else paste(existing_rows, response_data[['body']], sep = ",")
+  return(
+    get_rows(
+      existing_rows,
+      field, limit,
+      offset+LIMIT,
+      response_data[['max_size']],
+      query,
+      auth_header
+    )
+  )
+}
+
+.ausplots_api_with_limit_and_offset <- function(path, query, auth_header) {
+  return(get_rows("", path, LIMIT, 0, LIMIT+1, query, auth_header))
+}
+
 .ausplots_api <- function(path, query) {
   # override this API URL with:
   #   library("ausplotsR")
@@ -20,12 +90,34 @@ cache <- new.env(parent = emptyenv())
     message('query string value = ', query)
   }
   resp <- httr::GET(
-                    getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80"),
+                    "http://swarmapi.ausplots.aekos.org.au:80",
                     httr::user_agent(.make_user_agent()),
                     httr::add_headers(Authorization = auth_header),
                     path=path,
                     query=query
   )
+  message('calling ')
+  message(path)
+  message(' status code ')
+  message(httr::status_code(resp))
+  # if status code is 500 or 503
+  # most of the cases, 503 (database connection issue) happens because of the size of data
+  #   e.g. point_intercept table has more then 100827558 rows 
+  #   in that case, we can use limit and offset as api parameters to get a chunk of data
+  #   and then we can combine all data into one
+  if (httr::status_code(resp) > 500) {
+    # sometimes db server needs few seconds to be ready again from recovery mood
+    #   as we dont have any throttling service running at the moment
+    message('waiting 5 seconds to hit api again ............ ')
+    Sys.sleep(5)
+
+    message('calling ')
+    message(path)
+    message(' again')
+    resp <- .ausplots_api_with_limit_and_offset(path, query, auth_header)
+    result <- try(jsonlite::fromJSON(resp, simplifyDataFrame = TRUE))
+    return(result)
+  }
   httr::stop_for_status(resp, task = httr::content(resp, "text"))
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
