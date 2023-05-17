@@ -24,8 +24,6 @@ Imports:
     R.utils,
     httr,
     jsonlite,
-    sp,
-    maptools,
     ggplot2,
     gtools,
     jose,
