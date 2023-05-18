@@ -72,7 +72,9 @@ fractional_cover_output <- fractional_df_sites[,c(1,2,5)]
 names(fractional_cover_output) <- c("Plot", "Fraction", "Percent") #these names are not returned in the output - just formatting for matrix conversion
 fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits=2)
 
-#create a matrix version to condense the data, columns are fractions, rows are plots:
+##create a matrix version to condense the data, columns are fractions, rows are plots:
+#change NAs for fraction to 'other'
+fractional_cover_output$Fraction[is.na(fractional_cover_output$Fraction)] <- "other"
 fractional_cover_output.matrix <- ma_ausplot_ma(fractional_cover_output)
 fractional_cover_output.matrix$site_unique <- row.names(fractional_cover_output.matrix)
 
