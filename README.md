@@ -5,7 +5,7 @@ R package for live extraction, preparation, visualisation and analysis of TERN E
 
 Through ausplotsR, users can now directly access plot-based data on vegetation and soils across Australia, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover.
 
-The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
+The data  and open access under Creative Commons – Attribution 4.0 International (CC BY 4.0), and have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
 ## Update to Version 2 to work with new features and settings
 
