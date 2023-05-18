@@ -152,6 +152,8 @@ names(ground.fractional.output) <- c("Plot", "Fraction", "Percent") #these names
 ground.fractional.output$Percent <- round(ground.fractional.output$Percent, digits=2)
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
+#change NAs for fraction to 'other'
+ground.fractional.output$Fraction[is.na(ground.fractional.output$Fraction)] <- "other"
 ground.fractional.output.matrix <- ma_ausplot_ma(ground.fractional.output)
 
 ground.fractional.output.matrix$site_unique <- row.names(ground.fractional.output.matrix)
