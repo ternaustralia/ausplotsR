@@ -46,7 +46,7 @@ To download AusPlots data, start with:
 ?get_ausplots
 ```
 
-Or, to simply grab all vegetation point intercept and voucher data plus basic site info for all available plots, use:
+Or, to simply grab basic site and visit info for all available plots, use:
 
 ```
 library(ausplotsR)
