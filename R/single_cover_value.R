@@ -64,7 +64,7 @@ if(any(round(check_percent$freq, digits=0) > 100)) {warning("Cover for one or mo
 
 #return the output:
 cover_output <- cover.table[,c("site_unique", "percentCover")]
-cover_output$percentCover <- round(cover_output$percentCover, digits=2)
+cover_output$percentCover <- round(cover_output$percentCover, digits=1)
 
 return(cover_output)
 

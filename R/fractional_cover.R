@@ -80,6 +80,8 @@ COL <- ncol(fractional_cover_output.matrix)
 
 fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(COL, 1:COL-1)]
 
+fractional_cover_output.matrix[,c(2:5)] <- round(fractional_cover_output.matrix[,c(2:5)], digits=1)
+
 return(fractional_cover_output.matrix)
 
 	} #close ground fractional false
@@ -153,6 +155,8 @@ ground.fractional.output.matrix <- ma_ausplot_ma(ground.fractional.output)
 ground.fractional.output.matrix$site_unique <- row.names(ground.fractional.output.matrix)
 
 ground.fractional.output.matrix <- ground.fractional.output.matrix[,c(5,1,2,3,4)]
+
+ground.fractional.output.matrix[,c(2:5)] <- round(ground.fractional.output.matrix[,c(2:5)], digits=1)
 
 return(ground.fractional.output.matrix)
 

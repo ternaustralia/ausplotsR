@@ -279,6 +279,6 @@ if(species_name == "GS"){
 } #end species_name=GS
   
 
-return(growth_form_matrix)
+return(round(growth_form_matrix, digits=1))
 	
 } #end function

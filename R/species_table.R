@@ -316,7 +316,7 @@ if(species_name == "GS"){ #using genus species
 } # end genus_species
 
 
-return(species_matrix)
+return(round(species_matrix, digits=1))
 	
 } #end function
 
