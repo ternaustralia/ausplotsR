@@ -34,7 +34,6 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{bounding_box}{An additional optional spatial filter for selecting AusPlots based on a rectangular box, in the format of e.g. c(xmin, xmax, ymin, ymax). AusPlots location data are are in longlat, therefore x is the longitude and y is the latitude of the box/extent object. e.g., c(120, 140, -30, -10).
 }
-
   \item{herbarium_determination_search}{Optional character string filter for selecting AusPlots based on the presence of a genus or species as recorded in the "herbarium_determination" column. See details for search term settings.
 
 }
