@@ -7,10 +7,9 @@
 # Ponsero, A., & Desroy, N. (2021). Extending community trajectory analysis : New metrics and
 # representation. Ecological Modelling 440: 109400
 
-trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, traj.colors = NULL, axes=c(1,2), 
-                         survey.labels = FALSE, ...) {
-  siteIDs = unique(sites)
-  nsite = length(siteIDs)
+trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, traj.colors = NULL, axes=c(1,2), survey.labels = FALSE, ...) {
+  siteIDs <- unique(sites)
+  nsite <- length(siteIDs)
   
   #Apply site selection
   
@@ -20,25 +19,25 @@ trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, 
   }
   selIDs = siteIDs[selection]
   
-  D2 =as.dist(as.matrix(d)[sites %in% selIDs, sites %in% selIDs])
-  cmd_D2<-cmdscale(D2,eig=TRUE, add=TRUE, k=nrow(as.matrix(D2))-1)
+  D2 <- as.dist(as.matrix(d)[sites %in% selIDs, sites %in% selIDs])
+  cmd_D2 <- cmdscale(D2,eig=TRUE, add=TRUE, k=nrow(as.matrix(D2))-1)
   
-  x<-cmd_D2$points[,axes[1]]
-  y<-cmd_D2$points[,axes[2]]
+  x <- cmd_D2$points[,axes[1]]
+  y <- cmd_D2$points[,axes[2]]
   plot(x,y, type="n", asp=1, xlab=paste0("PCoA ",axes[1]," (", round(100*cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)),"%)"), 
        ylab=paste0("PCoA ",axes[2]," (", round(100*cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)),"%)"), las=1)
   
-  sitesred = sites[sites %in% selIDs]
+  sitesred <- sites[sites %in% selIDs]
   if(!is.null(surveys)) surveysred = surveys[sites %in% selIDs]
   else surveysred = NULL
   #Draw arrows
   for(i in 1:length(selIDs)) {
-    ind_surv = which(sitesred==selIDs[i])
+    ind_surv <- which(sitesred==selIDs[i])
     #Surveys may not be in order
-    if(!is.null(surveysred)) ind_surv = ind_surv[order(surveysred[sitesred==selIDs[i]])]
+    if(!is.null(surveysred)) ind_surv <- ind_surv[order(surveysred[sitesred==selIDs[i]])]
     for(t in 1:(length(ind_surv)-1)) {
-      niini =ind_surv[t]
-      nifin =ind_surv[t+1]
+      niini <- ind_surv[t]
+      nifin <- ind_surv[t+1]
       if(!is.null(traj.colors)) arrows(x[niini],y[niini],x[nifin],y[nifin], col = traj.colors[i], ...)
       else arrows(x[niini],y[niini],x[nifin],y[nifin], ...)
       if(survey.labels) {
@@ -55,8 +54,8 @@ trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, 
 
 trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, traj.colors = NULL, axes=c(1,2), 
                          survey.labels = FALSE, ...) {
-  siteIDs = unique(sites)
-  nsite = length(siteIDs)
+  siteIDs <- unique(sites)
+  nsite <- length(siteIDs)
   
   #Apply site selection
   
@@ -71,17 +70,17 @@ trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, 
   plot(xp,yp, type="n", xlab="Species richness", 
        ylab="Shannon diversity", las=1)
   
-  sitesred = sites[sites %in% selIDs]
+  sitesred <- sites[sites %in% selIDs]
   if(!is.null(surveys)) surveysred = surveys[sites %in% selIDs]
-  else surveysred = NULL
+  else surveysred <- NULL
   #Draw arrows
   for(i in 1:length(selIDs)) {
-    ind_surv = which(sitesred==selIDs[i])
+    ind_surv <- which(sitesred==selIDs[i])
     #Surveys may not be in order
-    if(!is.null(surveysred)) ind_surv = ind_surv[order(surveysred[sitesred==selIDs[i]])]
+    if(!is.null(surveysred)) ind_surv <- ind_surv[order(surveysred[sitesred==selIDs[i]])]
     for(t in 1:(length(ind_surv)-1)) {
-      niini =ind_surv[t]
-      nifin =ind_surv[t+1]
+      niini <- ind_surv[t]
+      nifin <- ind_surv[t+1]
       if(!is.null(traj.colors)) arrows(xp[niini],yp[niini],xp[nifin],yp[nifin], col = traj.colors[i], ...)
       else arrows(xp[niini],yp[niini],xp[nifin],yp[nifin], ...)
       if(survey.labels) {
