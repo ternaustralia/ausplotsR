@@ -1,7 +1,7 @@
 ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity"), min.revisits=3, plot_select=NULL) {
   
   #################################################
-  #check data specified
+  #check inputs
   if(missing(my.ausplots.object)) {
     stop("my.ausplots.object must be specified, see get_ausplots")
     }
@@ -47,15 +47,15 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
     if(is.null(plot_select)) {
       trajectoryPCoA_ausplots(dissdiss, sites=my.ausplots.object$site.info$site_location_name, 
   surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(1, 2), 
-  survey.labels=FALSE, lwd=1.5, lty=1, angle=15, length=0.2, 
+  survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, 
   traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
-      legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=2, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.5, bty="n")
+      legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
       } #end not select
     
     if(!is.null(plot_select)) {
       trajectoryPCoA_ausplots(dissdiss, sites=my.ausplots.object$site.info$site_location_name, 
-  surveys=my.ausplots.object$site.info$visit_number, selection=my.ausplots.object$site.info$site_location_name %in% plot_select, axes = c(1, 2), survey.labels=FALSE, lwd=1.5, lty=1, angle=15, length=0.2, traj.colors=rainbow(length(plot_select)))
-      legend("topleft", legend=plot_select, lty=1, lwd=2, col=rainbow(length(plot_select)), cex=0.5, bty="n")
+  surveys=my.ausplots.object$site.info$visit_number, selection=my.ausplots.object$site.info$site_location_name %in% plot_select, axes = c(1, 2), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(plot_select)))
+      legend("topleft", legend=plot_select, lty=1, lwd=3, col=rainbow(length(plot_select)), cex=0.7, bty="n")
       } #end plot select
     
     } #end if PCoA
@@ -70,13 +70,13 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
     }
     
     if(is.null(plot_select)) {
-      trajectoryPlot_ausplots(DIV, sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(2, 1), survey.labels=FALSE, lwd=1.5, lty=1, angle=15, length=0.2, traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
-      legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=2, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.5, bty="n")
+      trajectoryPlot_ausplots(DIV, sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
+      legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
       } #end not select
     
     if(!is.null(plot_select)) {
-      trajectoryPlot_ausplots(DIV, sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(2, 1), survey.labels=FALSE, lwd=1.5, lty=1, angle=15, length=0.2, traj.colors=rainbow(length(plot_select)))
-      legend("topleft", legend=plot_select, lty=1, lwd=2, col=rainbow(length(plot_select)), cex=0.5, bty="n")
+      trajectoryPlot_ausplots(DIV, sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(plot_select)))
+      legend("topleft", legend=plot_select, lty=1, lwd=3, col=rainbow(length(plot_select)), cex=0.7, bty="n")
       } #end plot select
     
     } #end if diversity
