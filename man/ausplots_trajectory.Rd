@@ -14,7 +14,7 @@ ausplots_trajectory(my.ausplots.object, choices = c("PCoA", "diversity"), min.re
 }
   \item{min.revisits}{Integer. Minimum number of revisits required to include a plot. 
 }
-  \item{plot_select}{Optional character vector of AusPlots plot IDs (\code{site_location_name}) to request data for a specific set of plots.
+  \item{plot_select}{Optional character vector of AusPlots plot IDs (\code{site_location_name}) to request data for a specific set of plots. Note PCoA will not run on one or very few plots/surveys.
 }
 }
 \details{This function applies the functionality of R package \code{ecotraj} (De Cáceres et al. 2019; Sturbois et al. 2021) to the TERN AusPlots vegetation point intercept data by including the required pre-processing of the raw data and modifications to the output plot format. The function is intended as a rapid, visual means to compare revisit trajectories in species composition and diversity among sites. For in-depth change/trajectory analysis, users are directed to work with the raw data and the extensive functionality in \code{ecotraj} or other approaches.
