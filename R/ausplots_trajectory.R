@@ -94,7 +94,7 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
     
     ###univariate
     
-    if(length(choices) > 1 | numberOFvariables == 2) {
+    if(length(choices) > 1 | numberOFvariables == 3) {
       dev.new()
     }
    
