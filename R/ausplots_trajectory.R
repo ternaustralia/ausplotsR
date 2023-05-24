@@ -16,7 +16,7 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
     }
     match_result <- all(plot_select %in% my.ausplots.object$site.info$site_location_name)
     if(!match_result) {
-      warning("plot_select included entries that weren't found in my.ausplots.obvject.")
+      warning("plot_select included entries that weren't found in my.ausplots.object.")
     }
   }
   
@@ -63,50 +63,68 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
   ###
   
   if("diversity" %in% choices) {
-    DIV <- data.frame(shannon=vegan::diversity(diss), richness=vegan::specnumber(diss))
     
-    if(length(choices) > 1) {
-      dev.new()
+    if("community.indices" %in% names(my.ausplots.object)) {
+      DIV <- my.ausplots.object$community.indices
+      DIV <- DIV[which(DIV$site_unique %in% my.ausplots.object$site.info$site_unique),]
+    } else {
+      DIV <- data.frame(site_unique=rownames(diss), Shannon_diversity=vegan::diversity(diss), Species_richness=vegan::specnumber(diss))
     }
     
-    if(is.null(plot_select)) {
-      trajectoryPlot_ausplots(DIV, sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
-      legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
+    #biplot routine:
+    numberOFvariables <- length(names(DIV)) 
+    if(numberOFvariables == 3) {
+     
+      if(length(choices) > 1) {
+       dev.new()
+      }
       
-      } #end not select
+      if(is.null(plot_select)) {
+        trajectoryPlot_ausplots(DIV[,-which(names(DIV) == "site_unique")], sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
+        legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
+        } #end not select
+      
+      if(!is.null(plot_select)) {
+        trajectoryPlot_ausplots(DIV[,-which(names(DIV) == "site_unique")], sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(plot_select)))
+        legend("topleft", legend=plot_select, lty=1, lwd=3, col=rainbow(length(plot_select)), cex=0.7, bty="n")
+        } #end plot select
+      
+    } #close if NumberOFvariables == 2
     
-    if(!is.null(plot_select)) {
-      trajectoryPlot_ausplots(DIV, sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(plot_select)))
-      legend("topleft", legend=plot_select, lty=1, lwd=3, col=rainbow(length(plot_select)), cex=0.7, bty="n")
-      } #end plot select
     
     ###univariate
-    dev.new()
-    par(mfrow=c(2,2))
-    par(mar=c(4, 4, 1, 1))
-    for(j in names(DIV)) {
-      DIV$year <- as.character(my.ausplots.object$site.info$visit_date[match(rownames(DIV), my.ausplots.object$site.info$site_unique)])
-      DIV$year <- as.numeric(unlist(lapply(strsplit(DIV$year, "-"), function(x) paste(x[[1]]))))
-      DIV$site_location_name <- my.ausplots.object$site.info$site_location_name[match(rownames(DIV), my.ausplots.object$site.info$site_unique)]
+    
+    if(length(choices) > 1 | numberOFvariables == 2) {
+      dev.new()
+    }
+   
+    DIV$year <- as.character(my.ausplots.object$site.info$visit_date[match(DIV$site_unique, my.ausplots.object$site.info$site_unique)])
+    DIV$year <- as.numeric(unlist(lapply(strsplit(DIV$year, "-"), function(x) paste(x[[1]]))))
+    DIV$site_location_name <- my.ausplots.object$site.info$site_location_name[match(DIV$site_unique, my.ausplots.object$site.info$site_unique)]
+      
       if(!is.null(plot_select)) {
         DIV <- subset(DIV, site_location_name %in% plot_select)
       } #cls !is.null diversity uni
-      
-      plot(NULL, xlim=c(min(DIV$year), max(DIV$year)), ylim=c(min(DIV[,j]), max(DIV[,j])), ylab=j, xlab="Year", las=1)
-      
-      n <- 0
-      line.cols <- rainbow(length(unique(DIV$site_location_name)))
-      for(i in unique(DIV$site_location_name)) {
-        plot.DIV <- subset(DIV, site_location_name == i)
-        n <- n + 1
-        points(plot.DIV$year, plot.DIV[,j], type="b", col=line.cols[n])
-      }
-      
-      plot(NULL, ylab="", xlab="", xaxt="n", yaxt="n", xlim=c(0,1), ylim=c(0,1), bty="n")
-      legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
-      
-    } #end for j
     
+    par(mfrow=c(2,2))
+    par(mar=c(4, 4, 1, 1))  
+    
+      for(j in names(DIV)[-which(names(DIV) %in% c("site_unique", "site_location_name", "year"))]) {
+        
+        plot(NULL, xlim=c(min(DIV$year), max(DIV$year)), ylim=c(min(DIV[,j]), max(DIV[,j])), ylab=j, xlab="Year", las=1)
+      
+        n <- 0
+        line.cols <- rainbow(length(unique(DIV$site_location_name)))
+        for(i in unique(DIV$site_location_name)) {
+          plot.DIV <- subset(DIV, site_location_name == i)
+          n <- n + 1
+          points(plot.DIV$year, plot.DIV[,j], type="b", col=line.cols[n])
+        }
+      
+        plot(NULL, ylab="", xlab="", xaxt="n", yaxt="n", xlim=c(0,1), ylim=c(0,1), bty="n")
+        legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
+      
+      } #end for j
     
     } #end if diversity
 
