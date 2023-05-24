@@ -80,12 +80,12 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
       }
       
       if(is.null(plot_select)) {
-        trajectoryPlot_ausplots(DIV[,-which(names(DIV) == "site_unique")], sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))))
+        trajectoryPlot_ausplots(DIV[,-which(names(DIV) == "site_unique")], sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=NULL, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), axis.x=names(DIV)[3], axis.y=names(DIV)[2])
         legend("topleft", legend=unique(my.ausplots.object$site.info$site_location_name), lty=1, lwd=3, col=rainbow(length(unique(my.ausplots.object$site.info$site_location_name))), cex=0.7, bty="n")
         } #end not select
       
       if(!is.null(plot_select)) {
-        trajectoryPlot_ausplots(DIV[,-which(names(DIV) == "site_unique")], sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(plot_select)))
+        trajectoryPlot_ausplots(DIV[,-which(names(DIV) == "site_unique")], sites=my.ausplots.object$site.info$site_location_name, surveys=my.ausplots.object$site.info$visit_number, selection=plot_select, axes = c(2, 1), survey.labels=FALSE, lwd=2, lty=1, angle=12, length=0.18, traj.colors=rainbow(length(plot_select)), , axis.x=names(DIV)[3], axis.y=names(DIV)[2])
         legend("topleft", legend=plot_select, lty=1, lwd=3, col=rainbow(length(plot_select)), cex=0.7, bty="n")
         } #end plot select
       
