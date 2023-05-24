@@ -53,7 +53,7 @@ trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, 
 }
 
 trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, traj.colors = NULL, axes=c(1,2), 
-                         survey.labels = FALSE, ...) {
+                         survey.labels = FALSE, axis.x="Species richness", axis.y="Shannon diversity", ...) {
   siteIDs <- unique(sites)
   nsite <- length(siteIDs)
   
@@ -67,8 +67,8 @@ trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, 
   
   xp = x[sites %in% selIDs, axes[1]]
   yp <- x[sites %in% selIDs,axes[2]]
-  plot(xp, yp, type="n", xlab="Species richness", 
-       ylab="Shannon diversity", las=1)
+  plot(xp, yp, type="n", xlab=axis.x, 
+       ylab=axis.y, las=1)
   
   sitesred <- sites[sites %in% selIDs]
   if(!is.null(surveys)) surveysred = surveys[sites %in% selIDs]
