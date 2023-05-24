@@ -67,7 +67,7 @@ trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, 
   
   xp = x[sites %in% selIDs, axes[1]]
   yp <- x[sites %in% selIDs,axes[2]]
-  plot(xp,yp, type="n", xlab="Species richness", 
+  plot(xp, yp, type="n", xlab="Species richness", 
        ylab="Shannon diversity", las=1)
   
   sitesred <- sites[sites %in% selIDs]
