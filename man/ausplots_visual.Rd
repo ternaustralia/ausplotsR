@@ -59,6 +59,9 @@ Whittaker, R.H. (1965) Dominance and diversity in land plant communities: numeri
 	\cr
 	\cr
 	\code{\link{species_table}}
+	\cr
+	\cr
+	\code{\link{ausplots_trajectory}}
 }
 \examples{
 \dontrun{
