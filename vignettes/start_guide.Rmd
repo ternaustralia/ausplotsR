@@ -122,7 +122,7 @@ head(my.fractional)
 Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. We use the 'site_unique' field (unique combination of site and visit IDs) to link tables returned from the `get_ausplots` function:
 
 ```{r}
-my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "NA.", "longitude", "latitude")]
+my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "other", "longitude", "latitude")]
 
 my.fractional <- na.omit(my.fractional)
 
