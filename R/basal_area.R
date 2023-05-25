@@ -1,7 +1,6 @@
 basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("SN","HD","GS")) {
 	
   
-  
   basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
 	
 	if(!by.hits) {
@@ -21,16 +20,25 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 		if(by.spp) { #Basal Area by species per plot, default is standardised_name
 		
 		  if(missing(species_name)) { #if no species_name supplied, default to SN
-	       species_name = "SN"
+	       species_name <- "SN"
 	       warning("No species_name supplied, defaulting to species_name='SN'")
 		  } #end missing
 		  
 		  
 		  if(species_name=="SN") { #uses standardised name
 		    
-		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
+		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$standardised_name), FUN=sum)
 		    
 		    names(bas_areas_spp_mean) <- c("site_unique", "standardised_name", "basal_area_m2_ha")
+		    
+		    n.points <- stats::aggregate(basal$point_id, by=list(basal$site_unique), FUN=function(x) {return(length(unique(x)))})
+		    
+		    names(n.points) <- c("site_unique", "n.points")
+		    
+		    bas_areas_spp_mean$n.points <- n.points$n.points[match(bas_areas_spp_mean$site_unique, n.points$site_unique)]
+		    
+		    bas_areas_spp_mean$basal_area_m2_ha <- bas_areas_spp_mean$basal_area_m2_ha / bas_areas_spp_mean$n.points
+		    
 		  } #end SN
 		  
 		  if(species_name=="HD") { #uses herbarium determination
@@ -71,7 +79,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 	  if(by.spp) { #Hits by species:
 	    
 	    if(missing(species_name)) {
-	      species_name = "SN"
+	      species_name <- "SN"
 	      warning("No species_name supplied, defaulting to species_name='SN'")
 	    }
 	    
