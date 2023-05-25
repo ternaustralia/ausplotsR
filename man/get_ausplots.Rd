@@ -7,8 +7,8 @@
 \usage{
 get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 	veg.vouchers=FALSE, veg.PI=FALSE, basal.wedge=FALSE, soil_subsites=FALSE,
-	soil_bulk_density=FALSE, soil_character=FALSE, plot_search=NULL, bounding_box="none",
-	herbarium_determination_search=NULL, family_search=NULL, 
+	soil_bulk_density=FALSE, soil_character=FALSE, plot_search=NULL, 
+	bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, 
 	standardised_name_search=NULL, dictionary=FALSE)
 }
 \arguments{
