@@ -67,6 +67,8 @@ To cite the ausplotsR package itself and the functions it contains, enter: \code
 
  \code{\link{species_list}} :  Simplified plant species lists for TERN AusPlots based on verified vouchers.
  
+ \code{\link{ausplots_trajectory}} :  Visualisation of species composition and community index revisit trajectories.
+ 
  \code{\link{optim_species}} :  Species accumulation optimisation for community data including TERN AusPlots.
 }
 
