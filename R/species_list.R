@@ -69,30 +69,28 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   if(append_family) {
     if(species_name == "SN") {
       if(grouping != "collapse"){
-        final_list <- lapply(final_list, function(x) {noquote(sort(paste(veg.vouch[match(x, veg.vouch$standardised_name), "family"], x, sep="--")))})
+        final_list <- lapply(final_list, function(x) {noquote(sort(paste(x, veg.vouch[match(x, veg.vouch$standardised_name), "family"], sep="--")))})
         }
       if(grouping == "collapse") {
-        final_list <- noquote(sort(paste(veg.vouch[match(final_list, veg.vouch$standardised_name), "family"], final_list, sep="--")))
+        final_list <- noquote(sort(paste(final_list, veg.vouch[match(final_list, veg.vouch$standardised_name), "family"], sep="--")))
       }
     }
-    
     
     if(species_name == "GS") {
       if(grouping != "collapse"){
-        final_list <- lapply(final_list, function(x) {noquote(sort(paste(veg.vouch[match(x, veg.vouch$genus_species), "family"], x, sep="--")))})
+        final_list <- lapply(final_list, function(x) {noquote(sort(paste(x, veg.vouch[match(x, veg.vouch$genus_species), "family"], sep="--")))})
       }
       if(grouping == "collapse") {
-        final_list <- noquote(sort(paste(veg.vouch[match(final_list, veg.vouch$genus_species), "family"], final_list, sep="--")))
+        final_list <- noquote(sort(paste(final_list, veg.vouch[match(final_list, veg.vouch$genus_species), "family"], sep="--")))
       }
     }
     
-    
     if(species_name == "HD") {
       if(grouping != "collapse"){
-        final_list <- lapply(final_list, function(x) {noquote(sort(paste(veg.vouch[match(x, veg.vouch$herbarium_determination), "family"], x, sep="--")))})
+        final_list <- lapply(final_list, function(x) {noquote(sort(paste(x, veg.vouch[match(x, veg.vouch$herbarium_determination), "family"], sep="--")))})
       }
       if(grouping == "collapse") {
-        final_list <- noquote(sort(paste(veg.vouch[match(final_list, veg.vouch$herbarium_determination), "family"], final_list, sep="--")))
+        final_list <- noquote(sort(paste(final_list, veg.vouch[match(final_list, veg.vouch$herbarium_determination), "family"], sep="--")))
       }
     }
   }
