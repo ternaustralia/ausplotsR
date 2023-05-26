@@ -26,7 +26,7 @@ The default graphical outputs require \code{$site.info}, to order visits by date
 
 Two output options are available. 'PCoA' displays the first two axes (and their respective deviance explained as axis labels) of a metric ordination based on species abundances and so shows the trajectory of plots in species composition space. Similar trajectories on the plot implies parallel trends in species presence and abundance.
 
-Next, 'diversity' by default displays a simple scatterplot with trajectories between revisits. The function presently computes species richness and Shannon diversity metrics using the \code{vegan} package (Oksanen et al. 2022) and displays these as trajectories on a 2D scatterplot, as well as individually against year. By adding a data table \code{$community.indices} to those available via \code{\link{get_ausplots}}, users can also plot out the trajectory of other bespoke community level indices. For > 2 indices, the only individual plots against year of survey are generated. 
+Next, 'diversity' by default displays a simple scatterplot with trajectories between revisits. The function presently computes species richness and Shannon diversity metrics using the \code{vegan} package (Oksanen et al. 2022) and displays these as trajectories on a 2D scatterplot, as well as individually against year. By adding a data table \code{$community.indices} to those available via \code{\link{get_ausplots}}, users can also plot out the trajectory of other bespoke community level indices. For > 2 indices, only individual plots against year of survey are generated. 
 
 Note that revisits (and revisit series > 2) are available only for a subset of the full plot network and that \code{ausplots_trajectory} may display trajectories better for targeted sets of plots.
 }
@@ -37,7 +37,7 @@ Plots are written to a pdf file to ensure consistent formatting, saved by defaul
 De Cáceres, M., Coll, L., Legendre, P., Allen, R.B., Wiser, S.K., Fortin, M.J., Condit, R. & Hubbell, S. (2019). Trajectory analysis in community ecology. Ecological Monographs 89: e01350
 
 Oksanen J, Simpson G, Blanchet F, Kindt R, Legendre P, Minchin P, O'Hara R, Solymos P, Stevens M, Szoecs E, Wagner H, Barbour M, Bedward M, Bolker B, Borcard D, Carvalho G, Chirico M, De Caceres M, Durand S, Evangelista H, FitzJohn R, Friendly M, Furneaux B, Hannigan G, Hill M, Lahti L, McGlinn D, Ouellette M, Ribeiro Cunha E, Smith T, Stier A, Ter Braak C, Weedon J (2022). _vegan: Community Ecology Package_. R package version 2.6-4, <https://CRAN.R-project.org/package=vegan>.
-s
+
 Sturbois, A., De Cáceres, M., Sánchez-Pinillos, M., Schaal, G., Gauthier, O., Le Mao, P., Ponsero, A., & Desroy, N. (2021). Extending community trajectory analysis : New metrics and representation. Ecological Modelling 440: 109400
 }
 \author{Greg Guerin
