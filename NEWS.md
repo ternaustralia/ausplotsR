@@ -22,11 +22,13 @@
 
 ## Minor improvements
 
-* 
+* Updated basal area calculations where per species values are requested in 'basal_area' to better reflect whole site species means (sum of species means = site mean).
 
 ## Bug fixes
 
 * Corrected plot order in ausplots_visual. Some plots and sets of visits had missing calculations that upset order and formatting of plots. This has been corrected.
+
+* Various minor corrections to avoid nuisance messages.
 
 ## Installation
 
