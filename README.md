@@ -14,6 +14,10 @@ The latest package version features a range of bug fixes as well as updated or a
  1. Reduced size of default data extraction due to the growing size of the database.
  1. Easier coding, ordering and visualisation of revisits.
  1. Enhanced search options including particular site visits and partial site name matches.
+ 
+## Future updates to Version 2
+
+Pending minor versions of the package will enable extraction of two additional data tables presenting species-level traits (e.g., photosynthetic pathway, invasion status) and survey-level community indices (e.g., species abundance distribution, proportional abundance by photosynthetic pathway, community temperature index).
 
 # Using ausplotsR
 
