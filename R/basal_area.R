@@ -27,6 +27,8 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 		  
 		  if(species_name=="SN") { #uses standardised name
 		    
+		    basal <- subset(basal, !is.na(genus) & genus != "NA") #assumes choice of SN intends to filter out entries that don't have GS match
+		    
 		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$standardised_name), FUN=sum)
 		    
 		    names(bas_areas_spp_mean) <- c("site_unique", "standardised_name", "basal_area_m2_ha")
@@ -38,21 +40,45 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 		    bas_areas_spp_mean$n.points <- n.points$n.points[match(bas_areas_spp_mean$site_unique, n.points$site_unique)]
 		    
 		    bas_areas_spp_mean$basal_area_m2_ha <- bas_areas_spp_mean$basal_area_m2_ha / bas_areas_spp_mean$n.points
+		    bas_areas_spp_mean$n.points <- NULL
 		    
 		  } #end SN
 		  
 		  if(species_name=="HD") { #uses herbarium determination
 		    
-		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
+		    bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$herbarium_determination), FUN=sum)
 		    
 		    names(bas_areas_spp_mean) <- c("site_unique", "herbarium_determination", "basal_area_m2_ha") 
+		    
+		    n.points <- stats::aggregate(basal$point_id, by=list(basal$site_unique), FUN=function(x) {return(length(unique(x)))})
+		    
+		    names(n.points) <- c("site_unique", "n.points")
+		    
+		    bas_areas_spp_mean$n.points <- n.points$n.points[match(bas_areas_spp_mean$site_unique, n.points$site_unique)]
+		    
+		    bas_areas_spp_mean$basal_area_m2_ha <- bas_areas_spp_mean$basal_area_m2_ha / bas_areas_spp_mean$n.points
+		    bas_areas_spp_mean$n.points <- NULL
+		    
 		  } #end HD
 		    
 		    if(species_name=="GS") { #uses genus_species
 		      
-		      bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$genus_species), FUN=mean)
+		      basal <- subset(basal, !is.na(genus) & genus != "NA") #assumes choice of GS intends to filter out entries that don't have GS match
+		      
+		      bas_areas_spp_mean <- stats::aggregate(basal$basal_area, by=list(basal$site_unique, basal$genus_species), FUN=sum)
 		      
 		      names(bas_areas_spp_mean) <- c("site_unique", "genus_species", "basal_area_m2_ha") 
+		      
+		      n.points <- stats::aggregate(basal$point_id, by=list(basal$site_unique), FUN=function(x) {return(length(unique(x)))})
+		      
+		      names(n.points) <- c("site_unique", "n.points")
+		      
+		      bas_areas_spp_mean$n.points <- n.points$n.points[match(bas_areas_spp_mean$site_unique, n.points$site_unique)]
+		      
+		      bas_areas_spp_mean$basal_area_m2_ha <- bas_areas_spp_mean$basal_area_m2_ha / bas_areas_spp_mean$n.points
+		      bas_areas_spp_mean$n.points <- NULL
+		      
+		      
 		    } #end GS
 		    
 		    return(bas_areas_spp_mean)
@@ -84,33 +110,62 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 	    }
 	    
 	    if(species_name=="SN") {
+
+	      basal <- subset(basal, !is.na(genus) & genus != "NA") #assumes choice of SN intends to filter out entries that don't have a match
 	      
-	      dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$standardised_name), FUN=mean)
+	      dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$standardised_name), FUN=sum)
 	      
 	      names(dens_spp_mean) <- c("site_unique", "standardised_name", "mean_hits")
+	      
+	      n.points <- stats::aggregate(basal$point_id, by=list(basal$site_unique), FUN=function(x) {return(length(unique(x)))})
+	      
+	      names(n.points) <- c("site_unique", "n.points")
+	      
+	      dens_spp_mean$n.points <- n.points$n.points[match(dens_spp_mean$site_unique, n.points$site_unique)]
+	      
+	      dens_spp_mean$mean_hits <- dens_spp_mean$mean_hits / dens_spp_mean$n.points
+	      dens_spp_mean$n.points <- NULL
+	      
 	    } #end SN
 	    
 	      if(species_name=="HD") {
 	        
-	      ens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$herbarium_determination), FUN=mean)
+	      dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$herbarium_determination), FUN=sum)
 	      
 	      names(dens_spp_mean) <- c("site_unique", "herbarium_determination", "mean_hits")
 	      
-	      }
+	      n.points <- stats::aggregate(basal$point_id, by=list(basal$site_unique), FUN=function(x) {return(length(unique(x)))})
 	      
+	      names(n.points) <- c("site_unique", "n.points")
+	      
+	      dens_spp_mean$n.points <- n.points$n.points[match(dens_spp_mean$site_unique, n.points$site_unique)]
+	      
+	      dens_spp_mean$mean_hits <- dens_spp_mean$mean_hits / dens_spp_mean$n.points
+	      dens_spp_mean$n.points <- NULL
+	      
+	      } #end HD
 	      
 	      if(species_name=="GS") {
 	        
-	        basal<-basal[!is.na(basal$genus_species), ] #assumes that if a genus_species identification is not possible, the cell value for the row will be NA
-	        
+	        basal <- subset(basal, !is.na(genus) & genus != "NA") #assumes choice of SN intends to filter out entries that don't have GS match
+
 	        #alternatively, we might assign it a no data term, in which case
 	        #basal<-basal[!(basal$genus_species=="No ID",]
 	        
-	        ens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$genus_species), FUN=mean)
+	        dens_spp_mean <- stats::aggregate(basal$hits, by=list(basal$site_unique, basal$genus_species), FUN=sum)
 	        
 	        names(dens_spp_mean) <- c("site_unique", "genus_species", "mean_hits")
 	        
-	      }
+	        n.points <- stats::aggregate(basal$point_id, by=list(basal$site_unique), FUN=function(x) {return(length(unique(x)))})
+	        
+	        names(n.points) <- c("site_unique", "n.points")
+	        
+	        dens_spp_mean$n.points <- n.points$n.points[match(dens_spp_mean$site_unique, n.points$site_unique)]
+	        
+	        dens_spp_mean$mean_hits <- dens_spp_mean$mean_hits / dens_spp_mean$n.points
+	        dens_spp_mean$n.points <- NULL
+	        
+	      } #close GS
 	      
 	      return(dens_spp_mean)
 	      
