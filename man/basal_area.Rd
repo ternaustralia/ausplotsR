@@ -19,12 +19,15 @@ species_name=c("SN","HD","GS"))
 }
 }
 
-\details{Basal area is the cross-sectional area of tree trunks per unit area, and is measured at each plot using a basal wedge sweep. Measurement is by species at nine points. Basal area is averaged. Raw tree stem hits are also recorded, noting that the number of hits is dependent on the basal wedge factor in use.
+\details{Stand basal area is the cross-sectional area of tree trunks per unit area, and is measured at each plot using a basal wedge sweep. Measurement is by species at nine points, and basal area (number of hits at a defined wedge angle multiplied by the basal wedge factor) is averaged across them (Finch 1957). Raw tree stem hits are also recorded, noting that the number of hits is dependent on the basal wedge factor in use. Note that species-level estimates of basal area (if requested in the function) may be unstable if there were fewer than 7 hits of that species.
 
 \code{species_name} provides multiple options for calculating basal area if \code{by.spp=TRUE}. For example, if \code{species_name="HD"}, the function will use the "herbarium_determination" provided by state herbaria to identify unique species. "herbarium_determination" are made to the lowest possible taxonomic rank, which may be the family, genus, species, subspecies or variety. If \code{species_name="SN"}, the default, the function will use the the "standardised_name" to identify unique species. Values are based on the \code{veg.PI$herbarium_determination} but have been matched to the accepted scientific name according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html). The standardised name field therefore helps to ensure taxonomic consistency. It excludes any records that don't match the APC. If \code{species_name="GS"}, only the standardised genus species rank ("genus_species" in the veg.basal input table) is used to identify species. \code{species_name="GS"} maximises consistency in species comparisons between plots, but reduces the taxonomic detail.
 
 }
 \value{Returns a dataframe with rows for plots (or species by plots if \code{by.spp=TRUE}) and basal area (m2/ha) or hit scores as mean per plot/species across the 9 sweep points. Species means (if selected) are mean across all 9 sweep points, even if a species is recorded at fewer points.
+}
+\references{
+Finch, H.D.S. (1957) Plotless enumeration with angle gauges.Forestry 30, 173-192.
 }
 \author{Greg R. Guerin, Samantha E.M. Munroe
 }
