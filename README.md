@@ -25,7 +25,7 @@ Pending minor versions of the package will enable extraction of two additional d
 
 ausplotsR is now available on [CRAN](https://cran.r-project.org/web/packages/ausplotsR/index.html), meaning it can be installed using the 'install packages' command or menu in an R or RStudio session.
 
-ausplotsR requires the following packages as 'Imports': mapdata, vegan, plyr, R.utils, httr, jsonlite, ggplot2, gtools, jose, betapart, curl, r2r, stringr, ecotraj; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, markdown, rmarkdown.
+ausplotsR requires the following packages as 'Imports': mapdata, vegan, plyr, R.utils, httr, jsonlite, ggplot2, gtools, jose, betapart, curl, r2r, stringr; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, markdown, rmarkdown.
 
 The most current ausplotsR can be installed directly from github to get the latest developments and patches using the devtools package, which must be installed first.
  
