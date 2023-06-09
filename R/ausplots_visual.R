@@ -32,7 +32,7 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	#check data and extract if missing
 	if(missing(my.ausplots.object)) {
 		message("Obtaining sample data...") #combine two calls to get all sites but only veg.PI for that bounding box so make it quicker.
-		my.ausplots.object <- get_ausplots(veg.vouchers=FALSE, veg.PI=FALSE) #get all sites
+		my.ausplots.object <- get_ausplots() #get all sites
 		my.ausplots.object$veg.PI <- get_ausplots(my.Plot_IDs=sample(my.ausplots.object$site.info$site_location_name, max.plots), site_info=FALSE, veg.vouchers=FALSE)$veg.PI #get veg PI for random plots  - according to max.plots
 	}
 	
