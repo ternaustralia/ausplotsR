@@ -1,7 +1,7 @@
 Package: ausplotsR
 Type: Package
-Title: TERN AusPlots Analysis Package
-Version: 1.2.9
+Title: TERN AusPlots Australian Ecosystem Monitoring Data
+Version: 2.0.0
 Date: 2023-05-17
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
@@ -13,22 +13,19 @@ Authors@R: c(
     person("Andrew", "Tokmakoff", role = "aut"))
 Maintainer: Greg Guerin <ggueri01@gmail.com>
 Depends:
-    R (>= 3.1.0), 
-    vegan, 
-    maps,
+    R (>= 3.1.0),
+    ggplot2,
     mapdata
 Suggests:
     knitr,
     rmarkdown,
     markdown
 Imports:
+    vegan,
     plyr,
     R.utils,
     httr,
     jsonlite,
-    sp,
-    maptools,
-    ggplot2,
     gtools,
     jose,
     betapart,

@@ -7,37 +7,25 @@ R package for live extraction, preparation, visualisation and analysis of TERN E
 
 Through ausplotsR, users can now directly access plot-based data on vegetation and soils across Australia, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover.
 
-The data have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
+The data  and open access under Creative Commons – Attribution 4.0 International (CC BY 4.0), and have been collected by TERN’s Ecosystem Surveillance platform via field surveys and sampling across a national network of plots and transects. Follow the links for more information on the research infrastructure provided by the Terrestrial Ecosystem Research Network ([TERN](https://www.tern.org.au)), an Australian Government NCRIS-enabled project, and its [Ecosystem Surveillance platform](https://www.tern.org.au/tern-observatory/tern-ecosystem-surveillance/).
 
-## Server capacity issue RESOLVED in v1.2.9!
-We've upgraded our database calls to handle the increasing size of the database (vegetation point intercept in particular, with over 1 million rows of data) as surveys are conducted and added continuously.
+## Update to Version 2 to work with new features and settings
 
-Update to version 1.2.9 to get the patch and avoid the HTTP 503 error which was occuring for some calls. 
-
-We apologise for the inconvenience.
-
-
-## Update to v1.2.8 to work with new standardised names
-
-To provide plant taxonomy that is standardised nationally (due to some state-level differences in accepted taxa), herbarium determinations are now mapped to a standard according to the Australian Plant Census (APC: https://www.anbg.gov.au/cpbr/program/hc/hc-APC.html) and  the Australian Plant Name Index (APNI: https://www.anbg.gov.au/cpbr/program/hc/hc-APNI.html), superseding past standardisation to "World Flora Online" (http://www.worldfloraonline.org/).
-
-While all data extracts will now include the updated and improved name standardisation fields, v1.2.8 of the R package includes updated documentation to reflect changes as well as some modifications to how standardised names are handled in some functions.
-
-## New features coming soon in ausplotsR version 2
-
-A new package version is under development that will feature a range of bug fixes as well as updated or additional functionality, including:
+The latest package version features a range of bug fixes as well as updated or additional functionality and insome cases altered data extracts and settings, including:
  1. New and improved standardised plant taxonomy matching and fields as well as original herbarium determinations.
  1. Reduced size of default data extraction due to the growing size of the database.
  1. Easier coding, ordering and visualisation of revisits.
  1. Enhanced search options including particular site visits and partial site name matches.
- 1. Enrich species occurrences with functional traits including photosynthetic pathway.
- 1. Standardised native/exotic species status at state and national level.
+ 
+## Future updates to Version 2
+
+Pending minor versions of the package will enable extraction of two additional data tables presenting species-level traits (e.g., photosynthetic pathway, invasion status) and survey-level community indices (e.g., species abundance distribution, proportional abundance by photosynthetic pathway, community temperature index).
 
 # Using ausplotsR
 
 ausplotsR is now available on [CRAN](https://cran.r-project.org/web/packages/ausplotsR/index.html), meaning it can be installed using the 'install packages' command or menu in an R or RStudio session.
 
-ausplotsR requires the following packages: 'Depends': vegan, maps, mapdata; 'Imports': plyr, R.utils, simba, httr, jsonlite, sp, maptools, ggplot2, gtools, jose, betapart, curl; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, rmarkdown.
+ausplotsR requires the following packages as 'Imports': mapdata, vegan, plyr, R.utils, httr, jsonlite, ggplot2, gtools, jose, betapart, curl, r2r, stringr, ecotraj; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, markdown, rmarkdown.
 
 The most current ausplotsR can be installed directly from github to get the latest developments and patches using the devtools package, which must be installed first.
  
@@ -64,7 +52,7 @@ To download AusPlots data, start with:
 ?get_ausplots
 ```
 
-Or, to simply grab all vegetation point intercept and voucher data plus basic site info for all available plots, use:
+Or, to simply grab basic site and visit info for all available plots, use:
 
 ```
 library(ausplotsR)

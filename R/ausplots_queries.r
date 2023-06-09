@@ -6,13 +6,13 @@ END_POINT <- getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.a
 
 try_GET <- function(path, query, auth_header,...) {
   return(httr::GET(
-                    END_POINT,
-                    httr::user_agent(.make_user_agent()),
-                    httr::add_headers(
-                      `Prefer`='count=exact', 
-                       Authorization = auth_header),
-                    path=path,
-                    query=query)
+    END_POINT,
+    httr::user_agent(.make_user_agent()),
+    httr::add_headers(
+      `Prefer`='count=exact', 
+      Authorization = auth_header),
+    path=path,
+    query=query)
   )
 }
 
@@ -133,8 +133,27 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs_to_filter_for, extra_query=list()) {
   query <- extra_query
   if (length(Plot_IDs_to_filter_for) > 0) {
-    plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
-    query <- c(query, list(site_location_name = plotFilter))
+
+#sub-routine for visit searches via site_unique versus plot searches
+    
+  site_unique_search <- any(grepl("-", Plot_IDs_to_filter_for, fixed=TRUE))
+    
+      if(site_unique_search) {
+        Plot_visits_to_filter_for <- unlist(lapply(strsplit(Plot_IDs_to_filter_for, "-", fixed=TRUE), function(x) {paste(x[2])}))
+        visitFilter <- paste("in.(", paste(Plot_visits_to_filter_for, collapse=","), ")", sep="")
+        if(!("site_location_name" %in% names(extra_query))) {
+          query <- c(query, list(site_location_visit_id = visitFilter))
+        }
+      }
+
+       if(!site_unique_search) {
+         plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
+         #check site location isn't already searched via plot_search argument - may be redundant as get_ausplots stops if that's the case
+         if(!("site_location_name" %in% names(extra_query))) {
+           query <- c(query, list(site_location_name = plotFilter))
+         }
+      }
+    
   }
   return(.ausplots_api(path, query)) 
 } 
@@ -142,19 +161,31 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
 #subsequent filter function
 
 .ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
-  plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
-  query <- c(extra_query, list(site_location_name = plotFilter))
+  
+  
+  site_unique_search <- any(grepl("-", Plot_IDs_to_retrieve_data_for, fixed=TRUE))
+
+  if(!site_unique_search) {
+    plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
+    query <- c(extra_query, list(site_location_name = plotFilter))
+  }
+  
+  if(site_unique_search) {
+    Plot_visits_to_filter_for <- unlist(lapply(strsplit(Plot_IDs_to_retrieve_data_for, "-", fixed=TRUE), function(x) {paste(x[2])}))
+    visitFilter <- paste("in.(", paste(Plot_visits_to_filter_for, collapse=","), ")", sep="")
+    query <- c(extra_query, list(site_location_visit_id = visitFilter))
+  }
+  
   return(.ausplots_api(path, query))
 } 
 ################
 
-list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
+list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
   extra_query <- list()
   
   if(!is.null(family_search)) {
     extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep=""))) #search by family
   }
-  
   if(!is.null(herbarium_determination_search)) {
     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
   } 
@@ -164,6 +195,12 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
   if(Plot_IDs[1] == "none") {
     Plot_IDs <- c()
   }
+  #####
+  # #insert wildcard match code for plot names 2023 or in get_a function
+ if(!is.null(plot_search)) {
+   extra_query = append(extra_query, list("site_location_name" = paste0("ilike.*", plot_search, "*")))
+   }
+  #####
   if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
     if(!inherits(bounding_box, "numeric") | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
     
@@ -177,10 +214,15 @@ list_available_plots <- function(Plot_IDs=c(), bounding_box="none", herbarium_de
     extra_query = append(extra_query, list("longitude" = paste("gte.", min_lon, sep="")))
     extra_query = append(extra_query, list("longitude" = paste("lte.", max_lon, sep="")))
   }
-
   path <- "search"
   response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
-  result <- sort(unique(response$site_location_name))
+  
+  site_unique_search <- any(grepl("-", Plot_IDs, fixed=TRUE))
+ 
+  if(!site_unique_search) {result <- sort(unique(response$site_location_name))}
+  
+  if(site_unique_search) {result <- sort(paste0(response$site_location_name, "-", response$site_location_visit_id))}
+  
   return(result)
 }
 

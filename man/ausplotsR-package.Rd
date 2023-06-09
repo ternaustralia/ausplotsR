@@ -15,11 +15,11 @@ Warning: ausplotsR was built in R version 3.
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 1.2.8\cr
-Date: \tab 2023-03-08\cr
+Version: \tab 2.0.0\cr
+Date: \tab 2023-05-17\cr
 License: \tab GPL-3\cr
 }
-TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}).
+TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data are open access under Creative Commons – Attribution 4.0 International (CC BY 4.0), and have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}).
 
 The AusPlots survey method is made up of a series of individual modules, which are described in full in the protocols manual (White et al. 2012, Sparrow et al. 2020). Data from the following modules can currently be accessed through ausplotsR: plot selection and layout; vascular plant vouchering; point intercept; basal area; structural summary; and soils. Field data are recorded directly onto mobile (tablet) devices before being stored in cloud-based server infrastructure. \cr
 
@@ -67,6 +67,8 @@ To cite the ausplotsR package itself and the functions it contains, enter: \code
 
  \code{\link{species_list}} :  Simplified plant species lists for TERN AusPlots based on verified vouchers.
  
+ \code{\link{ausplots_trajectory}} :  Visualisation of species composition and community index revisit trajectories.
+ 
  \code{\link{optim_species}} :  Species accumulation optimisation for community data including TERN AusPlots.
 }
 
@@ -98,8 +100,8 @@ White, A., Sparrow, B., Leitch, E., Foulkes, J., Flitton, R., Lowe, A. J., & Cad
 library(ausplotsR)
 
 #get data for selected plots:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
-	veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), 
+basal.wedge=TRUE, structural_summaries=TRUE)
 
 #view module:
 my.data$struct.summ
@@ -108,8 +110,10 @@ my.data$struct.summ
 get_ausplots() 
 
 #get a species by sites table:
-my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"))
+my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
+veg.PI=TRUE)
 
-species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", species_name="SN")
+species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC",
+species_name="SN")
 }
 }

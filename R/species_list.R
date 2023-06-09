@@ -1,7 +1,7 @@
 species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"), species_name=c("SN","HD","GS"), strip_bryophytes=FALSE, append_family=FALSE, writefile=FALSE, outfile="my_species_lists.txt") {
   
   #input checks and set defaults
-  if(!inherits(veg.vouch, "data.frame")) {stop("veg.PI must be a data.frame")}
+  if(!inherits(veg.vouch, "data.frame")) {stop("veg.vouch must be a data.frame")}
   if(any(!c("site_location_name", "herbarium_determination") %in% names(veg.vouch))) {stop("Can't match names of veg.vouch; data frame should be returned from get_ausplots")}
   
   if(any(!is.logical(c(strip_bryophytes, append_family, writefile)))) {
@@ -31,7 +31,7 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   if(strip_bryophytes) {warning("Argument 'strip_bryophytes' is deprecated. species_name = 'HD' returns all determinations, whereas 'SN' returns matches with the Australian Plant Census, which excludes bryophytes.")}
   
   if(species_name == "SN") {
-    veg.vouch <- subset(veg.vouch, !is.na(standardised_name))
+    veg.vouch <- subset(veg.vouch, !is.na(standardised_name) & genus != "NA")
     gather_names <- function(x) {
       noquote(sort(unique(na.omit(x[,"standardised_name"]))))
       }
@@ -45,7 +45,7 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
     }
   
   if(species_name == "GS") {
-    veg.vouch <- subset(veg.vouch, !is.na(genus_species))
+    veg.vouch <- subset(veg.vouch, !is.na(genus)  & genus != "NA")
     gather_names <- function(x) {
       noquote(sort(unique(na.omit(x[,"genus_species"]))))
       }
@@ -69,30 +69,28 @@ species_list <- function(veg.vouch, grouping=c("by_site", "by_visit", "collapse"
   if(append_family) {
     if(species_name == "SN") {
       if(grouping != "collapse"){
-        final_list <- lapply(final_list, function(x) {noquote(sort(paste(veg.vouch[match(x, veg.vouch$standardised_name), "family"], x, sep="--")))})
+        final_list <- lapply(final_list, function(x) {noquote(sort(paste(x, veg.vouch[match(x, veg.vouch$standardised_name), "family"], sep="--")))})
         }
       if(grouping == "collapse") {
-        final_list <- noquote(sort(paste(veg.vouch[match(final_list, veg.vouch$standardised_name), "family"], final_list, sep="--")))
+        final_list <- noquote(sort(paste(final_list, veg.vouch[match(final_list, veg.vouch$standardised_name), "family"], sep="--")))
       }
     }
-    
     
     if(species_name == "GS") {
       if(grouping != "collapse"){
-        final_list <- lapply(final_list, function(x) {noquote(sort(paste(veg.vouch[match(x, veg.vouch$genus_species), "family"], x, sep="--")))})
+        final_list <- lapply(final_list, function(x) {noquote(sort(paste(x, veg.vouch[match(x, veg.vouch$genus_species), "family"], sep="--")))})
       }
       if(grouping == "collapse") {
-        final_list <- noquote(sort(paste(veg.vouch[match(final_list, veg.vouch$genus_species), "family"], final_list, sep="--")))
+        final_list <- noquote(sort(paste(final_list, veg.vouch[match(final_list, veg.vouch$genus_species), "family"], sep="--")))
       }
     }
     
-    
     if(species_name == "HD") {
       if(grouping != "collapse"){
-        final_list <- lapply(final_list, function(x) {noquote(sort(paste(veg.vouch[match(x, veg.vouch$herbarium_determination), "family"], x, sep="--")))})
+        final_list <- lapply(final_list, function(x) {noquote(sort(paste(x, veg.vouch[match(x, veg.vouch$herbarium_determination), "family"], sep="--")))})
       }
       if(grouping == "collapse") {
-        final_list <- noquote(sort(paste(veg.vouch[match(final_list, veg.vouch$herbarium_determination), "family"], final_list, sep="--")))
+        final_list <- noquote(sort(paste(final_list, veg.vouch[match(final_list, veg.vouch$herbarium_determination), "family"], sep="--")))
       }
     }
   }

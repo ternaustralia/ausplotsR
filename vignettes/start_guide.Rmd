@@ -20,24 +20,24 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-TERN AusPlots is a national plot-based terrestrial ecosystem surveillance monitoring method and dataset for Australia (Sparrow et al. 2020). Through **ausplotsR**, users can directly access AusPlots data collected by on-ground observers on vegetation and soils, including physical sample/voucher details and barcode numbers. The dataset can be downloaded in its entirety or as individual modules, and can be subsetted by geographic bounding box or species name search. The package also includes a series of bespoke functions for working with AusPlots data, including visualisation, creating tables of species composition, and calculation of tree basal area, fractional cover or vegetation cover by growth form/structure/strata and so on.
+TERN AusPlots is a national plot-based terrestrial ecosystem surveillance monitoring method and dataset for Australia (Sparrow et al. 2020). Through **ausplotsR**, users can directly access AusPlots data collected by on-ground observers on vegetation and soils, including physical sample/voucher details and barcode numbers. The dataset can be downloaded in its entirety or as individual modules, or as a subset by geographic bounding box or species name or site search. The package also includes a series of bespoke functions for working with AusPlots data, including visualisation, creating tables of species composition, and calculation of tree basal area, fractional cover or vegetation cover by growth form/structure/strata and so on.
 
 This is a short guide for getting started with analysis of AusPlots data through the **ausplotsR** R package. More information on making use of AusPlots data in **ausplotsR** is available through the package help files and manual. Below, we demonstrate installing the package, accessing some AusPlots data, generating matrices and running simple example analyses.
 
-More comprehensive tutorials on accessing and analysing AusPlots data (Blanco-Martin 2019) are available at:
+More comprehensive (but not necessarily updated)  tutorials on accessing and analysing AusPlots data (Blanco-Martin 2019) are available at:
 [https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData](https://github.com/ternaustralia/TERN-Data-Skills/tree/master/EcosystemSurveillance_PlotData)
 
 
 ## Installing the package and accessing raw data
 
-The latest version of **ausplotsR** can be installed directly from github using the `devtools` package, which must be installed first.
+The latest version of **ausplotsR** can be installed from CRAN or directly from github using the `devtools` package, which must be installed first.
 
 ```
 library(devtools)
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
-Once installed, load the package as follows. Note, packages vegan, maps and mapdata are required for **ausplotsR** to load, and functions are also imported from packages: plyr, R.utils, simba, httr, jsonlite, sp, maptools, ggplot2, gtools, jose, curl and betapart, while knitr and rmarkdown are required to build this package vignette (i.e., if 'build_vignettes' is set to TRUE above). 
+Once installed, load the package as follows. Note, packages ggplot2 and mapdata are required for **ausplotsR** to load, and functions are also imported from packages: vegan, plyr, R.utils, httr, jsonlite, gtools, jose, curl, r2r, stringr, and betapart, while knitr and rmarkdown are required to build this package vignette (i.e., if 'build_vignettes' is set to TRUE above).
 
 ```{R, warning=FALSE, message=FALSE, error=FALSE}
 library(ausplotsR)
@@ -55,7 +55,7 @@ oldpar <- par(no.readonly = TRUE)
 
 
 ```{r}
-my.ausplots.data <- try(get_ausplots(bounding_box = c(125, 140, -40, -10)))
+my.ausplots.data <- try(get_ausplots(veg.PI=TRUE, veg.vouchers=TRUE, bounding_box = c(125,140,-40,-10)))
 ```
 
 ```{r, echo=FALSE}
@@ -122,7 +122,7 @@ head(my.fractional)
 Next, we need to merge the fractional cover scores with longlat coordinates from the site information table. We use the 'site_unique' field (unique combination of site and visit IDs) to link tables returned from the `get_ausplots` function:
 
 ```{r}
-my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "NA.", "longitude", "latitude")]
+my.fractional <- merge(my.fractional, my.ausplots.data$site.info, by="site_unique")[,c("site_unique", "bare", "brown", "green", "other", "longitude", "latitude")]
 
 my.fractional <- na.omit(my.fractional)
 
@@ -205,11 +205,11 @@ Perhaps you simply want to browse which plant species have been recorded in AusP
 
 
 ```{r}
-#print a list of genus_species-only records from selected plots:
-species_list(subset(my.ausplots.data$veg.vouch, site_unique %in% unique(site_unique)[1:2]), grouping="by_site", species_name="GS")
+#print a list of genus_species-only records from selected plots (for demonstration we print only part):
+species_list(my.ausplots.data$veg.vouch, grouping="by_site", species_name="GS")[1:2]
 
 #overall species list ordered by family (for demonstration we print only part):
-species_list(my.ausplots.data$veg.vouch, grouping="collapse", species_name="SN", append_family=TRUE)[1:20]
+species_list(my.ausplots.data$veg.vouch, grouping="collapse", species_name="SN", append_family=TRUE)[1:50]
 ```
 
 ```{r, echo=FALSE}
