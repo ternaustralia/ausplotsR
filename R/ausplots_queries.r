@@ -21,13 +21,13 @@ get_http_content <- function(field, limit, offset, query, auth_header) {
   # append new query parameters
   query <- append(query, list('limit' = limit))
   query <- append(query, list('offset' = offset))
-  
+
   resp <- try_GET(field, query, auth_header)
   # create map using response and the max size of the payload
   response_data <- r2r::hashmap()
   # response string without first and last string e.g [ or ]
   response_data[["body"]] <- stringr::str_sub(httr::content(resp, 'text'),2,-2)
-  
+
   # by default the max size should be greater than offset
   #   so that we can call api constantly
   response_data[["max_size"]] <- offset + limit + 1
@@ -49,7 +49,7 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
   if (offset >= max_size) {
     return(paste('[' , existing_rows, ']', sep = ""))
   }
-  
+
   # get http content using limit and offset
   response_data <- get_http_content(field, limit, offset, query, auth_header)
   # append new rows recursively
@@ -110,7 +110,7 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
     #   as we dont have any throttling service running at the moment
     message('waiting 5 seconds to hit api again ............ ')
     Sys.sleep(5)
-    
+
     message('calling ')
     message(path)
     message(' again')

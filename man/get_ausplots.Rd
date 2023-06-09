@@ -18,9 +18,9 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 }
   \item{structural_summaries}{Whether site vegetation structural summaries are required.
 }
-  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples.
+  \item{veg.vouchers}{Whether vegetation vouchers data are requested - contains a complete set of species records for the plot determined by a herbarium plus ID numbers for silica-dried tissue samples. Default is to include.
 }
-  \item{veg.PI}{Whether point-intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot.
+  \item{veg.PI}{Whether point-intercept data are requested; includes data on substrate, plant species, growth form and height etc at each of (typically) 1010 points per plot. Default is to include. 
 }
   \item{basal.wedge}{Whether basal wedge data raw hits are required to enable calculation of basal area by species by plot.
 }
@@ -84,7 +84,7 @@ The metadata variable dictionary returned by \code{dictionary=T} may not include
 \dontrun{
 #get data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"), 
-basal.wedge=TRUE, structural_summaries=TRUE)
+veg.PI=FALSE, basal.wedge=TRUE, structural_summaries=TRUE)
 
 #View module:
 my.data$struct.summ
@@ -105,15 +105,13 @@ revisited_site.info <- my.data$site.info[
 which(my.data$site.info$site_location_name %in% revisited_plots),]
 
 #Get voucher records for "Eucalyptus moderata" using "herbarium_determination":
-Eucalyptus_moderata <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
+Eucalyptus_moderata <- get_ausplots(veg.PI=FALSE, 
 herbarium_determination_search="Eucalyptus moderata")
 
 head(Eucalyptus_moderata$veg.vouch, 10)
 
 #Get veg voucher records for all species in the family "Myrtaceae"
-Myrtaceae <- get_ausplots(site_info=FALSE, veg.vouchers=TRUE, 
-family_search="Myrtaceae")
-
+Myrtaceae <- get_ausplots(veg.PI=FALSE, family_search="Myrtaceae")
 head(Myrtaceae$veg.vouch,10)
 }
 }

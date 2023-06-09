@@ -115,7 +115,7 @@ Oksanen, J. et al. (2016) vegan: Community Ecology Package. R package version 2.
   \dontrun{
   library(ausplotsR)
   
-  ausplotsdata <- get_ausplots(veg.PI=TRUE)
+  ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
   
   ausplotsPAdata <- species_table(ausplotsdata$veg.PI, m_kind="percent_cover", 
   cover_type="PFC", species_name="SN")

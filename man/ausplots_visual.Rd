@@ -72,7 +72,7 @@ ausplots_visual()
 #Map tree cover only for all sites:
 
 #Extract data first:
-my.data <- get_ausplots(veg.PI=TRUE)
+my.data <- get_ausplots(veg.vouchers=FALSE)
 
 #Set maximum number of plots to all available in the veg.PI data:
 ausplots_visual(my.data, map = FALSE, map.attribute = TRUE, 
