@@ -8,7 +8,7 @@ map_ausplots <- function(my.ausplots.object) {
   
   ###
   
-  aus.sp <- ggplot2::map_data("worldHires", "Australia")
+  aus.sp <- ggplot2::map_data("world2Hires", "Australia")
 	
 	my.ausplots.object$site.info$bioregion.f <- factor(my.ausplots.object$site.info$bioregion_name)
 	

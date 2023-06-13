@@ -3,7 +3,7 @@ map_attribute <- function(my.ausplots.object) {
 	
 		if(any(c("Tree/Palm", "Tree Mallee") %in% my.ausplots.object$veg.PI$growth_form)) {
 		
-		  aus.sp <- ggplot2::map_data("worldHires", "Australia")
+		  aus.sp <- ggplot2::map_data("world2Hires", "Australia")
 		  
 		  my.ausplots.object$site.info$bioregion.f <- factor(my.ausplots.object$site.info$bioregion_name)
 	
