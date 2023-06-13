@@ -90,9 +90,9 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 		
 		if(!all(my.Plot_IDs %in% Plot_IDs)) { #rules that apply if some user plot IDs aren't matched in the available plot names
 			
-			if(!any(my.Plot_IDs %in% Plot_IDs)) {stop("None of the user-supplied Plot_IDs match available plot names.")}
+			if(!any(my.Plot_IDs %in% Plot_IDs)) {stop("None of the user-supplied Plot_IDs match available plot names for that search.")}
 			
-			warning("Not all user-supplied Plot_IDs match available plot names, only matching plots will be extracted.")
+			warning("Not all user-supplied Plot_IDs match available plot names for that search, only matching plots will be extracted.")
 			
 			my.Plot_IDs <- my.Plot_IDs[which(my.Plot_IDs %in% Plot_IDs)]
 			
