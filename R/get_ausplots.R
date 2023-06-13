@@ -71,8 +71,9 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
 	is_herbarium_determination_and_standardised_name_supplied <- !is.null(herbarium_determination_search) && !is.null(standardised_name_search)
 	if(is_herbarium_determination_and_standardised_name_supplied) stop("you can specify one of either family_search, herbarium_determination_search, or standardised_name_search") # 
 	
-	if(!inherits(my.Plot_IDs, "character")) {stop("Plot_IDs must be provided as a character vector.")}
+	if(!inherits(my.Plot_IDs, "character")) {stop("my.Plot_IDs must be provided as a character vector.")}
 	if(my.Plot_IDs[1] != "none" & !is.null(plot_search)) {stop("Please provide EITHER my.Plot_IDs OR plot_search, not both.")}
+	if(!(all(grepl("-", my.Plot_IDs)) | !any(grepl("-", my.Plot_IDs)))) {stop("my.Plot_IDs must list either site_location_name OR site_unique (hyphenated concatenation of site_location_name and visit_number) - NOT both.")}
 	
 	#####list available plots
 
