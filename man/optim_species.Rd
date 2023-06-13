@@ -88,6 +88,8 @@ Guerin, G.R., Ruokolainen, L. & Lowe, A.J. (2015). A georeferenced implementatio
 Jost, L. (2007). Partitioning diversity into independent alpha and beta components. \emph{Ecology} \strong{88}, 2427--2439.
   
 Koleff, P., Gaston, K. J., & Lennon, J. J. (2003). Measuring beta diversity for presence-absence data. \emph{Journal of Animal Ecology} \strong{72}, 367-382. 
+
+Martín‐Forés, I., Guerin, G. R., Munroe, S. E., & Sparrow, B. (2021). Applying conservation reserve design strategies to define ecosystem monitoring priorities. \emph{Ecology and Evolution} \strong{11}, 17060-17070.
   
 Oksanen, J. et al. (2016) vegan: Community Ecology Package. R package version 2.4-3. Vienna: R Foundation for Statistical Computing.
 }
