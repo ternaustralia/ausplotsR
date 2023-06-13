@@ -41,7 +41,7 @@
   \dontrun{
   library(ausplotsR)
   
-  ausplotsdata <- get_ausplots(site_info=TRUE, veg.PI=TRUE, veg.vouchers=FALSE)
+  ausplotsdata <- get_ausplots(veg.PI=TRUE)
   ausplotsPAdata <- species_table(ausplotsdata$veg.PI, m_kind="PA", 
   species_name="SN")
   

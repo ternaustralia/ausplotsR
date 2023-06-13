@@ -63,7 +63,7 @@ Ellenberg, D. & Mueller-Dombois, D. (1974) Aims and methods of vegetation ecolog
 \dontrun{
 #get veg.PI data for selected plots:
 my.data <- get_ausplots(my.Plot_IDs=c("SATFLB0004", "QDAMGD0022", "NTASTU0002"),
-	veg.vouchers=FALSE, site_info=FALSE)
+	veg.PI=TRUE, site_info=FALSE)
 
 #generate a percent cover occurrence matrix using "genus_species" species identification:
 species_table(my.data$veg.PI, m_kind="percent_cover", cover_type="PFC", 

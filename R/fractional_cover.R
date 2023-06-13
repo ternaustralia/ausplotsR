@@ -1,10 +1,10 @@
-fractional_cover <- function(veg.PI, ground_fractional="FALSE", in_canopy_sky="FALSE") {
+fractional_cover <- function(veg.PI, ground_fractional=FALSE, in_canopy_sky=FALSE) {
 	
 	hits <- veg.PI #to match the raw input to historical label in below
 	
 	
 	
-	if(ground_fractional == "FALSE") {
+	if(!ground_fractional) {
 		
 
 	
@@ -14,7 +14,7 @@ fractional_cover <- function(veg.PI, ground_fractional="FALSE", in_canopy_sky="F
 	for(i in 1:nrow(hits)) { #a
 		n <- n + 1
 		temp <- hits[n,]
-		if(is.na(temp$growth_form) | temp$in_canopy_sky && in_canopy_sky == "FALSE") { #b
+		if(is.na(temp$growth_form) | temp$in_canopy_sky && !in_canopy_sky) { #b
 			if(temp$substrate %in% c("Litter", "CWD", "Crypto")) { #c
 				fraction[n] <- "brown"
 			} #/c
@@ -92,7 +92,7 @@ return(fractional_cover_output.matrix)
 
 #Calculate fractional GROUND cover
 
-if(ground_fractional == "TRUE") {
+if(ground_fractional) {
 	
 	n <- 0
 	ground.fraction <- rep(NA, nrow(hits))

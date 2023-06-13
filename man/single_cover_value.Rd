@@ -38,7 +38,8 @@ my.growth_forms=c("Tree/Palm", "Tree Mallee"))
 }
 \examples{
 \dontrun{
-my.dat <- get_ausplots(bounding_box=c(140, 142, -20, -18), veg.vouchers=FALSE, site_info=FALSE)
+my.dat <- get_ausplots(bounding_box=c(140, 142, -20, -18), veg.PI=TRUE, 
+site_info=FALSE)
 
 #Default settings, where cover of trees 5 m or higher is calculated:
 tree.cover <- single_cover_value(my.dat$veg.PI)
