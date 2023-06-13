@@ -25,12 +25,11 @@ ausplotsR is now available on [CRAN](https://cran.r-project.org/web/packages/aus
 
 ausplotsR requires the following packages as 'Imports': mapdata, vegan, plyr, R.utils, httr, jsonlite, ggplot2, gtools, jose, betapart, curl, r2r, stringr; 'Suggests' (needed to build the package vignette if 'build_vignettes' is set to TRUE below): knitr, markdown, rmarkdown.
 
-The most current ausplotsR can be installed directly from github to get the latest developments and patches using the devtools package, which must be installed first.
+The most current development version of ausplotsR can be installed directly from github using the devtools package, which must be installed first.
  
 To install the package, use:
 
 ```
-# if you have problems, see the troubleshooting section at the bottom of this document
 library(devtools)
 install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, dependencies = TRUE)
 ```
@@ -73,20 +72,5 @@ citation('ausplotsR')
 
 Please include appropriate citation in published papers/reports/theses that use the data and R functions.
 
-## Repeatability with older versions of the package
-If you need to install an older version of the package for repeatability, you can do so by supplying the specific
-version to the `install_github` call. The version to install can be obtained from the citation string you obtained when
-you first used the package (see above).
-
-As an example, the output from the citation function call might look like:
-```
-... R package version 1.0 commit SHA=559e0eb77ca3d42a7276351695db42331ef170b4.
-```
-
-The piece of information we need is the commit ID/SHA, which in this example is `559e0eb77ca3d42a7276351695db42331ef170b4`.
-We would then use this to install this specific version of the package with:
-```R
-install_github("ternaustralia/ausplotsR", build_vignettes = TRUE, ref = '559e0eb77ca3d42a7276351695db42331ef170b4')
-```
 
 Authors: Greg Guerin, Tom Saleeba, Samantha Munroe, Irene Martín-Forés, Bernardo Blanco-Martin, Andrew Tokmakoff
