@@ -74,6 +74,7 @@ fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits
 
 ##create a matrix version to condense the data, columns are fractions, rows are plots:
 #change NAs for fraction to 'other'
+fractional_cover_output$Fraction <- as.character(fractional_cover_output$Fraction) #needed working in R v3 where this may be a factor for which you can't add values that aren't existing levels
 fractional_cover_output$Fraction[is.na(fractional_cover_output$Fraction)] <- "other"
 fractional_cover_output.matrix <- ma_ausplot_ma(fractional_cover_output)
 fractional_cover_output.matrix$site_unique <- row.names(fractional_cover_output.matrix)
@@ -153,6 +154,7 @@ ground.fractional.output$Percent <- round(ground.fractional.output$Percent, digi
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
 #change NAs for fraction to 'other'
+ground.fractional.output$Fraction <- as.character(ground.fractional.output$Fraction) #needed working in R v3 where this may be a factor for which you can't add values that aren't existing levels
 ground.fractional.output$Fraction[is.na(ground.fractional.output$Fraction)] <- "other"
 ground.fractional.output.matrix <- ma_ausplot_ma(ground.fractional.output)
 
