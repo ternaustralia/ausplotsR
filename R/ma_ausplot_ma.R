@@ -38,8 +38,12 @@ function(dat, spl = TRUE) {
 	rownames(wide) <- wide[,1]
 	wide <- data.frame(wide)
 	names(wide) <- wide.nms
-	wide <- data.frame(wide[,-1])
-	wide <- wide[order(rownames(wide)), ]
-	wide <- wide[,order(names(wide))]
+	wide <- data.frame(wide[,-1, drop=FALSE])
+	if(length(rownames(wide)) > 1) {
+	  wide <- wide[order(rownames(wide)), ]
+	}
+	if(length(names(wide)) > 1) {
+	  wide <- wide[,order(names(wide))]
+	}
 	wide
 }
