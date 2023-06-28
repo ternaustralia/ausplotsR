@@ -3,6 +3,8 @@
 
 [![](https://cranlogs.r-pkg.org/badges/grand-total/ausplotsR?color=brightgreen)](https://cran.r-project.org/package=ausplotsR)
 
+[![](https://www.r-pkg.org/badges/version/{ausplotsR})](https://cran.r-project.org/package=ausplotsR)
+
 R package for live extraction, preparation, visualisation and analysis of TERN Ecosystem Surveillance monitoring data (AusPlots data).
 
 Through ausplotsR, users can now directly access plot-based data on vegetation and soils across Australia, with simple function calls to extract the data and merge them into species occurrence matrices for analysis or to calculate things like basal area and fractional cover.
