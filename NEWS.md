@@ -15,7 +15,7 @@
 * Filter site downloads in `get_ausplots` based on unique site/visit codes as well as partial code match/wildcard feature. Previously, only the `site_location_name` code could be used to filter by text match.
 
 * Improved handling and interpretation of revisit data:
-  * Survey visit dates are now presented as R-readable dates and the sites table is appended with revisit numbers for each plot (i.e., 1, 2, 3 and so on) to simplify identification of revisits and their chronological order.
+  * Survey visit dates are now presented as R-readable dates in the `$visit_date` column and the sites table is appended with revisit numbers for each plot (i.e., 1, 2, 3 and so on) to simplify identification of revisits and their chronological order in column `$visit_number`.
   * Visualisation of vegetation change (species composition, diversity or input community indices) along a sequence of visits to a plot with new function `ausplots_trajectory`.
 
 * Added a `NEWS.md` file to track changes to the package.

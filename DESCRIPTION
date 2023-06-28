@@ -1,8 +1,8 @@
 Package: ausplotsR
 Type: Package
 Title: TERN AusPlots Australian Ecosystem Monitoring Data
-Version: 2.0.1
-Date: 2023-06-13
+Version: 2.0.2
+Date: 2023-06-27
 Authors@R: c(
     person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
     person("Tom", "Saleeba", role = "aut"),

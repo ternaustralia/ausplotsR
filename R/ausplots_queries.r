@@ -1,6 +1,8 @@
 cache <- new.env(parent = emptyenv())
 
-LIMIT <- 40000
+#LIMIT <- 40000
+LIMIT <- as.integer(runif(1, 15000, 20000))
+
 END_POINT <- getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80")
 # END_POINT <- "http://localhost:80/"
 
@@ -96,10 +98,10 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
                     path=path,
                     query=query
   )
-  message('calling ')
+  message('Calling the database. Please wait...')
   message(path)
-  message(' status code ')
-  message(httr::status_code(resp))
+  #message(' status code ')
+  #message(httr::status_code(resp))
   # if status code is 500 or 503
   # most of the cases, 503 (database connection issue) happens because of the size of data
   #   e.g. point_intercept table has more then 100827558 rows 
@@ -108,12 +110,12 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
   if (httr::status_code(resp) > 500) {
     # sometimes db server needs few seconds to be ready again from recovery mood
     #   as we dont have any throttling service running at the moment
-    message('waiting 5 seconds to hit api again ............ ')
+    message('Preparing to paginate the data, please wait... ')
     Sys.sleep(5)
 
-    message('calling ')
+    message('Calling the database... ')
     message(path)
-    message(' again')
+    message(' again. Please wait...')
     resp <- .ausplots_api_with_limit_and_offset(path, query, auth_header)
     result <- try(jsonlite::fromJSON(resp, simplifyDataFrame = TRUE))
     return(result)
