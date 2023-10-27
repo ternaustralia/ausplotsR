@@ -12,7 +12,7 @@ get_ausplots(my.Plot_IDs="none", site_info=TRUE, structural_summaries=FALSE,
 	standardised_name_search=NULL, dictionary=FALSE)
 }
 \arguments{
-  \item{my.Plot_IDs}{Optional character vector of AusPlots plot IDs (One off \code{site_location_name} or \code{site_unique} fields) to request data for specific set of plots/visits.
+  \item{my.Plot_IDs}{Optional character vector of AusPlots plot IDs (One of \code{site_location_name} or \code{site_unique} fields) to request data for specific set of plots/visits.
 }
   \item{site_info}{Whether site summary data are required (includes plot and visit details, landform data, geographic coordinates, notes etc). Default is to include.
 }
