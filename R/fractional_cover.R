@@ -14,17 +14,17 @@ fractional_cover <- function(veg.PI, ground_fractional=FALSE, in_canopy_sky=FALS
 	for(i in 1:nrow(hits)) { #a
 		n <- n + 1
 		temp <- hits[n,]
-		if(is.na(temp$growth_form) | temp$in_canopy_sky && !in_canopy_sky) { #b
+		if(is.na(temp$growth_form) | temp$in_canopy_sky %in% TRUE && !in_canopy_sky) { #b
 			if(temp$substrate %in% c("Litter", "CWD", "Crypto")) { #c
 				fraction[n] <- "brown"
 			} #/c
 			if(temp$substrate %in% c("Bare", "Outcrop", "Rock", "Gravel")) { #d
 			fraction[n] <- "bare"
 			} #/d
-		} else if(temp$dead) { #/b; #f 
+		} else if(temp$dead %in% TRUE) { #/b; #f 
 			fraction[n] <- "brown"
 			} else #/f
-			if(!temp$dead) { #g
+			if(!is.na(temp$growth_form)) { #g
 				fraction[n] <- "green"
 		} #/g
 
@@ -70,7 +70,7 @@ if(any(round(check_percent$freq, digits=0) != 100)) {warning("Fractional cover f
 #write the output to file:
 fractional_cover_output <- fractional_df_sites[,c(1,2,5)]
 names(fractional_cover_output) <- c("Plot", "Fraction", "Percent") #these names are not returned in the output - just formatting for matrix conversion
-fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits=2)
+fractional_cover_output$Percent <- round(fractional_cover_output$Percent, digits=1)
 
 ##create a matrix version to condense the data, columns are fractions, rows are plots:
 #change NAs for fraction to 'other'
@@ -83,7 +83,7 @@ COL <- ncol(fractional_cover_output.matrix)
 
 fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(COL, 1:COL-1)]
 
-fractional_cover_output.matrix[,c(2:5)] <- round(fractional_cover_output.matrix[,c(2:5)], digits=1)
+#fractional_cover_output.matrix[,c(2:COL)] <- round(fractional_cover_output.matrix[,c(2:COL)], digits=1)
 
 return(fractional_cover_output.matrix)
 
@@ -107,10 +107,10 @@ if(ground_fractional) {
 			if(temp$substrate %in% c("Bare", "Outcrop", "Rock", "Gravel")) { #d
 			ground.fraction[n] <- "bare"
 			} #/d
-		} else if(temp$dead) { #/b; #f 
+		} else if(temp$dead %in% TRUE) { #/b; #f 
 				ground.fraction[n] <- "brown"
 				} else #/f
-			if(!temp$dead) { #g
+			if(!is.na(temp$growth_form)) { #g
 				ground.fraction[n] <- "green"
 			} #/g
 
@@ -150,7 +150,7 @@ ground.fractional.output <- ground.fractional_df_sites[,c(1,2,5)]
 
 names(ground.fractional.output) <- c("Plot", "Fraction", "Percent") #these names are not returned in the output - just formatting for matrix conversion
 
-ground.fractional.output$Percent <- round(ground.fractional.output$Percent, digits=2)
+ground.fractional.output$Percent <- round(ground.fractional.output$Percent, digits=1)
 
 #generate a matrix to condense the data - columns are fractions and rows are plots
 #change NAs for fraction to 'other'
@@ -160,9 +160,11 @@ ground.fractional.output.matrix <- ma_ausplot_ma(ground.fractional.output)
 
 ground.fractional.output.matrix$site_unique <- row.names(ground.fractional.output.matrix)
 
-ground.fractional.output.matrix <- ground.fractional.output.matrix[,c(5,1,2,3,4)]
+COL <- ncol(ground.fractional.output.matrix)
 
-ground.fractional.output.matrix[,c(2:5)] <- round(ground.fractional.output.matrix[,c(2:5)], digits=1)
+ground.fractional.output.matrix <- ground.fractional.output.matrix[,c(COL, 1:COL-1)]
+
+#ground.fractional.output.matrix[,c(2:COL)] <- round(ground.fractional.output.matrix[,c(2:COL)], digits=1)
 
 return(ground.fractional.output.matrix)
 
