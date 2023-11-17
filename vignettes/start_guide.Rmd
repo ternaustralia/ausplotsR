@@ -59,7 +59,7 @@ my.ausplots.data <- try(get_ausplots(veg.PI=TRUE, veg.vouchers=TRUE, bounding_bo
 ```
 
 ```{r, echo=FALSE}
-if(class(my.ausplots.data) != "list") {
+if(!inherits(my.ausplots.data, "list")) {
   message("Vignette aborted due to database connection issue.")
   knitr::knit_exit()
 }

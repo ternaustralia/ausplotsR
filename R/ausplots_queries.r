@@ -1,75 +1,57 @@
 cache <- new.env(parent = emptyenv())
 
-#LIMIT <- 40000
-LIMIT <- as.integer(runif(1, 15000, 20000))
-
+LIMIT <- as.integer(20000)
 END_POINT <- getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80")
-# END_POINT <- "http://localhost:80/"
 
 try_GET <- function(path, query, auth_header,...) {
   return(httr::GET(
     END_POINT,
     httr::user_agent(.make_user_agent()),
     httr::add_headers(
-      `Prefer`='count=exact', 
       Authorization = auth_header),
     path=path,
     query=query)
   )
 }
-
-# getting response using limit and offset 
-get_http_content <- function(field, limit, offset, query, auth_header) {
-  # append new query parameters
-  query <- append(query, list('limit' = limit))
-  query <- append(query, list('offset' = offset))
-
-  resp <- try_GET(field, query, auth_header)
-  # create map using response and the max size of the payload
-  response_data <- r2r::hashmap()
-  # response string without first and last string e.g [ or ]
-  response_data[["body"]] <- stringr::str_sub(httr::content(resp, 'text'),2,-2)
-
-  # by default the max size should be greater than offset
-  #   so that we can call api constantly
-  response_data[["max_size"]] <- offset + limit + 1
+# sends a request with header `Prefer` = "count=estimated" 
+#   to extract table info(e.g. names of the columns or total size of the table).
+# we add that header `Prefer` = "count=estimated"  to ignore nginx cache
+api_info <- function(path, auth_header,...) {
+  query <- list('limit'=1)
+  resp <- httr::GET(
+    END_POINT,
+    httr::user_agent(.make_user_agent()),
+    httr::add_headers(
+      `Prefer` = "count=estimated",
+      Authorization = auth_header),
+    path=path,
+    query=query)
   
-  # total number of rows can be found in response header
-  # e.g content-length: 0-599/103199
-  #   103199 is the total number of rows
+  apiData <- r2r::hashmap()
+  if (is.null(resp)) {
+    apiData[["max_size"]] <- 0
+    apiData[["columns"]] <- NULL
+    return(apiData)
+  }
+  
+  # we need total number of rows to initialize progressBar
   content_length <- try(strsplit(head(resp)$all_headers[[1]]$headers$`content-range`, split = '/')[[1]][2])
-  if(!inherits(content_length, "try-error") && content_length != '*') {
-    # if content length presents
-    response_data[["max_size"]] <- strtoi(content_length)
+  apiData[["max_size"]] <- if (content_length > 0) content_length else 0
+  # we use these to add 'order' parameter.
+  # without sorting pagination won't work.
+  body <- httr::content(resp, "parsed")
+  jsonB <- jsonlite::toJSON(body)
+  rObj <- names(jsonlite::fromJSON(jsonB))
+  columns <- ''
+  for (x in 1:length(rObj[])) {
+    if (x==1) {
+      columns <- rObj[[x]]
+      next
+    }
+    columns <- paste(columns, rObj[[x]], sep = ",")
   }
-  # return both response body and content length
-  return(response_data)
-}
-
-get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_header){
-  # if offset is greater or equal to max size we can stop here
-  if (offset >= max_size) {
-    return(paste('[' , existing_rows, ']', sep = ""))
-  }
-
-  # get http content using limit and offset
-  response_data <- get_http_content(field, limit, offset, query, auth_header)
-  # append new rows recursively
-  existing_rows <- if (offset == 0) response_data[['body']] else paste(existing_rows, response_data[['body']], sep = ",")
-  return(
-    get_rows(
-      existing_rows,
-      field, limit,
-      offset+LIMIT,
-      response_data[['max_size']],
-      query,
-      auth_header
-    )
-  )
-}
-
-.ausplots_api_with_limit_and_offset <- function(path, query, auth_header) {
-  return(get_rows("", path, LIMIT, 0, LIMIT+1, query, auth_header))
+  apiData[["columns"]] <- columns
+  return(apiData)
 }
 
 .ausplots_api <- function(path, query) {
@@ -91,35 +73,88 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
   if (getOption("ausplotsR_api_debug", default = FALSE)) {
     message('query string value = ', query)
   }
-  resp <- httr::GET(
-                    "http://swarmapi.ausplots.aekos.org.au:80",
-                    httr::user_agent(.make_user_agent()),
-                    httr::add_headers(Authorization = auth_header),
-                    path=path,
-                    query=query
-  )
   message('Calling the database. Please wait...')
-  message(path)
-  #message(' status code ')
-  #message(httr::status_code(resp))
+  progressBar <- NULL
+  progressBar <- progress::progress_bar$new(format = "downloading (:what) [:bar] (:percent) time: :elapsedfull", total = 100, clear = FALSE, width= 60, show_after = 0)
+  progressBar$tick(1, tokens = list(what = path))
+  resp <- try_GET(path=path, query=query, auth_header=auth_header)
+  if (httr::status_code(resp) < 500) {
+    progressBar$tick(100, tokens = list(what = path))
+  }
+  message(httr::status_code(resp))
+  
+  #######################################################################################
   # if status code is 500 or 503
   # most of the cases, 503 (database connection issue) happens because of the size of data
   #   e.g. point_intercept table has more then 100827558 rows 
   #   in that case, we can use limit and offset as api parameters to get a chunk of data
-  #   and then we can combine all data into one
+  #   and then we can combine all data into one 
+  #########################################################################################
   if (httr::status_code(resp) > 500) {
-    # sometimes db server needs few seconds to be ready again from recovery mood
-    #   as we dont have any throttling service running at the moment
     message('Preparing to paginate the data, please wait... ')
     Sys.sleep(5)
-
-    message('Calling the database... ')
-    message(path)
+    message(' Calling the database... ')
     message(' again. Please wait...')
-    resp <- .ausplots_api_with_limit_and_offset(path, query, auth_header)
-    result <- try(jsonlite::fromJSON(resp, simplifyDataFrame = TRUE))
-    return(result)
+    
+    offset <- 0
+    progressBar <- NULL
+    isBody <- TRUE
+    finalResp <- NULL
+    
+    query <- append(query, list("limit" = LIMIT))
+    query <- append(query, list("offset" = offset))
+    
+    tableInfo <- api_info(path=path, auth_header=auth_header)
+    if (tableInfo[['max_size']] > 0) {
+      # initialize progressBar
+      progressBar <- progress::progress_bar$new(format = " downloading (:what) [:bar] :current/:total (:percent) time: :elapsedfull", total = tableInfo[['max_size']], show_after = 0)
+      progressBar$tick(1, tokens = list(what = path))
+    }
+    # data needs to be sorted by all the fields("order"="all columns of the table")
+    if (!is.null(tableInfo[['columns']])) {
+      query <- append(query, list("order" = tableInfo[['columns']]))
+    }
+    
+    # It seems like R can't handle recursive, most of the time it generates memory limit exception
+    # thats why we are using while loop.
+    while (isBody) {
+      query$offset <- as.integer(offset)
+      respPagination <- try_GET(path=path, query=query, auth_header=auth_header)
+      respStatus <- httr::status_code(respPagination)
+      if (respStatus>=500) {
+        # if one of them fails, we will retry.
+        Sys.sleep(5)
+        next
+      }
+      # parse and check the body
+      body <- httr::content(respPagination, "parsed")
+      jsonBody <- jsonlite::toJSON(body)
+      bodySize <- nrow(jsonlite::fromJSON(jsonBody[[1]]))
+      
+      if (respStatus<500 && is.null(bodySize) && !is.null(finalResp)) {
+        message(' finalising...')
+        isBody <- FALSE
+        finalResp <- gsub("\\]\\[", ",", finalResp)
+        finalResp <- gsub("\\,\\]", "]", finalResp)
+        result <- try(jsonlite::fromJSON(finalResp, simplifyDataFrame = TRUE))
+        return(result)
+      }
+      if (!is.null(progressBar)) {
+        progressBar$tick(as.integer(bodySize), tokens = list(what = path))
+      }
+      
+      # combine multiple response
+      if (offset == 0) {
+        finalResp <- httr::content(respPagination, "text", encoding = "UTF-8")
+      } else {
+        finalResp <- paste(finalResp, httr::content(respPagination, "text", encoding = "UTF-8"), sep = "")
+      }
+      offset <- as.integer(offset) + as.integer(LIMIT)
+    }
+    
+    stop("Server is busy at the moment. Please try again in a few minutes")
   }
+  
   httr::stop_for_status(resp, task = httr::content(resp, "text"))
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
@@ -135,26 +170,26 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs_to_filter_for, extra_query=list()) {
   query <- extra_query
   if (length(Plot_IDs_to_filter_for) > 0) {
-
-#sub-routine for visit searches via site_unique versus plot searches
     
-  site_unique_search <- any(grepl("-", Plot_IDs_to_filter_for, fixed=TRUE))
+    #sub-routine for visit searches via site_unique versus plot searches
     
-      if(site_unique_search) {
-        Plot_visits_to_filter_for <- unlist(lapply(strsplit(Plot_IDs_to_filter_for, "-", fixed=TRUE), function(x) {paste(x[2])}))
-        visitFilter <- paste("in.(", paste(Plot_visits_to_filter_for, collapse=","), ")", sep="")
-        if(!("site_location_name" %in% names(extra_query))) {
-          query <- c(query, list(site_location_visit_id = visitFilter))
-        }
+    site_unique_search <- any(grepl("-", Plot_IDs_to_filter_for, fixed=TRUE))
+    
+    if(site_unique_search) {
+      Plot_visits_to_filter_for <- unlist(lapply(strsplit(Plot_IDs_to_filter_for, "-", fixed=TRUE), function(x) {paste(x[2])}))
+      visitFilter <- paste("in.(", paste(Plot_visits_to_filter_for, collapse=","), ")", sep="")
+      if(!("site_location_name" %in% names(extra_query))) {
+        query <- c(query, list(site_location_visit_id = visitFilter))
       }
-
-       if(!site_unique_search) {
-         plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
-         #check site location isn't already searched via plot_search argument - may be redundant as get_ausplots stops if that's the case
-         if(!("site_location_name" %in% names(extra_query))) {
-           query <- c(query, list(site_location_name = plotFilter))
-         }
+    }
+    
+    if(!site_unique_search) {
+      plotFilter <- paste("in.(", paste(Plot_IDs_to_filter_for, collapse=","), ")", sep="")
+      #check site location isn't already searched via plot_search argument - may be redundant as get_ausplots stops if that's the case
+      if(!("site_location_name" %in% names(extra_query))) {
+        query <- c(query, list(site_location_name = plotFilter))
       }
+    }
     
   }
   return(.ausplots_api(path, query)) 
@@ -166,7 +201,7 @@ get_rows <- function(existing_rows, field, limit, offset, max_size, query, auth_
   
   
   site_unique_search <- any(grepl("-", Plot_IDs_to_retrieve_data_for, fixed=TRUE))
-
+  
   if(!site_unique_search) {
     plotFilter <- paste("in.(", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ")", sep="")
     query <- c(extra_query, list(site_location_name = plotFilter))
@@ -199,9 +234,9 @@ list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="n
   }
   #####
   # #insert wildcard match code for plot names 2023 or in get_a function
- if(!is.null(plot_search)) {
-   extra_query = append(extra_query, list("site_location_name" = paste0("ilike.*", plot_search, "*")))
-   }
+  if(!is.null(plot_search)) {
+    extra_query = append(extra_query, list("site_location_name" = paste0("ilike.*", plot_search, "*")))
+  }
   #####
   if(bounding_box[1] != "none") { #i.e. if user has supplied an extent vector
     if(!inherits(bounding_box, "numeric") | length(bounding_box) != 4) {stop("Bounding box must be a numeric vector of length 4.")}
@@ -220,7 +255,7 @@ list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="n
   response <- .ausplots_api_with_plot_filter(path, Plot_IDs, extra_query)
   
   site_unique_search <- any(grepl("-", Plot_IDs, fixed=TRUE))
- 
+  
   if(!site_unique_search) {result <- sort(unique(response$site_location_name))}
   
   if(site_unique_search) {result <- sort(paste0(response$site_location_name, "-", response$site_location_visit_id))}
@@ -274,17 +309,17 @@ extract_soil_char <- function(Plot_IDs) {
 
 extract_basal <- function(Plot_IDs, herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
   extra_query <- list() 
-   path <- "veg_basal"
-   if(!is.null(family_search)) {
-     extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep="")))#search by family 
-   }
-   if(!is.null(herbarium_determination_search)) {
-     extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
-   } 
-   if(!is.null(standardised_name_search)) { 
-     extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))#search by standardised_name
-   } 
-   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs, extra_query))
+  path <- "veg_basal"
+  if(!is.null(family_search)) {
+    extra_query = append(extra_query, list("family" = paste("ilike.*", family_search, "*", sep="")))#search by family 
+  }
+  if(!is.null(herbarium_determination_search)) {
+    extra_query = append(extra_query, list("herbarium_determination" = paste("ilike.*", herbarium_determination_search, "*", sep=""))) #search by herbarium_determination
+  } 
+  if(!is.null(standardised_name_search)) { 
+    extra_query = append(extra_query, list("standardised_name" = paste("ilike.*", standardised_name_search, "*", sep="")))#search by standardised_name
+  } 
+  return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs, extra_query))
 }
 
 ############################
@@ -322,10 +357,10 @@ cache$user_agent <- NULL
       message('building user_agent string and storing in cache')
     }
     versions <- c(
-                  ausplotsR = as.character(utils::packageVersion("ausplotsR")),
-                  libcurl = curl::curl_version()$version,
-                  `r-curl` = as.character(utils::packageVersion("curl")),
-                  httr = as.character(utils::packageVersion("httr"))
+      ausplotsR = as.character(utils::packageVersion("ausplotsR")),
+      libcurl = curl::curl_version()$version,
+      `r-curl` = as.character(utils::packageVersion("curl")),
+      httr = as.character(utils::packageVersion("httr"))
     )
     result <- paste0(names(versions), "/", versions, collapse = " ")
     cache$user_agent <- result
