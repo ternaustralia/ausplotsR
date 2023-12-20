@@ -1,5 +1,17 @@
 # ausplotsR News
 
+# Changes in version 2.0.6
+
+## Bug fixes
+
+* Correction to fractional_cover function to avoid some sites returning no data when called individually rather than in a set of surveys.
+
+# Changes in version 2.0.5
+
+## Bug fixes
+
+* Updated extraction process for large veg.PI table to avoid rows dropping out.
+
 # Changes in version 2.0.0
 
 ## Breaking changes

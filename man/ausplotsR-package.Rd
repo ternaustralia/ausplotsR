@@ -15,8 +15,8 @@ ausplotsR whas been tested for R version 4 (recommended).
 \tabular{ll}{
 Package: \tab ausplotsR\cr
 Type: \tab Package\cr
-Version: \tab 2.0.5\cr
-Date: \tab 2023-11-7\cr
+Version: \tab 2.0.6\cr
+Date: \tab 2023-12-20\cr
 License: \tab GPL-3\cr
 }
 TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. A standardised national network of plots enables consistent ecological assessment and monitoring. The data are open access under Creative Commons – Attribution 4.0 International (CC BY 4.0), and have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - \href{https://www.tern.org.au}{https://www.tern.org.au}), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (\href{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}{https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/}).
