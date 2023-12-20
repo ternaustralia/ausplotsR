@@ -48,7 +48,7 @@ fractional_df$height[is.na(fractional_df$height)] <- 0 #assign all NA heights to
 
 fractional_df <- fractional_df[with(fractional_df, order(as.character(site_unique), as.character(hits_unique), height)), ] #order by site, hit and then height so that we can remove duplicates from unique intercepts by the height rule with the highest row coming last
 
-fractional_df <- fractional_df[-which(duplicated(fractional_df[,1:2], fromLast=TRUE)),] #this removes rows if they are duplicates of the same PI and they are not the highest sampled point/hit, by leaving the last entry (tallest) if there are intercept duplicates
+fractional_df <- fractional_df[!duplicated(fractional_df[,1:2], fromLast=TRUE),] #this removes rows if they are duplicates of the same PI and they are not the highest sampled point/hit, by leaving the last entry (tallest) if there are intercept duplicates
 
 ##calculate fractional cover:
 fractional_df_sites <- plyr::count(fractional_df, vars=c("site_unique", "fractional")) #count number of occurrences of each fractional cover category by plot
