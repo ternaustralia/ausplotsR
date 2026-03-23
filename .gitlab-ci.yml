@@ -1,0 +1,28 @@
+image: rocker/verse:latest
+
+stages:
+  - test
+
+variables:
+  R_LIBS_USER: "$CI_PROJECT_DIR/rlib"
+  CRAN: "https://cloud.r-project.org"
+
+cache:
+  key: r-pkg-cache
+  paths:
+    - rlib/
+
+before_script:
+  - mkdir -p $R_LIBS_USER
+  - Rscript -e "install.packages(c('devtools', 'testthat', 'mockery'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - Rscript -e "remotes::install_deps('.', dependencies=TRUE, lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+
+unit-tests:
+  stage: test
+  script:
+    - Rscript run_tests.R
+  artifacts:
+    when: always
+    paths:
+      - tests/
+    expire_in: 1 week
