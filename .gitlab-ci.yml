@@ -1,26 +1,26 @@
-image: rocker/verse:latest
+image: rocker/r-ver:4.4.3
 
 stages:
-  - test
+  - unit-test
 
 variables:
   R_LIBS_USER: "$CI_PROJECT_DIR/rlib"
   CRAN: "https://cloud.r-project.org"
 
 cache:
-  key: r-pkg-cache
+  key: "r-4.4.3-$CI_COMMIT_REF_SLUG"
   paths:
     - rlib/
 
 before_script:
   - mkdir -p $R_LIBS_USER
-  - Rscript -e "install.packages(c('devtools', 'testthat', 'mockery'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
-  - Rscript -e "remotes::install_deps('.', dependencies=TRUE, lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - Rscript -e "install.packages(c('devtools', 'testthat', 'mockery', 'remotes'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - Rscript -e "remotes::install_deps('.', dependencies=c('Depends','Imports','LinkingTo'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
 
-unit-tests:
-  stage: test
+ausplots-r-unit-tests:
+  stage: unit-test
   script:
-    - Rscript run_tests.R
+    - Rscript -e "devtools::load_all('.'); devtools::test('.', stop_on_failure=TRUE)"
   artifacts:
     when: always
     paths:
