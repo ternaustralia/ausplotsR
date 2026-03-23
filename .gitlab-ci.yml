@@ -5,7 +5,8 @@ stages:
 
 variables:
   R_LIBS_USER: "$CI_PROJECT_DIR/rlib"
-  CRAN: "https://cloud.r-project.org"
+  # Pre-built binary packages for Ubuntu 24.04 Noble — no compiler required
+  CRAN: "https://packagemanager.posit.co/cran/__linux__/noble/latest"
 
 cache:
   key: "r-4.4.3-$CI_COMMIT_REF_SLUG"
@@ -13,14 +14,14 @@ cache:
     - rlib/
 
 before_script:
-  - mkdir -p $R_LIBS_USER
-  - Rscript -e "install.packages(c('devtools', 'testthat', 'mockery', 'remotes'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
-  - Rscript -e "remotes::install_deps('.', dependencies=c('Depends','Imports','LinkingTo'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - mkdir -p "$R_LIBS_USER"
+  - Rscript -e ".libPaths('$R_LIBS_USER'); install.packages(c('remotes', 'pkgload', 'testthat', 'mockery'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - Rscript -e ".libPaths('$R_LIBS_USER'); remotes::install_deps('.', dependencies=c('Depends','Imports','LinkingTo'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
 
 ausplots-r-unit-tests:
   stage: unit-test
   script:
-    - Rscript -e "devtools::load_all('.'); devtools::test('.', stop_on_failure=TRUE)"
+    - Rscript -e ".libPaths('$R_LIBS_USER'); pkgload::load_all('.'); testthat::test_local('.', stop_on_failure=TRUE)"
   artifacts:
     when: always
     paths:
