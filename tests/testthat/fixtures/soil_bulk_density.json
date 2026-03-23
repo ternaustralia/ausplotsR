@@ -1,0 +1,50 @@
+[
+{
+"site_location_name": "SATFLB0004",
+"site_location_visit_id": 58658,
+"sample_id": "0.0 - 0.1 m",
+"paper_bag_weight": null,
+"oven_dried_weight_in_bag": null,
+"ring_weight": null,
+"gravel_weight": null,
+"ring_volume": 209.35,
+"gravel_volume": null,
+"fine_earth_weight_in_bag": 0,
+"fine_earth_weight": 0,
+"fine_earth_volume": 209.35,
+"fine_earth_bulk_density": 0,
+"gravel_bulk_density": 0
+},
+{
+"site_location_name": "SATFLB0004",
+"site_location_visit_id": 58658,
+"sample_id": "0.1 - 0.2 m",
+"paper_bag_weight": null,
+"oven_dried_weight_in_bag": null,
+"ring_weight": null,
+"gravel_weight": null,
+"ring_volume": 209.35,
+"gravel_volume": null,
+"fine_earth_weight_in_bag": 0,
+"fine_earth_weight": 0,
+"fine_earth_volume": 209.35,
+"fine_earth_bulk_density": 0,
+"gravel_bulk_density": 0
+},
+{
+"site_location_name": "SATFLB0004",
+"site_location_visit_id": 58658,
+"sample_id": "0.2 - 0.3 m",
+"paper_bag_weight": null,
+"oven_dried_weight_in_bag": null,
+"ring_weight": null,
+"gravel_weight": null,
+"ring_volume": 209.35,
+"gravel_volume": null,
+"fine_earth_weight_in_bag": 0,
+"fine_earth_weight": 0,
+"fine_earth_volume": 209.35,
+"fine_earth_bulk_density": 0,
+"gravel_bulk_density": 0
+}
+]

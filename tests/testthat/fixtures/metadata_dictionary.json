@@ -1,0 +1,4 @@
+[
+  {"table_name": "site",   "variable": "site_location_name", "description": "Unique plot identifier"},
+  {"table_name": "veg_pi", "variable": "growth_form",        "description": "Plant growth form"}
+]

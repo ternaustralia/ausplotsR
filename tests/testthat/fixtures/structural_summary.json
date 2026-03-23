@@ -1,0 +1,34 @@
+[
+{
+"site_location_name": "SATFLB0004",
+"site_location_visit_id": 53705,
+"phenology_comment": "Ptilotus obovatus var. obovatus  flowering. Triodia sp. has no seeds. No fruit on Callitris glaucophylla - no evidence of recent fruit. Sida petrophila has just finished flowering as have some annuals. ",
+"upper_1_dominant": "SAT 000251",
+"upper_2_dominant": "SAT 000229",
+"upper_3_dominant": null,
+"mid_1_dominant": "SAT 000244",
+"mid_2_dominant": "SAT 000261",
+"mid_3_dominant": null,
+"ground_1_dominant": "SAT 000233",
+"ground_2_dominant": null,
+"ground_3_dominant": null,
+"description": "Callitris glaucophylla / Eucalyptus intertexta low woodland. A mid-stratum dominated by Rhagodia paradoxa and Hakea leucoptera with some scattered Cassinia laevis and Dodonaea viscosa subsp. angustissima. Ground stratum sparse but dominated by Ptilotus obovatus var. obovatus",
+"mass_flowering_event": false
+},
+{
+"site_location_name": "SATFLB0004",
+"site_location_visit_id": 58658,
+"phenology_comment": "NC",
+"upper_1_dominant": "SAT007365",
+"upper_2_dominant": "SAT007407",
+"upper_3_dominant": "None",
+"mid_1_dominant": "SAT007387",
+"mid_2_dominant": "SAT007423",
+"mid_3_dominant": "SAT007411",
+"ground_1_dominant": "SAT007375",
+"ground_2_dominant": "SAT007353",
+"ground_3_dominant": "SAT007419",
+"description": "Eucalyptus intertexta low open woodland  with Callitris glaucophylla.  A mid-storey of Rhagodia parabolica,  Dodonaea viscosa, Hakea leucoptera subsp.. Leucoptera and juvenile Callitris glaucophylla. Ground layer in very sparse- dominated by Carrichtera annua, Ptilotus obovatus and various forbs with isolated clumps of Triodia sp. ( most likely T. scariosa) ",
+"mass_flowering_event": false
+}
+]
