@@ -1,19 +1,19 @@
 Package: ausplotsR
 Type: Package
 Title: TERN AusPlots Australian Ecosystem Monitoring Data
-Version: 2.0.6
-Date: 2023-12-20
+Version: 3.0.0
+Date: 2026-03-31
 Authors@R: c(
-    person("Greg", "Guerin", email = "ggueri01@gmail.com", role = c("aut", "cre")),
+    person("Irene", "Martín-Forés", email = "irene.martin@adelaide.edu.au", role = c("aut", "cre")),
+    person("Greg", "Guerin", role = c("aut")),
     person("Tom", "Saleeba", role = "aut"),
     person("Samantha", "Munroe", role = "aut"),
     person("Bernardo", "Blanco-Martin", role = "aut"),
-    person("Irene", "Martín-Forés", role = "aut"),
     person("Walid", "Al Naim", role = "aut"),
     person("Andrew", "Tokmakoff", role = "aut"))
-Maintainer: Greg Guerin <ggueri01@gmail.com>
+Maintainer: Irene Martín-Forés <irene.martin@adelaide.edu.au>
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.5),
     ggplot2,
     mapdata
 Suggests:
@@ -24,6 +24,7 @@ Suggests:
     sf
 Imports:
     vegan,
+    progress,
     plyr,
     R.utils,
     httr,
@@ -34,9 +35,11 @@ Imports:
     curl,
     r2r,
     stringr,
-    progress
+    FD,
+    adiv
 Description: Extraction, preparation, visualisation and analysis of TERN AusPlots ecosystem monitoring data. Direct access to plot-based data on vegetation and soils across Australia, including physical sample barcode numbers. Simple function calls extract the data and merge them into species occurrence matrices for downstream analysis, or calculate things like basal area and fractional cover. TERN AusPlots is a national field plot-based ecosystem surveillance monitoring method and dataset for Australia. The data have been collected across a national network of plots and transects by the Terrestrial Ecosystem Research Network (TERN - <https://www.tern.org.au>), an Australian Government NCRIS-enabled project, and its Ecosystem Surveillance platform (<https://www.tern.org.au/tern-land-observatory/ecosystem-surveillance-and-environmental-monitoring/>).
 License: GPL-3
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Encoding: UTF-8
+LazyData: true

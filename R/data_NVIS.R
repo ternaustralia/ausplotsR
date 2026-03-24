@@ -1,0 +1,167 @@
+#' NVIS vegetation attributes for AusPlots sites
+#'
+#' A static dataset linking AusPlots \code{site_unique} identifiers to
+#' vegetation attributes derived from the National Vegetation Information
+#' System (NVIS).
+#'
+#' The dataset includes structural vegetation classifications, vegetation
+#' community descriptions, structural layer metrics derived from the
+#' AusPlots point intercept method, and NVIS Major Vegetation Group (MVG)
+#' and Major Vegetation Subgroup (MVS) assignments.
+#'
+#' Some plots contain multiple visits (typically 2–4 revisits) and may
+#' occasionally be classified differently due to seasonal timing of
+#' sampling events.
+#'
+#' @format A data frame with one row per site visit and the following
+#' variables:
+#'
+#' \describe{
+#'
+#' \item{site_unique}{Site unique identifier. Includes State
+#' (first two letters), transect (T) or AusPlot (A), IBRA bioregion
+#' (three-letter code), and a four-digit numeric identifier indicating
+#' order of plots sampled within the bioregion followed by a dash and the 
+#' number of the visit code.}
+#'
+#' \item{class}{Dominant growth form for the structurally dominant stratum
+#' (NVIS Level 1: Class).}
+#'
+#' \item{structural_formation}{Structural formation of the dominant
+#' vegetation stratum (NVIS Level 2), including cover, average height and
+#' dominant growth form.}
+#'
+#' \item{nvis_code}{NVIS structural formation code representing dominant
+#' growth form, cover class code and height class code.}
+#'
+#' \item{broad_floristic_formation}{NVIS Level 3 classification describing
+#' dominant genus (or genera) and structural formation for the dominant
+#' stratum.}
+#'
+#' \item{sub_formation}{NVIS Level 4 classification describing dominant
+#' genera and structural formation across up to three strata.}
+#'
+#' \item{association}{NVIS Level 5 vegetation association describing up to
+#' three dominant species and structural formations across up to three
+#' strata.}
+#'
+#' \item{vegetation_community_l5}{Common-language description of the NVIS
+#' Level 5 vegetation association.}
+#'
+#' \item{vegetation_community_l6}{Common-language description of the NVIS
+#' Level 6 vegetation sub-association.}
+#'
+#' \item{sub_association}{NVIS Level 6 classification describing up to five
+#' dominant species and structural formations across strata.}
+#'
+#' \item{upper_average_height_metre}{Average height of the upper canopy
+#' stratum calculated from point intercept hits (>2 m height).}
+#'
+#' \item{upper_cover_percentage}{Canopy cover calculated from point
+#' intercept hits (1000 per plot), including canopy hits and "in canopy
+#' sky". Dominant stratum if cover >1.5\%.}
+#'
+#' \item{mid_average_height_metre}{Average height of the mid stratum
+#' calculated using NVIS height and growth-form rules applied to point
+#' intercept hits.}
+#'
+#' \item{mid_cover_percentage}{Foliage projective cover calculated from
+#' point intercept hits. Dominant stratum if cover >2\% and upper cover
+#' <1.5\%.}
+#'
+#' \item{ground_average_height_metre}{Average height of the ground layer
+#' calculated using NVIS height rules applied to point intercept hits.}
+#'
+#' \item{ground_cover_percentage}{Ground-layer cover percentage calculated
+#' from ground-layer point intercept hits (1000 per plot).}
+#'
+#' \item{MVG_VICTA}{NVIS Major Vegetation Group assigned using the
+#' VICTA (Vegetation Information Classifier Tool Automator) algorithm
+#' applied to the association string.}
+#'
+#' \item{MVG_NAME}{Full name of the assigned NVIS Major Vegetation Group.}
+#'
+#' \item{MVS_VICTA}{NVIS Major Vegetation Subgroup assigned using
+#' the VICTA classification algorithm.}
+#'
+#' \item{MVS_NAME}{Full name of the assigned NVIS Major Vegetation
+#' Subgroup.}
+#'
+#' }
+#'
+#' @section NVIS Strata:
+#'
+#' \describe{
+#' \item{U}{Upper stratum (tree overstorey / canopy)}
+#' \item{M}{Mid stratum (shrub layer)}
+#' \item{G}{Ground stratum (ground layer)}
+#' }
+#'
+#' NVIS substrata are not delineated in this dataset.
+#'
+#' @section Notation used in NVIS classification strings:
+#'
+#' \describe{
+#' \item{+}{Denotes dominant stratum}
+#' \item{^}{Denotes dominant growth form or dominant genus}
+#' \item{\\}{Separates strata in Level 4 structural descriptions}
+#' \item{/}{Separates strata and co-dominant genera}
+#' \item{;}{Separates strata in Level 5 and Level 6 vegetation descriptions}
+#' }
+#'
+#' @section Data caveats:
+#'
+#' \itemize{
+#' \item Height values are in meters and are derived from point intercept measurements.
+#' Heights are estimated where vegetative material is intercepted, which
+#' may underestimate true canopy height.
+#'
+#' \item Cover values may be over- or underestimated in sparse woodland
+#' or shrubland plots depending on sampling position.
+#'
+#' \item Broad floristic formation (Level 3) uses dominant genus and
+#' structural formation of the dominant stratum and may not always fully
+#' represent community composition.
+#'
+#' \item Growth forms were converted to NVIS growth forms from AusTraits
+#' plant growth-form classifications.
+#'
+#' \item Floristic nomenclature follows the Australian Plant Census (APC).
+#' }
+#'
+#' @section Version history:
+#'
+#' Version 2.0 updates include:
+#'
+#' \itemize{
+#' \item Updated growth-form classification (Tree vs Tree mallee).
+#' \item Inclusion of up to three dominant growth forms in Level 5 and
+#' Level 6 descriptions.
+#' \item Updated stratum rules where tree or tree mallee occurs in the
+#' mid stratum.
+#' \item Removal of redundant mid strata where structural formation is
+#' identical to the upper stratum.
+#' \item Reinstated family-level determinations.
+#' \item Reinstated "Indeterminate" determinations affecting dominant
+#' growth-form assignments.
+#' }
+#'
+#' This dataset is updated annually.
+#'
+#' @references
+#'
+#' Sparrow B. et al. (2025) TERN Ecosystem Surveillance Monitoring.
+#' Version 2.0. Terrestrial Ecosystem Research Network.
+#' \url{https://portal.tern.org.au/metadata/9210c331-ba96-4e0c-9554-f029d61534be}
+#'
+#' NVIS Technical Working Group (2017) Australian Vegetation Attribute
+#' Manual: National Vegetation Information System Version 7.0.
+#'
+#' Lewis D. et al. (2024) Australian Soil and Land Survey Field Handbook.
+#'
+#' Wenk E.H. et al. (2024) AusTraits plant growth form dataset.
+#'
+#' @source
+#' Terrestrial Ecosystem Research Network (TERN)
+#'
+"NVIS"
