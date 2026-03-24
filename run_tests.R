@@ -6,5 +6,5 @@ if (length(to_install)) install.packages(to_install)
 
 setwd(dirname(sys.frame(1)$ofile))  # set wd to this script's directory
 
-devtools::load_all(".")
+suppressWarnings(devtools::load_all("."))
 devtools::test(".")
