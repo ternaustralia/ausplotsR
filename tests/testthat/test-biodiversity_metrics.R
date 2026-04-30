@@ -1,5 +1,6 @@
 library(testthat)
 library(jsonlite)
+library(mockery)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FIXTURE LOADER
@@ -127,4 +128,40 @@ test_that("biodiversity_metrics: plots filter returns only the requested site", 
   result <- biodiversity_metrics(ap, plots = site)
   expect_equal(nrow(result), 1L)
   expect_equal(result$site_unique, site)
+})
+
+# ══════════════════════════════════════════════════════════════════════════════
+# biodiversity_metrics() — ERROR HANDLING (tryCatch)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: species_table() failure is caught and wrapped
+# Input:         valid ausplots object; species_table mocked to throw
+# Expected:      error containing "Failed to calculate biodiversity metrics:"
+test_that("biodiversity_metrics: species_table failure is caught and wrapped", {
+  ap <- make_ausplots_from_fixtures()
+  mockery::stub(biodiversity_metrics, "species_table", function(...) stop("mock species_table error"))
+  expect_error(
+    biodiversity_metrics(ap),
+    "Failed to calculate biodiversity metrics:"
+  )
+})
+
+# What it tests: wrapped error preserves the original cause
+# Input:         species_table mocked to throw "mock species_table error"
+# Expected:      error message contains "mock species_table error"
+test_that("biodiversity_metrics: wrapped error preserves original cause", {
+  ap <- make_ausplots_from_fixtures()
+  mockery::stub(biodiversity_metrics, "species_table", function(...) stop("mock species_table error"))
+  expect_error(
+    biodiversity_metrics(ap),
+    "mock species_table error"
+  )
+})
+
+# What it tests: wrapped error has call.=FALSE
+# Input:         ausplots = "not a list"
+# Expected:      error is raised; err$call is NULL
+test_that("biodiversity_metrics: wrapped error has call.=FALSE", {
+  err <- tryCatch(biodiversity_metrics("not a list"), error = function(e) e)
+  expect_null(err$call)
 })

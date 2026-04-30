@@ -107,3 +107,38 @@ test_that("species_traits: ausplots without veg.vouch throws error", {
     "`ausplots\\$veg.vouch` is missing"
   )
 })
+
+# ══════════════════════════════════════════════════════════════════════════════
+# species_traits() — ERROR HANDLING (tryCatch)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: get_trait_data_pp() failure is caught and wrapped
+# Input:         valid species_list; get_trait_data_pp mocked to throw
+# Expected:      error containing "Failed to retrieve species traits:"
+test_that("species_traits: get_trait_data_pp failure is caught and wrapped", {
+  mockery::stub(species_traits, "get_trait_data_pp", function() stop("mock trait error"))
+  expect_error(
+    species_traits(species_list = c("Acacia aneura")),
+    "Failed to retrieve species traits:"
+  )
+})
+
+# What it tests: wrapped error preserves the original cause
+# Input:         get_trait_data_pp mocked to throw "mock trait error"
+# Expected:      error message contains "mock trait error"
+test_that("species_traits: wrapped error preserves original cause", {
+  mockery::stub(species_traits, "get_trait_data_pp", function() stop("mock trait error"))
+  expect_error(
+    species_traits(species_list = c("Acacia aneura")),
+    "mock trait error"
+  )
+})
+
+# What it tests: wrapped error has call.=FALSE
+# Input:         ausplots = "not a list"
+# Expected:      error is raised; err$call is NULL
+test_that("species_traits: wrapped error has call.=FALSE", {
+  mockery::stub(species_traits, "get_trait_data_pp", function() fixture("species_level_functional_traits.json"))
+  err <- tryCatch(species_traits(ausplots = "not a list"), error = function(e) e)
+  expect_null(err$call)
+})

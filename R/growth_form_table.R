@@ -1,5 +1,6 @@
 growth_form_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "richness"), cover_type=c("PFC", "OCC"), cumulative=TRUE, by_strata=FALSE, species_name=c("SN","HD","GS")) {
 
+  tryCatch({
 
 #input checks
   
@@ -278,6 +279,9 @@ if(species_name == "GS"){
 } #end species_name=GS
   
 
-return(round(growth_form_matrix, digits=1))
-	
+  return(round(growth_form_matrix, digits=1))
+
+  }, error = function(e) {
+    stop(paste0("Failed to build growth form table: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function

@@ -8,7 +8,9 @@ species_traits <- function(ausplots = NULL,
                            species_list = NULL,
                            species_df = NULL,
                            species_name = c("SN", "HD")) {
-  
+
+  tryCatch({
+
   species_name <- match.arg(species_name)
   
   # -----------------------------
@@ -117,4 +119,8 @@ species_traits <- function(ausplots = NULL,
   rownames(output) <- NULL
   
   return(output)
+
+  }, error = function(e) {
+    stop(paste0("Failed to retrieve species traits: ", conditionMessage(e)), call. = FALSE)
+  })
 }

@@ -55,6 +55,7 @@ api_info <- function(path, auth_header,...) {
 }
 
 .ausplots_api <- function(path, query) {
+  tryCatch({
   # override this API URL with:
   #   library("ausplotsR")
   #   options("ausplotsR_api_url" = "http://localhost:30000")
@@ -137,6 +138,9 @@ api_info <- function(path, auth_header,...) {
         finalResp <- gsub("\\]\\[", ",", finalResp)
         finalResp <- gsub("\\,\\]", "]", finalResp)
         result <- try(jsonlite::fromJSON(finalResp, simplifyDataFrame = TRUE))
+        if(inherits(result, "try-error")) {
+          stop("Data extraction aborted due to database connection issue.")
+        }
         return(result)
       }
       if (!is.null(progressBar)) {
@@ -164,6 +168,18 @@ api_info <- function(path, auth_header,...) {
     stop("Data extraction aborted due to database connection issue.")
   }
   return(result)
+  }, error = function(e) {
+    known_msgs <- c(
+      "Data extraction aborted due to database connection issue.",
+      "API did not return json",
+      "Server is busy at the moment. Please try again in a few minutes"
+    )
+    msg <- conditionMessage(e)
+    if (msg %in% known_msgs) {
+      stop(msg, call. = FALSE)
+    }
+    stop(paste0("Unexpected error while calling API path '", path, "': ", msg), call. = FALSE)
+  })
 }
 ################
 #initial filter function

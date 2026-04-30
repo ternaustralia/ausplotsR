@@ -142,3 +142,52 @@ test_that("invasion_info: keep_all = FALSE returns fewer columns than keep_all =
   result_reduced <- invasion_info(ausplots = input, afa_static = afa, keep_all = FALSE)
   expect_lt(ncol(result_reduced), ncol(result_all))
 })
+
+# ══════════════════════════════════════════════════════════════════════════════
+# invasion_info() — ERROR HANDLING (tryCatch)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: APCalign::align_taxa() failure is caught and wrapped
+# Input:         valid input; APCalign::align_taxa mocked to throw
+# Expected:      error containing "Failed to gather invasion information:"
+test_that("invasion_info: APCalign failure is caught and wrapped", {
+  skip_if_not_installed("APCalign")
+  mockery::stub(get_afa_static, ".ausplots_api", fixture("afa_static.json"))
+  afa <- get_afa_static()
+  input <- data.frame(
+    herbarium_determination = "Acacia aneura",
+    stringsAsFactors = FALSE
+  )
+  mockery::stub(invasion_info, "APCalign::align_taxa", function(...) stop("mock APCalign error"))
+  expect_error(
+    invasion_info(ausplots = input, afa_static = afa),
+    "Failed to gather invasion information:"
+  )
+})
+
+# What it tests: wrapped error preserves the original cause
+# Input:         APCalign::align_taxa mocked to throw "mock APCalign error"
+# Expected:      error message contains "mock APCalign error"
+test_that("invasion_info: wrapped error preserves the original cause", {
+  skip_if_not_installed("APCalign")
+  mockery::stub(get_afa_static, ".ausplots_api", fixture("afa_static.json"))
+  afa <- get_afa_static()
+  input <- data.frame(
+    herbarium_determination = "Acacia aneura",
+    stringsAsFactors = FALSE
+  )
+  mockery::stub(invasion_info, "APCalign::align_taxa", function(...) stop("mock APCalign error"))
+  expect_error(
+    invasion_info(ausplots = input, afa_static = afa),
+    "mock APCalign error"
+  )
+})
+
+# What it tests: wrapped error has call.=FALSE
+# Input:         afa_static = "not a df" — triggers stop() inside tryCatch
+# Expected:      error is raised; err$call is NULL
+test_that("invasion_info: wrapped error has call.=FALSE", {
+  mockery::stub(invasion_info, "requireNamespace", TRUE)
+  err <- tryCatch(invasion_info(afa_static = "not a df"), error = function(e) e)
+  expect_null(err$call)
+})

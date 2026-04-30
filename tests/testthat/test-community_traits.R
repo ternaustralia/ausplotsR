@@ -163,3 +163,39 @@ test_that("community_traits: result contains functional redundancy and uniquenes
   expect_true("functional_redundancy" %in% names(result))
   expect_true("functional_uniqueness" %in% names(result))
 })
+
+# ══════════════════════════════════════════════════════════════════════════════
+# community_traits() — ERROR HANDLING (tryCatch)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: get_trait_data_pp() failure is caught and wrapped
+# Input:         valid ausplots object; get_trait_data_pp mocked to throw
+# Expected:      error containing "Failed to calculate community traits:"
+test_that("community_traits: get_trait_data_pp failure is caught and wrapped", {
+  ap <- make_ausplots_from_fixtures()
+  mockery::stub(community_traits, "get_trait_data_pp", function() stop("mock trait error"))
+  expect_error(
+    community_traits(ap),
+    "Failed to calculate community traits:"
+  )
+})
+
+# What it tests: wrapped error preserves the original cause
+# Input:         get_trait_data_pp mocked to throw "mock trait error"
+# Expected:      error message contains "mock trait error"
+test_that("community_traits: wrapped error preserves original cause", {
+  ap <- make_ausplots_from_fixtures()
+  mockery::stub(community_traits, "get_trait_data_pp", function() stop("mock trait error"))
+  expect_error(
+    community_traits(ap),
+    "mock trait error"
+  )
+})
+
+# What it tests: wrapped error has call.=FALSE
+# Input:         ausplots = "not a list"
+# Expected:      error is raised; err$call is NULL
+test_that("community_traits: wrapped error has call.=FALSE", {
+  err <- tryCatch(community_traits("not a list"), error = function(e) e)
+  expect_null(err$call)
+})

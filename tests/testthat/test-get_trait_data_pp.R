@@ -79,3 +79,56 @@ test_that("get_trait_data_pp: numeric trait columns are numeric", {
   expect_true(is.numeric(result$leaf_length))
   expect_true(is.numeric(result$max_height))
 })
+
+# ══════════════════════════════════════════════════════════════════════════════
+# get_trait_data_pp() — CAUGHT ERROR PATHS (tryCatch fires)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: tryCatch catches and wraps .ausplots_api failure
+# Input:         .ausplots_api mocked to throw
+# Expected:      stop() with "Failed to retrieve species-level trait data:" prefix
+test_that("get_trait_data_pp: .ausplots_api failure is caught and wrapped with context", {
+  mockery::stub(get_trait_data_pp, ".ausplots_api", function(...) stop("connection refused"))
+  expect_error(get_trait_data_pp(), "Failed to retrieve species-level trait data:")
+})
+
+# What it tests: original error message survives inside the wrapped message
+# Input:         .ausplots_api mocked to throw with known message
+# Expected:      wrapped error contains the original cause
+test_that("get_trait_data_pp: wrapped error preserves original cause", {
+  mockery::stub(get_trait_data_pp, ".ausplots_api", function(...) stop("connection refused"))
+  expect_error(get_trait_data_pp(), "connection refused")
+})
+
+# What it tests: as.data.frame failure on non-coercible return is caught
+# Input:         .ausplots_api returns an environment (not coercible to data.frame)
+# Expected:      stop() with "Failed to retrieve species-level trait data:" prefix
+test_that("get_trait_data_pp: as.data.frame failure on non-coercible return is caught", {
+  mockery::stub(get_trait_data_pp, ".ausplots_api", function(...) new.env())
+  expect_error(get_trait_data_pp(), "Failed to retrieve species-level trait data:")
+})
+
+# ══════════════════════════════════════════════════════════════════════════════
+# get_trait_data_pp() — SILENT WRONG OUTPUT (tryCatch never fires)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: API returns df with neither d13c nor d13C — rename is silently skipped
+# Input:         .ausplots_api returns df with no d13c/d13C column
+# Expected:      function returns without error; d13C absent from result
+test_that("get_trait_data_pp: missing d13c column causes rename to be silently skipped", {
+  mockery::stub(get_trait_data_pp, ".ausplots_api",
+    function(...) data.frame(species_name = "Acacia", stringsAsFactors = FALSE))
+  result <- get_trait_data_pp()
+  expect_false("d13C" %in% names(result))
+})
+
+# What it tests: API returns df already named d13C — rename guard skips correctly
+# Input:         .ausplots_api returns df already containing d13C
+# Expected:      function returns without error; d13C present exactly once
+test_that("get_trait_data_pp: d13C already present is preserved without duplication", {
+  mockery::stub(get_trait_data_pp, ".ausplots_api",
+    function(...) data.frame(species_name = "Acacia", d13C = -28.5, stringsAsFactors = FALSE))
+  result <- get_trait_data_pp()
+  expect_true("d13C" %in% names(result))
+  expect_equal(sum(names(result) == "d13C"), 1L)
+})

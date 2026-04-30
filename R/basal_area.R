@@ -1,4 +1,5 @@
 basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("SN","HD","GS")) {
+  tryCatch({
 	
   
   basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
@@ -176,4 +177,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 	} #end if(by.hits)
 
 	
+  }, error = function(e) {
+    stop(paste0("Failed to calculate basal area: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function

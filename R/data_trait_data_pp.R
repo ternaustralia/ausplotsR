@@ -263,10 +263,14 @@
 #'
 #' @export
 get_trait_data_pp <- function() {
-  raw <- .ausplots_api(path = "/species_level_functional_traits", query = list())
-  traits <- as.data.frame(raw, stringsAsFactors = FALSE)
-  if ("d13c" %in% names(traits) && !"d13C" %in% names(traits)) {
-    names(traits)[names(traits) == "d13c"] <- "d13C"
-  }
-  traits
+  tryCatch({
+    raw <- .ausplots_api(path = "/species_level_functional_traits", query = list())
+    traits <- as.data.frame(raw, stringsAsFactors = FALSE)
+    if ("d13c" %in% names(traits) && !"d13C" %in% names(traits)) {
+      names(traits)[names(traits) == "d13c"] <- "d13C"
+    }
+    traits
+  }, error = function(e) {
+    stop(paste0("Failed to retrieve species-level trait data: ", conditionMessage(e)), call. = FALSE)
+  })
 }

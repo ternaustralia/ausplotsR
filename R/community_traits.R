@@ -23,7 +23,9 @@ community_traits <- function(ausplots,
                              cwm_traits = NULL,
                              fd_traits = c("max_height", "seed_dry_mass", "leaf_mass_per_area"),
                              categorical_trait = "photosynthetic_pathway") {
-  
+
+  tryCatch({
+
   species_name <- match.arg(species_name)
   
   # -----------------------------
@@ -324,4 +326,8 @@ community_traits <- function(ausplots,
   rownames(output) <- NULL
   
   return(output)
+
+  }, error = function(e) {
+    stop(paste0("Failed to calculate community traits: ", conditionMessage(e)), call. = FALSE)
+  })
 }

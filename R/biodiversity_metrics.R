@@ -13,7 +13,9 @@
 biodiversity_metrics <- function(ausplots,
                                  plots = NULL,
                                  species_name = c("SN", "HD")) {
-  
+
+  tryCatch({
+
   species_name <- match.arg(species_name)
   
   # -----------------------------
@@ -196,4 +198,8 @@ biodiversity_metrics <- function(ausplots,
   rownames(output) <- NULL
   
   return(output)
+
+  }, error = function(e) {
+    stop(paste0("Failed to calculate biodiversity metrics: ", conditionMessage(e)), call. = FALSE)
+  })
 }

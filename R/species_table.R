@@ -1,5 +1,6 @@
 species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS"), strip_bryophytes=FALSE) {
 
+  tryCatch({
   
 #input checks
 
@@ -314,8 +315,11 @@ if(species_name == "GS"){ #using genus species
 } # end genus_species
 
 
-return(round(species_matrix, digits=1))
-	
+  return(round(species_matrix, digits=1))
+
+  }, error = function(e) {
+    stop(paste0("Failed to build species table: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function
 
 

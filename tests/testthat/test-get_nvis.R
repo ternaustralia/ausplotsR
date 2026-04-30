@@ -130,3 +130,56 @@ test_that("get_nvis: MVG_VICTA and MVS_VICTA are numeric", {
   expect_true(is.numeric(result$MVG_VICTA) || is.integer(result$MVG_VICTA))
   expect_true(is.numeric(result$MVS_VICTA) || is.integer(result$MVS_VICTA))
 })
+
+# ══════════════════════════════════════════════════════════════════════════════
+# get_nvis() — CAUGHT ERROR PATHS (tryCatch fires)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: tryCatch catches and wraps .ausplots_api failure
+# Input:         .ausplots_api mocked to throw
+# Expected:      stop() with "Failed to retrieve NVIS vegetation attributes:" prefix
+test_that("get_nvis: .ausplots_api failure is caught and wrapped with context", {
+  stub(get_nvis, ".ausplots_api", function(...) stop("connection refused"))
+  expect_error(get_nvis(), "Failed to retrieve NVIS vegetation attributes:")
+})
+
+# What it tests: original error message survives inside the wrapped message
+# Input:         .ausplots_api mocked to throw with known message
+# Expected:      wrapped error contains the original cause
+test_that("get_nvis: wrapped error preserves original cause", {
+  stub(get_nvis, ".ausplots_api", function(...) stop("connection refused"))
+  expect_error(get_nvis(), "connection refused")
+})
+
+# What it tests: as.data.frame failure on non-coercible return is caught
+# Input:         .ausplots_api returns an environment (not coercible)
+# Expected:      stop() with "Failed to retrieve NVIS vegetation attributes:" prefix
+test_that("get_nvis: as.data.frame failure on non-coercible return is caught", {
+  stub(get_nvis, ".ausplots_api", function(...) new.env())
+  expect_error(get_nvis(), "Failed to retrieve NVIS vegetation attributes:")
+})
+
+# What it tests: NULL API return — as.data.frame(NULL) produces 0-row df; site_unique
+#               column is assigned character(0) on 0-row df (no error); function returns
+#               empty data frame silently when called with no site_unique filter
+# Input:         .ausplots_api returns NULL
+# Expected:      function returns without error; result is a data frame
+test_that("get_nvis: NULL API return returns empty data frame silently", {
+  stub(get_nvis, ".ausplots_api", function(...) NULL)
+  result <- get_nvis()
+  expect_true(is.data.frame(result))
+})
+
+# ══════════════════════════════════════════════════════════════════════════════
+# get_nvis() — SILENT WRONG OUTPUT (tryCatch never fires)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: API returns df missing site_unique column — assigning character(0)
+#               to a 1-row df throws "replacement has 0 rows, data has 1";
+#               this IS caught and wrapped by tryCatch (not silent)
+# Input:         API returns df with no site_unique column, site_unique="X" requested
+# Expected:      stop() with "Failed to retrieve NVIS vegetation attributes:" prefix
+test_that("get_nvis: API response missing site_unique column is caught", {
+  stub(get_nvis, ".ausplots_api", function(...) data.frame(class = "forest", stringsAsFactors = FALSE))
+  expect_error(get_nvis(site_unique = "X"), "Failed to retrieve NVIS vegetation attributes:")
+})

@@ -80,6 +80,8 @@ invasion_info <- function(
     ...
 ) {
 
+  tryCatch({
+
   if (!is.data.frame(afa_static)) {
     stop("`afa_static` must be a data.frame.", call. = FALSE)
   }
@@ -518,4 +520,8 @@ invasion_info <- function(
   }
   
   out
+
+  }, error = function(e) {
+    stop(paste0("Failed to gather invasion information: ", conditionMessage(e)), call. = FALSE)
+  })
 }

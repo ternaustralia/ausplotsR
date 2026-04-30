@@ -1,4 +1,5 @@
 fractional_cover <- function(veg.PI, ground_fractional=FALSE, in_canopy_sky=FALSE) {
+  tryCatch({
 	
 	hits <- veg.PI #to match the raw input to historical label in below
 	
@@ -173,5 +174,8 @@ return(ground.fractional.output.matrix)
 } # end ground fractional TRUE
 
 
-
+  }, error = function(e) {
+    stop(paste0("Failed to calculate fractional cover: ", conditionMessage(e)),
+         call. = FALSE)
+  })
 } #end function

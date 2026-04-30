@@ -133,39 +133,43 @@
 #=============================================================================
 
 get_nvis <- function(site_unique = NULL) {
-  raw <- .ausplots_api(path = "/nvis_ausplot_r", query = list())
-  nvis <- as.data.frame(raw, stringsAsFactors = FALSE)
-  nvis$site_unique <- as.character(nvis$site_unique)
-  
-  if (is.null(site_unique)) {
-    return(as.data.frame(nvis))
-  }
-  
-  if (is.data.frame(site_unique)) {
-    if (!"site_unique" %in% names(site_unique)) {
-      stop("If 'site_unique' is a data frame, it must contain a 'site_unique' column.",
+  tryCatch({
+    raw <- .ausplots_api(path = "/nvis_ausplot_r", query = list())
+    nvis <- as.data.frame(raw, stringsAsFactors = FALSE)
+    nvis$site_unique <- as.character(nvis$site_unique)
+    
+    if (is.null(site_unique)) {
+      return(as.data.frame(nvis))
+    }
+    
+    if (is.data.frame(site_unique)) {
+      if (!"site_unique" %in% names(site_unique)) {
+        stop("If 'site_unique' is a data frame, it must contain a 'site_unique' column.",
+             call. = FALSE)
+      }
+      request_sites <- unique(as.character(site_unique$site_unique))
+    } else if (is.atomic(site_unique)) {
+      request_sites <- unique(as.character(site_unique))
+    } else {
+      stop("'site_unique' must be NULL, a character vector, a single site_unique, or a data frame with a 'site_unique' column.",
            call. = FALSE)
     }
-    request_sites <- unique(as.character(site_unique$site_unique))
-  } else if (is.atomic(site_unique)) {
-    request_sites <- unique(as.character(site_unique))
-  } else {
-    stop("'site_unique' must be NULL, a character vector, a single site_unique, or a data frame with a 'site_unique' column.",
-         call. = FALSE)
-  }
-  
-  request_df <- data.frame(
-    site_unique = request_sites,
-    stringsAsFactors = FALSE
-  )
-  
-  out <- merge(
-    x = request_df,
-    y = nvis,
-    by = "site_unique",
-    all.x = TRUE,
-    sort = FALSE
-  )
-  
-  as.data.frame(out)
+    
+    request_df <- data.frame(
+      site_unique = request_sites,
+      stringsAsFactors = FALSE
+    )
+    
+    out <- merge(
+      x = request_df,
+      y = nvis,
+      by = "site_unique",
+      all.x = TRUE,
+      sort = FALSE
+    )
+    
+    as.data.frame(out)
+  }, error = function(e) {
+    stop(paste0("Failed to retrieve NVIS vegetation attributes: ", conditionMessage(e)), call. = FALSE)
+  })
 }
