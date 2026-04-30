@@ -6,8 +6,8 @@
 \description{
 This function merges plant species names with a static table of gap-filled
 leaf-heigth-seed (LHS) traits derived from AusTraits (Falster et al. 2021), and photosynthetic pathways
-from Munroe et al. (2022). This static dataset is included internally
-in the ausplotsR package and does not need to be supplied by the user.
+from Munroe et al. (2022). Trait data is fetched from the AusPlots REST API
+via \code{\link{get_trait_data_pp}} and does not need to be supplied by the user.
 Traits extrated from AusTraits displayed by this function include: leaf length, leaf width, 
 leaf area, leaf mass per area, maximum plant height, seed length, and seed dry mass. 
 Gap-filled methodology used here is the one described in Andrew et al. (2022) and 

@@ -3,9 +3,9 @@
 \title{Retrieve NVIS attributes for AusPlots sites}
 
 \description{
-  Returns NVIS vegetation attributes associated with AusPlots sites by
-  matching on \code{site_unique}. The function uses the internal
-  \code{NVIS} dataset included in the package.
+  Fetches NVIS vegetation attributes from the AusPlots REST API
+  (\code{/nvis_ausplot_r}) and returns them as a data frame, optionally
+  filtered to a subset of sites by matching on \code{site_unique}.
   
   The function can return NVIS data for all sites or for a subset of sites.
   It accepts either a vector of site identifiers or a data frame containing
@@ -36,7 +36,9 @@
 
 \value{
   A data frame containing \code{site_unique} and all NVIS attributes
-  stored in the internal \code{NVIS} dataset.
+  returned by the AusPlots REST API, including \code{site_location_visit_id},
+  \code{site_location_name}, vegetation classification columns, stratum
+  height and cover columns, and MVG/MVS assignments.
 }
 
 \examples{

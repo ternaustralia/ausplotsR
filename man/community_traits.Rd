@@ -5,7 +5,8 @@
 
 \description{
   Calculates plot-level community-weighted trait metrics from AusPlots
-  point-intercept data using the internal \code{trait_data_pp} dataset.
+  point-intercept data using \code{\link{get_trait_data_pp}} to retrieve
+  current trait data from the AusPlots REST API.
   
   The function returns community-weighted means (CWMs) for numeric traits,
   proportions of C3 and C4 photosynthetic pathways, and functional diversity,
@@ -67,9 +68,9 @@
   This function uses species-level point-intercept hits from \code{veg.PI} as an
   abundance proxy to calculate plot-level trait metrics.
   
-  Trait values are retrieved from the internal dataset \code{trait_data_pp},
-  which contains gap-filled plant trait data and photosynthetic pathway
-  information.
+  Trait values are retrieved via \code{\link{get_trait_data_pp}}, which
+  fetches current gap-filled plant trait data and photosynthetic pathway
+  information from the AusPlots REST API.
   
   The function calculates:
     

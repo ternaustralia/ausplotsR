@@ -1,0 +1,41 @@
+[
+  {
+    "species_name": "Abelia x grandiflora",
+    "family_name": "Caprifoliaceae",
+    "leaf_length": 3.453877639,
+    "leaf_width": null,
+    "seed_length": null,
+    "leaf_area": null,
+    "seed_dry_mass": null,
+    "leaf_mass_per_area": null,
+    "photosynthetic_pathway": null,
+    "max_height": 0.916290732,
+    "d13c": null
+  },
+  {
+    "species_name": "Abelmoschus ficulneus",
+    "family_name": "Malvaceae",
+    "leaf_length": 4.49359841,
+    "leaf_width": null,
+    "seed_length": 1.248016408,
+    "leaf_area": null,
+    "seed_dry_mass": 3.06763574,
+    "leaf_mass_per_area": null,
+    "photosynthetic_pathway": "C3",
+    "max_height": 0.693147181,
+    "d13c": null
+  },
+  {
+    "species_name": "Dodonaea viscosa subsp. angustissima",
+    "family_name": "Sapindaceae",
+    "leaf_length": 5.12,
+    "leaf_width": 0.48,
+    "seed_length": null,
+    "leaf_area": null,
+    "seed_dry_mass": null,
+    "leaf_mass_per_area": 85.3,
+    "photosynthetic_pathway": "C3",
+    "max_height": 1.386294361,
+    "d13c": -28.5
+  }
+]

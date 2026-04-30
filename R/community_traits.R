@@ -13,7 +13,7 @@
 #     RaoQ  = Rao's quadratic entropy
 # - Functional redundancy and uniqueness from adiv
 #
-# Traits are taken from the internal dataset: trait_data_pp
+# Traits are fetched from the AusPlots REST API via get_trait_data_pp()
 # Abundances are based on point-intercept hit counts from veg.PI
 # ============================================================
 
@@ -37,10 +37,6 @@ community_traits <- function(ausplots,
     stop("`ausplots$veg.PI` is missing.")
   }
   
-  if (!exists("trait_data_pp", inherits = TRUE)) {
-    stop("Internal trait dataset `trait_data_pp` is not available.")
-  }
-  
   if (!requireNamespace("FD", quietly = TRUE)) {
     stop("Package `FD` is required. Please install it.")
   }
@@ -49,7 +45,7 @@ community_traits <- function(ausplots,
     stop("Package `adiv` is required. Please install it.")
   }
   
-  trait_table <-  get("trait_data_pp", envir = asNamespace("ausplotsR"))
+  trait_table <- get_trait_data_pp()
   
   if (!is.data.frame(trait_table)) {
     stop("`trait_data_pp` must be a data.frame.")

@@ -1,4 +1,6 @@
 library(testthat)
+library(mockery)
+library(jsonlite)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # INPUT VALIDATION: my.Plot_IDs
@@ -234,19 +236,76 @@ test_that("returns NULL when API URL is unreachable", {
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INTEGRATION TESTS — core return structure
-# (require live API connection — skipped automatically if offline)
+# MOCKED INTEGRATION TEST HELPERS
 #
-# These tests call the real AusPlots API and verify the shape and content of
-# the returned data. Plot "SATFLB0004" is a stable well-known AusPlots site
-# used as a fixture throughout.
+# These helpers are used by all mocked integration tests below.
+# mock_api() returns fixture data for any .ausplots_api path.
+# make_ok_response() returns a minimal httr response that passes the
+#   inherits(resp, "response") and !httr::http_error(resp) checks in get_ausplots().
+# with_mocks() wraps a test body with the three stubs needed to bypass the
+#   internet check, the try_GET reachability check, and the API calls.
+# ══════════════════════════════════════════════════════════════════════════════
+
+fixture <- function(name) {
+  jsonlite::fromJSON(test_path("fixtures", name), simplifyDataFrame = TRUE)
+}
+
+mock_api <- function(path, query) {
+  path_to_fixture <- list(
+    "search"                  = "search.json",
+    "site"                    = "site.json",
+    "structural_summary"      = "structural_summary.json",
+    "soil_subsite"            = "soil_subsite.json",
+    "soil_bulk_density"       = "soil_bulk_density.json",
+    "soil_characterisation"   = "soil_characterisation.json",
+    "veg_basal"               = "veg_basal.json",
+    "veg_voucher"             = "veg_voucher.json",
+    "veg_pi"                  = "veg_pi.json",
+    "metadata-dictionary.json" = "metadata_dictionary.json"
+  )
+  fname <- path_to_fixture[[path]]
+  if (is.null(fname)) return(data.frame())
+  fixture(fname)
+}
+
+make_ok_response <- function() {
+  structure(
+    list(
+      url         = "http://swarmapi.ausplots.aekos.org.au:80",
+      status_code = 200L,
+      headers     = structure(
+        list(`content-type` = "application/json"),
+        class = c("insensitive", "list")
+      ),
+      content = raw(0)
+    ),
+    class = "response"
+  )
+}
+
+with_mocks <- function(expr) {
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(
+    .ausplots_api = mock_api,
+    .package = "ausplotsR",
+    {
+      force(expr)
+    }
+  )
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MOCKED INTEGRATION TESTS — core return structure
 # ══════════════════════════════════════════════════════════════════════════════
 
 # What it tests: the return value of get_ausplots() is always a list
 # Input:         my.Plot_IDs = "SATFLB0004"
 # Expected:      result is of type "list"
 test_that("result is a list", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   expect_type(result, "list")
 })
@@ -256,7 +315,9 @@ test_that("result is a list", {
 # Input:         my.Plot_IDs = "SATFLB0004"
 # Expected:      result$citation exists, is a character string, contains "ausplotsR"
 test_that("result always contains a $citation string mentioning ausplotsR", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   expect_true("citation" %in% names(result))
   expect_type(result$citation, "character")
@@ -268,20 +329,24 @@ test_that("result always contains a $citation string mentioning ausplotsR", {
 # Input:         my.Plot_IDs = "SATFLB0004"
 # Expected:      result$citation contains the current calendar year as a string
 test_that("$citation contains the current year", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   expect_match(result$citation, as.character(format(Sys.Date(), "%Y")))
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INTEGRATION TESTS — site_info module
+# MOCKED INTEGRATION TESTS — site_info module
 # ══════════════════════════════════════════════════════════════════════════════
 
 # What it tests: site_info=TRUE (the default) populates the $site.info element
 # Input:         my.Plot_IDs = "SATFLB0004", site_info = TRUE
 # Expected:      result$site.info exists and is a data.frame
 test_that("site_info=TRUE (default) returns $site.info as a data frame", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", site_info = TRUE)
   expect_true("site.info" %in% names(result))
   expect_s3_class(result$site.info, "data.frame")
@@ -291,7 +356,9 @@ test_that("site_info=TRUE (default) returns $site.info as a data frame", {
 # Input:         my.Plot_IDs = "SATFLB0004", site_info = FALSE
 # Expected:      "site.info" is NOT a key in the returned list
 test_that("site_info=FALSE returns result without $site.info", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", site_info = FALSE)
   expect_false("site.info" %in% names(result))
 })
@@ -301,7 +368,9 @@ test_that("site_info=FALSE returns result without $site.info", {
 # Expected:      all of site_unique, site_location_name, latitude, longitude,
 #                visit_date, visit_number are present as column names
 test_that("$site.info contains expected columns", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   expected_cols <- c("site_unique", "site_location_name", "latitude", "longitude",
                      "visit_date", "visit_number")
@@ -313,7 +382,9 @@ test_that("$site.info contains expected columns", {
 # Input:         my.Plot_IDs = "SATFLB0004"
 # Expected:      every value in site_unique contains a hyphen
 test_that("site_unique column is formatted as 'name-visit_id'", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   expect_true(all(grepl("-", result$site.info$site_unique)))
 })
@@ -324,7 +395,9 @@ test_that("site_unique column is formatted as 'name-visit_id'", {
 # Input:         my.Plot_IDs = "SATFLB0004"
 # Expected:      result$site.info$visit_date contains parseable dates (year > 2000)
 test_that("$site.info$visit_date is of class Date", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   visit_dates <- as.Date(result$site.info$visit_date, origin = "1970-01-01")
   expect_true(all(!is.na(visit_dates)))
@@ -336,28 +409,31 @@ test_that("$site.info$visit_date is of class Date", {
 # Input:         my.Plot_IDs = "SATFLB0004"
 # Expected:      visit_number column values are all >= 1 when coerced to numeric
 test_that("$site.info$visit_number is numeric and >= 1", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
   visit_nums <- as.numeric(result$site.info$visit_number)
   expect_true(all(!is.na(visit_nums)))
   expect_true(all(visit_nums >= 1))
 })
 
-# What it tests: requesting multiple Plot_IDs returns rows for all requested sites,
-#   not just the first or a subset; important for bulk data extractions
-# Input:         my.Plot_IDs = c("SATFLB0004", "QDAMGD0022")  — two distinct plots
-# Expected:      both site names appear in result$site.info$site_location_name
-test_that("requesting multiple Plot_IDs returns data for all of them", {
-  skip_if_offline()
-  result <- get_ausplots(my.Plot_IDs = c("SATFLB0004", "QDAMGD0022"))
-  skip_if(is.null(result), "API returned NULL — transient connectivity issue, skipping")
-  sites_returned <- unique(result$site.info$site_location_name)
-  expect_true("SATFLB0004" %in% sites_returned)
-  expect_true("QDAMGD0022" %in% sites_returned)
+# What it tests: site.json fixture has 2 rows for SATFLB0004 (two visits);
+#   the function returns both, not just one
+# Input:         my.Plot_IDs = "SATFLB0004"  — site.json contains visit IDs 58658 and 53705
+# Expected:      result$site.info has 2 rows; both visit IDs appear in site_unique
+test_that("both visits in fixture are returned in site.info", {
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
+  result <- get_ausplots(my.Plot_IDs = "SATFLB0004")
+  expect_equal(nrow(result$site.info), 2L)
+  expect_true(any(grepl("58658", result$site.info$site_unique)))
+  expect_true(any(grepl("53705", result$site.info$site_unique)))
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INTEGRATION TESTS — veg.PI module
+# MOCKED INTEGRATION TESTS — veg.PI module
 # ══════════════════════════════════════════════════════════════════════════════
 
 # What it tests: veg.PI=TRUE populates $veg.PI with point-intercept data and
@@ -366,7 +442,9 @@ test_that("requesting multiple Plot_IDs returns data for all of them", {
 # Expected:      result$veg.PI exists and contains site_unique, hits_unique,
 #                growth_form, height, in_canopy_sky columns
 test_that("veg.PI=TRUE returns $veg.PI with expected columns", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", veg.PI = TRUE, site_info = FALSE)
   expect_true("veg.PI" %in% names(result))
   expected_cols <- c("site_unique", "hits_unique", "growth_form", "height", "in_canopy_sky")
@@ -379,14 +457,16 @@ test_that("veg.PI=TRUE returns $veg.PI with expected columns", {
 # Input:         my.Plot_IDs = "SATFLB0004", veg.PI = TRUE
 # Expected:      all non-NA herbarium_determination values match their title-cased form
 test_that("$veg.PI$herbarium_determination values are title-cased", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", veg.PI = TRUE, site_info = FALSE)
   non_na <- na.omit(result$veg.PI$herbarium_determination)
   expect_true(all(non_na == R.utils::capitalize(tolower(non_na))))
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INTEGRATION TESTS — remaining data modules
+# MOCKED INTEGRATION TESTS — remaining data modules
 # ══════════════════════════════════════════════════════════════════════════════
 
 # What it tests: structural_summaries=TRUE populates $struct.summ with
@@ -395,7 +475,9 @@ test_that("$veg.PI$herbarium_determination values are title-cased", {
 #                site_info = FALSE
 # Expected:      result$struct.summ exists and is a data.frame
 test_that("structural_summaries=TRUE returns $struct.summ as a data frame", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", structural_summaries = TRUE,
                          site_info = FALSE)
   expect_true("struct.summ" %in% names(result))
@@ -404,19 +486,14 @@ test_that("structural_summaries=TRUE returns $struct.summ as a data frame", {
 
 # What it tests: veg.vouchers=TRUE populates $veg.vouch with herbarium voucher
 #   records including species determinations and silica-dried tissue sample IDs.
-#   Uses herbarium_determination_search to guarantee plots with voucher records
-#   are returned, since not every plot has voucher data.
-# Input:         veg.vouchers = TRUE, herbarium_determination_search = "Eucalyptus",
-#                site_info = FALSE
+# Input:         my.Plot_IDs = "SATFLB0004", veg.vouchers = TRUE, site_info = FALSE
 # Expected:      result$veg.vouch exists and contains site_unique,
 #                herbarium_determination, standardised_name columns
 test_that("veg.vouchers=TRUE returns $veg.vouch with expected columns", {
-  skip_if_offline()
-  result <- get_ausplots(
-    veg.vouchers = TRUE,
-    herbarium_determination_search = "Eucalyptus",
-    site_info = FALSE
-  )
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
+  result <- get_ausplots(my.Plot_IDs = "SATFLB0004", veg.vouchers = TRUE, site_info = FALSE)
   expect_true("veg.vouch" %in% names(result))
   expected_cols <- c("site_unique", "herbarium_determination", "standardised_name")
   expect_true(all(expected_cols %in% names(result$veg.vouch)))
@@ -424,18 +501,13 @@ test_that("veg.vouchers=TRUE returns $veg.vouch with expected columns", {
 
 # What it tests: basal.wedge=TRUE populates $veg.basal with raw basal wedge hit
 #   data needed by the basal_area() function to calculate tree basal area.
-#   Uses herbarium_determination_search to guarantee plots with basal records
-#   are returned, since not every plot has basal wedge data.
-# Input:         basal.wedge = TRUE, herbarium_determination_search = "Eucalyptus",
-#                site_info = FALSE
+# Input:         my.Plot_IDs = "SATFLB0004", basal.wedge = TRUE, site_info = FALSE
 # Expected:      result$veg.basal exists and is a data.frame
 test_that("basal.wedge=TRUE returns $veg.basal as a data frame", {
-  skip_if_offline()
-  result <- get_ausplots(
-    basal.wedge = TRUE,
-    herbarium_determination_search = "Eucalyptus",
-    site_info = FALSE
-  )
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
+  result <- get_ausplots(my.Plot_IDs = "SATFLB0004", basal.wedge = TRUE, site_info = FALSE)
   expect_true("veg.basal" %in% names(result))
   expect_s3_class(result$veg.basal, "data.frame")
 })
@@ -445,7 +517,9 @@ test_that("basal.wedge=TRUE returns $veg.basal as a data frame", {
 # Input:         my.Plot_IDs = "SATFLB0004", soil_subsites = TRUE, site_info = FALSE
 # Expected:      result$soil.subsites exists and is a data.frame
 test_that("soil_subsites=TRUE returns $soil.subsites as a data frame", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", soil_subsites = TRUE,
                          site_info = FALSE)
   expect_true("soil.subsites" %in% names(result))
@@ -458,7 +532,9 @@ test_that("soil_subsites=TRUE returns $soil.subsites as a data frame", {
 #                site_info = FALSE
 # Expected:      result$soil.bulk exists and is a data.frame
 test_that("soil_bulk_density=TRUE returns $soil.bulk as a data frame", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", soil_bulk_density = TRUE,
                          site_info = FALSE)
   expect_true("soil.bulk" %in% names(result))
@@ -471,7 +547,9 @@ test_that("soil_bulk_density=TRUE returns $soil.bulk as a data frame", {
 #                site_info = FALSE
 # Expected:      result$soil.char exists and is a data.frame
 test_that("soil_character=TRUE returns $soil.char as a data frame", {
-  skip_if_offline()
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   result <- get_ausplots(my.Plot_IDs = "SATFLB0004", soil_character = TRUE,
                          site_info = FALSE)
   expect_true("soil.char" %in% names(result))
@@ -479,37 +557,34 @@ test_that("soil_character=TRUE returns $soil.char as a data frame", {
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INTEGRATION TESTS — dictionary module
+# MOCKED INTEGRATION TESTS — dictionary module
 # ══════════════════════════════════════════════════════════════════════════════
 
 # What it tests: dictionary=TRUE populates $metadata.dictionary with a variable
 #   reference table describing fields across all data frames.
-#   The dictionary API endpoint has known instability (HTTP 500); the test
-#   skips gracefully if the server is broken rather than failing the suite.
 # Input:         my.Plot_IDs = "SATFLB0004", dictionary = TRUE
-# Expected:      result$metadata.dictionary exists and is a data.frame;
-#                OR test is skipped if the server returns HTTP 500
+# Expected:      result$metadata.dictionary exists and is a data.frame
 test_that("dictionary=TRUE returns $metadata.dictionary as a data frame", {
-  skip_if_offline()
-  result <- tryCatch(
-    get_ausplots(my.Plot_IDs = "SATFLB0004", dictionary = TRUE),
-    http_500 = function(e) skip("Dictionary API endpoint returned HTTP 500 - server issue")
-  )
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
+  result <- get_ausplots(my.Plot_IDs = "SATFLB0004", dictionary = TRUE)
   expect_true("metadata.dictionary" %in% names(result))
   expect_s3_class(result$metadata.dictionary, "data.frame")
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INTEGRATION TESTS — warning and error behaviour for bad Plot_IDs
+# MOCKED INTEGRATION TESTS — warning and error behaviour for bad Plot_IDs
 # ══════════════════════════════════════════════════════════════════════════════
 
-# What it tests: supplying a Plot_ID that does not exist in the database at all
-#   raises a stop() error — this is a hard failure since there is nothing to return
-# Input:         my.Plot_IDs = "XXXXXX9999"  — a completely fabricated plot name
+# What it tests: supplying a Plot_ID that does not exist in the search fixture
+#   raises a stop() error — search returns SATFLB0004 only, so XXXXXX9999 is unmatched
+# Input:         my.Plot_IDs = "XXXXXX9999"
 # Expected:      error containing "None of the user-supplied Plot_IDs match"
 test_that("entirely non-existent Plot_IDs raises an error", {
-  skip_if_offline()
-  skip("Behaviour depends on live API response for unknown plot IDs — server may respond unexpectedly (e.g. empty 2xx vs 5xx), causing the function to exit before the stop() line is reached")
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   expect_error(
     get_ausplots(my.Plot_IDs = "XXXXXX9999"),
     "None of the user-supplied Plot_IDs match available plot names"
@@ -517,9 +592,14 @@ test_that("entirely non-existent Plot_IDs raises an error", {
 })
 
 # What it tests: a mix of one valid and one invalid Plot_ID results in a warning
+#   and the function continues using only the matching plot
+# Input:         my.Plot_IDs = c("SATFLB0004", "XXXXXX9999")
+# Expected:      warning "Not all user-supplied Plot_IDs match";
+#                result$site.info contains only SATFLB0004
 test_that("partially invalid Plot_IDs triggers a warning and uses only matching plots", {
-  skip_if_offline()
-  skip("Behaviour depends on live API response — the search endpoint response for a mix of valid and invalid plot IDs is inconsistent across server states")
+  mockery::stub(get_ausplots, "curl::has_internet", TRUE)
+  mockery::stub(get_ausplots, "httr::GET", function(...) make_ok_response(), depth = 2)
+  local_mocked_bindings(.ausplots_api = mock_api, .package = "ausplotsR")
   expect_warning(
     result <- get_ausplots(my.Plot_IDs = c("SATFLB0004", "XXXXXX9999")),
     "Not all user-supplied Plot_IDs match"

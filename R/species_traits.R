@@ -14,15 +14,11 @@ species_traits <- function(ausplots = NULL,
   # -----------------------------
   # internal static trait table
   # -----------------------------
-  trait_table <- get("trait_data_pp", envir = asNamespace("ausplotsR"))
+  trait_table <- get_trait_data_pp()
   
   # -----------------------------
   # checks
   # -----------------------------
-  if (!is.data.frame(trait_table)) {
-    stop("Internal trait table `trait_data_pp` is not available.")
-  }
-  
   if (!"species_name" %in% names(trait_table)) {
     stop("Internal trait table must contain a column called `species_name`.")
   }

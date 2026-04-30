@@ -163,5 +163,3 @@
 #'
 #' @source
 #' Terrestrial Ecosystem Research Network (TERN)
-#'
-"NVIS"

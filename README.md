@@ -79,4 +79,4 @@ citation('ausplotsR')
 Please include appropriate citation in published papers/reports/theses that use the data and R functions.
 
 
-Authors: Greg Guerin, Tom Saleeba, Samantha Munroe, Irene Martín-Forés, Bernardo Blanco-Martin, Andrew Tokmakoff
+Authors: Greg Guerin, Tom Saleeba, Samantha Munroe, Irene Martín-Forés, Bernardo Blanco-Martin, Andrew Tokmakoff, Walid Al Naim

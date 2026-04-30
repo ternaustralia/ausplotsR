@@ -260,4 +260,13 @@
 #' Compiled and standardised trait dataset used internally by
 #' \code{ausplotsR}, drawing on AusTraits, pathway-specific literature,
 #' TERN stable isotope analysis, and associated taxonomic harmonisation.
-"trait_data_pp"
+#'
+#' @export
+get_trait_data_pp <- function() {
+  raw <- .ausplots_api(path = "/species_level_functional_traits", query = list())
+  traits <- as.data.frame(raw, stringsAsFactors = FALSE)
+  if ("d13c" %in% names(traits) && !"d13C" %in% names(traits)) {
+    names(traits)[names(traits) == "d13c"] <- "d13C"
+  }
+  traits
+}
