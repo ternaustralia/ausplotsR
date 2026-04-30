@@ -5,8 +5,10 @@ stages:
 
 variables:
   R_LIBS_USER: "$CI_PROJECT_DIR/rlib"
-  # Pre-built binary packages for Ubuntu 24.04 Noble — no compiler required
+  # Pre-built binary packages for Ubuntu 24.04 Noble (matches rocker/r-ver:4.4.3 base image)
   CRAN: "https://packagemanager.posit.co/cran/__linux__/noble/latest"
+  # adiv depends on rgl; without this rgl tries to open X11 and fails, making adiv appear uninstalled
+  RGL_USE_NULL: "TRUE"
 
 cache:
   key: "r-4.4.3-$CI_COMMIT_REF_SLUG"
@@ -14,15 +16,16 @@ cache:
     - rlib/
 
 before_script:
-  - apt-get update -qq && apt-get install -y --no-install-recommends libglu1-mesa-dev libgl1-mesa-dev
+  - apt-get update -qq && apt-get install -y --no-install-recommends libglu1-mesa-dev libgl1-mesa-dev libglpk-dev
   - mkdir -p "$R_LIBS_USER"
-  - Rscript -e ".libPaths('$R_LIBS_USER'); install.packages(c('remotes', 'pkgload', 'testthat', 'mockery'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - Rscript -e ".libPaths('$R_LIBS_USER'); install.packages(c('remotes', 'pkgload', 'testthat', 'mockery', 'BiocManager'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
   - Rscript -e ".libPaths('$R_LIBS_USER'); remotes::install_deps('.', dependencies=c('Depends','Imports','LinkingTo'), lib='$R_LIBS_USER', repos='$CRAN', quiet=TRUE)"
+  - Rscript -e ".libPaths('$R_LIBS_USER'); options(repos=c(CRAN='$CRAN')); BiocManager::install('adiv', lib='$R_LIBS_USER', ask=FALSE, update=FALSE, quiet=TRUE)"
 
 ausplots-r-unit-tests:
   stage: unit-test
   script:
-    - Rscript -e ".libPaths('$R_LIBS_USER'); pkgload::load_all('.'); testthat::test_local('.', stop_on_failure=TRUE)"
+    - Rscript -e ".libPaths('$R_LIBS_USER'); testthat::test_local('.', stop_on_failure=TRUE)"
   artifacts:
     when: always
     paths:
