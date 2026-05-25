@@ -1,6 +1,6 @@
 basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("SN","HD","GS")) {
   tryCatch({
-	
+  .sentry_capture_message(paste0("ausplotsR: basal_area called with by.spp=", by.spp, ", by.hits=", by.hits, ", species_name=", species_name[1], ", nrow(veg.basal)=", ifelse(is.data.frame(veg.basal), nrow(veg.basal), class(veg.basal)[1])), level = "info")
   
   basal <- veg.basal #for historical reasons, the compiled but raw data (referred to as simply 'basal' in the code)
 	
@@ -13,6 +13,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 			bas_areas_mean <- stats::aggregate(bas_areas$freq, by=list(bas_areas$site_unique), FUN=mean) #mean of the basal areas for each of 9 sampling points in the plot. This is to give one value for each sampled plot, averaged across the 9 different sampling points and all species considered together.
 			
 			names(bas_areas_mean) <- c("site_unique", "basal_area_m2_ha")
+			.sentry_capture_message(paste0("ausplotsR: basal_area (total BA, no species) result: ", nrow(bas_areas_mean), " sites"), level = "info")
 			
 			return(bas_areas_mean)
 
@@ -82,6 +83,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 		      
 		    } #end GS
 		    
+		    .sentry_capture_message(paste0("ausplotsR: basal_area (BA by species, species_name=", species_name, ") result: ", nrow(bas_areas_spp_mean), " rows, ", length(unique(bas_areas_spp_mean$site_unique)), " sites"), level = "info")
 		    return(bas_areas_spp_mean)
 		    
 		  }#end if(by.spp)
@@ -98,6 +100,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 			dens_mean <- stats::aggregate(dens$freq, by=list(dens$site_unique), FUN=mean) #mean of the scores for each of the 9 reps - this is the average number of total tree hits for a rep at a given plot.
 			
 			names(dens_mean) <- c("site_unique", "mean_hits")
+			.sentry_capture_message(paste0("ausplotsR: basal_area (hits, no species) result: ", nrow(dens_mean), " sites"), level = "info")
 			
 			return(dens_mean)
 			
@@ -168,6 +171,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 	        
 	      } #close GS
 	      
+	      .sentry_capture_message(paste0("ausplotsR: basal_area (hits by species, species_name=", species_name, ") result: ", nrow(dens_spp_mean), " rows"), level = "info")
 	      return(dens_spp_mean)
 	      
 	    
@@ -178,6 +182,7 @@ basal_area <- function(veg.basal, by.spp=FALSE, by.hits=FALSE, species_name=c("S
 
 	
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in basal_area")
     stop(paste0("Failed to calculate basal area: ", conditionMessage(e)), call. = FALSE)
   })
 } #end function

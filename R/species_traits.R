@@ -10,6 +10,7 @@ species_traits <- function(ausplots = NULL,
                            species_name = c("SN", "HD")) {
 
   tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: species_traits called with species_name=", species_name[1], ", species_list=", ifelse(is.null(species_list), "NULL", paste0(length(species_list), " entries")), ", species_df=", ifelse(is.null(species_df), "NULL", paste0(nrow(species_df), " rows")), ", ausplots=", ifelse(is.null(ausplots), "NULL", "provided")), level = "info")
 
   species_name <- match.arg(species_name)
   
@@ -118,9 +119,12 @@ species_traits <- function(ausplots = NULL,
   
   rownames(output) <- NULL
   
+  .sentry_capture_message(paste0("ausplotsR: species_traits result: ", nrow(output), " species, ", sum(!is.na(output[,2])), " with trait data, ", ncol(output), " columns"), level = "info")
+  .sentry_capture_message("ausplotsR: species_traits retrieved successfully", level = "info")
   return(output)
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in species_traits")
     stop(paste0("Failed to retrieve species traits: ", conditionMessage(e)), call. = FALSE)
   })
 }

@@ -138,6 +138,24 @@ get_afa_static <- function() {
 
 ---
 
+## Step 7 — Add Sentry capture integration to `get_afa_static()`
+
+**Calls added in `R/data_afa_static.R`:**
+
+| Location | Call | Level |
+|----------|------|-------|
+| After `afa` is fully built (success path) | `.sentry_capture_message("ausplotsR: AFA static data fetched successfully")` | `"info"` |
+| `error = function(e)` handler | `.sentry_capture_exception(e)` | exception |
+
+**Tests added (`tests/testthat/test-get_afa_static.R`):**
+
+| Test name | What it verifies |
+|-----------|-----------------|
+| `"get_afa_static: capture_exception called when .ausplots_api throws"` | `capture_exception` fired and error re-raised |
+| `"get_afa_static: capture_message 'info' on successful fetch"` | Info-level message fired on success |
+
+Both use `fn <- get_afa_static; mockery::stub(fn, ...)` — never hits live Sentry.
+
 ## Final state
 
 | Artefact | Status |

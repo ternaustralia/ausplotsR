@@ -38,3 +38,4 @@ importFrom("stringr", "str_sub")
 importFrom("progress", "progress_bar")
 importFrom("graphics", "layout", "plot.new", "segments")
 importFrom("stats", "complete.cases")
+

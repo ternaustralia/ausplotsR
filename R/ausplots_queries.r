@@ -4,6 +4,7 @@ LIMIT <- as.integer(20000)
 END_POINT <- getOption("ausplotsR_api_url", default= "http://swarmapi.ausplots.aekos.org.au:80")
 
 try_GET <- function(path, query, auth_header,...) {
+  .sentry_capture_message(paste0("ausplotsR: try_GET called with path='", path, "'"), level = "info")
   return(httr::GET(
     END_POINT,
     httr::user_agent(.make_user_agent()),
@@ -17,6 +18,7 @@ try_GET <- function(path, query, auth_header,...) {
 #   to extract table info(e.g. names of the columns or total size of the table).
 # we add that header `Prefer` = "count=estimated"  to ignore nginx cache
 api_info <- function(path, auth_header,...) {
+  .sentry_capture_message(paste0("ausplotsR: api_info called with path='", path, "'"), level = "info")
   query <- list('limit'=1)
   resp <- httr::GET(
     END_POINT,
@@ -56,6 +58,7 @@ api_info <- function(path, auth_header,...) {
 
 .ausplots_api <- function(path, query) {
   tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: .ausplots_api called with path='", path, "', query=", query), level = "info")
   # override this API URL with:
   #   library("ausplotsR")
   #   options("ausplotsR_api_url" = "http://localhost:30000")
@@ -71,6 +74,7 @@ api_info <- function(path, auth_header,...) {
     jwt_val <- jose::jwt_encode_hmac(claim, secret = charToRaw(the_secret))
     auth_header <- paste('Bearer', jwt_val)
   }
+  .sentry_capture_message(paste0("ausplotsR: .ausplots_api auth=", ifelse(!is.null(the_role), paste0("role='", the_role, "'"), "none (public)")), level = "info")
   if (getOption("ausplotsR_api_debug", default = FALSE)) {
     message('query string value = ', query)
   }
@@ -83,6 +87,7 @@ api_info <- function(path, auth_header,...) {
     progressBar$tick(100, tokens = list(what = path))
   }
   message(httr::status_code(resp))
+  .sentry_capture_message(paste0("ausplotsR: .ausplots_api initial GET status=", httr::status_code(resp), " for path='", path, "'"), level = "info")
   
   #######################################################################################
   # if status code is 500 or 503
@@ -92,6 +97,7 @@ api_info <- function(path, auth_header,...) {
   #   and then we can combine all data into one 
   #########################################################################################
   if (httr::status_code(resp) > 500) {
+    .sentry_capture_message(paste0("ausplotsR: paginated fetch triggered for '", path, "'"), level = "warning")
     message('Preparing to paginate the data, please wait... ')
     Sys.sleep(5)
     message(' Calling the database... ')
@@ -141,6 +147,7 @@ api_info <- function(path, auth_header,...) {
         if(inherits(result, "try-error")) {
           stop("Data extraction aborted due to database connection issue.")
         }
+        .sentry_capture_message(paste0("ausplotsR: paginated fetch complete for '", path, "'"), level = "info")
         return(result)
       }
       if (!is.null(progressBar)) {
@@ -167,8 +174,10 @@ api_info <- function(path, auth_header,...) {
   if(inherits(result, "try-error")) {
     stop("Data extraction aborted due to database connection issue.")
   }
+  .sentry_capture_message(paste0("ausplotsR: data fetched from '", path, "'"), level = "info")
   return(result)
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in .ausplots_api")
     known_msgs <- c(
       "Data extraction aborted due to database connection issue.",
       "API did not return json",
@@ -184,6 +193,7 @@ api_info <- function(path, auth_header,...) {
 ################
 #initial filter function
 .ausplots_api_with_plot_filter <- function(path, Plot_IDs_to_filter_for, extra_query=list()) {
+  .sentry_capture_message(paste0("ausplotsR: .ausplots_api_with_plot_filter called with path='", path, "', Plot_IDs_to_filter_for=", if (length(Plot_IDs_to_filter_for) == 0) "empty" else paste(Plot_IDs_to_filter_for, collapse=","), ", extra_query=", extra_query), level = "info")
   query <- extra_query
   if (length(Plot_IDs_to_filter_for) > 0) {
     
@@ -214,6 +224,7 @@ api_info <- function(path, auth_header,...) {
 #subsequent filter function
 
 .ausplots_api_with_specified_plot_ids <- function(path, Plot_IDs_to_retrieve_data_for, extra_query=list()) {
+  .sentry_capture_message(paste0("ausplotsR: .ausplots_api_with_specified_plot_ids called with path='", path, "', Plot_IDs_to_retrieve_data_for=", paste(Plot_IDs_to_retrieve_data_for, collapse=","), ", extra_query=", extra_query), level = "info")
   
   
   site_unique_search <- any(grepl("-", Plot_IDs_to_retrieve_data_for, fixed=TRUE))
@@ -234,6 +245,7 @@ api_info <- function(path, auth_header,...) {
 ################
 
 list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="none", herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
+  .sentry_capture_message(paste0("ausplotsR: list_available_plots called with Plot_IDs=", if (length(Plot_IDs) == 0) "empty (all)" else paste(Plot_IDs, collapse=","), ", plot_search=", ifelse(is.null(plot_search), "NULL", plot_search), ", bounding_box=", bounding_box[1], ", herbarium_determination_search=", ifelse(is.null(herbarium_determination_search), "NULL", herbarium_determination_search), ", family_search=", ifelse(is.null(family_search), "NULL", family_search), ", standardised_name_search=", ifelse(is.null(standardised_name_search), "NULL", standardised_name_search)), level = "info")
   extra_query <- list()
   
   if(!is.null(family_search)) {
@@ -282,6 +294,7 @@ list_available_plots <- function(Plot_IDs=c(), plot_search=NULL, bounding_box="n
 ################
 
 extract_site_info <- function(Plot_IDs) {
+  .sentry_capture_message(paste0("ausplotsR: extract_site_info called with Plot_IDs=", paste(Plot_IDs, collapse=",")), level = "info")
   path <- "site"
   result <- .ausplots_api_with_specified_plot_ids(path, Plot_IDs)
   result$state = mapply(function(x) substr(x, 0, 2), result$site_location_name)
@@ -296,6 +309,7 @@ extract_site_info <- function(Plot_IDs) {
 ###############
 
 extract_struct_summ <- function(Plot_IDs) {
+  .sentry_capture_message(paste0("ausplotsR: extract_struct_summ called with Plot_IDs=", paste(Plot_IDs, collapse=",")), level = "info")
   path <- "structural_summary"
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 } 
@@ -303,6 +317,7 @@ extract_struct_summ <- function(Plot_IDs) {
 ####################
 
 extract_soil_subsites <- function(Plot_IDs) {
+  .sentry_capture_message(paste0("ausplotsR: extract_soil_subsites called with Plot_IDs=", paste(Plot_IDs, collapse=",")), level = "info")
   path <- "soil_subsite"
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
@@ -310,6 +325,7 @@ extract_soil_subsites <- function(Plot_IDs) {
 ##################
 
 extract_bulk_density <- function(Plot_IDs) {
+  .sentry_capture_message(paste0("ausplotsR: extract_bulk_density called with Plot_IDs=", paste(Plot_IDs, collapse=",")), level = "info")
   path <- "soil_bulk_density"
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
@@ -317,6 +333,7 @@ extract_bulk_density <- function(Plot_IDs) {
 ##################
 
 extract_soil_char <- function(Plot_IDs) {
+  .sentry_capture_message(paste0("ausplotsR: extract_soil_char called with Plot_IDs=", paste(Plot_IDs, collapse=",")), level = "info")
   path <- "soil_characterisation"
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
@@ -324,6 +341,7 @@ extract_soil_char <- function(Plot_IDs) {
 ##################
 
 extract_basal <- function(Plot_IDs, herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
+  .sentry_capture_message(paste0("ausplotsR: extract_basal called with Plot_IDs=", paste(Plot_IDs, collapse=","), ", herbarium_determination_search=", ifelse(is.null(herbarium_determination_search), "NULL", herbarium_determination_search), ", family_search=", ifelse(is.null(family_search), "NULL", family_search), ", standardised_name_search=", ifelse(is.null(standardised_name_search), "NULL", standardised_name_search)), level = "info")
   extra_query <- list() 
   path <- "veg_basal"
   if(!is.null(family_search)) {
@@ -341,6 +359,7 @@ extract_basal <- function(Plot_IDs, herbarium_determination_search=NULL, family_
 ############################
 
 extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_search=NULL, standardised_name_search=NULL) {
+  .sentry_capture_message(paste0("ausplotsR: extract_vouch called with Plot_IDs=", paste(Plot_IDs, collapse=","), ", herbarium_determination_search=", ifelse(is.null(herbarium_determination_search), "NULL", herbarium_determination_search), ", family_search=", ifelse(is.null(family_search), "NULL", family_search), ", standardised_name_search=", ifelse(is.null(standardised_name_search), "NULL", standardised_name_search)), level = "info")
   extra_query <- list()
   path <- "veg_voucher"
   if(!is.null(family_search)) {
@@ -358,6 +377,7 @@ extract_vouch <- function(Plot_IDs, herbarium_determination_search=NULL, family_
 ############################
 
 extract_hits <- function(Plot_IDs) {
+  .sentry_capture_message(paste0("ausplotsR: extract_hits called with Plot_IDs=", paste(Plot_IDs, collapse=",")), level = "info")
   path <- "veg_pi"
   return(.ausplots_api_with_specified_plot_ids(path, Plot_IDs))
 }
@@ -367,6 +387,7 @@ extract_hits <- function(Plot_IDs) {
 cache$user_agent <- NULL
 
 .make_user_agent <- function() {
+  .sentry_capture_message("ausplotsR: .make_user_agent called", level = "info")
   # thanks https://github.com/r-lib/httr/blob/af25ebd0e3b72d2dc6e1423242b94efc25bc97cc/R/config.r#L137
   if (is.null(cache$user_agent)) {
     if (getOption("ausplotsR_api_debug", default = FALSE)) {
@@ -389,6 +410,7 @@ cache$user_agent <- NULL
 cache$metadata_dictionary <- NULL
 
 .get_metadata_dictionary <- function(force_refresh = FALSE) {
+  .sentry_capture_message(paste0("ausplotsR: .get_metadata_dictionary called with force_refresh=", force_refresh), level = "info")
   if (is.null(cache$metadata_dictionary) || force_refresh) {
     if (getOption("ausplotsR_api_debug", default = FALSE)) {
       message('refreshing metadata_dictionary and storing in cache')

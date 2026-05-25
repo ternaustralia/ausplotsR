@@ -199,3 +199,32 @@ test_that("community_traits: wrapped error has call.=FALSE", {
   err <- tryCatch(community_traits("not a list"), error = function(e) e)
   expect_null(err$call)
 })
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when input is invalid, .sentry_capture_exception is called
+# Input:         "not a list"; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("community_traits: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- community_traits
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn("not a list"))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid ausplots object; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("community_traits: capture_message 'info' on successful computation", {
+  captured_levels <- character(0)
+  fn <- community_traits
+  mockery::stub(fn, "get_trait_data_pp", function() fixture("species_level_functional_traits.json"))
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(make_ausplots_from_fixtures())
+  expect_true("info" %in% captured_levels)
+})

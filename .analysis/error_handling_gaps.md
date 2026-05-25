@@ -9,21 +9,36 @@
 
 ## Summary table — what a top-level `tryCatch` would catch
 
-| # | File | Function | Top-level `tryCatch` sufficient? | What it would catch |
-|---|------|----------|----------------------------------|---------------------|
-| 1 | `R/ausplots_queries.r` | `.ausplots_api()` | **No** — root fix required first | Network errors, JSON parse failures, pagination crashes |
-| 2 | `R/data_afa_static.R` | `get_afa_static()` | **No** — depends on #1 fix | API failure + column-rename crash |
-| 3 | `R/get_nvis.R` | `get_nvis()` | **No** — depends on #1 fix | API failure + processing errors |
-| 4 | `R/data_trait_data_pp.R` | `get_trait_data_pp()` | **No** — depends on #1 fix | API failure + processing errors |
-| 5 | `R/basal_area.R` | `basal_area()` | **Yes** | Missing column errors from `plyr`/`aggregate` |
-| 6 | `R/fractional_cover.R` | `fractional_cover()` | **Partial** — silent wrong output uncatchable | Loop errors, missing columns; but all-NA fraction case produces wrong output silently |
-| 7 | `R/species_table.R` | `species_table()` | **Yes** | Missing column errors, `ma_ausplot_ma()` failures |
-| 8 | `R/growth_form_table.R` | `growth_form_table()` | **Partial** — silent wrong output uncatchable | Column-access errors; but empty-frame path produces wrong output silently |
-| 9 | `R/species_list.R` | `species_list()` | **Partial** — `append_family` silent NA uncatchable | `write.table()` failures when `writefile=TRUE` |
-| 10 | `R/invasion_info.R` | `invasion_info()` | **Yes** | `APCalign::align_taxa()` failures |
-| 11 | `R/biodiversity_metrics.R` | `biodiversity_metrics()` | **Yes** | Errors propagating up from `species_table()` |
-| 12 | `R/species_traits.R` | `species_traits()` | **No** — depends on #1 fix | `get_trait_data_pp()` returning bogus data silently |
-| 13 | `R/community_traits.R` | `community_traits()` | **No** — depends on #1 fix | Same as above |
+| # | File | Function | Top-level `tryCatch` sufficient? | What it would catch | Status | Sentry capture |
+|---|------|----------|----------------------------------|---------------------|--------|----------------|
+| 1 | `R/ausplots_queries.r` | `.ausplots_api()` | **No** — root fix required first | Network errors, JSON parse failures, pagination crashes | 🟢 Done | 🟢 Done |
+| 2 | `R/data_afa_static.R` | `get_afa_static()` | **No** — depends on #1 fix | API failure + column-rename crash | 🟢 Done | \ud83d\udfe2 Done |
+| 3 | `R/get_nvis.R` | `get_nvis()` | **No** — depends on #1 fix | API failure + processing errors | 🟢 Done | 🟡 Pending |
+| 4 | `R/data_trait_data_pp.R` | `get_trait_data_pp()` | **No** — depends on #1 fix | API failure + processing errors | 🟢 Done | 🟡 Pending |
+| 5 | `R/basal_area.R` | `basal_area()` | **Yes** | Missing column errors from `plyr`/`aggregate` | 🟢 Done | 🟡 Pending |
+| 6 | `R/fractional_cover.R` | `fractional_cover()` | **Partial** — silent wrong output uncatchable | Loop errors, missing columns; but all-NA fraction case produces wrong output silently | 🟢 Done | 🟡 Pending |
+| 7 | `R/species_table.R` | `species_table()` | **Yes** | Missing column errors, `ma_ausplot_ma()` failures | 🟢 Done | 🟡 Pending |
+| 8 | `R/growth_form_table.R` | `growth_form_table()` | **Partial** — silent wrong output uncatchable | Column-access errors; but empty-frame path produces wrong output silently | 🟢 Done | 🟡 Pending |
+| 9 | `R/species_list.R` | `species_list()` | **Partial** — `append_family` silent NA uncatchable | `write.table()` failures when `writefile=TRUE` | 🟢 Done | 🟡 Pending |
+| 10 | `R/invasion_info.R` | `invasion_info()` | **Yes** | `APCalign::align_taxa()` failures | 🟢 Done | 🟡 Pending |
+| 11 | `R/biodiversity_metrics.R` | `biodiversity_metrics()` | **Yes** | Errors propagating up from `species_table()` | 🟢 Done | 🟡 Pending |
+| 12 | `R/species_traits.R` | `species_traits()` | **No** — depends on #1 fix | `get_trait_data_pp()` returning bogus data silently | 🟢 Done | 🟡 Pending |
+| 13 | `R/community_traits.R` | `community_traits()` | **No** — depends on #1 fix | Same as above | 🟢 Done | 🟡 Pending |
+| 14 | `R/data_NVIS.R` | *(static dataset, no function)* | **N/A** | — | 🟢 Done | N/A |
+| 15 | `R/ausplots_trajectory.R` | `ausplots_trajectory()` | **Yes** | PCoA/diversity computation errors | 🟢 Done | 🟡 Pending |
+| 16 | `R/ausplots_visual.R` | `ausplots_visual()` | **Yes** | Errors from any of the sub-plot functions | 🟢 Done | 🟡 Pending |
+| 17 | `R/cumulative_cover.R` | `cumulative_cover()` | **Yes** | Column-access errors on `veg.PI` | 🟢 Done | 🟡 Pending |
+| 18 | `R/fraction_pie.R` | `fraction_pie()` | **Yes** | Bad input to plotting calls | 🟢 Done | 🟡 Pending |
+| 19 | `R/growthform_pie.R` | `growthform_pie()` | **Yes** | Bad input to plotting calls | 🟢 Done | 🟡 Pending |
+| 20 | `R/map_attribute.R` | `map_attribute()` | **Yes** | Map/ggplot errors | 🟢 Done | 🟡 Pending |
+| 21 | `R/map_ausplots.R` | `map_ausplots()` | **Yes** | Map/ggplot errors | 🟢 Done | 🟡 Pending |
+| 22 | `R/point_intercept_visual.R` | `point_intercept_visual()` | **Yes** | Plot/column-access errors | 🟢 Done | 🟡 Pending |
+| 23 | `R/set_auth.R` | `set_auth()` | **Yes** | Credential storage errors | 🟢 Done | 🟡 Pending |
+| 24 | `R/ma_ausplot_ma.R` | `ma_ausplot_ma()` | **Yes** | Internal reshape errors | 🟢 Done | 🟡 Pending |
+| 25 | `R/single_cover_value.R` | `single_cover_value()` | **Yes** | Column-access errors on `veg.PI` | 🟢 Done | 🟡 Pending |
+| 26 | `R/species_optimisation.R` | `optim_species()` | **Yes** | Optimisation/matrix computation errors | 🟢 Done | 🟡 Pending |
+| 27 | `R/trajectoryPlots_ausplots.R` | `trajectoryPCoA_ausplots()` | **Yes** | Distance/ordination computation errors | 🟢 Done | 🟡 Pending |
+| 28 | `R/whitt.plot.R` | `whitt.plot()` | **Yes** | Plot errors on abundance vector | 🟢 Done | 🟡 Pending |
 
 ---
 

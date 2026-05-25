@@ -1,5 +1,6 @@
 map_ausplots <- function(my.ausplots.object) {
-	
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: map_ausplots called with my.ausplots.object=", ifelse(is.list(my.ausplots.object), paste0("list, site.info=", ifelse(is.data.frame(my.ausplots.object$site.info), paste0(nrow(my.ausplots.object$site.info), " rows"), "missing")), class(my.ausplots.object)[1])), level = "info")
   #input checks
   
   if(!("site.info" %in% names(my.ausplots.object))) {
@@ -27,5 +28,10 @@ map_ausplots <- function(my.ausplots.object) {
 		     ggtitle("AusPlots locations") + 
 		     theme(plot.title = element_text(hjust = 0.5, face="bold", size=14))
 		     print(the_map)
+  .sentry_capture_message("ausplotsR: map_ausplots rendered successfully", level = "info")
 	
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in map_ausplots")
+    stop(paste0("Failed to generate ausplots map: ", conditionMessage(e)), call. = FALSE)
+  })
 }

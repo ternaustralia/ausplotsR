@@ -8,6 +8,8 @@
 # representation. Ecological Modelling 440: 109400
 
 trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, traj.colors = NULL, axes=c(1,2), survey.labels = FALSE, ...) {
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: trajectoryPCoA_ausplots called with n_sites=", length(unique(sites)), ", axes=", paste(axes, collapse=","), ", selection=", ifelse(is.null(selection), "NULL (all)", length(selection))), level = "info")
   siteIDs <- unique(sites)
   nsite <- length(siteIDs)
   
@@ -49,11 +51,18 @@ trajectoryPCoA_ausplots <- function(d, sites, surveys = NULL, selection = NULL, 
     }
   }
   #Return cmdscale result
+  .sentry_capture_message("ausplotsR: trajectoryPCoA_ausplots plotted successfully", level = "info")
   invisible(cmd_D2)
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in trajectoryPCoA_ausplots")
+    stop(paste0("Failed to generate trajectory PCoA plot: ", conditionMessage(e)), call. = FALSE)
+  })
 }
 
 trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, traj.colors = NULL, axes=c(1,2), 
                          survey.labels = FALSE, axis.x="Species richness", axis.y="Shannon diversity", ...) {
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: trajectoryPlot_ausplots called with n_sites=", length(unique(sites)), ", axes=", paste(axes, collapse=","), ", axis.x=", axis.x, ", axis.y=", axis.y), level = "info")
   siteIDs <- unique(sites)
   nsite <- length(siteIDs)
   
@@ -91,4 +100,9 @@ trajectoryPlot_ausplots <- function(x, sites, surveys = NULL, selection = NULL, 
       }
     }
   }
+  .sentry_capture_message("ausplotsR: trajectoryPlot_ausplots plotted successfully", level = "info")
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in trajectoryPlot_ausplots")
+    stop(paste0("Failed to generate trajectory plot: ", conditionMessage(e)), call. = FALSE)
+  })
 }

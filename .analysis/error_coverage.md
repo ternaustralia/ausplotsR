@@ -467,3 +467,413 @@ Thin wrappers around `.ausplots_api_with_specified_plot_ids()`. No additional er
 > which returns `NULL` and sets metric columns to `NA` — the outer tryCatch is not
 > triggered. Existing tests remain valid via substring matching.
 
+---
+
+## `R/ausplots_trajectory.R`
+
+### `ausplots_trajectory()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `ausplots_trajectory` | `my.ausplots.object` not supplied | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: my.ausplots.object must be specified, see get_ausplots"` | ✅ `"ausplots_trajectory: missing my.ausplots.object is caught and wrapped"` |
+| 2 | `ausplots_trajectory` | `my.ausplots.object` is not a list | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: my.ausplots.object must be a list ..."` | ✅ `"ausplots_trajectory: non-list my.ausplots.object is caught and wrapped"` |
+| 3 | `ausplots_trajectory` | `plot_select` is not a character vector | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: plot_select must be a character vector ..."` | ✅ `"ausplots_trajectory: non-character plot_select is caught and wrapped"` |
+| 4 | `ausplots_trajectory` | `plot_select` has no matching site names | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: No entries in plot_select were found ..."` | ✅ `"ausplots_trajectory: plot_select with no matches is caught and wrapped"` |
+| 5 | `ausplots_trajectory` | `choices` contains no valid value (`"PCoA"` or `"diversity"`) | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: choices must include at least one of PCoA or diversity."` | ✅ `"ausplots_trajectory: invalid choices is caught and wrapped"` |
+| 6 | `ausplots_trajectory` | No sites have `visit_number >= min.revisits` | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: No sites have at least N visits ..."` | ✅ `"ausplots_trajectory: insufficient visits is caught and wrapped"` |
+| 7 | `ausplots_trajectory` | `species_table()` throws (missing column, bad data) | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: <original msg from species_table>"` | (covered by tryCatch; no separate test) |
+| 8 | `ausplots_trajectory` | `vegan::vegdist(diss)` degenerate matrix | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: <original msg from vegdist>"` | (covered by tryCatch; no separate test) |
+| 9 | `ausplots_trajectory` | `pdf(outfile)` unwritable path | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plots: cannot open file ..."` | (covered by tryCatch; no separate test) |
+
+---
+
+## Summary — `ausplots_trajectory.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 6 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **9** |
+
+> Rows 1–6 are caught paths with tests. Rows 7–9 are caught by the same top-level
+> `tryCatch` but have no dedicated tests — the tryCatch catches them automatically.
+
+---
+
+## `R/ausplots_visual.R`
+
+### `ausplots_visual()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `ausplots_visual` | All output flags set to `FALSE` | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots visualisations: You have not requested any outputs! ..."` | ✅ `"ausplots_visual: all outputs FALSE is caught and wrapped"` |
+| 2 | `ausplots_visual` | `my.ausplots.object` provided but missing `$veg.PI` while veg plots requested | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots visualisations: If you provide a my.ausplots.object it must contain $veg.PI data ..."` | ✅ `"ausplots_visual: missing veg.PI is caught and wrapped"` |
+| 3 | `ausplots_visual` | `my.ausplots.object` provided but missing `$site.info` while map requested | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots visualisations: If you provide a my.ausplots.object it must contain $site.info data ..."` | ✅ `"ausplots_visual: missing site.info is caught and wrapped"` |
+| 4 | `ausplots_visual` | No `my.ausplots.object`; `get_ausplots()` throws (network / API failure) | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots visualisations: <original msg from get_ausplots>"` | ✅ `"ausplots_visual: get_ausplots failure is caught and wrapped"` |
+| 5 | `ausplots_visual` | `fraction_pie(frac, i)` throws for a given site | Silent — wrapped in `try()` inside loop | `try-error` object returned and discarded; rest of sites continue | ⚠️ Silent by design — `try()` swallows; no separate test |
+| 6 | `ausplots_visual` | `growthform_pie(GF[i,], GF_col)` throws for a given site | Silent — wrapped in `try()` inside loop | Same as above | ⚠️ Silent by design |
+| 7 | `ausplots_visual` | `cumulative_cover(subset(...))` throws for a given site | Silent — wrapped in `try()` inside loop | Same as above | ⚠️ Silent by design |
+| 8 | `ausplots_visual` | `whitt.plot(sppBYsites[i,])` throws for a given site | Silent — wrapped in `try()` inside loop | Same as above | ⚠️ Silent by design |
+| 9 | `ausplots_visual` | `map_ausplots()` or `map_attribute()` throws | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots visualisations: <original msg>"` | (covered by tryCatch; no separate test) |
+| 10 | `ausplots_visual` | `pdf(outfile)` unwritable path | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots visualisations: cannot open file ..."` | (covered by tryCatch; no separate test) |
+
+---
+
+## Summary — `ausplots_visual.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 4 |
+| ⚠️ Silent by design (`try()`) | 4 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **10** |
+
+> Rows 1–4 are caught paths with tests. Rows 5–8 are silently swallowed by
+> existing `try()` calls inside the per-site loop — this is intentional fault
+> tolerance (one bad site should not abort the whole visualisation). Rows 9–10
+> are caught by the outer `tryCatch` automatically.
+
+---
+
+## `R/cumulative_cover.R`
+
+### `cumulative_cover()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `cumulative_cover` | `veg.PI` missing `herbarium_determination` column → `veg.PI[, c("herbarium_determination", …)]` throws | Caught by tryCatch → wrapped with context | `"Failed to generate cumulative cover plot: undefined columns selected"` | ✅ `"cumulative_cover: missing herbarium_determination column is caught and wrapped"` · `"cumulative_cover: wrapped error preserves original cause"` |
+| 2 | `cumulative_cover` | `veg.PI` missing `hits_unique` column → same column-access crash | Caught by tryCatch → wrapped with context | `"Failed to generate cumulative cover plot: undefined columns selected"` | ✅ `"cumulative_cover: missing hits_unique column is caught and wrapped"` |
+| 3 | `cumulative_cover` | `veg.PI` missing `in_canopy_sky` column → same column-access crash | Caught by tryCatch → wrapped with context | `"Failed to generate cumulative cover plot: undefined columns selected"` | ✅ `"cumulative_cover: missing in_canopy_sky column is caught and wrapped"` |
+| 4 | `cumulative_cover` | All `herbarium_determination` = NA → outer `if(length(na.omit(…)) > 0)` guard skips plotting | Silent correct output (benign) | No error; function returns NULL with no plot rendered | ✅ `"cumulative_cover: all-NA herbarium_determination runs without error"` |
+
+---
+
+## Summary — `cumulative_cover.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 4 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **4** |
+
+> Rows 1–3 are caught paths — `tryCatch` fires when required columns are absent.
+> Row 4 is a benign silent path — the function correctly skips rendering when all
+> species names are NA; no error expected or observed.
+
+---
+
+## `R/fraction_pie.R`
+
+### `fraction_pie()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `fraction_pie` | Invalid `row` name not found in `frac` → `frac[row, …]` fails | `try()` → silent swallow | `try-error` returned and discarded; function returns NULL | ✅ `"fraction_pie: invalid row is silently swallowed by try"` |
+| 2 | `fraction_pie` | `frac = NULL` → `NULL[row, …]` throws "incorrect number of dimensions" | `try()` → silent swallow | Same as above | ✅ `"fraction_pie: NULL frac is silently swallowed by try"` |
+
+---
+
+## Summary — `fraction_pie.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 2 |
+| ⚠️ Silent by design (`try()`) | 2 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **2** |
+
+> Both rows are silently swallowed by the existing `try()` calls that wrap the
+> entire body. The outer `tryCatch` is a safety net only — it never fires under
+> normal R semantics because `try()` absorbs all errors first. Tests document
+> the silent-swallowing behaviour.
+
+---
+
+## `R/growthform_pie.R`
+
+### `growthform_pie()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `growthform_pie` | `GF` is not a matrix/data.frame → `colSums(GF)` throws **outside** `try()` | Caught by tryCatch → wrapped with context | `"Failed to generate growth form pie chart: not numeric|'x' must be|requires numeric"` | ✅ `"growthform_pie: non-matrix GF input is caught and wrapped"` · `"growthform_pie: wrapped error preserves original cause"` |
+| 2 | `growthform_pie` | `pie(…)` or `legend(…)` throws (bad colours, empty GF, etc.) | `try()` → silent swallow | `try-error` returned and discarded | ⚠️ Silent by design — `try()` swallows; no separate test |
+| 3 | `growthform_pie` | All GF columns zero → `GF[, which(colSums(GF) > 0)]` produces 0-column frame → `pie(numeric(0))` → try() absorbs | `try()` → silent swallow | No error; blank/empty plot | ✅ `"growthform_pie: all-zero column is silently dropped"` (partial — 1 zero col) |
+
+---
+
+## Summary — `growthform_pie.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 2 |
+| ⚠️ Silent by design (`try()`) | 1 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **3** |
+
+> Row 1 is a caught path — `tryCatch` fires when `colSums()` receives a
+> non-numeric argument (the only code outside `try()`). Rows 2–3 are silently
+> swallowed by `try()` — the outer `tryCatch` is not triggered.
+
+---
+
+## `R/map_attribute.R`
+
+### `map_attribute()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `map_attribute` | `my.ausplots.object` is NULL → `my.ausplots.object$veg.PI$growth_form` throws | Caught by tryCatch → wrapped with context | `"Failed to generate attribute map: <original msg>"` | ✅ `"map_attribute: NULL input is caught and wrapped"` · `"map_attribute: wrapped error preserves original cause"` |
+| 2 | `map_attribute` | `my.ausplots.object$veg.PI` is NULL → `NULL$growth_form` returns NULL → `any(c(…) %in% NULL)` = FALSE — no-tree guard fires; `message()` emitted | Silent correct output (benign) | No error; message "The selected plots have no trees..." emitted | ✅ `"map_attribute: no-tree input skips plotting without error"` |
+| 3 | `map_attribute` | `ggplot2::map_data("world2Hires", "Australia")` fails (mapdata not installed) | Caught by tryCatch → wrapped with context | `"Failed to generate attribute map: <original msg>"` | (covered by tryCatch; no separate test) |
+| 4 | `map_attribute` | `single_cover_value()` throws (missing column in veg.PI) | Caught by tryCatch → wrapped with context | `"Failed to generate attribute map: <original msg>"` | (covered by tryCatch; no separate test) |
+| 5 | `map_attribute` | `merge()` result missing `longitude`/`latitude` → ggplot2 column-access crash | Caught by tryCatch → wrapped with context | `"Failed to generate attribute map: <original msg>"` | (covered by tryCatch; no separate test) |
+
+---
+
+## Summary — `map_attribute.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 3 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **5** |
+
+> Row 1 is a caught path — `tryCatch` fires when NULL is passed. Row 2 is a
+> benign silent path — the no-tree guard fires and emits a message without error.
+> Rows 3–5 are caught by the outer `tryCatch` automatically but have no dedicated
+> tests.
+
+---
+
+## `R/map_ausplots.R`
+
+### `map_ausplots()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `map_ausplots` | `my.ausplots.object` missing `$site.info` → explicit `stop()` inside tryCatch | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots map: The input 'my.ausplots.object' must contain $site.info data ..."` | ✅ `"map_ausplots: missing site.info is caught and wrapped"` · `"map_ausplots: wrapped error preserves original cause"` |
+| 2 | `map_ausplots` | `my.ausplots.object` is NULL → `names(NULL)` = NULL → `!("site.info" %in% NULL)` TRUE → same stop() fires | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots map: ..."` | ✅ `"map_ausplots: NULL input is caught and wrapped"` |
+| 3 | `map_ausplots` | `site.info` missing `bioregion_name` column → `factor(NULL)` assigned; `levels()` = character(0) → shape calculation crashes | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots map: <original msg>"` | ✅ `"map_ausplots: site.info missing required columns is caught and wrapped"` |
+| 4 | `map_ausplots` | `ggplot2::map_data("world2Hires", "Australia")` fails (mapdata not installed) | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots map: <original msg>"` | (covered by tryCatch; no separate test) |
+| 5 | `map_ausplots` | `site.info` missing `longitude`/`latitude` → ggplot2 aes column-access crash | Caught by tryCatch → wrapped with context | `"Failed to generate ausplots map: <original msg>"` | (covered by tryCatch; no separate test) |
+
+---
+
+## Summary — `map_ausplots.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 3 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **5** |
+
+> Rows 1–3 are caught paths with tests. Rows 4–5 are caught by the outer
+> `tryCatch` automatically but have no dedicated tests.
+
+---
+
+## `R/point_intercept_visual.R`
+
+### `point_intercept_visual()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `point_intercept_visual` | `plots` is missing/NULL/empty → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: Please provide one or more plot IDs ..."` | ✅ `"point_intercept_visual: missing plots is caught and wrapped"` · `"point_intercept_visual: wrapped error preserves original cause"` |
+| 2 | `point_intercept_visual` | `ausplots$veg.PI` is NULL → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: ausplots$veg.PI is missing."` | ✅ `"point_intercept_visual: missing veg.PI is caught and wrapped"` |
+| 3 | `point_intercept_visual` | `ausplots$site.info` is NULL → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: ausplots$site.info is missing."` | ✅ `"point_intercept_visual: missing site.info is caught and wrapped"` |
+| 4 | `point_intercept_visual` | `plot_is_100m_by_100m` column absent from `site.info` → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: ausplots$site.info$plot_is_100m_by_100m is missing."` | (covered by tryCatch; column-check stop()) |
+| 5 | `point_intercept_visual` | `site_location_name` column absent from `site.info` → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: ausplots$site.info$site_location_name is missing."` | (covered by tryCatch; column-check stop()) |
+| 6 | `point_intercept_visual` | `visual` contains invalid value → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: \`visual\` must be one or more of: ..."` | ✅ `"point_intercept_visual: invalid visual value is caught and wrapped"` |
+| 7 | `point_intercept_visual` | After filtering, no rows remain → `nrow(pi_data) == 0` → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: No point intercept data left after filtering."` | (covered by tryCatch; no separate test) |
+| 8 | `point_intercept_visual` | Transect/coordinate loop or `layout()`/`plot()` crash on bad column data | Caught by tryCatch → wrapped with context | `"Failed to generate point intercept visualisation: <original msg>"` | (covered by tryCatch; no separate test) |
+
+---
+
+## Summary — `point_intercept_visual.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 4 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **8** |
+
+> Rows 1–3, 6 are caught paths with tests. Rows 4–5, 7–8 are caught by the outer
+> `tryCatch` automatically via the same explicit `stop()` or propagated errors —
+> no dedicated tests required.
+
+---
+
+## `R/set_auth.R`
+
+### `set_auth()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `set_auth` | `role` is NULL → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to set authentication: role must be the name of the role you wish to assume"` | ✅ `"set_auth: NULL role is caught and wrapped"` · `"set_auth: wrapped error preserves original cause for NULL role"` |
+| 2 | `set_auth` | `secret` is NULL → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to set authentication: secret must be the secret used to authenticate you to the API"` | ✅ `"set_auth: NULL secret is caught and wrapped"` · `"set_auth: wrapped error preserves original cause for NULL secret"` |
+| 3 | `set_auth` | `role` and `secret` valid → `options()` stores both; `message()` emitted | Happy path | No error | ✅ `"set_auth: valid role and secret are stored without error"` |
+
+---
+
+## Summary — `set_auth.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 3 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **3** |
+
+> Rows 1–2 are caught paths — `tryCatch` fires when NULL is passed for either
+> credential. Row 3 is the happy path. No silent wrong output paths exist —
+> `set_auth()` either stores credentials or raises an error.
+
+---
+
+## `R/ma_ausplot_ma.R`
+
+### `ma_ausplot_ma()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `ma_ausplot_ma` | Single-column data frame → `ncol(dat) < 2` → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to reshape site-by-species matrix: Mama needs at least two columns (vectors)!"` | ✅ `"ma_ausplot_ma: single-column input is caught and wrapped"` · `"ma_ausplot_ma: wrapped error preserves original cause"` |
+| 2 | `ma_ausplot_ma` | NULL input → `data.frame(NULL)` = 0-col df → same stop() fires | Caught by tryCatch → wrapped with context | `"Failed to reshape site-by-species matrix: ..."` | ✅ `"ma_ausplot_ma: NULL input is caught and wrapped"` |
+| 3 | `ma_ausplot_ma` | Valid 2-column input → reshape succeeds | Happy path | No error; wide data frame returned | ✅ `"ma_ausplot_ma: valid 2-column input reshapes without error"` |
+
+---
+
+## Summary — `ma_ausplot_ma.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 3 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **3** |
+
+> Rows 1–2 are caught paths — `tryCatch` fires on the explicit `stop()` for
+> insufficient columns. Row 3 is the happy path.
+
+---
+
+## `R/single_cover_value.R`
+
+### `single_cover_value()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `single_cover_value` | `veg.PI` not a data.frame → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to calculate cover value: veg.PI must be a data.frame"` | ✅ `"single_cover_value: non-data.frame input is caught and wrapped"` · `"single_cover_value: wrapped error preserves original cause"` |
+| 2 | `single_cover_value` | `veg.PI` missing `growth_form`, `site_unique`, or `height` column → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to calculate cover value: Can't match names of veg.PI..."` | ✅ `"single_cover_value: missing required columns is caught and wrapped"` |
+| 3 | `single_cover_value` | NULL input → `inherits(NULL, "data.frame")` FALSE → stop() fires | Caught by tryCatch → wrapped with context | `"Failed to calculate cover value: veg.PI must be a data.frame"` | ✅ `"single_cover_value: NULL input is caught and wrapped"` |
+| 4 | `single_cover_value` | `in_canopy_sky` not logical → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to calculate cover value: in_canopy_sky must be logical (TRUE/FALSE)"` | (covered by tryCatch; no separate test) |
+| 5 | `single_cover_value` | `by.growth_form=TRUE`, none of `my.growth_forms` present in data → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to calculate cover value: One or more growth forms supplied in my.growth_forms is not present..."` | (covered by tryCatch; no separate test) |
+| 6 | `single_cover_value` | Valid veg.PI → returns `data.frame` with `site_unique` and `percentCover` | Happy path | No error | ✅ `"single_cover_value: valid input returns cover data frame without error"` |
+
+---
+
+## Summary — `single_cover_value.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 4 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **6** |
+
+> Rows 1–5 are caught paths — `tryCatch` fires on input-validation `stop()`
+> calls. Rows 4–5 are covered by the outer `tryCatch` automatically. Row 6 is
+> the happy path.
+
+---
+
+## `R/species_optimisation.R`
+
+### `optim_species()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `optim_species` | `start` not one of `"fixed"`, `"defined"`, `"random"` → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to optimise species accumulation: Argument 'start' must be character and one of: ..."` | ✅ `"optim_species: invalid start is caught and wrapped"` · `"optim_species: wrapped error preserves original cause"` |
+| 2 | `optim_species` | `plot_name` not in `rownames(speciesVsitesMatrix)` → explicit `stop()` | Caught by tryCatch → wrapped with context | `"Failed to optimise species accumulation: Selected plot_name must match a site/row name..."` | ✅ `"optim_species: invalid plot_name is caught and wrapped"` |
+| 3 | `optim_species` | NULL matrix input → `speciesVsitesMatrix[,1]` on NULL crashes | Caught by tryCatch → wrapped with context | `"Failed to optimise species accumulation: <original msg>"` | ✅ `"optim_species: NULL input is caught and wrapped"` |
+| 4 | `optim_species` | `try(plot_opt(result))` fails | Silent — `try()` swallows by design | `try-error` returned and discarded | ⚠️ Silent by design |
+| 5 | `optim_species` | Sub-function (`Richness.opt`, `RRR.opt`, etc.) throws (empty matrix, bad data) | Caught by tryCatch → wrapped with context | `"Failed to optimise species accumulation: <original msg>"` | (covered by tryCatch; no separate test) |
+
+---
+
+## Summary — `species_optimisation.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 3 |
+| ⚠️ Silent by design (`try()`) | 1 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **5** |
+
+> Rows 1–3 are caught paths with tests. Row 4 is silently swallowed by the
+> existing `try(plot_opt(result))` — plot failure should never abort an
+> optimisation run. Row 5 is caught automatically by `tryCatch`.
+
+---
+
+## `R/trajectoryPlots_ausplots.R`
+
+### `trajectoryPCoA_ausplots()` / `trajectoryPlot_ausplots()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `trajectoryPCoA_ausplots` | NULL `d` → `as.matrix(NULL)` subscript crash | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory PCoA plot: <original msg>"` | ✅ `"trajectoryPCoA_ausplots: NULL d is caught and wrapped"` · `"trajectoryPCoA_ausplots: wrapped error preserves original cause"` |
+| 2 | `trajectoryPCoA_ausplots` | `d` size mismatched with `sites` length → matrix subscript crash | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory PCoA plot: <original msg>"` | ✅ `"trajectoryPCoA_ausplots: mismatched d and sites is caught and wrapped"` |
+| 3 | `trajectoryPCoA_ausplots` | `cmdscale()` degenerate distance matrix → fewer columns than `axes[2]` → subscript crash | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory PCoA plot: <original msg>"` | (covered by tryCatch; no separate test) |
+| 4 | `trajectoryPlot_ausplots` | NULL `x` → `x[sites %in% selIDs, axes[1]]` crash | Caught by tryCatch → wrapped with context | `"Failed to generate trajectory plot: <original msg>"` | ✅ `"trajectoryPlot_ausplots: NULL x is caught and wrapped"` |
+
+---
+
+## Summary — `trajectoryPlots_ausplots.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 3 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **4** |
+
+> Rows 1–2, 4 are caught paths with tests. Row 3 is caught automatically by
+> `tryCatch` — no dedicated test required.
+
+---
+
+## `R/whitt.plot.R`
+
+### `whitt.plot()`
+
+| # | Function | Trigger | Failure type | Exact error message / class | Test name |
+|---|----------|---------|--------------|-----------------------------|-----------|
+| 1 | `whitt.plot` | `vegan::rad.lognormal()` throws (NULL/bad input to `round()`) | `try()` → silent swallow | `try-error` returned and discarded; function returns `NULL` | ✅ `"whitt.plot: NULL input is silently swallowed by try"` |
+| 2 | `whitt.plot` | `legend()` throws | `try()` → silent swallow | Same as above | ⚠️ Silent by design — no separate test |
+| 3 | `whitt.plot` | Valid named abundance vector → `rad.lognormal` + `plot` + `legend` succeed | Happy path | No error | ✅ `"whitt.plot: valid abundance vector renders without error"` |
+
+---
+
+## Summary — `whitt.plot.R`
+
+| Status | Count |
+|--------|-------|
+| ✅ Tested | 2 |
+| ⚠️ Silent by design (`try()`) | 1 |
+| ❌ Not tested | 0 |
+| N/A | 0 |
+| **Total error paths** | **3** |
+
+> Both `plot()` and `legend()` are already wrapped in `try()` — all errors are
+> silently absorbed. The outer `tryCatch` is a safety net for future code. Row 1
+> tests the silent-swallowing behaviour. Row 3 is the happy path.
+

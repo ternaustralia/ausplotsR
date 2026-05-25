@@ -13,11 +13,11 @@
 #'
 #' @export
 get_afa_static <- function() {
-
   tryCatch({
-
+    .sentry_capture_message("ausplotsR: get_afa_static called", level = "info")
     raw <- .ausplots_api(path = "/afa_static", query = list())
     afa <- as.data.frame(raw, stringsAsFactors = FALSE)
+    .sentry_capture_message(paste0("ausplotsR: get_afa_static API returned ", nrow(afa), " rows, ", ncol(afa), " columns"), level = "info")
 
     # Map API column names → internal schema names used by invasion_info().
     # Format: api_column_name = "internal_column_name"
@@ -64,10 +64,12 @@ get_afa_static <- function() {
         afa[[missing_col]] <- NA_character_
       }
     }
-
+    .sentry_capture_message(paste0("ausplotsR: get_afa_static schema complete, ", ncol(afa), " columns, ", nrow(afa), " rows"), level = "info")
+    .sentry_capture_message("ausplotsR: AFA static data fetched successfully", level = "info")
     afa
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in get_afa_static")
     stop(paste0("Failed to retrieve AFA invasion status data: ", conditionMessage(e)),
          call. = FALSE)
   })

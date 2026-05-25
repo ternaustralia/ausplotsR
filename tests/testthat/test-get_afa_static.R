@@ -238,3 +238,36 @@ test_that("get_afa_static: all five schema-completion columns preserved when API
   expect_equal(result$threatened_epbc_details,   "epbc detail")
   expect_equal(result$family,                    "Oxalidaceae")
 })
+
+# ══════════════════════════════════════════════════════════════════════════════
+# get_afa_static() — SENTRY CAPTURE (mockery)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: when .ausplots_api throws, .sentry_capture_exception is called
+#   before the error is re-raised
+# Input:         .ausplots_api stubbed to stop(); .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("get_afa_static: capture_exception called when .ausplots_api throws", {
+  capture_exception_called <- FALSE
+  fn <- get_afa_static
+  mockery::stub(fn, ".ausplots_api", function(...) stop("network failure"))
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn(), "network failure")
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         .ausplots_api returns valid data; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("get_afa_static: capture_message 'info' on successful fetch", {
+  captured_levels <- character(0)
+  fn <- get_afa_static
+  mockery::stub(fn, ".ausplots_api", function(...) make_raw_api_response())
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn()
+  expect_true("info" %in% captured_levels)
+})

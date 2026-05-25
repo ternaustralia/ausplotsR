@@ -474,6 +474,85 @@ test_that(".get_metadata_dictionary: force_refresh=TRUE bypasses cache", {
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
+# .ausplots_api() — SENTRY CAPTURE (mockery)
+#
+# These tests verify that Sentry capture helpers are called at the right moments
+# inside .ausplots_api() without hitting the live server.
+# Pattern: fn <- ausplotsR:::.ausplots_api; stub(fn, ...); fn(...)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# What it tests: when try_GET throws a network error, .sentry_capture_exception
+#   is called with the error object before the error is re-raised
+# Input:         try_GET stubbed to stop("network failure")
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that(".ausplots_api: capture_exception called when try_GET throws", {
+  library(mockery)
+  capture_exception_called <- FALSE
+
+  fn <- ausplotsR:::.ausplots_api
+  stub(fn, "try_GET", function(...) stop("network failure"))
+  stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+
+  expect_error(fn("test_path", list()), "network failure")
+  expect_true(capture_exception_called)
+})
+
+# What it tests: when the initial response is HTTP 503, .sentry_capture_message
+#   is called with level "warning" to signal pagination has been triggered
+# Input:         try_GET stubbed to return 503; api_info stubbed to stop immediately
+#                so the pagination loop exits without spinning
+# Expected:      a "warning" level message was captured AND expect_error fires
+test_that(".ausplots_api: capture_message 'warning' when 503 triggers pagination", {
+  library(mockery)
+  captured_levels <- character(0)
+
+  fn <- ausplotsR:::.ausplots_api
+
+  mock_503 <- structure(list(), class = "response")
+  stub(fn, "try_GET",         function(...) mock_503)
+  stub(fn, "httr::status_code", function(resp, ...) 503L)
+  stub(fn, "Sys.sleep",       function(...) invisible(NULL))
+  stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  stub(fn, ".sentry_capture_exception", function(e, ...) invisible(NULL))
+  stub(fn, "api_info", function(...) stop("bail"))
+
+  expect_error(fn("test_path", list()))
+  expect_true("warning" %in% captured_levels)
+})
+
+# What it tests: when a non-paginated response succeeds, .sentry_capture_message
+#   is called with level "info" containing the API path
+# Input:         try_GET → 200 response; httr helpers stubbed; fromJSON → data.frame
+# Expected:      an "info" level message was captured AND msg contains "test_path"
+test_that(".ausplots_api: capture_message 'info' on successful non-paginated fetch", {
+  library(mockery)
+  captured_msgs  <- character(0)
+  captured_levels <- character(0)
+
+  fn <- ausplotsR:::.ausplots_api
+
+  mock_200 <- structure(list(), class = "response")
+  stub(fn, "try_GET",               function(...) mock_200)
+  stub(fn, "httr::status_code",     function(resp, ...) 200L)
+  stub(fn, "httr::stop_for_status", function(...) invisible(NULL))
+  stub(fn, "httr::http_type",       function(...) "application/json")
+  stub(fn, "httr::content",         function(...) '[{"x":1}]')
+  stub(fn, "jsonlite::fromJSON",    function(...) data.frame(x = 1L))
+  stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_msgs   <<- c(captured_msgs, msg)
+    captured_levels <<- c(captured_levels, level)
+  })
+
+  result <- fn("test_path", list())
+  expect_true("info" %in% captured_levels)
+  expect_true(any(grepl("test_path", captured_msgs)))
+})
+
+# ══════════════════════════════════════════════════════════════════════════════
 # INTEGRATION TESTS (require live API — skipped automatically if offline)
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -537,6 +616,7 @@ test_that(".ausplots_api: non-paginated path raises stop() when fromJSON fails",
 
   local_mocked_bindings(
     try_GET = function(path, query, auth_header, ...) fake_resp_200,
+    .sentry_capture_exception = function(e, ...) invisible(NULL),
     .package = "ausplotsR"
   )
 
@@ -1164,6 +1244,7 @@ test_that(".ausplots_api: known message 'Data extraction aborted' passes through
   )
   local_mocked_bindings(
     try_GET = function(...) fake_resp,
+    .sentry_capture_exception = function(e, ...) invisible(NULL),
     .package = "ausplotsR"
   )
   with_mocked_bindings(

@@ -264,13 +264,18 @@
 #' @export
 get_trait_data_pp <- function() {
   tryCatch({
+    .sentry_capture_message("ausplotsR: get_trait_data_pp called", level = "info")
     raw <- .ausplots_api(path = "/species_level_functional_traits", query = list())
     traits <- as.data.frame(raw, stringsAsFactors = FALSE)
+    .sentry_capture_message(paste0("ausplotsR: get_trait_data_pp API returned ", nrow(traits), " taxa, ", ncol(traits), " trait columns"), level = "info")
     if ("d13c" %in% names(traits) && !"d13C" %in% names(traits)) {
       names(traits)[names(traits) == "d13c"] <- "d13C"
     }
+    .sentry_capture_message(paste0("ausplotsR: get_trait_data_pp column normalisation done, returning ", nrow(traits), " rows"), level = "info")
+    .sentry_capture_message("ausplotsR: trait data fetched successfully", level = "info")
     traits
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in get_trait_data_pp")
     stop(paste0("Failed to retrieve species-level trait data: ", conditionMessage(e)), call. = FALSE)
   })
 }

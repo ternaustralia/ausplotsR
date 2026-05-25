@@ -3,6 +3,8 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
                          soil_character=FALSE, plot_search=NULL, bounding_box="none", herbarium_determination_search=NULL, 
                          family_search=NULL, standardised_name_search=NULL, dictionary=FALSE) {
 
+	.sentry_capture_message(paste0("ausplotsR: get_ausplots called with my.Plot_IDs=", ifelse(my.Plot_IDs[1]=="none", "none (all sites)", paste0(length(my.Plot_IDs), " IDs")), ", site_info=", site_info, ", veg.vouchers=", veg.vouchers, ", veg.PI=", veg.PI, ", basal.wedge=", basal.wedge, ", soil_subsites=", soil_subsites, ", soil_bulk_density=", soil_bulk_density, ", soil_character=", soil_character, ", structural_summaries=", structural_summaries, ", bounding_box=", bounding_box, ", plot_search=", ifelse(is.null(plot_search), "NULL", plot_search), ", herbarium_determination_search=", ifelse(is.null(herbarium_determination_search), "NULL", herbarium_determination_search), ", family_search=", ifelse(is.null(family_search), "NULL", family_search), ", standardised_name_search=", ifelse(is.null(standardised_name_search), "NULL", standardised_name_search), ", dictionary=", dictionary), level = "info")
+
 	#
   ####################
   # Fail gracefully if API or internet not available (CRAN policy = no errors)
@@ -15,6 +17,7 @@ get_ausplots <- function(my.Plot_IDs="none", site_info=TRUE, structural_summarie
   
   ### 
   try_GET <- function(x, ...) {
+    .sentry_capture_message(paste0("ausplotsR: get_ausplots::try_GET called with url=", x), level = "info")
     tryCatch(
       httr::GET(url = x, httr::timeout(600), ...), #timeout 10 minutes
       error = function(e) conditionMessage(e),
@@ -298,6 +301,7 @@ ausplots.data$citation <- paste0("TERN (", format(Sys.Date(), format="%Y"), ") A
 	
 	#Return the list output which was filled above as needed.
 	
+	.sentry_capture_message(paste0("ausplotsR: get_ausplots completed successfully, modules=", paste(names(ausplots.data)[names(ausplots.data) != "citation"], collapse = ","), ", n_plots=", length(unique(Plot_IDs))), level = "info")
 	return(ausplots.data)
 	
 } # end function

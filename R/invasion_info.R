@@ -82,6 +82,8 @@ invasion_info <- function(
 
   tryCatch({
 
+  .sentry_capture_message(paste0("ausplotsR: invasion_info called with ausplots=", ifelse(is.null(ausplots), "NULL", paste0("data.frame(", nrow(ausplots), " rows)")), ", afa_static=", ifelse(is.data.frame(afa_static), paste0("data.frame(", nrow(afa_static), " rows)"), class(afa_static)[1]), ", taxon_col=", taxon_col, ", keep_apcalign_cols=", keep_apcalign_cols, ", keep_all=", keep_all, ", remove_helper_cols=", remove_helper_cols, ", clean_output=", clean_output), level = "info")
+
   if (!is.data.frame(afa_static)) {
     stop("`afa_static` must be a data.frame.", call. = FALSE)
   }
@@ -267,6 +269,8 @@ invasion_info <- function(
   }
   
   aligned_lookup <- cbind(taxa_lookup, aligned_raw)
+  
+  .sentry_capture_message(paste0("ausplotsR: invasion_info APCalign done — ", nrow(aligned_lookup), " unique taxa aligned"), level = "info")
   
   out <- ausplots %>%
     dplyr::left_join(aligned_lookup, by = ".taxon_clean") %>%
@@ -519,9 +523,12 @@ invasion_info <- function(
       dplyr::select(dplyr::any_of(keep_cols))
   }
   
+  .sentry_capture_message(paste0("ausplotsR: invasion_info result: ", nrow(out), " rows, ", sum(out$invasion_matched, na.rm=TRUE), " invasion-matched, taxon_col=", taxon_col), level = "info")
+  .sentry_capture_message("ausplotsR: invasion_info completed successfully", level = "info")
   out
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in invasion_info")
     stop(paste0("Failed to gather invasion information: ", conditionMessage(e)), call. = FALSE)
   })
 }

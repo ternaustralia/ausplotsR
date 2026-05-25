@@ -225,12 +225,66 @@ and test name in [`error_coverage.md`](error_coverage.md).
 
 ---
 
+## Step 7 — Add Sentry capture integration to `.ausplots_api()`
+
+**Goal:** Capture exceptions and key lifecycle events in Sentry so that errors and
+usage patterns from `.ausplots_api()` are recorded on the Sentry dashboard.
+
+### Helper functions added (`R/set_auth.R`)
+
+Two new private helpers added alongside the existing `.sentry_configure()`:
+
+```r
+.sentry_capture_exception <- function(e) {
+  if (requireNamespace("sentryR", quietly = TRUE)) {
+    sentryR::capture_exception(e)
+  }
+}
+
+.sentry_capture_message <- function(msg, level = "info") {
+  if (requireNamespace("sentryR", quietly = TRUE)) {
+    sentryR::capture_message(msg, level = level)
+  }
+}
+```
+
+Both guard with `requireNamespace` so they silently no-op if sentryR is not installed.
+
+### Calls added in `R/ausplots_queries.r`
+
+| Location | Call | Level |
+|----------|------|-------|
+| `error = function(e)` handler | `.sentry_capture_exception(e)` | exception |
+| HTTP 503 triggers pagination branch | `.sentry_capture_message("...paginated fetch triggered for '<path>'")` | `"warning"` |
+| Paginated fetch completes successfully | `.sentry_capture_message("...paginated fetch complete for '<path>'")` | `"info"` |
+| Non-paginated fetch completes successfully | `.sentry_capture_message("...data fetched from '<path>'")` | `"info"` |
+
+### Tests added (`tests/testthat/test-ausplots_queries.R`)
+
+Three new tests in the **SENTRY CAPTURE** section using `mockery::stub()` on a local
+copy of the function (never hits the live Sentry DSN or server):
+
+| Test name | What it verifies |
+|-----------|-----------------|
+| `".ausplots_api: capture_exception called when try_GET throws"` | `capture_exception` is called and error is re-raised |
+| `".ausplots_api: capture_message 'warning' when 503 triggers pagination"` | Warning-level message fired on pagination trigger |
+| `".ausplots_api: capture_message 'info' on successful non-paginated fetch"` | Info-level message fired with path on success |
+
+Two existing tests that exercise the error handler were also updated to mock
+`.sentry_capture_exception` so they don't hit the live Sentry API:
+
+- `".ausplots_api: non-paginated path raises stop() when fromJSON fails"` — added `.sentry_capture_exception = function(e) invisible(NULL)` to `local_mocked_bindings`
+- `".ausplots_api: known message 'Data extraction aborted' passes through unchanged"` — same fix
+
+---
+
 ## Final state
 
 | Artefact | Status |
 |----------|--------|
-| `R/ausplots_queries.r` | Root fix applied (`inherits` check on paginated `fromJSON`); `tryCatch` wrapper with known/unknown message differentiation |
-| `tests/testthat/test-ausplots_queries.R` | **87 tests, 0 failures** |
-| `.analysis/error_handling_gaps.md` | Gap analysis — source of truth for what was wrong |
+| `R/ausplots_queries.r` | Root fix applied; `tryCatch` wrapper with known/unknown message differentiation; Sentry capture calls at exception + 3 vital steps |
+| `R/set_auth.R` | `.sentry_capture_exception()` and `.sentry_capture_message()` helpers added |
+| `tests/testthat/test-ausplots_queries.R` | **95 tests, 0 failures** (includes 3 new Sentry tests) |
+| `.analysis/error_handling_gaps.md` | Sentry capture column = \ud83d\udfe2 Done |
 | `.analysis/error_coverage.md` | Coverage map — source of truth for current state |
 | `.analysis/ausplots_queries_work_log.md` | This file |

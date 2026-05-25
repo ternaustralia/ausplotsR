@@ -165,3 +165,31 @@ test_that("biodiversity_metrics: wrapped error has call.=FALSE", {
   err <- tryCatch(biodiversity_metrics("not a list"), error = function(e) e)
   expect_null(err$call)
 })
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when input is invalid, .sentry_capture_exception is called
+# Input:         "not a list"; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("biodiversity_metrics: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- biodiversity_metrics
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn("not a list"))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid ausplots object; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("biodiversity_metrics: capture_message 'info' on successful computation", {
+  captured_levels <- character(0)
+  fn <- biodiversity_metrics
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(make_ausplots_from_fixtures())
+  expect_true("info" %in% captured_levels)
+})

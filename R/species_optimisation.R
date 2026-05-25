@@ -1,4 +1,6 @@
 optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRUE, CWE=TRUE, shannon=TRUE, simpson=TRUE, simpson_beta=TRUE, start="fixed", plot_name=NULL, frequent=TRUE, random=FALSE, iterations=10, plot=TRUE, verbose=TRUE) {
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: optim_species called with nrow(matrix)=", ifelse(is.data.frame(speciesVsitesMatrix) || is.matrix(speciesVsitesMatrix), nrow(speciesVsitesMatrix), class(speciesVsitesMatrix)[1]), ", ncol(matrix)=", ifelse(is.data.frame(speciesVsitesMatrix) || is.matrix(speciesVsitesMatrix), ncol(speciesVsitesMatrix), "?"), ", n.plt=", n.plt, ", start=", start, ", richness=", richness, ", RRR=", RRR, ", CWE=", CWE, ", shannon=", shannon, ", simpson=", simpson, ", simpson_beta=", simpson_beta, ", frequent=", frequent, ", random=", random, ", iterations=", iterations, ", plot_name=", ifelse(is.null(plot_name), "NULL", plot_name), ", plot=", plot, ", verbose=", verbose), level = "info")
 	
 ############################
 #check inputs
@@ -70,8 +72,13 @@ optim_species <- function(speciesVsitesMatrix, n.plt=250, richness=TRUE, RRR=TRU
   	try(plot_opt(result))
   	} #end if plot
     
+  .sentry_capture_message("ausplotsR: optim_species calculated successfully", level = "info")
   return(result)
   
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in optim_species")
+    stop(paste0("Failed to optimise species accumulation: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function
 
 

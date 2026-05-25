@@ -1,5 +1,8 @@
 cumulative_cover <- function(veg.PI) {
-	
+  tryCatch({
+
+  .sentry_capture_message(paste0("ausplotsR: cumulative_cover called with nrow(veg.PI)=", nrow(veg.PI), ", site_unique=", unique(veg.PI$site_unique)[1], ", n_species=", length(na.omit(unique(veg.PI$herbarium_determination)))), level = "info")
+  
   plot.hits.temp <- veg.PI[, c("herbarium_determination", "hits_unique", "in_canopy_sky")]
   
   transect.order <- c("N1-S1", "S1-N1", "S2-N2", "N2-S2", "N3-S3", "S3-N3", "S4-N4", "N4-S4", "N5-S5", "S5-N5", "W1-E1", "E1-W1", "E2-W2", "W2-E2", "W3-E3", "E3-W3", "E4-W4", "W4-E4", "W5-E5", "E5-W5") #for reference later to re-order the hits into a logical progression
@@ -48,10 +51,12 @@ cumulative_cover <- function(veg.PI) {
     legend.data <- data.frame(cover = sapply(x.ca, FUN = function(x) {tail(x, n=1)}), species = na.omit(unique(plot.hits.temp$herbarium_determination)), colour = spp.col)
     legend.data <- na.omit(legend.data[order(legend.data[,"cover"], decreasing=TRUE),][1:5,])
     legend("topright", legend=legend.data$species, lty=rep(1, length(legend.data$species)), col=as.character(legend.data$colour), cex=0.8, bty='n', lwd=rep(3, length(legend.data$species)))
+    .sentry_capture_message("ausplotsR: cumulative_cover plotted successfully", level = "info")
     
   }#close if length... > 0, where plots with no herbarium determinations are excluded
 
-	
-	
-	
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in cumulative_cover")
+    stop(paste0("Failed to generate cumulative cover plot: ", conditionMessage(e)), call. = FALSE)
+  })
 }#cls function

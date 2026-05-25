@@ -1,4 +1,5 @@
 library(testthat)
+library(mockery)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # growth_form_table()
@@ -136,4 +137,32 @@ test_that("growth_form_table: missing m_kind throws wrapped error", {
 test_that("growth_form_table: wrapped error has call.=FALSE", {
   err <- tryCatch(growth_form_table(NULL, m_kind = "PA"), error = function(e) e)
   expect_null(err$call)
+})
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when veg.PI is NULL, .sentry_capture_exception is called
+# Input:         NULL veg.PI; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("growth_form_table: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- growth_form_table
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn(NULL, m_kind = "PA"))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid veg.PI; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("growth_form_table: capture_message 'info' on successful build", {
+  captured_levels <- character(0)
+  fn <- growth_form_table
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(make_veg_pi_gft(), m_kind = "PA")
+  expect_true("info" %in% captured_levels)
 })

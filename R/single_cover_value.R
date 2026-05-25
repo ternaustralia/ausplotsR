@@ -1,5 +1,6 @@
 single_cover_value <- function(veg.PI, in_canopy_sky=FALSE, by.growth_form=TRUE, min.height=5, max.height=NULL, my.growth_forms=c("Tree/Palm", "Tree Mallee")) {
-
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: single_cover_value called with in_canopy_sky=", in_canopy_sky, ", by.growth_form=", by.growth_form, ", min.height=", min.height, ", max.height=", ifelse(is.null(max.height), "NULL", max.height), ", my.growth_forms=", paste(my.growth_forms, collapse=","), ", nrow(veg.PI)=", ifelse(is.data.frame(veg.PI), nrow(veg.PI), class(veg.PI)[1])), level = "info")
 
 #input checks
 if(!inherits(veg.PI, "data.frame")) {stop("veg.PI must be a data.frame")}
@@ -66,6 +67,11 @@ if(any(round(check_percent$freq, digits=0) > 100)) {warning("Cover for one or mo
 cover_output <- cover.table[,c("site_unique", "percentCover")]
 cover_output$percentCover <- round(cover_output$percentCover, digits=1)
 
+  .sentry_capture_message("ausplotsR: single_cover_value calculated successfully", level = "info")
 return(cover_output)
 
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in single_cover_value")
+    stop(paste0("Failed to calculate cover value: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function

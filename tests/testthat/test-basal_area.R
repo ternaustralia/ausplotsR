@@ -1,4 +1,5 @@
 library(testthat)
+library(mockery)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # basal_area()
@@ -103,4 +104,34 @@ test_that("basal_area: by.hits=TRUE missing hits column is caught and wrapped", 
   vb <- make_veg_basal()
   vb$hits <- NULL
   expect_error(basal_area(vb, by.hits = TRUE), "Failed to calculate basal area:")
+})
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when basal_area column is missing, .sentry_capture_exception is called
+# Input:         veg.basal with basal_area column removed; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("basal_area: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- basal_area
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  vb <- make_veg_basal()
+  vb$basal_area <- NULL
+  expect_error(fn(vb))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid veg.basal; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("basal_area: capture_message 'info' on successful computation", {
+  captured_levels <- character(0)
+  fn <- basal_area
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(make_veg_basal())
+  expect_true("info" %in% captured_levels)
 })

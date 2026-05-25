@@ -1,5 +1,6 @@
 fractional_cover <- function(veg.PI, ground_fractional=FALSE, in_canopy_sky=FALSE) {
   tryCatch({
+	.sentry_capture_message(paste0("ausplotsR: fractional_cover called with ground_fractional=", ground_fractional, ", in_canopy_sky=", in_canopy_sky, ", nrow(veg.PI)=", ifelse(is.data.frame(veg.PI), nrow(veg.PI), class(veg.PI)[1])), level = "info")
 	
 	hits <- veg.PI #to match the raw input to historical label in below
 	
@@ -85,7 +86,7 @@ COL <- ncol(fractional_cover_output.matrix)
 fractional_cover_output.matrix <- fractional_cover_output.matrix[,c(COL, 1:COL-1)]
 
 #fractional_cover_output.matrix[,c(2:COL)] <- round(fractional_cover_output.matrix[,c(2:COL)], digits=1)
-
+.sentry_capture_message(paste0("ausplotsR: fractional_cover (standard, in_canopy_sky=", in_canopy_sky, ") result: ", nrow(fractional_cover_output.matrix), " sites"), level = "info")
 return(fractional_cover_output.matrix)
 
 	} #close ground fractional false
@@ -166,7 +167,7 @@ COL <- ncol(ground.fractional.output.matrix)
 ground.fractional.output.matrix <- ground.fractional.output.matrix[,c(COL, 1:COL-1)]
 
 #ground.fractional.output.matrix[,c(2:COL)] <- round(ground.fractional.output.matrix[,c(2:COL)], digits=1)
-
+.sentry_capture_message(paste0("ausplotsR: fractional_cover (ground) result: ", nrow(ground.fractional.output.matrix), " sites"), level = "info")
 return(ground.fractional.output.matrix)
 
 
@@ -175,6 +176,7 @@ return(ground.fractional.output.matrix)
 
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in fractional_cover")
     stop(paste0("Failed to calculate fractional cover: ", conditionMessage(e)),
          call. = FALSE)
   })

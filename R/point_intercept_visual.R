@@ -7,7 +7,8 @@ point_intercept_visual <- function(ausplots,
                                    file = NULL,
                                    width = 12,
                                    height = 10) {
-  
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: point_intercept_visual called with plots=", if (missing(plots) || is.null(plots)) "missing/NULL" else paste(plots, collapse=","), ", visual=", paste(visual, collapse=","), ", height_growth_form=", height_growth_form, ", height_dominant_species=", height_dominant_species, ", top_n_species=", top_n_species, ", file=", ifelse(is.null(file), "NULL", file), ", width=", width, ", height=", height, ", veg.PI=", ifelse(is.data.frame(ausplots$veg.PI), paste0(nrow(ausplots$veg.PI), " rows"), "missing/NULL")), level = "info")
   # ----------------------------
   # checks
   # ----------------------------
@@ -394,5 +395,10 @@ point_intercept_visual <- function(ausplots,
     }
   }
   invisible(pi_data)
+  .sentry_capture_message("ausplotsR: point_intercept_visual completed successfully", level = "info")
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in point_intercept_visual")
+    stop(paste0("Failed to generate point intercept visualisation: ", conditionMessage(e)), call. = FALSE)
+  })
 }
 

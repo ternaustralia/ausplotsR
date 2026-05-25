@@ -1,4 +1,5 @@
 library(testthat)
+library(mockery)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # species_list()
@@ -144,4 +145,32 @@ test_that("species_list: missing required column throws wrapped error", {
 test_that("species_list: wrapped error has call.=FALSE", {
   err <- tryCatch(species_list(NULL, grouping = "by_site"), error = function(e) e)
   expect_null(err$call)
+})
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when veg.vouch is NULL, .sentry_capture_exception is called
+# Input:         NULL veg.vouch; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("species_list: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- species_list
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn(NULL, grouping = "by_site"))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid veg.vouch; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("species_list: capture_message 'info' on successful build", {
+  captured_levels <- character(0)
+  fn <- species_list
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(make_veg_vouch_sl(), grouping = "by_site")
+  expect_true("info" %in% captured_levels)
 })

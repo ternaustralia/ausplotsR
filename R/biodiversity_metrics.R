@@ -15,6 +15,7 @@ biodiversity_metrics <- function(ausplots,
                                  species_name = c("SN", "HD")) {
 
   tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: biodiversity_metrics called with species_name=", species_name[1], ", plots=", ifelse(is.null(plots), "NULL (all)", paste0(length(plots), " plots")), ", veg.vouch=", ifelse(is.data.frame(ausplots$veg.vouch), paste0(nrow(ausplots$veg.vouch), " rows"), "missing/NULL"), ", veg.PI=", ifelse(is.data.frame(ausplots$veg.PI), paste0(nrow(ausplots$veg.PI), " rows"), "missing/NULL")), level = "info")
 
   species_name <- match.arg(species_name)
   
@@ -197,9 +198,12 @@ biodiversity_metrics <- function(ausplots,
   
   rownames(output) <- NULL
   
+  .sentry_capture_message(paste0("ausplotsR: biodiversity_metrics result: ", nrow(output), " sites, ", ncol(output), " metrics, species_name=", species_name), level = "info")
+  .sentry_capture_message("ausplotsR: biodiversity_metrics computed successfully", level = "info")
   return(output)
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in biodiversity_metrics")
     stop(paste0("Failed to calculate biodiversity metrics: ", conditionMessage(e)), call. = FALSE)
   })
 }

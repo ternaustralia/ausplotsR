@@ -1,4 +1,6 @@
 ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute = TRUE, fraction.pie = TRUE, growthform.pie = TRUE, cumulative.cover = TRUE, whittaker = TRUE, outfile = NULL, max.plots=5) {
+  tryCatch({
+	.sentry_capture_message(paste0("ausplotsR: ausplots_visual called with my.ausplots.object=", ifelse(is.null(my.ausplots.object), "NULL", paste0("provided, n_sites=", nrow(my.ausplots.object$site.info))), ", map=", map, ", map.attribute=", map.attribute, ", fraction.pie=", fraction.pie, ", growthform.pie=", growthform.pie, ", cumulative.cover=", cumulative.cover, ", whittaker=", whittaker, ", max.plots=", max.plots, ", outfile=", ifelse(is.null(outfile), "NULL", outfile)), level = "info")
 	
   #############################
   #reset graphical defaults
@@ -110,5 +112,10 @@ ausplots_visual <- function(my.ausplots.object = NULL, map = TRUE, map.attribute
 	
 	dev.off()
 	message("Plots written to file.")
+  .sentry_capture_message("ausplotsR: ausplots_visual completed successfully", level = "info")
 
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in ausplots_visual")
+    stop(paste0("Failed to generate ausplots visualisations: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function

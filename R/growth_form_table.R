@@ -1,6 +1,7 @@
 growth_form_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "richness"), cover_type=c("PFC", "OCC"), cumulative=TRUE, by_strata=FALSE, species_name=c("SN","HD","GS")) {
 
   tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: growth_form_table called with m_kind=", m_kind[1], ", cover_type=", cover_type[1], ", cumulative=", cumulative, ", by_strata=", by_strata, ", species_name=", species_name[1], ", nrow(veg.PI)=", ifelse(is.data.frame(veg.PI), nrow(veg.PI), class(veg.PI)[1])), level = "info")
 
 #input checks
   
@@ -279,9 +280,12 @@ if(species_name == "GS"){
 } #end species_name=GS
   
 
+  .sentry_capture_message(paste0("ausplotsR: growth_form_table result: ", nrow(growth_form_matrix), " sites x ", ncol(growth_form_matrix), " growth forms, m_kind=", m_kind, ", species_name=", species_name), level = "info")
+  .sentry_capture_message("ausplotsR: growth_form_table built successfully", level = "info")
   return(round(growth_form_matrix, digits=1))
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in growth_form_table")
     stop(paste0("Failed to build growth form table: ", conditionMessage(e)), call. = FALSE)
   })
 } #end function

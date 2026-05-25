@@ -134,11 +134,15 @@
 
 get_nvis <- function(site_unique = NULL) {
   tryCatch({
+    .sentry_capture_message(paste0("ausplotsR: get_nvis called with site_unique=", ifelse(is.null(site_unique), "NULL (all sites)", ifelse(is.data.frame(site_unique), paste0("data.frame with ", nrow(site_unique), " rows"), paste0(length(site_unique), " site(s)")))), level = "info")
     raw <- .ausplots_api(path = "/nvis_ausplot_r", query = list())
     nvis <- as.data.frame(raw, stringsAsFactors = FALSE)
     nvis$site_unique <- as.character(nvis$site_unique)
+    .sentry_capture_message(paste0("ausplotsR: get_nvis API returned ", nrow(nvis), " rows for ", length(unique(nvis$site_unique)), " sites"), level = "info")
     
     if (is.null(site_unique)) {
+      .sentry_capture_message("ausplotsR: get_nvis returning all sites (no filter)", level = "info")
+      .sentry_capture_message("ausplotsR: NVIS data fetched successfully", level = "info")
       return(as.data.frame(nvis))
     }
     
@@ -159,6 +163,7 @@ get_nvis <- function(site_unique = NULL) {
       site_unique = request_sites,
       stringsAsFactors = FALSE
     )
+    .sentry_capture_message(paste0("ausplotsR: get_nvis filtering to ", length(request_sites), " requested sites"), level = "info")
     
     out <- merge(
       x = request_df,
@@ -167,9 +172,11 @@ get_nvis <- function(site_unique = NULL) {
       all.x = TRUE,
       sort = FALSE
     )
-    
+    .sentry_capture_message(paste0("ausplotsR: get_nvis merge complete: ", nrow(out), " rows, ", sum(!is.na(out$site_unique)), " matched"), level = "info")
+    .sentry_capture_message("ausplotsR: NVIS data fetched successfully", level = "info")
     as.data.frame(out)
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in get_nvis")
     stop(paste0("Failed to retrieve NVIS vegetation attributes: ", conditionMessage(e)), call. = FALSE)
   })
 }

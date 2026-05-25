@@ -1,6 +1,7 @@
 species_table <- function(veg.PI, m_kind=c("PA", "percent_cover", "freq", "IVI"), cover_type=c("PFC", "OCC"), species_name=c("SN","HD","GS"), strip_bryophytes=FALSE) {
 
   tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: species_table called with m_kind=", m_kind[1], ", cover_type=", cover_type[1], ", species_name=", species_name[1], ", strip_bryophytes=", strip_bryophytes, ", nrow(veg.PI)=", ifelse(is.data.frame(veg.PI), nrow(veg.PI), class(veg.PI)[1])), level = "info")
   
 #input checks
 
@@ -315,9 +316,12 @@ if(species_name == "GS"){ #using genus species
 } # end genus_species
 
 
+  .sentry_capture_message(paste0("ausplotsR: species_table result: ", nrow(species_matrix), " sites x ", ncol(species_matrix), " species, m_kind=", m_kind, ", species_name=", species_name), level = "info")
+  .sentry_capture_message("ausplotsR: species_table built successfully", level = "info")
   return(round(species_matrix, digits=1))
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in species_table")
     stop(paste0("Failed to build species table: ", conditionMessage(e)), call. = FALSE)
   })
 } #end function

@@ -17,12 +17,14 @@
 
 ma_ausplot_ma <-
 function(dat, spl = TRUE) {
+  tryCatch({
+	.sentry_capture_message(paste0("ausplotsR: ma_ausplot_ma called with nrow(dat)=", nrow(dat), ", ncol(dat)=", ncol(dat), ", spl=", spl), level = "info")
 	dat <- data.frame(dat)
+	if(ncol(dat) < 2)
+		stop("Mama needs at least two columns (vectors)!")
 	plot <- as.character(dat[,1])
 	spec <- as.character(dat[,2])
 	if(ncol(dat) < 3){
-		if(ncol(dat) < 2)
-			stop("Mama needs at least two columns (vectors)!")
 		dat$pres <- 1	
 		}
 	pres <- dat[,3]
@@ -45,5 +47,10 @@ function(dat, spl = TRUE) {
 	if(length(names(wide)) > 1) {
 	  wide <- wide[,order(names(wide))]
 	}
+  .sentry_capture_message("ausplotsR: ma_ausplot_ma reshaped successfully", level = "info")
 	wide
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in ma_ausplot_ma")
+    stop(paste0("Failed to reshape site-by-species matrix: ", conditionMessage(e)), call. = FALSE)
+  })
 }

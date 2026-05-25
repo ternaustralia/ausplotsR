@@ -25,6 +25,7 @@ community_traits <- function(ausplots,
                              categorical_trait = "photosynthetic_pathway") {
 
   tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: community_traits called with species_name=", species_name[1], ", plots=", ifelse(is.null(plots), "NULL (all)", paste0(length(plots), " plots")), ", cwm_traits=", ifelse(is.null(cwm_traits), "NULL", paste(cwm_traits, collapse=",")), ", fd_traits=", paste(fd_traits, collapse=","), ", categorical_trait=", categorical_trait, ", veg.PI=", ifelse(is.data.frame(ausplots$veg.PI), paste0(nrow(ausplots$veg.PI), " rows"), "missing/NULL")), level = "info")
 
   species_name <- match.arg(species_name)
   
@@ -325,9 +326,12 @@ community_traits <- function(ausplots,
   output <- output[order(output$site_unique), , drop = FALSE]
   rownames(output) <- NULL
   
+  .sentry_capture_message(paste0("ausplotsR: community_traits result: ", nrow(output), " sites, ", ncol(output), " trait columns, species_name=", species_name), level = "info")
+  .sentry_capture_message("ausplotsR: community_traits computed successfully", level = "info")
   return(output)
 
   }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in community_traits")
     stop(paste0("Failed to calculate community traits: ", conditionMessage(e)), call. = FALSE)
   })
 }

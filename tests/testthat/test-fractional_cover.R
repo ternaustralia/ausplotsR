@@ -1,4 +1,5 @@
 library(testthat)
+library(mockery)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # fractional_cover()
@@ -136,4 +137,34 @@ test_that("fractional_cover: ground_fractional=TRUE all-unrecognised input retur
   vpi$substrate   <- "ZZZ"
   result <- fractional_cover(vpi, ground_fractional = TRUE)
   expect_true("other" %in% colnames(result))
+})
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when growth_form is missing, .sentry_capture_exception is called
+# Input:         veg.PI with growth_form removed; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("fractional_cover: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- fractional_cover
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  vpi <- make_veg_pi()
+  vpi$growth_form <- NULL
+  expect_error(fn(vpi))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid veg.PI; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("fractional_cover: capture_message 'info' on successful computation", {
+  captured_levels <- character(0)
+  fn <- fractional_cover
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(make_veg_pi())
+  expect_true("info" %in% captured_levels)
 })

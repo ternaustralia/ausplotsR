@@ -1,4 +1,6 @@
 ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity"), min.revisits=3, plot_select=NULL, outfile=NULL) {
+  tryCatch({
+  .sentry_capture_message(paste0("ausplotsR: ausplots_trajectory called with choices=", paste(choices, collapse=","), ", min.revisits=", min.revisits, ", plot_select=", ifelse(is.null(plot_select), "NULL (all)", paste0(length(plot_select), " plots")), ", outfile=", ifelse(is.null(outfile), "NULL", outfile), ", my.ausplots.object=", if (missing(my.ausplots.object)) "missing" else if (is.list(my.ausplots.object)) paste0("list, n_sites=", nrow(my.ausplots.object$site.info)) else class(my.ausplots.object)[1]), level = "info")
   
   #############################
   #reset graphical defaults
@@ -31,6 +33,7 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
   if(!any(c("PCoA", "diversity") %in% choices)) {
     stop("choices must include at least one of PCoA or diversity.")
   }
+  
   ###############################################
   
   #remove sites with less than min.revisits
@@ -156,6 +159,10 @@ ausplots_trajectory <- function(my.ausplots.object, choices=c("PCoA", "diversity
 
   dev.off()
   message("Plots written to file.")
-  
-  
+  .sentry_capture_message("ausplotsR: ausplots_trajectory completed successfully", level = "info")
+
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in ausplots_trajectory")
+    stop(paste0("Failed to generate trajectory plots: ", conditionMessage(e)), call. = FALSE)
+  })
 } #end function

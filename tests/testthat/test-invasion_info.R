@@ -191,3 +191,18 @@ test_that("invasion_info: wrapped error has call.=FALSE", {
   err <- tryCatch(invasion_info(afa_static = "not a df"), error = function(e) e)
   expect_null(err$call)
 })
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when afa_static is not a df, .sentry_capture_exception is called
+# Input:         afa_static = "not a df"; .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("invasion_info: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- invasion_info
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn(afa_static = "not a df"))
+  expect_true(capture_exception_called)
+})

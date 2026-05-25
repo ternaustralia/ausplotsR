@@ -1,6 +1,8 @@
 map_attribute <- function(my.ausplots.object) {
-    
+  tryCatch({
 	
+  .sentry_capture_message(paste0("ausplotsR: map_attribute called with nrow(veg.PI)=", nrow(my.ausplots.object$veg.PI), ", n_sites=", length(unique(my.ausplots.object$veg.PI$site_unique))), level = "info")
+
 		if(any(c("Tree/Palm", "Tree Mallee") %in% my.ausplots.object$veg.PI$growth_form)) {
 		
 		  aus.sp <- ggplot2::map_data("world2Hires", "Australia")
@@ -25,4 +27,9 @@ map_attribute <- function(my.ausplots.object) {
 	} else {#close tree GFs
 		message("The selected plots have no trees. Let's just say tree cover is zero and move on.")
 			} #cls else
+  .sentry_capture_message("ausplotsR: map_attribute completed successfully", level = "info")
+  }, error = function(e) {
+    .sentry_capture_exception(e, "An exception occurred in map_attribute")
+    stop(paste0("Failed to generate attribute map: ", conditionMessage(e)), call. = FALSE)
+  })
 }

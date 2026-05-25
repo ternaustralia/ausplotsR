@@ -142,3 +142,33 @@ test_that("species_traits: wrapped error has call.=FALSE", {
   err <- tryCatch(species_traits(ausplots = "not a list"), error = function(e) e)
   expect_null(err$call)
 })
+
+# ══ SENTRY CAPTURE ══
+
+# What it tests: when get_trait_data_pp throws, .sentry_capture_exception is called
+# Input:         get_trait_data_pp stubbed to stop(); .sentry_capture_exception stubbed
+# Expected:      capture_exception_called = TRUE AND expect_error fires
+test_that("species_traits: capture_exception called on error", {
+  capture_exception_called <- FALSE
+  fn <- species_traits
+  mockery::stub(fn, "get_trait_data_pp", function() stop("mock trait error"))
+  mockery::stub(fn, ".sentry_capture_exception", function(e, ...) {
+    capture_exception_called <<- TRUE
+  })
+  expect_error(fn(species_list = c("Acacia aneura")))
+  expect_true(capture_exception_called)
+})
+
+# What it tests: on success, .sentry_capture_message is called with level "info"
+# Input:         valid species_list; .sentry_capture_message stubbed
+# Expected:      an "info" level message was captured
+test_that("species_traits: capture_message 'info' on successful retrieval", {
+  captured_levels <- character(0)
+  fn <- species_traits
+  mockery::stub(fn, "get_trait_data_pp", function() fixture("species_level_functional_traits.json"))
+  mockery::stub(fn, ".sentry_capture_message", function(msg, level = "info") {
+    captured_levels <<- c(captured_levels, level)
+  })
+  fn(species_list = c("Acacia aneura"))
+  expect_true("info" %in% captured_levels)
+})
